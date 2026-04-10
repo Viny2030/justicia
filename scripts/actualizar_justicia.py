@@ -3,25 +3,28 @@ import pandas as pd
 from sqlalchemy import create_engine
 from parser_nlp_justicia import ParserJudicial
 
-# Usamos SQLite localmente
-engine = create_engine("sqlite:///justicia_local.db")
+# Intentamos usar la DB de Railway, si no, una local para pruebas
+DB_URL = os.getenv("DATABASE_URL", "sqlite:///justicia_local.db")
+engine = create_engine(DB_URL)
 
 def ejecutar():
-    print("[*] Iniciando proceso local...")
+    print("[*] Iniciando monitor judicial...")
     parser = ParserJudicial()
     
-    datos_prueba = pd.DataFrame([{
-        "fecha": "2024-05-20",
-        "instancia": "Primera Instancia",
-        "descripcion": "Se ordena el procesamiento de Juan Perez por malversacion.",
-        "url_documento": "http://ejemplo.com/doc.pdf"
+    # Simulación de datos para verificar creación de DB y NLP
+    datos = pd.DataFrame([{
+        "fecha": "2026-04-10",
+        "instancia": "Cámara Federal",
+        "descripcion": "Se confirma el procesamiento de ex funcionarios por defraudación.",
+        "url_documento": "http://pjn.gov.ar/causa_test.pdf"
     }])
     
-    print("[*] Ejecutando NLP de prueba...")
-    datos_prueba['analisis_nlp'] = datos_prueba['descripcion'].apply(lambda x: parser.analizar_escrito(x))
+    print("[*] Analizando contenido con NLP...")
+    datos['analisis_nlp'] = datos['descripcion'].apply(lambda x: parser.analizar_escrito(x))
     
-    datos_prueba.to_sql('actuaciones', engine, if_exists='replace', index=False)
-    print("[✓] Base de datos 'justicia_local.db' generada con éxito.")
+    # Guardar en base de datos
+    datos.to_sql('actuaciones', engine, if_exists='replace', index=False)
+    print(f"[✓] Proceso terminado. Base de datos actualizada.")
 
 if __name__ == "__main__":
     ejecutar()
