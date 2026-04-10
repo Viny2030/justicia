@@ -7,5 +7,5 @@ psycopg2-binary
 pdfplumber
 PyMuPDF
 pycryptodome
-spacy>=3.8.14
+spacy>=3.8.0
 numpy>=2.1.0
