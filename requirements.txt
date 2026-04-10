@@ -1,26 +1,11 @@
-# --- Base y Scraping ---
 requests
 beautifulsoup4
 pandas
 lxml
-
-# --- Base de Datos (PostgreSQL en Railway) ---
 sqlalchemy
 psycopg2-binary
-
-# --- Procesamiento de Documentos (Escritos y Sentencias) ---
 pdfplumber
 PyMuPDF
 pycryptodome
-
-# --- Inteligencia Artificial y NLP ---
-spacy==3.7.2
-# Nota: es_core_news_lg se descarga vía comando, no por pip directo habitualmente
-
-# --- Servidor API (FastAPI) ---
-fastapi
-uvicorn
-python-multipart
-
-# --- Utilidades ---
-python-dotenv
+spacy>=3.8.0
+numpy>=2.1.0
