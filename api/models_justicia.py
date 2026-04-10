@@ -1,21 +1,15 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, JSON
+cat <<EOF > api/models_justicia.py
+from sqlalchemy import Column, Integer, String, Date, JSON
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-class Expediente(Base):
-    __tablename__ = 'expedientes'
-    id = Column(Integer, primary_key=True)
-    nro_expediente = Column(String, unique=True)
-    caratula = Column(String)
-    juzgado = Column(String)
-    fuero = Column(String)
-
-class InstanciaActuacion(Base):
+class Actuacion(Base):
     __tablename__ = 'actuaciones'
     id = Column(Integer, primary_key=True)
-    expediente_id = Column(Integer, ForeignKey('expedientes.id'))
-    fecha = Column(Date)
-    descripcion_corta = Column(String)
-    analisis_nlp = Column(JSON) # Aquí guardamos el dict del ParserJudicial
+    fecha = Column(String)
+    instancia = Column(String)
+    descripcion = Column(String)
+    analisis_nlp = Column(JSON)
     url_documento = Column(String)
+EOF
