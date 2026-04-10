@@ -6,8 +6,8 @@ from parser_nlp_justicia import ParserJudicial
 import datetime
 
 # Configuración de conexión (Railway)
-DB_URL = os.getenv("DATABASE_URL") # Se obtiene de las variables de entorno de Railway
-engine = create_engine(DB_URL)
+DB_URL = os.getenv("DATABASE_URL") 
+engine = create_engine("sqlite:///justicia_local.db")
 
 def ejecutar_actualizacion_diaria():
     print(f"[*] Iniciando actualización judicial: {datetime.datetime.now()}")
