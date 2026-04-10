@@ -1,4 +1,3 @@
-cat <<EOF > scripts/parser_nlp_justicia.py
 import spacy
 
 try:
@@ -8,10 +7,9 @@ except:
 
 class ParserJudicial:
     def analizar_escrito(self, texto):
-        if not nlp: return {"error": "Modelo no cargado"}
+        if not nlp: return {"error": "Modelo de spaCy no cargado"}
         doc = nlp(texto)
         return {
             "personas": list(set([ent.text for ent in doc.ents if ent.label_ == "PER"])),
             "organizaciones": list(set([ent.text for ent in doc.ents if ent.label_ == "ORG"]))
         }
-EOF
