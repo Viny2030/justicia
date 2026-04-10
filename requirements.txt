@@ -1,6 +1,6 @@
 requests
 beautifulsoup4
-pandas
+pandas>=2.2.0
 lxml
 sqlalchemy
 psycopg2-binary
