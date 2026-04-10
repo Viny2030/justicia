@@ -1,38 +1,41 @@
 import os
-import pandas as pd
-from sqlalchemy import create_engine
 import sys
+import pandas as pd
 import json
+from sqlalchemy import create_engine
 
-# Agregamos el path para que encuentre el parser
+# Asegurar que encuentre los scripts locales
 sys.path.append(os.path.dirname(__file__))
+from scraper_pjn_completo import ScraperPJN
 from parser_nlp_justicia import ParserJudicial
 
-# Usamos SQLite localmente
+# Base de datos
 engine = create_engine("sqlite:///justicia_local.db")
 
 def ejecutar():
-    print("[*] Iniciando monitor judicial...")
+    print("=== MONITOR JUDICIAL INTELIGENTE ===")
+    scraper = ScraperPJN()
     parser = ParserJudicial()
+
+    # 1. Scraping
+    datos_crudos = scraper.buscar_ultimas_sentencias()
     
-    # Datos de prueba
-    datos = pd.DataFrame([{
-        "fecha": "2026-04-10",
-        "instancia": "Cámara Federal",
-        "descripcion": "El juez dictó el procesamiento de los directivos de la empresa.",
-        "url_documento": "http://pjn.gov.ar/causa_test.pdf"
-    }])
-    
-    print("[*] Ejecutando análisis NLP...")
-    # Analizamos y convertimos el diccionario a una cadena de texto JSON
-    datos['analisis_nlp'] = datos['descripcion'].apply(
+    if not datos_crudos:
+        print("[!] No se obtuvieron datos nuevos.")
+        return
+
+    df = pd.DataFrame(datos_crudos)
+
+    # 2. Análisis NLP con IA
+    print(f"[*] Analizando {len(df)} registros con spaCy...")
+    df['analisis_nlp'] = df['descripcion'].apply(
         lambda x: json.dumps(parser.analizar_escrito(x))
     )
-    
-    # Guardar en base de datos
-    print("[*] Guardando en justicia_local.db...")
-    datos.to_sql('actuaciones', engine, if_exists='replace', index=False)
-    print("[✓] Proceso terminado con éxito.")
+
+    # 3. Guardar en DB
+    print("[*] Actualizando base de datos local...")
+    df.to_sql('actuaciones', engine, if_exists='append', index=False)
+    print(f"[✓] Éxito. {len(df)} actuaciones procesadas y guardadas.")
 
 if __name__ == "__main__":
     ejecutar()
