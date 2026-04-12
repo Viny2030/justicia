@@ -1,0 +1,39 @@
+{
+  "generado_en": "2026-04-12T14:58:40.833356",
+  "total_magistrados": 1643,
+  "vacantes": 540,
+  "pct_vacantes": 32.9,
+  "con_licencia": 22,
+  "titulares": 1081,
+  "femenino": 448,
+  "pct_femenino": 27.3,
+  "designaciones_total": 3439,
+  "renuncias_total": 1656,
+  "por_provincia": {
+    "Ciudad Autónoma de Bs.As.": 979,
+    "Buenos Aires": 178,
+    "Santa Fe": 92,
+    "Córdoba": 42,
+    "Entre Ríos": 32,
+    "Salta": 29,
+    "Mendoza": 28,
+    "Misiones": 25,
+    "Corrientes": 23,
+    "Chubut": 20
+  },
+  "por_cargo": {
+    "Juez": 1009,
+    "Fiscal": 369,
+    "Defensor": 265
+  },
+  "por_presidente": {
+    "Cristina Fernández": 397,
+    "Mauricio Macri": 252,
+    "Alberto Fernández": 195,
+    "Carlos Menem": 114,
+    "Néstor Kirchner": 110,
+    "Fernando De la Rúa": 15,
+    "Eduardo Duhalde": 14,
+    "Raúl Alfonsín": 6
+  }
+}
