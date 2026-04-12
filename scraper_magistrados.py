@@ -32,12 +32,15 @@ RESOURCE_IDS = {
     "magistrados": "2a50f418-bc3b-4e5d-abe8-99ab0aad58bc",
 }
 
-# Fallback: descarga directa del CSV
-CSV_URL = (
-    "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional"
-    "/resource/2a50f418-bc3b-4e5d-abe8-99ab0aad58bc/download/"
-    "magistrados-justicia-federal-y-de-la-justicia-nacional.csv"
-)
+# URLs de descarga — el portal publica CSVs con fecha en el nombre
+# Intentar en orden: CSV directo más reciente → ZIP 2024 → ZIP 2021
+CSV_URLS = [
+    # CSV directo (último publicado: 20240412)
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/b12bdbb7-646f-4701-99b7-1109ce919dd5/download/magistrados-justicia-federal-nacional-20240412.csv",
+    # ZIP 2024 (fallback)
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/6f12c193-8502-449b-a04f-458ca0eb770f/download/magistrados-justicia-federal-nacional-2024.zip",
+]
+CSV_URL = CSV_URLS[0]  # compat
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -50,18 +53,39 @@ HEADERS = {
 # ── Descarga ──────────────────────────────────────────────────────────────────
 
 def descargar_csv() -> pd.DataFrame:
-    """Descarga el CSV oficial de magistrados y lo retorna como DataFrame."""
-    log.info("Descargando CSV de magistrados desde datos.jus.gob.ar ...")
-    try:
-        r = requests.get(CSV_URL, headers=HEADERS, timeout=60)
-        r.raise_for_status()
-        from io import StringIO
-        df = pd.read_csv(StringIO(r.text), encoding="utf-8", low_memory=False)
-        log.info(f"CSV descargado: {len(df)} filas, {len(df.columns)} columnas")
-        return df
-    except Exception as e:
-        log.error(f"Error descargando CSV: {e}")
-        raise
+    """Descarga el CSV oficial de magistrados y lo retorna como DataFrame.
+    Prueba múltiples URLs en orden; soporta CSV directo y ZIP."""
+    from io import StringIO, BytesIO
+    import zipfile
+
+    for url in CSV_URLS:
+        log.info(f"Intentando: {url}")
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=60)
+            r.raise_for_status()
+
+            if url.endswith(".zip"):
+                # Descomprimir ZIP en memoria
+                z = zipfile.ZipFile(BytesIO(r.content))
+                csv_names = [n for n in z.namelist() if n.endswith(".csv")]
+                if not csv_names:
+                    log.warning("ZIP sin CSV adentro, probando siguiente URL")
+                    continue
+                csv_name = csv_names[0]
+                log.info(f"Leyendo del ZIP: {csv_name}")
+                with z.open(csv_name) as f:
+                    df = pd.read_csv(f, encoding="utf-8", low_memory=False)
+            else:
+                df = pd.read_csv(StringIO(r.text), encoding="utf-8", low_memory=False)
+
+            log.info(f"CSV cargado: {len(df)} filas, {len(df.columns)} columnas — fuente: {url}")
+            return df
+
+        except Exception as e:
+            log.warning(f"Falló {url}: {e}")
+            continue
+
+    raise RuntimeError("No se pudo descargar el CSV de magistrados desde ninguna URL disponible")
 
 
 # ── Normalización ─────────────────────────────────────────────────────────────
