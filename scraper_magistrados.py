@@ -1,260 +1,280 @@
-#!/usr/bin/env python3
 """
 scraper_magistrados.py
-======================
-Descarga nómina de magistrados, designaciones y renuncias
-desde datos.jus.gob.ar y exporta JSON para el frontend.
-
-FUENTES:
-  - Magistrados activos     → datos.jus.gob.ar (CSV)
-  - Designaciones           → datos.jus.gob.ar (CSV)
-  - Renuncias               → datos.jus.gob.ar (CSV)
-
-OUTPUT:
-  - data/magistrados.json
-  - data/designaciones.json
-  - data/vacantes.json
-  - data/meta_justicia.json
+Monitor de Transparencia Judicial - Consejo de la Magistratura PJN
+Genera: magistrados.json, vacantes.json, renuncias.json, designaciones.json, meta_justicia.json
+Fuente: datos.jus.gob.ar (dataset público oficial)
+Autor: Monitor Justicia AR | github.com/Viny2030/justicia
 """
 
-import os
-import json
-import logging
 import requests
+import json
 import pandas as pd
-from io import StringIO
-from datetime import datetime
+from datetime import datetime, date
+import os
+import sys
+import logging
+import codecs
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s", datefmt="%H:%M:%S")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 log = logging.getLogger(__name__)
 
-# ── Rutas ─────────────────────────────────────────────────────────────────────
-BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR  = os.path.join(BASE_DIR, "data")
-os.makedirs(DATA_DIR, exist_ok=True)
+# ── Configuración ─────────────────────────────────────────────────────────────
 
-# ── URLs datos.jus.gob.ar ─────────────────────────────────────────────────────
-API_BASE = "https://datos.jus.gob.ar/api/3/action/package_search"
-
-DATASETS = {
-    "magistrados": {
-        "query":  "magistrados justicia federal nacional",
-        "titulo": "Magistrados de la Justicia Federal",
-        "output": "magistrados.json",
-    },
-    "designaciones": {
-        "query":  "designaciones magistrados justicia federal",
-        "titulo": "Designaciones de magistrados",
-        "output": "designaciones.json",
-    },
-    "renuncias": {
-        "query":  "renuncias magistrados justicia federal",
-        "titulo": "Renuncias de magistrados",
-        "output": "renuncias.json",
-    },
+# Dataset público del Ministerio de Justicia (CKAN / datos.gob.ar)
+DATASET_BASE = "https://datos.jus.gob.ar/api/3/action/datastore_search"
+RESOURCE_IDS = {
+    # ID del recurso CSV de magistrados federales y nacionales
+    # Verificar vigencia en: https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional
+    "magistrados": "2a50f418-bc3b-4e5d-abe8-99ab0aad58bc",
 }
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+# Fallback: descarga directa del CSV
+CSV_URL = (
+    "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional"
+    "/resource/2a50f418-bc3b-4e5d-abe8-99ab0aad58bc/download/"
+    "magistrados-justicia-federal-y-de-la-justicia-nacional.csv"
+)
+
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+HEADERS = {
+    "User-Agent": "MonitorJusticiaAR/1.0 (github.com/Viny2030/justicia; transparencia pública)",
+    "Accept": "application/json, text/csv",
+}
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-def obtener_url_csv(query, titulo_contiene):
-    """Busca en la API el dataset que coincide con el título y retorna la URL del CSV más reciente."""
-    r = requests.get(API_BASE, params={"q": query, "rows": 10}, headers=HEADERS, timeout=15)
-    r.raise_for_status()
-    results = r.json()["result"]["results"]
+# ── Descarga ──────────────────────────────────────────────────────────────────
 
-    for dataset in results:
-        if titulo_contiene.lower() in dataset["title"].lower():
-            # Buscar el CSV más reciente (no ZIP)
-            csvs = [
-                res for res in dataset.get("resources", [])
-                if res.get("format", "").upper() == "CSV"
-            ]
-            if csvs:
-                # Ordenar por nombre descendente para obtener el más reciente
-                csvs.sort(key=lambda x: x.get("name", ""), reverse=True)
-                return csvs[0]["url"]
-    return None
+def descargar_csv() -> pd.DataFrame:
+    """Descarga el CSV oficial de magistrados y lo retorna como DataFrame."""
+    log.info("Descargando CSV de magistrados desde datos.jus.gob.ar ...")
+    try:
+        r = requests.get(CSV_URL, headers=HEADERS, timeout=60)
+        r.raise_for_status()
+        from io import StringIO
+        df = pd.read_csv(StringIO(r.text), encoding="utf-8", low_memory=False)
+        log.info(f"CSV descargado: {len(df)} filas, {len(df.columns)} columnas")
+        return df
+    except Exception as e:
+        log.error(f"Error descargando CSV: {e}")
+        raise
 
 
-def descargar_csv(url):
-    """Descarga un CSV y retorna un DataFrame con encoding corregido."""
-    log.info(f"Descargando: {url[:80]}...")
-    r = requests.get(url, headers=HEADERS, timeout=60)
-    r.raise_for_status()
+# ── Normalización ─────────────────────────────────────────────────────────────
 
-    # Fix encoding UTF-8 BOM
-    contenido = r.content.decode("utf-8-sig", errors="replace")
-    df = pd.read_csv(StringIO(contenido))
+COLUMNAS_ESPERADAS = {
+    "justicia_federal_o_nacional": "tipo_justicia",
+    "camara": "camara",
+    "organo_tipo": "organo_tipo",
+    "organo_nombre": "organo_nombre",
+    "cargo_tipo": "cargo_tipo",
+    "cargo_cobertura": "cargo_cobertura",
+    "magistrado_apellido": "apellido",
+    "magistrado_nombre": "nombre",
+    "magistrado_genero": "genero",
+    "cargo_vacante": "vacante",
+    "cargo_licencia": "licencia",
+    "concurso_en_tramite": "concurso_en_tramite",
+    "presidente_camara": "presidente_camara",
+    "decreto_designacion": "decreto_designacion",
+    "fecha_designacion": "fecha_designacion",
+    "decreto_aceptacion_renuncia": "decreto_renuncia",
+    "fecha_aceptacion_renuncia": "fecha_renuncia",
+    "ministro_designacion": "ministro_designacion",
+    "presidente_designacion": "presidente_designacion",
+}
 
-    # Limpiar nombres de columnas (BOM residual)
-    df.columns = [c.strip().strip('"').strip() for c in df.columns]
 
-    log.info(f"  → {len(df)} filas, {len(df.columns)} columnas")
+def normalizar(df: pd.DataFrame) -> pd.DataFrame:
+    """Renombra columnas al esquema interno y limpia datos."""
+    # Renombrar solo las columnas que existen en el df
+    rename_map = {k: v for k, v in COLUMNAS_ESPERADAS.items() if k in df.columns}
+    df = df.rename(columns=rename_map)
+
+    # Limpiar strings
+    str_cols = df.select_dtypes(include="object").columns
+    for col in str_cols:
+        df[col] = df[col].fillna("").astype(str).str.strip()
+
+    # Booleanos canónicos
+    for col in ["vacante", "licencia", "concurso_en_tramite", "presidente_camara"]:
+        if col in df.columns:
+            df[col] = df[col].str.upper().isin(["SÍ", "SI", "S", "YES", "TRUE", "1"])
+
+    log.info(f"DataFrame normalizado: {len(df)} magistrados")
     return df
 
 
-def limpiar_magistrados(df):
-    """Normaliza el DataFrame de magistrados activos."""
-    cols_map = {
-        "orden":                       "orden",
-        "justicia_federal_o_nacional": "tipo_justicia",
-        "camara":                      "camara",
-        "organo_tipo":                 "organo_tipo",
-        "organo_nombre":               "organo_nombre",
-        "organo_habilitado":           "organo_habilitado",
-        "cargo_tipo":                  "cargo_tipo",
-        "magistrado_nombre":           "nombre",
-        "magistrado_dni":              "dni",
-        "magistrado_genero":           "genero",
-        "cargo_cobertura":             "cobertura",
-        "cargo_fecha_jura":            "fecha_jura",
-        "cargo_vacante":               "vacante",
-        "cargo_licencia":              "licencia",
-        "norma_tipo":                  "norma_tipo",
-        "norma_numero":                "norma_numero",
-        "norma_fecha":                 "norma_fecha",
-        "norma_presidente":            "presidente_designante",
-        "organo_provincia":            "provincia",
-        "concurso_en_tramite":         "concurso_en_tramite",
-    }
+# ── Generación de JSONs ───────────────────────────────────────────────────────
 
-    # Renombrar columnas que existen
-    rename = {k: v for k, v in cols_map.items() if k in df.columns}
-    df = df.rename(columns=rename)
-
-    # Seleccionar solo las columnas que necesitamos
-    cols_keep = [v for v in cols_map.values() if v in df.columns]
-    df = df[cols_keep].copy()
-
-    # Limpiar tipos
-    df["vacante"]  = df.get("vacante", "").fillna("NO").astype(str).str.strip()
-    df["licencia"] = df.get("licencia", "").fillna("NO").astype(str).str.strip()
-    df["genero"]   = df.get("genero", "").fillna("No informado").astype(str).str.strip()
-    df["provincia"]= df.get("provincia", "").fillna("").astype(str).str.strip()
-
-    return df
+def guardar_json(data, nombre: str):
+    path = os.path.join(OUTPUT_DIR, nombre)
+    with codecs.open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2, default=str)
+    log.info(f"✓ {nombre} guardado ({len(data) if isinstance(data, list) else 1} registros)")
 
 
-def exportar_json(df, path, max_rows=2000):
-    """Exporta DataFrame a JSON limpio."""
-    registros = df.head(max_rows).where(pd.notnull(df), None).to_dict(orient="records")
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(registros, f, ensure_ascii=False, indent=2, default=str)
-    log.info(f"  → Exportado: {path} ({len(registros)} registros)")
+def generar_magistrados(df: pd.DataFrame) -> list:
+    """JSON principal: todos los magistrados activos."""
+    activos = df[~df.get("vacante", pd.Series([False]*len(df)))]
+    registros = []
+    for _, row in activos.iterrows():
+        apellido = row.get("apellido", "")
+        nombre = row.get("nombre", "")
+        registro = {
+            "id": f"{apellido}_{nombre}".upper().replace(" ", "_"),
+            "apellido": apellido,
+            "nombre": nombre,
+            "nombre_completo": f"{apellido}, {nombre}".strip(", "),
+            "genero": row.get("genero", ""),
+            "tipo_justicia": row.get("tipo_justicia", ""),
+            "camara": row.get("camara", ""),
+            "organo_tipo": row.get("organo_tipo", ""),
+            "organo_nombre": row.get("organo_nombre", ""),
+            "cargo_tipo": row.get("cargo_tipo", ""),
+            "cargo_cobertura": row.get("cargo_cobertura", ""),
+            "en_licencia": bool(row.get("licencia", False)),
+            "concurso_en_tramite": bool(row.get("concurso_en_tramite", False)),
+            "presidente_camara": bool(row.get("presidente_camara", False)),
+            "decreto_designacion": row.get("decreto_designacion", ""),
+            "fecha_designacion": row.get("fecha_designacion", ""),
+            "presidente_designacion": row.get("presidente_designacion", ""),
+            "ministro_designacion": row.get("ministro_designacion", ""),
+        }
+        registros.append(registro)
+    return registros
 
 
-def calcular_kpis(df_mag, df_des, df_ren):
-    """Calcula KPIs para el frontend."""
-    total = len(df_mag)
-    vacantes = len(df_mag[df_mag.get("vacante", pd.Series()) == "SI"]) if "vacante" in df_mag.columns else 0
-    con_licencia = len(df_mag[df_mag.get("licencia", pd.Series()) == "SI"]) if "licencia" in df_mag.columns else 0
-    titulares = len(df_mag[df_mag.get("cobertura", pd.Series()) == "Titular"]) if "cobertura" in df_mag.columns else 0
-    femenino = len(df_mag[df_mag.get("genero", pd.Series()) == "Femenino"]) if "genero" in df_mag.columns else 0
+def generar_vacantes(df: pd.DataFrame) -> list:
+    """JSON de cargos vacantes."""
+    if "vacante" not in df.columns:
+        return []
+    vacantes = df[df["vacante"] == True]
+    registros = []
+    for _, row in vacantes.iterrows():
+        registros.append({
+            "organo_nombre": row.get("organo_nombre", ""),
+            "organo_tipo": row.get("organo_tipo", ""),
+            "camara": row.get("camara", ""),
+            "tipo_justicia": row.get("tipo_justicia", ""),
+            "cargo_tipo": row.get("cargo_tipo", ""),
+            "concurso_en_tramite": bool(row.get("concurso_en_tramite", False)),
+            "ultimo_titular": f"{row.get('apellido', '')} {row.get('nombre', '')}".strip(),
+            "fecha_designacion_anterior": row.get("fecha_designacion", ""),
+        })
+    return registros
 
-    # Por provincia
-    por_provincia = {}
-    if "provincia" in df_mag.columns:
-        por_provincia = df_mag["provincia"].value_counts().head(10).to_dict()
 
-    # Por tipo de cargo
-    por_cargo = {}
-    if "cargo_tipo" in df_mag.columns:
-        por_cargo = df_mag["cargo_tipo"].value_counts().head(10).to_dict()
+def generar_renuncias(df: pd.DataFrame) -> list:
+    """JSON de magistrados con renuncia aceptada (tienen decreto de renuncia)."""
+    if "decreto_renuncia" not in df.columns:
+        return []
+    renuncias = df[df["decreto_renuncia"].str.len() > 0]
+    registros = []
+    for _, row in renuncias.iterrows():
+        registros.append({
+            "apellido": row.get("apellido", ""),
+            "nombre": row.get("nombre", ""),
+            "organo_nombre": row.get("organo_nombre", ""),
+            "cargo_tipo": row.get("cargo_tipo", ""),
+            "decreto_renuncia": row.get("decreto_renuncia", ""),
+            "fecha_renuncia": row.get("fecha_renuncia", ""),
+            "decreto_designacion_anterior": row.get("decreto_designacion", ""),
+            "fecha_designacion_anterior": row.get("fecha_designacion", ""),
+        })
+    return registros
 
-    # Designaciones recientes por presidente
-    por_presidente = {}
-    if "presidente_designante" in df_mag.columns:
-        por_presidente = df_mag["presidente_designante"].value_counts().head(8).to_dict()
+
+def generar_designaciones(df: pd.DataFrame) -> list:
+    """JSON de todas las designaciones con decreto (para cruce con JGM)."""
+    if "decreto_designacion" not in df.columns:
+        return []
+    designados = df[df["decreto_designacion"].str.len() > 0]
+    registros = []
+    for _, row in designados.iterrows():
+        apellido = row.get("apellido", "")
+        nombre_mag = row.get("nombre", "")
+        registros.append({
+            "apellido": apellido,
+            "nombre": nombre_mag,
+            "apellido_normalizado": apellido.upper().strip(),
+            "organo_nombre": row.get("organo_nombre", ""),
+            "cargo_tipo": row.get("cargo_tipo", ""),
+            "tipo_justicia": row.get("tipo_justicia", ""),
+            "decreto_designacion": row.get("decreto_designacion", ""),
+            "fecha_designacion": row.get("fecha_designacion", ""),
+            "presidente_designacion": row.get("presidente_designacion", ""),
+            "ministro_designacion": row.get("ministro_designacion", ""),
+        })
+    return registros
+
+
+def generar_meta(df: pd.DataFrame, magistrados: list, vacantes: list, renuncias: list) -> dict:
+    """JSON de metadatos del scrape."""
+    total = len(df)
+    cobertura_breakdown = {}
+    if "cargo_cobertura" in df.columns:
+        cobertura_breakdown = df["cargo_cobertura"].value_counts().to_dict()
+
+    genero_breakdown = {}
+    if "genero" in df.columns:
+        genero_breakdown = df[df.get("vacante", pd.Series([False]*len(df))) == False]["genero"].value_counts().to_dict()
 
     return {
-        "generado_en":     datetime.now().isoformat(),
-        "total_magistrados": total,
-        "vacantes":        vacantes,
-        "pct_vacantes":    round(vacantes / total * 100, 1) if total else 0,
-        "con_licencia":    con_licencia,
-        "titulares":       titulares,
-        "femenino":        femenino,
-        "pct_femenino":    round(femenino / total * 100, 1) if total else 0,
-        "designaciones_total": len(df_des),
-        "renuncias_total": len(df_ren),
-        "por_provincia":   {str(k): int(v) for k, v in por_provincia.items()},
-        "por_cargo":       {str(k): int(v) for k, v in por_cargo.items()},
-        "por_presidente":  {str(k): int(v) for k, v in por_presidente.items()},
+        "ultima_actualizacion": datetime.now().isoformat(),
+        "fecha_datos": date.today().isoformat(),
+        "fuente": "datos.jus.gob.ar - Ministerio de Justicia de la Nación",
+        "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
+        "totales": {
+            "filas_csv": total,
+            "magistrados_activos": len(magistrados),
+            "vacantes": len(vacantes),
+            "renuncias": len(renuncias),
+            "indice_vacancia_pct": round(len(vacantes) / total * 100, 1) if total > 0 else 0,
+        },
+        "cobertura_breakdown": cobertura_breakdown,
+        "genero_breakdown": genero_breakdown,
+        "columnas_csv": list(df.columns),
+        "generado_por": "scraper_magistrados.py - Monitor Justicia AR",
     }
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
+
 def main():
-    log.info("=" * 60)
-    log.info("SCRAPER MAGISTRADOS — datos.jus.gob.ar")
-    log.info(f"  {datetime.now().strftime('%d/%m/%Y %H:%M')}")
-    log.info("=" * 60)
+    log.info("═" * 60)
+    log.info("Monitor Justicia AR — Scraper Magistrados")
+    log.info(f"Ejecución: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info("═" * 60)
 
-    # ── 1. Magistrados activos ────────────────────────────────────────────────
-    log.info("\n[1] Magistrados activos...")
-    url_mag = obtener_url_csv(
-        DATASETS["magistrados"]["query"],
-        DATASETS["magistrados"]["titulo"]
-    )
-    if not url_mag:
-        log.error("No se encontró URL para magistrados")
-        return
-    df_mag = descargar_csv(url_mag)
-    df_mag = limpiar_magistrados(df_mag)
-    exportar_json(df_mag, os.path.join(DATA_DIR, "magistrados.json"))
+    # 1. Descargar
+    df_raw = descargar_csv()
 
-    # ── 2. Designaciones ─────────────────────────────────────────────────────
-    log.info("\n[2] Designaciones...")
-    url_des = obtener_url_csv(
-        DATASETS["designaciones"]["query"],
-        DATASETS["designaciones"]["titulo"]
-    )
-    df_des = pd.DataFrame()
-    if url_des:
-        df_des = descargar_csv(url_des)
-        df_des.columns = [c.strip().strip('"') for c in df_des.columns]
-        exportar_json(df_des, os.path.join(DATA_DIR, "designaciones.json"))
-    else:
-        log.warning("No se encontró URL para designaciones")
+    # 2. Normalizar
+    df = normalizar(df_raw)
 
-    # ── 3. Renuncias ──────────────────────────────────────────────────────────
-    log.info("\n[3] Renuncias...")
-    url_ren = obtener_url_csv(
-        DATASETS["renuncias"]["query"],
-        DATASETS["renuncias"]["titulo"]
-    )
-    df_ren = pd.DataFrame()
-    if url_ren:
-        df_ren = descargar_csv(url_ren)
-        df_ren.columns = [c.strip().strip('"') for c in df_ren.columns]
-        exportar_json(df_ren, os.path.join(DATA_DIR, "renuncias.json"))
-    else:
-        log.warning("No se encontró URL para renuncias")
+    # 3. Generar JSONs
+    magistrados = generar_magistrados(df)
+    vacantes = generar_vacantes(df)
+    renuncias = generar_renuncias(df)
+    designaciones = generar_designaciones(df)
+    meta = generar_meta(df, magistrados, vacantes, renuncias)
 
-    # ── 4. KPIs y meta ───────────────────────────────────────────────────────
-    log.info("\n[4] Calculando KPIs...")
-    kpis = calcular_kpis(df_mag, df_des, df_ren)
-    meta_path = os.path.join(DATA_DIR, "meta_justicia.json")
-    with open(meta_path, "w", encoding="utf-8") as f:
-        json.dump(kpis, f, ensure_ascii=False, indent=2)
-    log.info(f"  → KPIs exportados: {meta_path}")
+    # 4. Guardar
+    guardar_json(magistrados, "magistrados.json")
+    guardar_json(vacantes, "vacantes.json")
+    guardar_json(renuncias, "renuncias.json")
+    guardar_json(designaciones, "designaciones.json")
+    guardar_json(meta, "meta_justicia.json")
 
-    # ── 5. Vacantes (subconjunto para alertas) ────────────────────────────────
-    log.info("\n[5] Exportando vacantes...")
-    if "vacante" in df_mag.columns:
-        df_vac = df_mag[df_mag["vacante"] == "SI"].copy()
-        exportar_json(df_vac, os.path.join(DATA_DIR, "vacantes.json"), max_rows=500)
-
-    log.info("\n" + "=" * 60)
-    log.info("RESUMEN")
-    log.info(f"  Magistrados : {kpis['total_magistrados']}")
-    log.info(f"  Vacantes    : {kpis['vacantes']} ({kpis['pct_vacantes']}%)")
-    log.info(f"  Femenino    : {kpis['femenino']} ({kpis['pct_femenino']}%)")
-    log.info(f"  Designaciones: {kpis['designaciones_total']}")
-    log.info(f"  Renuncias   : {kpis['renuncias_total']}")
-    log.info("=" * 60)
+    log.info("═" * 60)
+    log.info(f"✅ Completado: {len(magistrados)} magistrados | {len(vacantes)} vacantes | {len(renuncias)} renuncias")
+    log.info(f"   Índice de vacancia: {meta['totales']['indice_vacancia_pct']}%")
+    log.info("═" * 60)
 
 
 if __name__ == "__main__":
