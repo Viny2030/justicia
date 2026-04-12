@@ -1,0 +1,79 @@
+name: Magistrados Actualización Diaria
+
+on:
+  schedule:
+    # Todos los días a las 6:00 AM UTC (3:00 AM ART)
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Forzar actualización aunque no haya cambios"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    name: Scrape Magistrados PJN
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: |
+          pip install requests pandas
+
+      - name: Ejecutar scraper
+        run: |
+          python scraper_magistrados.py
+
+      - name: Verificar que se generaron los 5 JSONs
+        run: |
+          for f in magistrados.json vacantes.json renuncias.json designaciones.json meta_justicia.json; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Falta: $f"
+              exit 1
+            fi
+            SIZE=$(wc -c < "$f")
+            echo "✓ $f ($SIZE bytes)"
+          done
+          echo "✅ Los 5 JSONs verificados"
+
+      - name: Mostrar resumen de meta_justicia.json
+        run: |
+          python -c "
+          import json
+          with open('meta_justicia.json') as f:
+            meta = json.load(f)
+          t = meta['totales']
+          print(f\"Magistrados activos : {t['magistrados_activos']}\")
+          print(f\"Vacantes            : {t['vacantes']} ({t['indice_vacancia_pct']}%)\")
+          print(f\"Renuncias           : {t['renuncias']}\")
+          print(f\"Actualización       : {meta['ultima_actualizacion']}\")
+          "
+
+      - name: Commit y push JSONs actualizados
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add magistrados.json vacantes.json renuncias.json designaciones.json meta_justicia.json
+          # Solo commitear si hay cambios reales
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los datos, no se hace commit."
+          else
+            DATE=$(date -u '+%Y-%m-%d')
+            git commit -m "chore: magistrados actualizados [$DATE]"
+            git push
+            echo "✅ JSONs pusheados al repo"
+          fi
