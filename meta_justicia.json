@@ -1,5 +1,5 @@
 {
-  "ultima_actualizacion": "2026-04-12T20:14:35.399585",
+  "ultima_actualizacion": "2026-04-12T20:22:49.044762",
   "fecha_datos": "2026-04-12",
   "fuente": "datos.jus.gob.ar - Ministerio de Justicia de la Nación",
   "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
@@ -20,19 +20,31 @@
     "Masculino": 767,
     "Femenino": 336
   },
+  "provincia_breakdown": {
+    "Ciudad AutÃ³noma de Bs.As.": 979,
+    "Buenos Aires": 178,
+    "Santa Fe": 92,
+    "CÃ³rdoba": 42,
+    "Entre RÃ­os": 32,
+    "Salta": 29,
+    "Mendoza": 28,
+    "Misiones": 25,
+    "Corrientes": 23,
+    "Chubut": 20
+  },
   "columnas_csv": [
-    "ï»¿\"orden\"",
+    "ï»¿\"orden",
     "tipo_justicia",
     "camara",
     "organo_tipo",
     "organo_nombre",
     "organo_habilitado",
     "cargo_tipo",
-    "nombre",
-    "magistrado_dni",
+    "nombre_completo",
+    "dni",
     "genero",
     "cargo_cobertura",
-    "cargo_fecha_jura",
+    "fecha_jura",
     "presidente_camara",
     "vacante",
     "licencia",
@@ -48,10 +60,12 @@
     "norma_tipo",
     "norma_numero",
     "norma_fecha",
-    "norma_presidente",
-    "norma_ministro",
-    "organo_provincia",
-    "organo_provincia_id"
+    "presidente_designacion",
+    "ministro_designacion",
+    "provincia",
+    "organo_provincia_id",
+    "apellido",
+    "nombre"
   ],
   "generado_por": "scraper_magistrados.py - Monitor Justicia AR"
 }
