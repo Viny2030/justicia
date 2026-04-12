@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor Judicial AR — Magistrados</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg:         #0d1829;
+    --bg2:        #132238;
+    --bg3:        #1a2d47;
+    --border:     #1f3454;
+    --border2:    #2a4470;
+    --text:       #d6e8f7;
+    --muted:      #6a8fb0;
+    --accent:     #5bc4f5;
+    --accent2:    #38bdf8;
+    --red:        #f87171;
+    --green:      #4ade80;
+    --orange:     #fb923c;
+    --purple:     #c084fc;
+    --font-head:  'Syne', sans-serif;
+    --font-body:  'DM Sans', sans-serif;
+    --font-mono:  'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-badge {
+    background: var(--accent);
+    color: #000;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .logo-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .last-update {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; } 50% { opacity:.4; }
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* ── Section heading ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── KPI Grid ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .kpi-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .kpi-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-1px);
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi-card.accent::before  { background: var(--accent); }
+  .kpi-card.blue::before    { background: var(--accent2); }
+  .kpi-card.red::before     { background: var(--red); }
+  .kpi-card.green::before   { background: var(--green); }
+  .kpi-card.orange::before  { background: var(--orange); }
+  .kpi-card.purple::before  { background: var(--purple); }
+
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-family: var(--font-head);
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-card.accent  .kpi-value { color: var(--accent); }
+  .kpi-card.blue    .kpi-value { color: var(--accent2); }
+  .kpi-card.red     .kpi-value { color: var(--red); }
+  .kpi-card.green   .kpi-value { color: var(--green); }
+  .kpi-card.orange  .kpi-value { color: var(--orange); }
+  .kpi-card.purple  .kpi-value { color: var(--purple); }
+
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── Alertas ── */
+  .alert-strip {
+    background: rgba(224,84,84,0.08);
+    border: 1px solid rgba(224,84,84,0.25);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .alert-strip.hidden { display: none; }
+  .alert-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .alert-text {
+    font-size: 13px;
+    color: #f5a0a0;
+  }
+  .alert-text strong { color: var(--red); }
+  .alert-count {
+    margin-left: auto;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── Controles / filtros ── */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px 9px 36px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus { border-color: var(--accent2); }
+  .search-box::before {
+    content: '⌕';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 16px;
+    pointer-events: none;
+  }
+  select, .filter-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  select:focus, .filter-btn:hover { border-color: var(--border2); }
+  .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .results-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+  .tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-badge {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    margin-left: 6px;
+  }
+  .tab.active .tab-badge {
+    background: rgba(232,197,71,0.15);
+    color: var(--accent);
+  }
+
+  /* ── Panel de contenido ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Tabla ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--bg3);
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sort-asc::after  { content: ' ↑'; color: var(--accent); }
+  thead th.sort-desc::after { content: ' ↓'; color: var(--accent); }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody td {
+    padding: 11px 16px;
+    vertical-align: middle;
+  }
+  .td-name { font-weight: 500; }
+  .td-org  { color: var(--muted); font-size: 12px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .badge {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .badge-federal   { background: rgba(79,163,224,0.15); color: var(--accent2); }
+  .badge-nacional  { background: rgba(232,197,71,0.12); color: var(--accent); }
+  .badge-titular   { background: rgba(82,201,138,0.12); color: var(--green); }
+  .badge-subrogante{ background: rgba(224,140,64,0.15); color: var(--orange); }
+  .badge-vacante   { background: rgba(224,84,84,0.15);  color: var(--red); }
+  .badge-licencia  { background: rgba(164,125,232,0.15);color: var(--purple); }
+  .badge-m         { background: rgba(79,163,224,0.1);  color: var(--accent2); }
+  .badge-f         { background: rgba(232,197,71,0.1);  color: var(--accent); }
+
+  .no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  /* ── Cruce JGM ── */
+  .cruce-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .cruce-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .cruce-body {}
+  .cruce-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .cruce-detail {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .cruce-match {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cruce-pill {
+    background: rgba(224,84,84,0.1);
+    border: 1px solid rgba(224,84,84,0.2);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: #f5a0a0;
+  }
+
+  /* ── Mini bar chart ── */
+  .chart-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 800px) { .chart-section { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .chart-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  .bar-label {
+    font-size: 11px;
+    color: var(--text);
+    width: 130px;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent2);
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-val {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* ── Spinner ── */
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Paginación ── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+  }
+  .pg-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .pg-btn:hover:not(:disabled) { border-color: var(--border2); color: var(--text); }
+  .pg-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+  .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* ── CSV export ── */
+  .export-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .export-btn:hover { border-color: var(--green); color: var(--green); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    padding: 24px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <span class="logo-badge">⚖️ JUS</span>
+    <div>
+      <div class="logo-title">Monitor Judicial AR</div>
+      <div class="logo-sub">Consejo de la Magistratura · PJN</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span class="last-update" id="lastUpdate">Cargando...</span>
+    <a class="export-btn" id="exportBtn" href="#">⬇ CSV</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="section-label">Resumen ejecutivo</div>
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="loading"><div class="spinner"></div>Cargando datos...</div>
+  </div>
+
+  <!-- Alerta vacantes -->
+  <div class="alert-strip hidden" id="alertVacantes">
+    <span class="alert-icon">🔴</span>
+    <span class="alert-text"><strong id="alertCount">0</strong> cargos vacantes sin concurso en trámite — sin cobertura judicial activa</span>
+    <span class="alert-count" id="alertCountBadge">0 sin concurso</span>
+  </div>
+
+  <!-- Charts -->
+  <div class="chart-section" id="chartSection" style="display:none">
+    <div class="chart-card">
+      <div class="chart-title">Top juzgados / organismos por tipo</div>
+      <div id="chartOrgTipo"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Distribución por cobertura</div>
+      <div id="chartCobertura"></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="magistrados">Magistrados <span class="tab-badge" id="tabBadge1">–</span></div>
+    <div class="tab" data-tab="vacantes">Vacantes <span class="tab-badge" id="tabBadge2">–</span></div>
+    <div class="tab" data-tab="renuncias">Renuncias <span class="tab-badge" id="tabBadge3">–</span></div>
+    <div class="tab" data-tab="cruces">Cruces JGM <span class="tab-badge" id="tabBadge4">–</span></div>
+  </div>
+
+  <!-- Panel: Magistrados -->
+  <div class="panel active" id="panel-magistrados">
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchMag" placeholder="Buscar por apellido, nombre, organismo...">
+      </div>
+      <select id="filterTipo">
+        <option value="">Todos los fueros</option>
+        <option value="Federal">Federal</option>
+        <option value="Nacional">Nacional</option>
+      </select>
+      <select id="filterOrgTipo">
+        <option value="">Tipo organismo</option>
+        <option value="Juzgado">Juzgado</option>
+        <option value="Cámara">Cámara</option>
+        <option value="Tribunal">Tribunal</option>
+        <option value="Fiscalía">Fiscalía</option>
+        <option value="Defensoría">Defensoría</option>
+      </select>
+      <select id="filterCobertura">
+        <option value="">Toda cobertura</option>
+        <option value="Titular">Titular</option>
+        <option value="Subrogante">Subrogante</option>
+      </select>
+      <button class="filter-btn" id="filterLicencia">En licencia</button>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="tablaMagistrados">
+        <thead>
+          <tr>
+            <th data-col="apellido">Magistrado</th>
+            <th data-col="cargo_tipo">Cargo</th>
+            <th data-col="tipo_justicia">Fuero</th>
+            <th data-col="organo_nombre">Organismo</th>
+            <th data-col="cargo_cobertura">Cobertura</th>
+            <th data-col="genero">Género</th>
+            <th data-col="fecha_designacion">Designación</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyMag"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="paginationMag"></div>
+  </div>
+
+  <!-- Panel: Vacantes -->
+  <div class="panel" id="panel-vacantes">
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchVac" placeholder="Buscar organismo...">
+      </div>
+      <select id="filterVacTipo">
+        <option value="">Todos los fueros</option>
+        <option value="Federal">Federal</option>
+        <option value="Nacional">Nacional</option>
+      </select>
+      <select id="filterVacConcurso">
+        <option value="">Con/sin concurso</option>
+        <option value="con">Con concurso</option>
+        <option value="sin">Sin concurso</option>
+      </select>
+      <span class="results-count" id="resultsVac"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="tablaVacantes">
+        <thead>
+          <tr>
+            <th data-col="organo_nombre">Organismo</th>
+            <th data-col="organo_tipo">Tipo</th>
+            <th data-col="tipo_justicia">Fuero</th>
+            <th data-col="cargo_tipo">Cargo</th>
+            <th data-col="concurso_en_tramite">Concurso</th>
+            <th data-col="ultimo_titular">Último titular</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyVac"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="paginationVac"></div>
+  </div>
+
+  <!-- Panel: Renuncias -->
+  <div class="panel" id="panel-renuncias">
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchRen" placeholder="Buscar magistrado...">
+      </div>
+      <span class="results-count" id="resultsRen"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="tablaRenuncias">
+        <thead>
+          <tr>
+            <th data-col="apellido">Magistrado</th>
+            <th data-col="organo_nombre">Organismo</th>
+            <th data-col="cargo_tipo">Cargo</th>
+            <th data-col="decreto_renuncia">Decreto renuncia</th>
+            <th data-col="fecha_renuncia">Fecha renuncia</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyRen"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="paginationRen"></div>
+  </div>
+
+  <!-- Panel: Cruces JGM -->
+  <div class="panel" id="panel-cruces">
+    <div class="section-label" style="margin-top:8px">Apellidos magistrados vs proveedores PEN (designaciones.json ↔ JGM)</div>
+    <div id="cruceContainer">
+      <div class="loading"><div class="spinner"></div>Cargando cruces...</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Fuente: <a href="https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional" target="_blank">datos.jus.gob.ar</a> · Ministerio de Justicia de la Nación ·
+  <a href="https://github.com/Viny2030/justicia" target="_blank">github.com/Viny2030/justicia</a>
+</footer>
+
+<script>
+// ── Estado global ──────────────────────────────────────────────────────────
+var state = {
+  magistrados: [], vacantes: [], renuncias: [], designaciones: [], meta: {},
+  filteredMag: [], filteredVac: [], filteredRen: [],
+  sortCol: '', sortDir: 1,
+  pageMag: 1, pageVac: 1, pageRen: 1,
+  perPage: 50,
+  filterLicencia: false,
+};
+
+// ── Datos embebidos de demo ────────────────────────────────────────────────
+var DEMO_DATA = {
+  magistrados: [
+    {apellido:"LORENZETTI",nombre:"Ricardo Luis",genero:"Masculino",tipo_justicia:"Federal",camara:"Corte Suprema",organo_tipo:"Tribunal",organo_nombre:"Corte Suprema de Justicia de la Nacion",cargo_tipo:"Juez",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:true,decreto_designacion:"457/2004",fecha_designacion:"2004-12-27",presidente_designacion:"Kirchner Nestor",ministro_designacion:"Beliz Gustavo"},
+    {apellido:"MAQUEDA",nombre:"Juan Carlos",genero:"Masculino",tipo_justicia:"Federal",camara:"Corte Suprema",organo_tipo:"Tribunal",organo_nombre:"Corte Suprema de Justicia de la Nacion",cargo_tipo:"Juez",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"457/2004",fecha_designacion:"2004-12-27",presidente_designacion:"Kirchner Nestor",ministro_designacion:"Beliz Gustavo"},
+    {apellido:"ROSATTI",nombre:"Horacio Daniel",genero:"Masculino",tipo_justicia:"Federal",camara:"Corte Suprema",organo_tipo:"Tribunal",organo_nombre:"Corte Suprema de Justicia de la Nacion",cargo_tipo:"Juez",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"222/2016",fecha_designacion:"2016-06-22",presidente_designacion:"Macri Mauricio",ministro_designacion:"Garavano German"},
+    {apellido:"FERNANDEZ",nombre:"Elena",genero:"Femenino",tipo_justicia:"Nacional",camara:"Camara Civil",organo_tipo:"Camara",organo_nombre:"Camara Nacional de Apelaciones en lo Civil Sala A",cargo_tipo:"Juez",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"1120/2015",fecha_designacion:"2015-09-10",presidente_designacion:"Fernandez de Kirchner Cristina",ministro_designacion:"Alak Julio"},
+    {apellido:"GARCIA",nombre:"Maria Laura",genero:"Femenino",tipo_justicia:"Federal",camara:"Camara Federal Cordoba",organo_tipo:"Juzgado",organo_nombre:"Juzgado Federal N1 Cordoba",cargo_tipo:"Juez",cargo_cobertura:"Subrogante",en_licencia:true,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"890/2019",fecha_designacion:"2019-11-20",presidente_designacion:"Macri Mauricio",ministro_designacion:"Garavano German"},
+    {apellido:"RODRIGUEZ",nombre:"Pablo Martin",genero:"Masculino",tipo_justicia:"Federal",camara:"Camara Federal Rosario",organo_tipo:"Fiscalia",organo_nombre:"Fiscalia Federal N2 Rosario",cargo_tipo:"Fiscal",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"345/2018",fecha_designacion:"2018-05-15",presidente_designacion:"Macri Mauricio",ministro_designacion:"Garavano German"},
+    {apellido:"SILVA",nombre:"Ana Cecilia",genero:"Femenino",tipo_justicia:"Nacional",camara:"Camara Penal",organo_tipo:"Defensoria",organo_nombre:"Defensoria Nacional N5",cargo_tipo:"Defensor",cargo_cobertura:"Titular",en_licencia:false,concurso_en_tramite:false,presidente_camara:false,decreto_designacion:"780/2020",fecha_designacion:"2020-08-03",presidente_designacion:"Fernandez Alberto",ministro_designacion:"Losardo Marcela"}
+  ],
+  vacantes: [
+    {organo_nombre:"Juzgado Federal N3 Mendoza",organo_tipo:"Juzgado",tipo_justicia:"Federal",cargo_tipo:"Juez",concurso_en_tramite:false,ultimo_titular:"MARTINEZ Juan",fecha_designacion_anterior:"2012-03-01"},
+    {organo_nombre:"Camara Nacional Civil Sala B",organo_tipo:"Camara",tipo_justicia:"Nacional",cargo_tipo:"Juez",concurso_en_tramite:true,ultimo_titular:"PEREZ Luis",fecha_designacion_anterior:"2008-07-15"},
+    {organo_nombre:"Fiscalia Federal Tucuman N1",organo_tipo:"Fiscalia",tipo_justicia:"Federal",cargo_tipo:"Fiscal",concurso_en_tramite:false,ultimo_titular:"LOPEZ Carlos",fecha_designacion_anterior:"2015-11-20"}
+  ],
+  renuncias: [
+    {apellido:"HIGHTON DE NOLASCO",nombre:"Elena",organo_nombre:"Corte Suprema de Justicia de la Nacion",cargo_tipo:"Juez",decreto_renuncia:"759/2021",fecha_renuncia:"2021-10-29"},
+    {apellido:"ZAFFARONI",nombre:"Eugenio Raul",organo_nombre:"Corte Suprema de Justicia de la Nacion",cargo_tipo:"Juez",decreto_renuncia:"2252/2014",fecha_renuncia:"2014-12-31"}
+  ],
+  designaciones: [
+    {apellido:"LORENZETTI",nombre:"Ricardo Luis",apellido_normalizado:"LORENZETTI",organo_nombre:"Corte Suprema",cargo_tipo:"Juez",tipo_justicia:"Federal",decreto_designacion:"457/2004",fecha_designacion:"2004-12-27"},
+    {apellido:"FERNANDEZ",nombre:"Elena",apellido_normalizado:"FERNANDEZ",organo_nombre:"Camara Civil Sala A",cargo_tipo:"Juez",tipo_justicia:"Nacional",decreto_designacion:"1120/2015",fecha_designacion:"2015-09-10"}
+  ],
+  meta: {
+    ultima_actualizacion: new Date().toISOString(),
+    fecha_datos: new Date().toISOString().slice(0,10),
+    fuente: "datos.jus.gob.ar - DEMO",
+    totales: {filas_csv:7, magistrados_activos:7, vacantes:3, renuncias:2, indice_vacancia_pct:30.0}
+  }
+};
+
+// ── Arranque: carga JSONs si hay servidor HTTP, si no usa demo ─────────────
+(function() {
+  function loadAll(mags, vacs, rens, desig, meta, isDemo) {
+    state.magistrados   = mags;
+    state.vacantes      = vacs;
+    state.renuncias     = rens;
+    state.designaciones = desig;
+    state.meta          = meta;
+    if (isDemo) {
+      var b = document.createElement('div');
+      b.style.cssText = 'background:rgba(91,196,245,0.07);border:1px solid rgba(91,196,245,0.2);border-radius:8px;padding:10px 18px;margin-bottom:20px;font-size:12px;color:#6a8fb0;font-family:var(--font-mono)';
+      b.textContent = 'Modo demo - colocar los JSONs del scraper en la misma carpeta para ver datos reales';
+      document.querySelector('.container').prepend(b);
+    }
+    renderKPIs(); renderCharts(); initMagistrados(); initVacantes();
+    initRenuncias(); initCruces(); updateLastUpdate(); initExport();
+  }
+
+  if (window.location.protocol === 'file:') {
+    // file:// nunca puede hacer fetch - usar demo directamente
+    loadAll(DEMO_DATA.magistrados, DEMO_DATA.vacantes, DEMO_DATA.renuncias,
+            DEMO_DATA.designaciones, DEMO_DATA.meta, true);
+    return;
+  }
+
+  // Con servidor HTTP intentar cargar JSONs reales
+  var urls = ['magistrados.json','vacantes.json','renuncias.json','designaciones.json','meta_justicia.json'];
+  var done = [], failed = 0;
+  urls.forEach(function(url, i) {
+    fetch(url).then(function(r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function(d) {
+      done[i] = d;
+      if (done.filter(function(x){return x!==undefined;}).length + failed === urls.length) finish();
+    }).catch(function() {
+      done[i] = null; failed++;
+      if (done.filter(function(x){return x!==undefined;}).length + failed === urls.length) finish();
+    });
+  });
+
+  function finish() {
+    var isDemo = !done[0] || !done[0].length;
+    loadAll(
+      (done[0] && done[0].length) ? done[0] : DEMO_DATA.magistrados,
+      (done[1] && done[1].length) ? done[1] : DEMO_DATA.vacantes,
+      (done[2] && done[2].length) ? done[2] : DEMO_DATA.renuncias,
+      (done[3] && done[3].length) ? done[3] : DEMO_DATA.designaciones,
+      (done[4] && done[4].totales) ? done[4] : DEMO_DATA.meta,
+      isDemo
+    );
+  }
+})();
+
+// ── KPIs ───────────────────────────────────────────────────────────────────
+function renderKPIs() {
+  var m = state.meta.totales || {};
+  var total   = m.magistrados_activos || state.magistrados.length;
+  var vacantes = m.vacantes || state.vacantes.length;
+  var renuncias = m.renuncias || state.renuncias.length;
+  var vacPct  = m.indice_vacancia_pct || (total > 0 ? (vacantes/total*100).toFixed(1) : 0);
+
+  // Contar géneros
+  var generos = {};
+  state.magistrados.forEach(function(r) {
+    var g = (r.genero || '').toUpperCase();
+    generos[g] = (generos[g]||0) + 1;
+  });
+  var femPct = total > 0 ? Math.round((generos['FEMENINO']||generos['F']||0)/total*100) : 0;
+
+  // Sin concurso
+  var sinConcurso = state.vacantes.filter(function(v){ return !v.concurso_en_tramite; }).length;
+
+  var cards = [
+    { cls:'accent',  label:'Magistrados activos', value: total, sub: 'Jueces, fiscales, defensores' },
+    { cls:'red',     label:'Vacantes totales',    value: vacantes, sub: vacPct + '% del total' },
+    { cls:'orange',  label:'Sin concurso',        value: sinConcurso, sub: 'Vacantes sin cobertura' },
+    { cls:'green',   label:'Renuncias aceptadas', value: renuncias, sub: 'Con decreto firmado' },
+    { cls:'purple',  label:'Paridad de género',   value: femPct + '%', sub: 'Magistradas mujeres' },
+    { cls:'blue',    label:'En licencia',         value: state.magistrados.filter(function(r){ return r.en_licencia; }).length, sub: 'Con licencia activa' },
+  ];
+
+  var html = cards.map(function(c) {
+    return '<div class="kpi-card ' + c.cls + '">' +
+      '<div class="kpi-label">' + c.label + '</div>' +
+      '<div class="kpi-value">' + c.value + '</div>' +
+      '<div class="kpi-sub">' + c.sub + '</div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('kpiGrid').innerHTML = html;
+
+  // Alerta vacantes sin concurso
+  if (sinConcurso > 0) {
+    var strip = document.getElementById('alertVacantes');
+    strip.classList.remove('hidden');
+    document.getElementById('alertCount').textContent = sinConcurso;
+    document.getElementById('alertCountBadge').textContent = sinConcurso + ' sin concurso';
+  }
+
+  // Badges de tabs
+  document.getElementById('tabBadge1').textContent = total;
+  document.getElementById('tabBadge2').textContent = vacantes;
+  document.getElementById('tabBadge3').textContent = renuncias;
+}
+
+// ── Charts ─────────────────────────────────────────────────────────────────
+function renderCharts() {
+  document.getElementById('chartSection').style.display = 'grid';
+
+  // Cobertura
+  var cob = {};
+  state.magistrados.forEach(function(r) {
+    var c = r.cargo_cobertura || 'Sin datos';
+    cob[c] = (cob[c]||0) + 1;
+  });
+  renderBarChart('chartCobertura', cob, ['#52c98a','#e08c40','#e05454','#7a8499']);
+
+  // Tipo de cargo
+  var tipos = {};
+  state.magistrados.forEach(function(r) {
+    var t = r.cargo_tipo || 'Sin datos';
+    tipos[t] = (tipos[t]||0) + 1;
+  });
+  // Top 6
+  var sorted = Object.entries(tipos).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+  var topTipos = {};
+  sorted.forEach(function(e){ topTipos[e[0]] = e[1]; });
+  renderBarChart('chartOrgTipo', topTipos, ['#4fa3e0','#4fa3e0','#4fa3e0','#4fa3e0','#4fa3e0','#4fa3e0']);
+}
+
+function renderBarChart(containerId, data, colors) {
+  var max = Math.max.apply(null, Object.values(data)) || 1;
+  var html = Object.entries(data).map(function(entry, i) {
+    var label = entry[0], val = entry[1];
+    var pct = Math.round(val/max*100);
+    var color = colors[i % colors.length];
+    return '<div class="bar-row">' +
+      '<div class="bar-label" title="' + label + '">' + label + '</div>' +
+      '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div class="bar-val">' + val + '</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById(containerId).innerHTML = html;
+}
+
+// ── Tabla Magistrados ──────────────────────────────────────────────────────
+function initMagistrados() {
+  state.filteredMag = state.magistrados.slice();
+  renderTableMag();
+
+  document.getElementById('searchMag').addEventListener('input', filterMag);
+  document.getElementById('filterTipo').addEventListener('change', filterMag);
+  document.getElementById('filterOrgTipo').addEventListener('change', filterMag);
+  document.getElementById('filterCobertura').addEventListener('change', filterMag);
+  document.getElementById('filterLicencia').addEventListener('click', function() {
+    state.filterLicencia = !state.filterLicencia;
+    this.classList.toggle('active', state.filterLicencia);
+    filterMag();
+  });
+
+  document.querySelectorAll('#tablaMagistrados thead th').forEach(function(th) {
+    th.addEventListener('click', function() { sortTable('magistrados', th.dataset.col); });
+  });
+}
+
+function filterMag() {
+  var q    = document.getElementById('searchMag').value.toLowerCase();
+  var tipo = document.getElementById('filterTipo').value;
+  var org  = document.getElementById('filterOrgTipo').value;
+  var cob  = document.getElementById('filterCobertura').value;
+
+  state.filteredMag = state.magistrados.filter(function(r) {
+    if (q && !(
+      (r.apellido||'').toLowerCase().includes(q) ||
+      (r.nombre||'').toLowerCase().includes(q) ||
+      (r.organo_nombre||'').toLowerCase().includes(q) ||
+      (r.camara||'').toLowerCase().includes(q)
+    )) return false;
+    if (tipo && r.tipo_justicia !== tipo) return false;
+    if (org  && r.organo_tipo  !== org)  return false;
+    if (cob  && r.cargo_cobertura !== cob) return false;
+    if (state.filterLicencia && !r.en_licencia) return false;
+    return true;
+  });
+
+  state.pageMag = 1;
+  renderTableMag();
+}
+
+function renderTableMag() {
+  var data = state.filteredMag;
+  var start = (state.pageMag - 1) * state.perPage;
+  var page  = data.slice(start, start + state.perPage);
+  document.getElementById('resultsCount').textContent = data.length + ' resultados';
+
+  if (!page.length) {
+    document.getElementById('tbodyMag').innerHTML = '<tr><td colspan="7"><div class="no-data">Sin resultados</div></td></tr>';
+    document.getElementById('paginationMag').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('tbodyMag').innerHTML = page.map(function(r) {
+    var cob = r.cargo_cobertura || '';
+    var cobBadge = cob === 'Titular' ? 'badge-titular' : cob === 'Subrogante' ? 'badge-subrogante' : '';
+    var gBadge = (r.genero||'').toUpperCase().startsWith('F') ? 'badge-f' : 'badge-m';
+    var gLabel = (r.genero||'').toUpperCase().startsWith('F') ? 'F' : (r.genero ? 'M' : '—');
+    var tipoBadge = r.tipo_justicia === 'Federal' ? 'badge-federal' : 'badge-nacional';
+
+    return '<tr>' +
+      '<td class="td-name">' + esc(r.apellido) + (r.nombre ? ', <span style="font-weight:300">' + esc(r.nombre) + '</span>' : '') +
+        (r.en_licencia ? ' <span class="badge badge-licencia">LIC</span>' : '') +
+      '</td>' +
+      '<td>' + esc(r.cargo_tipo) + '</td>' +
+      '<td><span class="badge ' + tipoBadge + '">' + esc(r.tipo_justicia) + '</span></td>' +
+      '<td class="td-org" title="' + esc(r.organo_nombre) + '">' + esc(r.organo_nombre) + '</td>' +
+      '<td>' + (cobBadge ? '<span class="badge ' + cobBadge + '">' + esc(cob) + '</span>' : esc(cob)) + '</td>' +
+      '<td><span class="badge ' + gBadge + '">' + gLabel + '</span></td>' +
+      '<td style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">' + esc(r.fecha_designacion) + '</td>' +
+    '</tr>';
+  }).join('');
+
+  renderPagination('paginationMag', data.length, state.pageMag, function(p){ state.pageMag = p; renderTableMag(); });
+}
+
+// ── Tabla Vacantes ─────────────────────────────────────────────────────────
+function initVacantes() {
+  state.filteredVac = state.vacantes.slice();
+  renderTableVac();
+
+  document.getElementById('searchVac').addEventListener('input', filterVac);
+  document.getElementById('filterVacTipo').addEventListener('change', filterVac);
+  document.getElementById('filterVacConcurso').addEventListener('change', filterVac);
+
+  document.querySelectorAll('#tablaVacantes thead th').forEach(function(th) {
+    th.addEventListener('click', function() { sortTable('vacantes', th.dataset.col); });
+  });
+}
+
+function filterVac() {
+  var q    = document.getElementById('searchVac').value.toLowerCase();
+  var tipo = document.getElementById('filterVacTipo').value;
+  var conc = document.getElementById('filterVacConcurso').value;
+
+  state.filteredVac = state.vacantes.filter(function(r) {
+    if (q && !(r.organo_nombre||'').toLowerCase().includes(q)) return false;
+    if (tipo && r.tipo_justicia !== tipo) return false;
+    if (conc === 'con' && !r.concurso_en_tramite) return false;
+    if (conc === 'sin' && r.concurso_en_tramite) return false;
+    return true;
+  });
+  state.pageVac = 1;
+  renderTableVac();
+}
+
+function renderTableVac() {
+  var data  = state.filteredVac;
+  var start = (state.pageVac - 1) * state.perPage;
+  var page  = data.slice(start, start + state.perPage);
+  document.getElementById('resultsVac').textContent = data.length + ' resultados';
+
+  if (!page.length) {
+    document.getElementById('tbodyVac').innerHTML = '<tr><td colspan="6"><div class="no-data">Sin vacantes</div></td></tr>';
+    document.getElementById('paginationVac').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('tbodyVac').innerHTML = page.map(function(r) {
+    var concBadge = r.concurso_en_tramite
+      ? '<span class="badge badge-titular">✓ En trámite</span>'
+      : '<span class="badge badge-vacante">✗ Sin concurso</span>';
+    var tipoBadge = r.tipo_justicia === 'Federal' ? 'badge-federal' : 'badge-nacional';
+    return '<tr>' +
+      '<td class="td-name">' + esc(r.organo_nombre) + '</td>' +
+      '<td>' + esc(r.organo_tipo) + '</td>' +
+      '<td><span class="badge ' + tipoBadge + '">' + esc(r.tipo_justicia) + '</span></td>' +
+      '<td>' + esc(r.cargo_tipo) + '</td>' +
+      '<td>' + concBadge + '</td>' +
+      '<td style="color:var(--muted)">' + esc(r.ultimo_titular) + '</td>' +
+    '</tr>';
+  }).join('');
+
+  renderPagination('paginationVac', data.length, state.pageVac, function(p){ state.pageVac = p; renderTableVac(); });
+}
+
+// ── Tabla Renuncias ────────────────────────────────────────────────────────
+function initRenuncias() {
+  state.filteredRen = state.renuncias.slice();
+  renderTableRen();
+  document.getElementById('searchRen').addEventListener('input', function() {
+    var q = this.value.toLowerCase();
+    state.filteredRen = state.renuncias.filter(function(r) {
+      return (r.apellido||'').toLowerCase().includes(q) || (r.organo_nombre||'').toLowerCase().includes(q);
+    });
+    state.pageRen = 1;
+    renderTableRen();
+  });
+}
+
+function renderTableRen() {
+  var data  = state.filteredRen;
+  var start = (state.pageRen - 1) * state.perPage;
+  var page  = data.slice(start, start + state.perPage);
+  document.getElementById('resultsRen').textContent = data.length + ' resultados';
+
+  if (!page.length) {
+    document.getElementById('tbodyRen').innerHTML = '<tr><td colspan="5"><div class="no-data">Sin renuncias registradas</div></td></tr>';
+    document.getElementById('paginationRen').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('tbodyRen').innerHTML = page.map(function(r) {
+    return '<tr>' +
+      '<td class="td-name">' + esc(r.apellido) + (r.nombre ? ', ' + esc(r.nombre) : '') + '</td>' +
+      '<td class="td-org">' + esc(r.organo_nombre) + '</td>' +
+      '<td>' + esc(r.cargo_tipo) + '</td>' +
+      '<td style="font-family:var(--font-mono);font-size:11px">' + esc(r.decreto_renuncia) + '</td>' +
+      '<td style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">' + esc(r.fecha_renuncia) + '</td>' +
+    '</tr>';
+  }).join('');
+
+  renderPagination('paginationRen', data.length, state.pageRen, function(p){ state.pageRen = p; renderTableRen(); });
+}
+
+// ── Cruces JGM ────────────────────────────────────────────────────────────
+function initCruces() {
+  document.getElementById('tabBadge4').textContent = '⚡';
+  var container = document.getElementById('cruceContainer');
+
+  // Intentar cargar proveedores JGM (si existe designaciones del JGM en el mismo dominio)
+  // Fallback: cruce interno entre magistrados y designaciones
+  var appellidos_mag = {};
+  state.designaciones.forEach(function(d) {
+    var ap = (d.apellido_normalizado || d.apellido || '').toUpperCase().trim();
+    if (ap.length > 2) {
+      if (!appellidos_mag[ap]) appellidos_mag[ap] = [];
+      appellidos_mag[ap].push(d);
+    }
+  });
+
+  // Intentar cargar proveedores JGM desde el monitor JGM (ruta relativa)
+  // Si no existe, mostrar instrucciones
+  fetch('../jefatura_gabinete/magistrados_proveedores_jgm.json')
+    .then(function(r) { if (!r.ok) throw new Error('no existe'); return r.json(); })
+    .then(function(proveedores) {
+      renderCruces(appellidos_mag, proveedores, container);
+    })
+    .catch(function() {
+      // Fallback: buscar en ruta alternativa del monitor de contratos
+      fetch('../monitor_contratos_v2/data/proveedores.json')
+        .then(function(r) { if(!r.ok) throw new Error('no'); return r.json(); })
+        .then(function(proveedores) { renderCruces(appellidos_mag, proveedores, container); })
+        .catch(function() { renderCrucesSinJGM(appellidos_mag, container); });
+    });
+}
+
+function renderCruces(appellidos_mag, proveedores, container) {
+  var matches = [];
+
+  proveedores.forEach(function(prov) {
+    var razSoc = (prov.razon_social || prov.nombre || prov.proveedor || '').toUpperCase();
+    Object.keys(appellidos_mag).forEach(function(ap) {
+      if (ap.length > 3 && razSoc.includes(ap)) {
+        matches.push({ apellido: ap, magistrados: appellidos_mag[ap], proveedor: prov });
+      }
+    });
+  });
+
+  document.getElementById('tabBadge4').textContent = matches.length;
+
+  if (!matches.length) {
+    container.innerHTML = '<div class="no-data" style="padding:60px">✓ Sin coincidencias de apellidos entre magistrados y proveedores PEN</div>';
+    return;
+  }
+
+  container.innerHTML = matches.slice(0,50).map(function(m) {
+    var mags = m.magistrados.map(function(d) {
+      return '<span class="cruce-pill">⚖️ ' + d.apellido + (d.nombre ? ', '+d.nombre : '') + ' — ' + (d.organo_nombre||'') + '</span>';
+    }).join('');
+    return '<div class="cruce-card">' +
+      '<div class="cruce-icon">🔴</div>' +
+      '<div class="cruce-body">' +
+        '<div class="cruce-title">Apellido "' + m.apellido + '" presente en ambos sistemas</div>' +
+        '<div class="cruce-detail">Proveedor PEN: ' + (m.proveedor.razon_social||m.proveedor.nombre||'') + ' | CUIT: ' + (m.proveedor.cuit||'—') + '</div>' +
+        '<div class="cruce-match">' + mags + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderCrucesSinJGM(appellidos_mag, container) {
+  document.getElementById('tabBadge4').textContent = '?';
+  container.innerHTML =
+    '<div class="cruce-card">' +
+      '<div class="cruce-icon">ℹ️</div>' +
+      '<div class="cruce-body">' +
+        '<div class="cruce-title">Datos del monitor JGM no encontrados en ruta relativa</div>' +
+        '<div class="cruce-detail">Para activar cruces, colocar el archivo <code>magistrados_proveedores_jgm.json</code> en <code>../jefatura_gabinete/</code> o <code>../monitor_contratos_v2/data/proveedores.json</code></div>' +
+        '<div class="cruce-match">' +
+          '<span class="cruce-pill">📊 ' + Object.keys(appellidos_mag).length + ' magistrados con decreto de designación indexados</span>' +
+          '<span class="cruce-pill">🔗 Listo para cruce en cuanto estén disponibles los datos del PEN</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+// ── Ordenamiento ──────────────────────────────────────────────────────────
+function sortTable(which, col) {
+  var arr = which === 'magistrados' ? state.filteredMag :
+            which === 'vacantes'   ? state.filteredVac : state.filteredRen;
+
+  if (state.sortCol === col) state.sortDir *= -1;
+  else { state.sortCol = col; state.sortDir = 1; }
+
+  arr.sort(function(a,b) {
+    var va = String(a[col]||'').toLowerCase();
+    var vb = String(b[col]||'').toLowerCase();
+    return va < vb ? -state.sortDir : va > vb ? state.sortDir : 0;
+  });
+
+  // Actualizar estilos de cabecera
+  document.querySelectorAll('thead th').forEach(function(th) {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.dataset.col === col) th.classList.add(state.sortDir === 1 ? 'sort-asc' : 'sort-desc');
+  });
+
+  if (which === 'magistrados') { state.pageMag = 1; renderTableMag(); }
+  else if (which === 'vacantes')   { state.pageVac = 1; renderTableVac(); }
+  else                             { state.pageRen = 1; renderTableRen(); }
+}
+
+// ── Paginación ────────────────────────────────────────────────────────────
+function renderPagination(containerId, total, current, onPage) {
+  var totalPages = Math.ceil(total / state.perPage);
+  if (totalPages <= 1) { document.getElementById(containerId).innerHTML = ''; return; }
+
+  var pages = [];
+  for (var i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - current) <= 2) pages.push(i);
+    else if (pages[pages.length-1] !== '…') pages.push('…');
+  }
+
+  var html = '<button class="pg-btn" ' + (current===1?'disabled':'') + ' data-p="' + (current-1) + '">‹</button>';
+  pages.forEach(function(p) {
+    if (p === '…') html += '<span class="pg-btn" style="cursor:default">…</span>';
+    else html += '<button class="pg-btn' + (p===current?' active':'') + '" data-p="' + p + '">' + p + '</button>';
+  });
+  html += '<button class="pg-btn" ' + (current===totalPages?'disabled':'') + ' data-p="' + (current+1) + '">›</button>';
+
+  var el = document.getElementById(containerId);
+  el.innerHTML = html;
+  el.querySelectorAll('.pg-btn[data-p]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (!this.disabled && this.dataset.p) onPage(parseInt(this.dataset.p));
+    });
+  });
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Meta / última actualización ───────────────────────────────────────────
+function updateLastUpdate() {
+  var upd = state.meta.ultima_actualizacion || state.meta.fecha_datos;
+  if (upd) {
+    var d = new Date(upd);
+    document.getElementById('lastUpdate').textContent =
+      '<span class="status-dot"></span>Act. ' + d.toLocaleDateString('es-AR');
+  }
+  document.getElementById('lastUpdate').innerHTML =
+    '<span class="status-dot"></span>Act. ' + (upd ? new Date(upd).toLocaleDateString('es-AR') : 'hoy');
+}
+
+// ── Exportar CSV ──────────────────────────────────────────────────────────
+function initExport() {
+  document.getElementById('exportBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    var activeTab = document.querySelector('.tab.active').dataset.tab;
+    var data = activeTab === 'magistrados' ? state.filteredMag :
+               activeTab === 'vacantes'   ? state.filteredVac : state.filteredRen;
+    if (!data.length) return;
+    var keys = Object.keys(data[0]);
+    var csv = [keys.join(',')].concat(data.map(function(r) {
+      return keys.map(function(k){ return '"' + String(r[k]||'').replace(/"/g,'""') + '"'; }).join(',');
+    })).join('\n');
+    var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'monitor_judicial_' + activeTab + '_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+// ── Helper escape ─────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
