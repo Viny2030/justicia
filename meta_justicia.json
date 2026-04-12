@@ -1,0 +1,57 @@
+{
+  "ultima_actualizacion": "2026-04-12T20:14:35.399585",
+  "fecha_datos": "2026-04-12",
+  "fuente": "datos.jus.gob.ar - Ministerio de Justicia de la Nación",
+  "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
+  "totales": {
+    "filas_csv": 1643,
+    "magistrados_activos": 1103,
+    "vacantes": 540,
+    "renuncias": 0,
+    "indice_vacancia_pct": 32.9
+  },
+  "cobertura_breakdown": {
+    "Titular": 1081,
+    "Subrogante": 423,
+    "Sin subrogante designado": 71,
+    "No corresponde": 68
+  },
+  "genero_breakdown": {
+    "Masculino": 767,
+    "Femenino": 336
+  },
+  "columnas_csv": [
+    "ï»¿\"orden\"",
+    "tipo_justicia",
+    "camara",
+    "organo_tipo",
+    "organo_nombre",
+    "organo_habilitado",
+    "cargo_tipo",
+    "nombre",
+    "magistrado_dni",
+    "genero",
+    "cargo_cobertura",
+    "cargo_fecha_jura",
+    "presidente_camara",
+    "vacante",
+    "licencia",
+    "titular_con_licencia",
+    "titular_con_licencia_dni",
+    "titular_con_licencia_genero",
+    "concurso_en_tramite",
+    "concurso_numero",
+    "concurso_ambito",
+    "concurso_ambito_fecha_ingreso",
+    "subrogante_calidad",
+    "subrogancia_fecha_vencimiento",
+    "norma_tipo",
+    "norma_numero",
+    "norma_fecha",
+    "norma_presidente",
+    "norma_ministro",
+    "organo_provincia",
+    "organo_provincia_id"
+  ],
+  "generado_por": "scraper_magistrados.py - Monitor Justicia AR"
+}
