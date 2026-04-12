@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor de Eficiencia Judicial AR</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#0d1829;--bg2:#132238;--bg3:#1a2d47;--border:#1f3454;--border2:#2a4470;--text:#d6e8f7;--muted:#6a8fb0;--accent:#5bc4f5;--red:#f87171;--green:#4ade80;--orange:#fb923c;--yellow:#fbbf24;--purple:#c084fc;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;min-height:100vh}
+.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.badge{background:var(--accent);color:#000;font-family:var(--fh);font-weight:800;font-size:11px;padding:4px 8px;border-radius:4px}
+.logo-t{font-family:var(--fh);font-weight:700;font-size:16px}
+.logo-s{font-size:11px;color:var(--muted);font-family:var(--fm)}
+.hdr-r{display:flex;align-items:center;gap:16px}
+.src{font-family:var(--fm);font-size:11px;color:var(--muted)}
+.ebtn{background:transparent;border:1px solid var(--border);border-radius:8px;padding:7px 14px;color:var(--muted);font-family:var(--fm);font-size:11px;cursor:pointer}
+.ebtn:hover{border-color:var(--green);color:var(--green)}
+.wrap{max-width:1500px;margin:0 auto;padding:28px 24px}
+.sec{font-family:var(--fm);font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:32px}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.b::before{background:var(--accent)}.kpi.g::before{background:var(--green)}.kpi.r::before{background:var(--red)}.kpi.o::before{background:var(--orange)}.kpi.y::before{background:var(--yellow)}.kpi.p::before{background:var(--purple)}
+.kl{font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.kv{font-family:var(--fh);font-size:34px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi.b .kv{color:var(--accent)}.kpi.g .kv{color:var(--green)}.kpi.r .kv{color:var(--red)}.kpi.o .kv{color:var(--orange)}.kpi.y .kv{color:var(--yellow)}.kpi.p .kv{color:var(--purple)}
+.ks{font-size:11px;color:var(--muted)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+@media(max-width:900px){.g2{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
+.ct{font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.br-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.br-l{font-size:11px;color:var(--text);width:200px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br-t{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.br-f{height:100%;border-radius:4px}
+.br-v{font-family:var(--fm);font-size:10px;color:var(--muted);width:55px;text-align:right;flex-shrink:0}
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border)}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;user-select:none}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tbadge{background:var(--bg3);border-radius:10px;padding:1px 7px;font-size:10px;font-family:var(--fm);margin-left:6px}
+.tab.active .tbadge{background:rgba(91,196,245,.15);color:var(--accent)}
+.panel{display:none}.panel.active{display:block}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.sb{flex:1;min-width:200px;position:relative}
+.sb input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px 8px 34px;color:var(--text);font-family:var(--fb);font-size:13px;outline:none}
+.sb input:focus{border-color:var(--accent)}
+.sb::before{content:'⌕';position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+select{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
+.rc{font-family:var(--fm);font-size:11px;color:var(--muted);margin-left:auto}
+.tw{overflow-x:auto;border-radius:10px;border:1px solid var(--border);margin-bottom:24px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--bg3);padding:11px 14px;text-align:left;font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--text)}
+thead th.sa::after{content:' ↑';color:var(--accent)}
+thead th.sd::after{content:' ↓';color:var(--accent)}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+tbody td{padding:10px 14px}
+.bs{display:inline-block;border-radius:4px;padding:2px 7px;font-size:10px;font-family:var(--fm)}
+.bsg{background:rgba(74,222,128,.12);color:var(--green)}
+.bsr{background:rgba(248,113,113,.12);color:var(--red)}
+.bso{background:rgba(251,146,60,.12);color:var(--orange)}
+.bsb{background:rgba(91,196,245,.12);color:var(--accent)}
+.nd{text-align:center;padding:60px;color:var(--muted);font-family:var(--fm);font-size:12px}
+.irow{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:10px 14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
+.ifl{font-size:20px;flex-shrink:0}
+.ico{font-size:13px;font-weight:500;width:130px;flex-shrink:0}
+.ibw{flex:1}
+.ibt{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.ibf{height:100%;border-radius:3px}
+.iva{font-family:var(--fm);font-size:11px;color:var(--muted);width:70px;text-align:right;flex-shrink:0}
+.ihl .ico{color:var(--accent);font-weight:700}
+.alert{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:12px 18px;margin-bottom:20px;font-size:12px;color:#fca5a5;font-family:var(--fm)}
+footer{border-top:1px solid var(--border);margin-top:48px;padding:20px 24px;text-align:center;font-family:var(--fm);font-size:11px;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">
+    <span class="badge">⚖️ EFICIENCIA</span>
+    <div><div class="logo-t">Monitor de Eficiencia Judicial AR</div>
+    <div class="logo-s">estadisticas.pjn.gov.ar · Consejo de la Magistratura</div></div>
+  </div>
+  <div class="hdr-r">
+    <span class="src" id="srcLbl">Cargando...</span>
+    <button class="ebtn" id="exportBtn">⬇ CSV</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="sec">Indicadores generales</div>
+  <div class="kg" id="kpiGrid"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">Expedientes ingresados por tribunal</div><div id="barT"></div></div>
+    <div class="card"><div class="ct">Sentencias dictadas por tribunal</div><div id="barS"></div></div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" data-tab="tramite">Trámite <span class="tbadge" id="tb1">–</span></div>
+    <div class="tab" data-tab="sentencias">Sentencias <span class="tbadge" id="tb2">–</span></div>
+    <div class="tab" data-tab="recursos">Recursos <span class="tbadge" id="tb3">–</span></div>
+    <div class="tab" data-tab="resumen">Resumen <span class="tbadge" id="tb4">–</span></div>
+    <div class="tab" data-tab="intl">Comparativa internacional</div>
+  </div>
+  <div class="panel active" id="panel-tramite">
+    <div class="ctrl">
+      <div class="sb"><input id="sT" placeholder="Buscar tribunal..."></div>
+      <select id="fP"><option value="">Todos los períodos</option></select>
+      <select id="fJ"><option value="">Todas las jurisdicciones</option></select>
+      <span class="rc" id="rcT"></span>
+    </div>
+    <div class="tw"><table><thead><tr>
+      <th data-col="organismo" data-tbl="tramite">Tribunal / Secretaría</th>
+      <th data-col="jurisdiccion" data-tbl="tramite">Jurisdicción</th>
+      <th data-col="periodo" data-tbl="tramite">Período</th>
+      <th data-col="en_tramite_inicio" data-tbl="tramite">Inicio</th>
+      <th data-col="ingresos" data-tbl="tramite">Ingresos</th>
+      <th data-col="resueltos" data-tbl="tramite">Resueltos</th>
+      <th data-col="tasa_resolucion_pct" data-tbl="tramite">Tasa</th>
+      <th data-col="en_tramite_cierre" data-tbl="tramite">Cierre</th>
+      <th data-col="permanencia_breve" data-tbl="tramite">Días perm.</th>
+    </tr></thead><tbody id="bT"></tbody></table></div>
+  </div>
+  <div class="panel" id="panel-sentencias">
+    <div class="ctrl"><div class="sb"><input id="sS" placeholder="Buscar tribunal..."></div><span class="rc" id="rcS"></span></div>
+    <div class="tw"><table><thead><tr>
+      <th data-col="organismo" data-tbl="sentencias">Tribunal / Secretaría</th>
+      <th data-col="jurisdiccion" data-tbl="sentencias">Jurisdicción</th>
+      <th data-col="periodo" data-tbl="sentencias">Período</th>
+      <th data-col="pendientes_inicio" data-tbl="sentencias">Pendientes inicio</th>
+      <th data-col="agregadas" data-tbl="sentencias">Agregadas</th>
+      <th data-col="dictadas_definitivas" data-tbl="sentencias">Definitivas</th>
+      <th data-col="dictadas_interlocutorias" data-tbl="sentencias">Interlocutorias</th>
+      <th data-col="pendientes_cierre" data-tbl="sentencias">Pendientes cierre</th>
+    </tr></thead><tbody id="bS"></tbody></table></div>
+  </div>
+  <div class="panel" id="panel-recursos">
+    <div class="ctrl"><div class="sb"><input id="sR" placeholder="Buscar tribunal..."></div><span class="rc" id="rcR"></span></div>
+    <div class="tw"><table><thead><tr>
+      <th data-col="organismo" data-tbl="recursos">Tribunal / Secretaría</th>
+      <th data-col="jurisdiccion" data-tbl="recursos">Jurisdicción</th>
+      <th data-col="periodo" data-tbl="recursos">Período</th>
+      <th data-col="recursos_apelacion" data-tbl="recursos">Apelación</th>
+      <th data-col="otros_recursos" data-tbl="recursos">Otros recursos</th>
+    </tr></thead><tbody id="bR"></tbody></table></div>
+  </div>
+  <div class="panel" id="panel-resumen">
+    <div class="ctrl"><div class="sb"><input id="sRes" placeholder="Buscar tribunal..."></div><span class="rc" id="rcRes"></span></div>
+    <div class="tw"><table><thead><tr>
+      <th data-col="organismo" data-tbl="resumen">Tribunal / Secretaría</th>
+      <th data-col="jurisdiccion" data-tbl="resumen">Jurisdicción</th>
+      <th data-col="periodo" data-tbl="resumen">Período</th>
+      <th data-col="en_tramite_inicio" data-tbl="resumen">Inicio</th>
+      <th data-col="entrados" data-tbl="resumen">Entrados</th>
+      <th data-col="salidos" data-tbl="resumen">Salidos</th>
+      <th data-col="en_tramite_cierre" data-tbl="resumen">Cierre</th>
+    </tr></thead><tbody id="bRes"></tbody></table></div>
+  </div>
+  <div class="panel" id="panel-intl">
+    <div class="g2" style="margin-top:8px">
+      <div class="card"><div class="ct">Días para resolver causas civiles — Banco Mundial 2023</div><div id="intlD"></div></div>
+      <div class="card"><div class="ct">WJP Rule of Law Index 2023 — Justicia Civil (0–1)</div><div id="intlW"></div></div>
+    </div>
+  </div>
+</div>
+<footer>
+  Datos: <a href="https://estadisticas.pjn.gov.ar" target="_blank">estadisticas.pjn.gov.ar</a> — Consejo de la Magistratura ·
+  <a href="https://worldjusticeproject.org" target="_blank">WJP</a> · <a href="https://datos.bancomundial.org" target="_blank">Banco Mundial</a> ·
+  <a href="https://github.com/Viny2030/justicia" target="_blank">Monitor Justicia AR</a>
+</footer>
+<script>
+var ID=[{p:"Uruguay",f:"🇺🇾",v:270,c:"#4ade80"},{p:"México",f:"🇲🇽",v:389,c:"#4ade80"},{p:"OCDE",f:"🌍",v:394,c:"#6a8fb0"},{p:"Perú",f:"🇵🇪",v:428,c:"#4ade80"},{p:"Chile",f:"🇨🇱",v:480,c:"#4ade80"},{p:"Colombia",f:"🇨🇴",v:577,c:"#fbbf24"},{p:"Argentina",f:"🇦🇷",v:0,c:"#5bc4f5",hl:true},{p:"Brasil",f:"🇧🇷",v:731,c:"#fbbf24"}];
+var IW=[{p:"Uruguay",f:"🇺🇾",v:.68,c:"#4ade80"},{p:"Chile",f:"🇨🇱",v:.65,c:"#4ade80"},{p:"Costa Rica",f:"🇨🇷",v:.60,c:"#fbbf24"},{p:"Brasil",f:"🇧🇷",v:.50,c:"#fbbf24"},{p:"Colombia",f:"🇨🇴",v:.52,c:"#fbbf24"},{p:"Argentina",f:"🇦🇷",v:.47,c:"#5bc4f5",hl:true},{p:"México",f:"🇲🇽",v:.43,c:"#f87171"},{p:"Perú",f:"🇵🇪",v:.40,c:"#f87171"}];
+var RAW=[],DATA={tramite:[],sentencias:[],recursos:[],resumen:[]},SC='ingresos',SD=-1;
+
+fetch('estadisticas_causas.json?t='+Date.now())
+  .then(function(r){if(!r.ok)throw 0;return r.json();})
+  .then(function(d){
+    RAW=d;
+    DATA.tramite=d.filter(function(r){return r.tipo_csv==='tramite_camara';});
+    DATA.sentencias=d.filter(function(r){return r.tipo_csv==='sentencias';});
+    DATA.recursos=d.filter(function(r){return r.tipo_csv==='recursos';});
+    DATA.resumen=d.filter(function(r){return r.tipo_csv==='resumen';});
+    init();
+  }).catch(function(){
+    document.querySelector('.wrap').insertAdjacentHTML('afterbegin','<div class="alert">⚠ No se encontró estadisticas_causas.json — Ejecutá scraper_estadisticas_pjn.py con los CSVs del PJN en la raíz del repo</div>');
+    document.getElementById('srcLbl').textContent='Sin datos';
+  });
+
+function init(){
+  var ps=uniq(RAW,'periodo'),js=uniq(RAW,'jurisdiccion');
+  ps.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;document.getElementById('fP').appendChild(o);});
+  js.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;document.getElementById('fJ').appendChild(o);});
+  document.getElementById('tb1').textContent=DATA.tramite.length;
+  document.getElementById('tb2').textContent=DATA.sentencias.length;
+  document.getElementById('tb3').textContent=DATA.recursos.length;
+  document.getElementById('tb4').textContent=DATA.resumen.length;
+  document.getElementById('srcLbl').textContent=RAW.length+' registros · PJN 2024';
+  kpis();bars();
+  tbl('tramite',DATA.tramite);tbl('sentencias',DATA.sentencias);tbl('recursos',DATA.recursos);tbl('resumen',DATA.resumen);
+  intl();
+  ['sT','fP','fJ'].forEach(function(id){document.getElementById(id).addEventListener('input',ftramite);document.getElementById(id).addEventListener('change',ftramite);});
+  ['sS','sR','sRes'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',function(){
+      var map={sS:'sentencias',sR:'recursos',sRes:'resumen'};
+      tbl(map[id],buscar(DATA[map[id]],this.value));
+    });
+  });
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active');document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+    });
+  });
+  document.querySelectorAll('thead th[data-col]').forEach(function(th){
+    th.addEventListener('click',function(){
+      SC=th.dataset.col;SD*=-1;
+      document.querySelectorAll('thead th').forEach(function(t){t.classList.remove('sa','sd');});
+      th.classList.add(SD===-1?'sd':'sa');
+      var m={tramite:ftramite,sentencias:function(){tbl('sentencias',buscar(DATA.sentencias,document.getElementById('sS').value));},recursos:function(){tbl('recursos',buscar(DATA.recursos,document.getElementById('sR').value));},resumen:function(){tbl('resumen',buscar(DATA.resumen,document.getElementById('sRes').value));}};
+      m[th.dataset.tbl]();
+    });
+  });
+  document.getElementById('exportBtn').addEventListener('click',function(){
+    var at=document.querySelector('.tab.active').dataset.tab;
+    var d=DATA[at]||[];if(!d.length)return;
+    var k=Object.keys(d[0]);
+    var csv=[k.join(',')].concat(d.map(function(r){return k.map(function(x){return'"'+String(r[x]||'').replace(/"/g,'""')+'"';}).join(',');})).join('\n');
+    var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+    var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='pjn_'+at+'.csv';a.click();URL.revokeObjectURL(u);
+  });
+}
+
+function ftramite(){
+  var q=document.getElementById('sT').value.toLowerCase(),p=document.getElementById('fP').value,j=document.getElementById('fJ').value;
+  tbl('tramite',DATA.tramite.filter(function(r){
+    if(q&&!(r.organismo||'').toLowerCase().includes(q)&&!(r.jurisdiccion||'').toLowerCase().includes(q))return false;
+    if(p&&r.periodo!==p)return false;
+    if(j&&r.jurisdiccion!==j)return false;
+    return true;
+  }));
+}
+function buscar(d,q){q=q.toLowerCase();if(!q)return d;return d.filter(function(r){return(r.organismo||'').toLowerCase().includes(q)||(r.jurisdiccion||'').toLowerCase().includes(q);});}
+
+function kpis(){
+  var t=DATA.tramite,s=DATA.sentencias;
+  var ti=sm(t,'ingresos'),tr=sm(t,'resueltos'),tc=sm(t,'en_tramite_cierre');
+  var ts=ti>0?Math.round(tr/ti*100):0;
+  var sd=sm(s,'dictadas_definitivas')+sm(s,'dictadas_interlocutorias');
+  var jn=uniq(RAW,'jurisdiccion').length;
+  [{cls:'b',l:'Total ingresos',v:fm(ti),s:'expedientes'},{cls:'g',l:'Resueltos',v:fm(tr),s:'por sentencia'},{cls:'o',l:'En trámite cierre',v:fm(tc),s:'pendientes'},{cls:'y',l:'Tasa resolución',v:ts+'%',s:'resueltos/ingresos'},{cls:'p',l:'Sentencias dictadas',v:fm(sd),s:'def.+interlocutorias'},{cls:'r',l:'Jurisdicciones',v:jn,s:'en el dataset'}].forEach(function(c){
+    document.getElementById('kpiGrid').insertAdjacentHTML('beforeend','<div class="kpi '+c.cls+'"><div class="kl">'+c.l+'</div><div class="kv">'+c.v+'</div><div class="ks">'+c.s+'</div></div>');
+  });
+}
+
+function bars(){
+  function barHtml(data,key,color){
+    var m={};data.forEach(function(r){var k=(r.tribunal||r.organismo||'?').split('|')[0].trim();if(!m[k])m[k]=0;m[k]+=r[key]||0;});
+    var s=Object.entries(m).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+    var mx=s[0]?s[0][1]:1;
+    return s.map(function(e){return'<div class="br-row"><div class="br-l" title="'+e[0]+'">'+e[0]+'</div><div class="br-t"><div class="br-f" style="width:'+Math.round(e[1]/mx*100)+'%;background:'+color+'"></div></div><div class="br-v">'+fm(e[1])+'</div></div>';}).join('')||'<div style="color:var(--muted);font-size:12px">Sin datos</div>';
+  }
+  document.getElementById('barT').innerHTML=barHtml(DATA.tramite,'ingresos','var(--accent)');
+  document.getElementById('barS').innerHTML=barHtml(DATA.sentencias.map(function(r){return{...r,total:(r.dictadas_definitivas||0)+(r.dictadas_interlocutorias||0)};}), 'total','var(--purple)');
+}
+
+function tbl(tipo,data){
+  var ids={tramite:['rcT','bT'],sentencias:['rcS','bS'],recursos:['rcR','bR'],resumen:['rcRes','bRes']};
+  var ri=ids[tipo][0],bi=ids[tipo][1];
+  var s=data.slice().sort(function(a,b){var va=a[SC]||0,vb=b[SC]||0;return typeof va==='string'?va<vb?SD:-SD:(va-vb)*SD;});
+  document.getElementById(ri).textContent=s.length+' registros';
+  if(!s.length){document.getElementById(bi).innerHTML='<tr><td colspan="9"><div class="nd">Sin datos</div></td></tr>';return;}
+  var rows;
+  if(tipo==='tramite'){rows=s.map(function(r){var t=r.tasa_resolucion_pct||0,tc=t>=70?'bsg':t>=50?'bso':'bsr';return'<tr><td style="font-weight:500">'+e(r.organismo)+'</td><td style="font-size:11px;color:var(--muted)">'+e(r.jurisdiccion)+'</td><td><span class="bs bsb">'+e(r.periodo)+'</span></td><td style="font-family:var(--fm)">'+fm(r.en_tramite_inicio)+'</td><td style="font-family:var(--fm);color:var(--accent)"><strong>'+fm(r.ingresos)+'</strong></td><td style="font-family:var(--fm);color:var(--green)">'+fm(r.resueltos)+'</td><td><span class="bs '+tc+'">'+t+'%</span></td><td style="font-family:var(--fm)">'+fm(r.en_tramite_cierre)+'</td><td style="font-family:var(--fm);color:var(--muted)">'+(r.permanencia_breve||r.permanencia_extensa||'—')+'</td></tr>';});}
+  else if(tipo==='sentencias'){rows=s.map(function(r){return'<tr><td style="font-weight:500">'+e(r.organismo)+'</td><td style="font-size:11px;color:var(--muted)">'+e(r.jurisdiccion)+'</td><td><span class="bs bsb">'+e(r.periodo)+'</span></td><td style="font-family:var(--fm)">'+fm(r.pendientes_inicio)+'</td><td style="font-family:var(--fm)">'+fm(r.agregadas)+'</td><td style="font-family:var(--fm);color:var(--green)"><strong>'+fm(r.dictadas_definitivas)+'</strong></td><td style="font-family:var(--fm);color:var(--purple)">'+fm(r.dictadas_interlocutorias)+'</td><td style="font-family:var(--fm);color:var(--orange)">'+fm(r.pendientes_cierre)+'</td></tr>';});}
+  else if(tipo==='recursos'){rows=s.map(function(r){return'<tr><td style="font-weight:500">'+e(r.organismo)+'</td><td style="font-size:11px;color:var(--muted)">'+e(r.jurisdiccion)+'</td><td><span class="bs bsb">'+e(r.periodo)+'</span></td><td style="font-family:var(--fm);color:var(--accent)"><strong>'+fm(r.recursos_apelacion)+'</strong></td><td style="font-family:var(--fm)">'+fm(r.otros_recursos)+'</td></tr>';});}
+  else{rows=s.map(function(r){return'<tr><td style="font-weight:500">'+e(r.organismo)+'</td><td style="font-size:11px;color:var(--muted)">'+e(r.jurisdiccion)+'</td><td><span class="bs bsb">'+e(r.periodo)+'</span></td><td style="font-family:var(--fm)">'+fm(r.en_tramite_inicio)+'</td><td style="font-family:var(--fm);color:var(--accent)"><strong>'+fm(r.entrados)+'</strong></td><td style="font-family:var(--fm)">'+fm(r.salidos)+'</td><td style="font-family:var(--fm);color:var(--orange)">'+fm(r.en_tramite_cierre)+'</td></tr>';});}
+  document.getElementById(bi).innerHTML=rows.join('');
+}
+
+function intl(){
+  var mx=Math.max.apply(null,ID.map(function(d){return d.v||0;}));
+  document.getElementById('intlD').innerHTML=ID.map(function(d){var p=d.v?Math.round(d.v/mx*100):0;var c=d.hl?'irow ihl':'irow';return'<div class="'+c+'"><div class="ifl">'+d.f+'</div><div class="ico">'+d.p+'</div><div class="ibw"><div class="ibt"><div class="ibf" style="width:'+p+'%;background:'+(d.hl?'var(--accent)':d.c)+'"></div></div></div><div class="iva">'+(d.hl?'N/D':d.v+' días')+'</div></div>';}).join('');
+  document.getElementById('intlW').innerHTML=IW.map(function(d){var p=Math.round(d.v*100);var c=d.hl?'irow ihl':'irow';return'<div class="'+c+'"><div class="ifl">'+d.f+'</div><div class="ico">'+d.p+'</div><div class="ibw"><div class="ibt"><div class="ibf" style="width:'+p+'%;background:'+(d.hl?'var(--accent)':d.c)+'"></div></div></div><div class="iva">'+d.v.toFixed(2)+'</div></div>';}).join('');
+}
+
+function sm(a,k){return a.reduce(function(t,r){return t+(r[k]||0);},0);}
+function fm(n){return(n||0).toLocaleString('es-AR');}
+function uniq(a,k){return[...new Set(a.map(function(r){return r[k];}).filter(Boolean))];}
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
