@@ -1,0 +1,51 @@
+name: Scraper Magistrados — Semanal
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Lunes 03:00 ART = 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install requests pandas
+
+      - name: Correr scraper
+        run: python scraper_magistrados.py
+
+      - name: Verificar output
+        run: |
+          python - << 'PYEOF'
+          import json, os
+          for f in ['data/magistrados.json', 'data/meta_justicia.json', 'data/vacantes.json']:
+              if os.path.exists(f):
+                  d = json.load(open(f))
+                  n = len(d) if isinstance(d, list) else d.get('total_magistrados', '?')
+                  print(f'{f}: {n} registros')
+              else:
+                  print(f'{f}: NO GENERADO')
+          PYEOF
+
+      - name: Commit y push JSONs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f data/magistrados.json data/designaciones.json data/renuncias.json data/vacantes.json data/meta_justicia.json
+          git diff --staged --quiet || git commit -m "chore: magistrados actualizados [$(date -u '+%Y-%m-%d')]"
+          git push
