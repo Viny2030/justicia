@@ -95,26 +95,35 @@ COLUMNAS_ESPERADAS = {
     "camara": "camara",
     "organo_tipo": "organo_tipo",
     "organo_nombre": "organo_nombre",
+    "organo_provincia": "provincia",
     "cargo_tipo": "cargo_tipo",
     "cargo_cobertura": "cargo_cobertura",
-    "magistrado_apellido": "apellido",
-    "magistrado_nombre": "nombre",
+    "magistrado_nombre": "nombre_completo",   # CSV trae nombre completo junto
     "magistrado_genero": "genero",
+    "magistrado_dni": "dni",
     "cargo_vacante": "vacante",
     "cargo_licencia": "licencia",
+    "cargo_fecha_jura": "fecha_jura",
     "concurso_en_tramite": "concurso_en_tramite",
+    "concurso_numero": "concurso_numero",
+    "concurso_ambito": "concurso_ambito",
     "presidente_camara": "presidente_camara",
-    "decreto_designacion": "decreto_designacion",
-    "fecha_designacion": "fecha_designacion",
-    "decreto_aceptacion_renuncia": "decreto_renuncia",
-    "fecha_aceptacion_renuncia": "fecha_renuncia",
-    "ministro_designacion": "ministro_designacion",
-    "presidente_designacion": "presidente_designacion",
+    "norma_tipo": "norma_tipo",
+    "norma_numero": "norma_numero",
+    "norma_fecha": "norma_fecha",
+    "norma_presidente": "presidente_designacion",
+    "norma_ministro": "ministro_designacion",
+    "titular_con_licencia": "titular_con_licencia",
+    "subrogante_calidad": "subrogante_calidad",
+    "subrogancia_fecha_vencimiento": "subrogancia_fecha_vencimiento",
 }
 
 
 def normalizar(df: pd.DataFrame) -> pd.DataFrame:
     """Renombra columnas al esquema interno y limpia datos."""
+    # Limpiar BOM del nombre de la primera columna (el CSV viene con UTF-8 BOM)
+    df.columns = [c.lstrip("\ufeff").strip().strip('"') for c in df.columns]
+
     # Renombrar solo las columnas que existen en el df
     rename_map = {k: v for k, v in COLUMNAS_ESPERADAS.items() if k in df.columns}
     df = df.rename(columns=rename_map)
@@ -124,12 +133,27 @@ def normalizar(df: pd.DataFrame) -> pd.DataFrame:
     for col in str_cols:
         df[col] = df[col].fillna("").astype(str).str.strip()
 
-    # Booleanos canónicos
+    # Booleanos canónicos (Sí/No)
     for col in ["vacante", "licencia", "concurso_en_tramite", "presidente_camara"]:
         if col in df.columns:
-            df[col] = df[col].str.upper().isin(["SÍ", "SI", "S", "YES", "TRUE", "1"])
+            df[col] = df[col].str.upper().str.normalize("NFKD").str.encode("ascii", errors="ignore").str.decode("ascii").isin(["SI", "S", "YES", "TRUE", "1"])
+
+    # Separar apellido y nombre desde nombre_completo (formato "APELLIDO, Nombre" o "APELLIDO Nombre")
+    if "nombre_completo" in df.columns:
+        def split_nombre(s):
+            s = str(s).strip()
+            if "," in s:
+                parts = s.split(",", 1)
+                return parts[0].strip(), parts[1].strip()
+            # Sin coma: asumir todo mayúsculas = apellido hasta primer minúscula
+            parts = s.split(" ", 1)
+            return parts[0].strip(), parts[1].strip() if len(parts) > 1 else ""
+        df[["apellido", "nombre"]] = df["nombre_completo"].apply(
+            lambda x: pd.Series(split_nombre(x))
+        )
 
     log.info(f"DataFrame normalizado: {len(df)} magistrados")
+    log.info(f"Columnas disponibles: {list(df.columns)}")
     return df
 
 
@@ -143,29 +167,34 @@ def guardar_json(data, nombre: str):
 
 
 def generar_magistrados(df: pd.DataFrame) -> list:
-    """JSON principal: todos los magistrados activos."""
-    activos = df[~df.get("vacante", pd.Series([False]*len(df)))]
+    """JSON principal: todos los magistrados (activos y vacantes)."""
     registros = []
-    for _, row in activos.iterrows():
+    for _, row in df.iterrows():
         apellido = row.get("apellido", "")
-        nombre = row.get("nombre", "")
+        nombre   = row.get("nombre", "")
+        nro      = str(row.get("norma_numero", "")).strip()
+        tipo_n   = str(row.get("norma_tipo", "")).strip()
+        decreto  = f"{tipo_n} {nro}".strip() if nro and nro != "nan" else ""
         registro = {
-            "id": f"{apellido}_{nombre}".upper().replace(" ", "_"),
+            "id": f"{apellido}_{nombre}".upper().replace(" ", "_").replace(",",""),
             "apellido": apellido,
             "nombre": nombre,
-            "nombre_completo": f"{apellido}, {nombre}".strip(", "),
+            "nombre_completo": row.get("nombre_completo", f"{apellido}, {nombre}".strip(", ")),
             "genero": row.get("genero", ""),
             "tipo_justicia": row.get("tipo_justicia", ""),
             "camara": row.get("camara", ""),
             "organo_tipo": row.get("organo_tipo", ""),
             "organo_nombre": row.get("organo_nombre", ""),
+            "provincia": row.get("provincia", ""),
             "cargo_tipo": row.get("cargo_tipo", ""),
             "cargo_cobertura": row.get("cargo_cobertura", ""),
             "en_licencia": bool(row.get("licencia", False)),
+            "vacante": bool(row.get("vacante", False)),
             "concurso_en_tramite": bool(row.get("concurso_en_tramite", False)),
+            "concurso_numero": row.get("concurso_numero", ""),
             "presidente_camara": bool(row.get("presidente_camara", False)),
-            "decreto_designacion": row.get("decreto_designacion", ""),
-            "fecha_designacion": row.get("fecha_designacion", ""),
+            "decreto_designacion": decreto,
+            "fecha_jura": row.get("fecha_jura", ""),
             "presidente_designacion": row.get("presidente_designacion", ""),
             "ministro_designacion": row.get("ministro_designacion", ""),
         }
@@ -186,51 +215,51 @@ def generar_vacantes(df: pd.DataFrame) -> list:
             "camara": row.get("camara", ""),
             "tipo_justicia": row.get("tipo_justicia", ""),
             "cargo_tipo": row.get("cargo_tipo", ""),
+            "provincia": row.get("provincia", ""),
             "concurso_en_tramite": bool(row.get("concurso_en_tramite", False)),
-            "ultimo_titular": f"{row.get('apellido', '')} {row.get('nombre', '')}".strip(),
-            "fecha_designacion_anterior": row.get("fecha_designacion", ""),
+            "concurso_numero": row.get("concurso_numero", ""),
+            "concurso_ambito": row.get("concurso_ambito", ""),
+            "ultimo_titular": row.get("nombre_completo", ""),
+            "fecha_jura_anterior": row.get("fecha_jura", ""),
         })
     return registros
 
 
 def generar_renuncias(df: pd.DataFrame) -> list:
-    """JSON de magistrados con renuncia aceptada (tienen decreto de renuncia)."""
-    if "decreto_renuncia" not in df.columns:
-        return []
-    renuncias = df[df["decreto_renuncia"].str.len() > 0]
-    registros = []
-    for _, row in renuncias.iterrows():
-        registros.append({
-            "apellido": row.get("apellido", ""),
-            "nombre": row.get("nombre", ""),
-            "organo_nombre": row.get("organo_nombre", ""),
-            "cargo_tipo": row.get("cargo_tipo", ""),
-            "decreto_renuncia": row.get("decreto_renuncia", ""),
-            "fecha_renuncia": row.get("fecha_renuncia", ""),
-            "decreto_designacion_anterior": row.get("decreto_designacion", ""),
-            "fecha_designacion_anterior": row.get("fecha_designacion", ""),
-        })
-    return registros
+    """JSON de renuncias.
+    El CSV 2024 no tiene columna de renuncias — ese dato viene de un dataset separado.
+    Ver: datos.jus.gob.ar/dataset/renuncias-de-magistrados
+    Retorna lista vacía para que el workflow no falle; se puede extender con el dataset de renuncias.
+    """
+    # TODO: agregar descarga de dataset de renuncias separado
+    # URL: https://datos.jus.gob.ar/dataset/renuncias-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional
+    log.info("Renuncias: el CSV de magistrados 2024 no incluye esta columna — retornando []")
+    log.info("  Para datos de renuncias ver: datos.jus.gob.ar/dataset/renuncias-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional")
+    return []
 
 
 def generar_designaciones(df: pd.DataFrame) -> list:
-    """JSON de todas las designaciones con decreto (para cruce con JGM)."""
-    if "decreto_designacion" not in df.columns:
-        return []
-    designados = df[df["decreto_designacion"].str.len() > 0]
+    """JSON de designaciones con norma (para cruce de apellidos con JGM)."""
+    # Usar magistrados con norma_numero cargado
+    designados = df[df.get("norma_numero", pd.Series([""]* len(df))).astype(str).str.strip().str.len() > 0]
     registros = []
     for _, row in designados.iterrows():
-        apellido = row.get("apellido", "")
+        apellido   = row.get("apellido", "")
         nombre_mag = row.get("nombre", "")
+        nro  = str(row.get("norma_numero", "")).strip()
+        tipo = str(row.get("norma_tipo", "")).strip()
+        decreto = f"{tipo} {nro}".strip() if nro and nro != "nan" else ""
         registros.append({
             "apellido": apellido,
             "nombre": nombre_mag,
             "apellido_normalizado": apellido.upper().strip(),
+            "nombre_completo": row.get("nombre_completo", ""),
             "organo_nombre": row.get("organo_nombre", ""),
             "cargo_tipo": row.get("cargo_tipo", ""),
             "tipo_justicia": row.get("tipo_justicia", ""),
-            "decreto_designacion": row.get("decreto_designacion", ""),
-            "fecha_designacion": row.get("fecha_designacion", ""),
+            "provincia": row.get("provincia", ""),
+            "decreto_designacion": decreto,
+            "fecha_jura": row.get("fecha_jura", ""),
             "presidente_designacion": row.get("presidente_designacion", ""),
             "ministro_designacion": row.get("ministro_designacion", ""),
         })
@@ -246,7 +275,12 @@ def generar_meta(df: pd.DataFrame, magistrados: list, vacantes: list, renuncias:
 
     genero_breakdown = {}
     if "genero" in df.columns:
-        genero_breakdown = df[df.get("vacante", pd.Series([False]*len(df))) == False]["genero"].value_counts().to_dict()
+        activos = df[~df["vacante"]] if "vacante" in df.columns else df
+        genero_breakdown = activos["genero"].value_counts().to_dict()
+
+    provincia_breakdown = {}
+    if "provincia" in df.columns:
+        provincia_breakdown = df["provincia"].value_counts().head(10).to_dict()
 
     return {
         "ultima_actualizacion": datetime.now().isoformat(),
@@ -255,13 +289,14 @@ def generar_meta(df: pd.DataFrame, magistrados: list, vacantes: list, renuncias:
         "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
         "totales": {
             "filas_csv": total,
-            "magistrados_activos": len(magistrados),
+            "magistrados_activos": len([m for m in magistrados if not m.get("vacante")]),
             "vacantes": len(vacantes),
             "renuncias": len(renuncias),
             "indice_vacancia_pct": round(len(vacantes) / total * 100, 1) if total > 0 else 0,
         },
         "cobertura_breakdown": cobertura_breakdown,
         "genero_breakdown": genero_breakdown,
+        "provincia_breakdown": provincia_breakdown,
         "columnas_csv": list(df.columns),
         "generado_por": "scraper_magistrados.py - Monitor Justicia AR",
     }
