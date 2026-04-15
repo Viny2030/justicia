@@ -1,3 +1,7 @@
+Mostrar
+en
+carpeta
+
 """
 scraper_pjn_completo.py
 ─────────────────────────────────────────────────────────────────────
@@ -383,8 +387,8 @@ def main():
                         help="año de inicio (default: 2024, incluye hasta hoy)")
     parser.add_argument("--max", type=int, default=None,
                         help="máximo de archivos a procesar (test)")
-    parser.add_argument("--pdf", action="store_true",
-                        help="incluir PDFs (requiere pdfplumber)")
+    parser.add_argument("--no-pdf", action="store_true",
+                        help="excluir PDFs (por defecto se procesan)")
     args = parser.parse_args()
 
     año_actual = datetime.now().year
@@ -403,9 +407,12 @@ def main():
     # ── 1. discovery ──
     links = descubrir_links_portal(desde_año=args.desde)
 
-    if not args.pdf:
+    if args.no_pdf:
         links = [l for l in links if not l["es_pdf"]]
         log.info(f"PDFs excluidos — {len(links)} archivos a procesar")
+    else:
+        pdfs = sum(1 for l in links if l["es_pdf"])
+        log.info(f"{len(links)} archivos a procesar ({pdfs} PDFs)")
 
     if args.max:
         links = links[:args.max]
