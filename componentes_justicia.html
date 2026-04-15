@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Usuario · Monitor Judicial AR</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --danger: #dc2626;
+    --warn: #d97706;
+    --ok: #059669;
+    --header-bg: #1e3a5f;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px;
+         background: var(--bg); color: var(--text); line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--header-bg);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .h-brand { display: flex; align-items: center; gap: 14px; }
+  .h-logo {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .h-title { color: #fff; font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
+  .h-sub { color: #bfdbfe; font-size: 11px; margin-top: 2px; }
+  .don-btn {
+    background: var(--ok); color: #fff; border: none;
+    border-radius: 99px; padding: 7px 18px; font-size: 13px;
+    font-weight: 700; cursor: pointer; transition: background .15s;
+  }
+  .don-btn:hover { background: #047857; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 32px; display: flex; gap: 2px; overflow-x: auto;
+  }
+  nav a {
+    padding: 11px 14px; color: var(--muted); font-size: 13px;
+    font-weight: 600; border-bottom: 2px solid transparent;
+    white-space: nowrap; transition: color .12s;
+  }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    max-width: 1100px; margin: 28px auto; padding: 0 20px;
+    display: grid; grid-template-columns: 240px 1fr; gap: 24px;
+  }
+  @media (max-width: 768px) {
+    .wrapper { grid-template-columns: 1fr; }
+    aside { display: none; }
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    position: sticky; top: 20px; height: fit-content;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px #0001;
+  }
+  .toc-title { font-size: 11px; font-weight: 700; text-transform: uppercase;
+               letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
+  .toc-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px; border-radius: 8px; color: var(--muted);
+    font-size: 13px; font-weight: 500; transition: background .12s;
+    border-left: 2px solid transparent;
+  }
+  .toc-item:hover { background: var(--accent-light); color: var(--text); }
+  .toc-item.active { background: var(--accent-light); color: var(--accent);
+                     border-left-color: var(--accent); font-weight: 700; }
+
+  /* ── SECTION CARD ── */
+  .sec {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px #0001;
+  }
+  .sec-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 15px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sec-titulo { font-size: 16px; font-weight: 800; color: var(--text); }
+
+  /* ── STEPS ── */
+  .pasos { display: flex; flex-direction: column; gap: 12px; }
+  .paso {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: #f8fafc; border-radius: 8px; padding: 14px 16px;
+  }
+  .paso-n {
+    min-width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-size: 12px;
+    font-weight: 800; display: flex; align-items: center; justify-content: center;
+  }
+  .paso-txt { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .paso-txt strong { font-weight: 700; }
+
+  /* ── TABLES ── */
+  .tbl-wrap { overflow-x: auto; margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f1f5f9; color: var(--muted); font-size: 11px;
+       text-transform: uppercase; letter-spacing: .06em;
+       padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 700;
+  }
+  .badge-red { background: #fee2e2; color: var(--danger); }
+  .badge-orange { background: #fef3c7; color: var(--warn); }
+  .badge-green { background: #d1fae5; color: var(--ok); }
+  .badge-blue { background: var(--accent-light); color: var(--accent); }
+
+  /* ── TIP BOX ── */
+  .tip {
+    background: var(--accent-light); border: 1px solid #bfdbfe;
+    border-radius: 8px; padding: 12px 16px; margin-top: 14px;
+    font-size: 13px; color: #1d4ed8; display: flex; gap: 10px;
+    align-items: flex-start;
+  }
+  .tip .ico { flex-shrink: 0; font-size: 16px; }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: #0f172a; color: #e2e8f0; padding: 16px 18px;
+    border-radius: 8px; font-size: 12px; overflow-x: auto;
+    font-family: 'Courier New', monospace; margin-top: 12px; line-height: 1.7;
+  }
+
+  /* ── QUOTE ── */
+  .frase {
+    border-left: 4px solid var(--accent); padding: 16px 20px;
+    background: var(--accent-light); border-radius: 0 10px 10px 0;
+    margin: 20px 0; font-size: 14px; font-style: italic;
+    color: #1e3a5f; font-weight: 500; line-height: 1.7;
+  }
+
+  /* ── AUTOR ── */
+  .autor-card { /* reutiliza .sec */ }
+  .autor-perfil { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+  .autor-foto {
+    width: 100px; height: 100px; border-radius: 50%;
+    object-fit: cover; border: 3px solid #bfdbfe; flex-shrink: 0;
+  }
+  .autor-info { flex: 1; min-width: 220px; }
+  .autor-nombre { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .autor-titulo { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+  .autor-bio { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+  .autor-bio em { color: var(--text); font-style: italic; }
+  .autor-contacto { display: flex; gap: 8px; flex-wrap: wrap; }
+  .autor-mail {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent); color: #fff; border-radius: 6px;
+    padding: 6px 14px; font-size: 12px; font-weight: 600;
+    text-decoration: none; transition: background .15s;
+  }
+  .autor-mail:hover { background: #1d4ed8; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; font-size: 11px; color: var(--muted);
+    padding: 20px 16px; border-top: 1px solid var(--border);
+    margin-top: 10px;
+  }
+
+  /* ── DONATION MODAL ── */
+  .don-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.45); z-index: 9999;
+    align-items: center; justify-content: center;
+  }
+  .don-overlay.open { display: flex; }
+  .don-modal {
+    background: var(--surface); border-radius: 16px; padding: 28px 32px;
+    max-width: 440px; width: 94%; box-shadow: 0 20px 50px #0003;
+    position: relative;
+  }
+  .don-close {
+    position: absolute; top: 14px; right: 18px; background: none;
+    border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+  }
+  .don-close:hover { color: var(--text); }
+  .don-modal h2 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .don-modal .sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .don-opciones { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .don-op {
+    flex: 1; min-width: 100px; text-align: center;
+    padding: 10px 8px; border: 2px solid var(--border);
+    border-radius: 10px; cursor: pointer; font-weight: 700;
+    font-size: 13px; transition: border-color .12s, background .12s;
+  }
+  .don-op:hover, .don-op.sel { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .don-datos { font-size: 13px; }
+  .don-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .don-row:last-child { border-bottom: none; }
+  .don-label { color: var(--muted); font-weight: 600; font-size: 12px; }
+  .don-val { font-weight: 700; color: var(--text); cursor: pointer; }
+  .don-val:hover { color: var(--accent); }
+  .don-copy-tip { font-size: 11px; color: var(--muted); margin-top: 10px; text-align: center; }
+  .don-footer-note {
+    margin-top: 16px; font-size: 12px; color: var(--muted);
+    background: #f8fafc; border-radius: 8px; padding: 10px 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header>
+  <div class="h-brand">
+    <div class="h-logo">⚖️</div>
+    <div>
+      <div class="h-title">Manual de Usuario · Monitor Judicial AR</div>
+      <div class="h-sub">Consejo de la Magistratura · estadisticas.pjn.gov.ar · datos.jus.gob.ar</div>
+    </div>
+  </div>
+  <button class="don-btn" onclick="abrirDonacion()">💚 Apoyar</button>
+</header>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <a href="eficiencia_judicial.html">📊 Eficiencia Judicial</a>
+  <a href="magistrados.html">👤 Magistrados</a>
+  <a href="manual_usuario.html" class="active">📖 Manual</a>
+  <a href="https://github.com/Viny2030/justicia" target="_blank">🐙 GitHub</a>
+</nav>
+
+<!-- ══════════════════ BODY ══════════════════ -->
+<div class="wrapper">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="toc-title">Contenido</div>
+    <a class="toc-item active" href="#intro">🏛️ Introducción</a>
+    <a class="toc-item" href="#portales">📂 Portales disponibles</a>
+    <a class="toc-item" href="#eficiencia">📊 Eficiencia Judicial</a>
+    <a class="toc-item" href="#magistrados">👤 Monitor Magistrados</a>
+    <a class="toc-item" href="#kpis">🔢 KPIs y métricas</a>
+    <a class="toc-item" href="#filtros">🔍 Filtros y búsqueda</a>
+    <a class="toc-item" href="#datos">🗄️ Fuentes de datos</a>
+    <a class="toc-item" href="#actualizacion">🔄 Actualización automática</a>
+    <a class="toc-item" href="#exportar">📥 Exportar datos</a>
+    <a class="toc-item" href="#tecnico">⚙️ Información técnica</a>
+    <a class="toc-item" href="#autor">👤 Sobre el autor</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- FRASE -->
+    <div class="frase">
+      "Las administraciones públicas están obligadas a publicar sus contratos menores.
+      A lo que no están obligadas es a hacerlo fácil.
+      <strong>Tu dinero, tu derecho a saber.</strong>"
+    </div>
+
+    <!-- 1 · INTRODUCCIÓN -->
+    <div class="sec" id="intro">
+      <div class="sec-header">
+        <div class="sec-num">🏛️</div>
+        <div class="sec-titulo">Introducción</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:14px;">
+        El <strong>Monitor Judicial AR</strong> es una plataforma de código abierto para el
+        seguimiento de la eficiencia y la transparencia del Poder Judicial de la Nación Argentina.
+        No tiene publicidad, no recopila datos de usuarios y funciona directamente desde el navegador
+        sin necesidad de instalación ni servidor.
+      </p>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">✦</div>
+          <div class="paso-txt"><strong>Sin servidor:</strong> todos los archivos son HTML + JSON estáticos,
+          alojados en GitHub Pages y ejecutables localmente.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">✦</div>
+          <div class="paso-txt"><strong>Datos en tiempo real:</strong> los JSONs se actualizan
+          automáticamente cada día mediante GitHub Actions que scraplean las fuentes oficiales.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">✦</div>
+          <div class="paso-txt"><strong>Open source:</strong> todo el código fuente está disponible en
+          <a href="https://github.com/Viny2030/justicia" target="_blank">github.com/Viny2030/justicia</a>
+          bajo licencia MIT.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="ico">💡</span>
+        <span>Este portal no está afiliado al Gobierno Argentino ni al Consejo de la Magistratura.
+        Es un proyecto independiente de transparencia cívica.</span>
+      </div>
+    </div>
+
+    <!-- 2 · PORTALES DISPONIBLES -->
+    <div class="sec" id="portales">
+      <div class="sec-header">
+        <div class="sec-num">📂</div>
+        <div class="sec-titulo">Portales disponibles</div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr>
+            <th>Portal</th>
+            <th>Archivo</th>
+            <th>Fuente</th>
+            <th>Registros</th>
+          </tr>
+          <tr>
+            <td>📊 Eficiencia Judicial</td>
+            <td><code>eficiencia_judicial.html</code></td>
+            <td>estadisticas.pjn.gov.ar</td>
+            <td><span class="badge badge-blue">275 causas</span></td>
+          </tr>
+          <tr>
+            <td>👤 Monitor Magistrados</td>
+            <td><code>magistrados.html</code></td>
+            <td>datos.jus.gob.ar</td>
+            <td><span class="badge badge-blue">1.103 magistrados</span></td>
+          </tr>
+          <tr>
+            <td>📖 Manual de Usuario</td>
+            <td><code>manual_usuario.html</code></td>
+            <td>—</td>
+            <td>Este documento</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3 · EFICIENCIA JUDICIAL -->
+    <div class="sec" id="eficiencia">
+      <div class="sec-header">
+        <div class="sec-num">📊</div>
+        <div class="sec-titulo">Portal de Eficiencia Judicial</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+        Visualiza las estadísticas de causas del Poder Judicial de la Nación por jurisdicción,
+        fuero y tipo de tramitación. Los datos provienen del sistema oficial
+        <strong>estadisticas.pjn.gov.ar</strong>.
+      </p>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">1</div>
+          <div class="paso-txt"><strong>KPIs superiores:</strong> resumen ejecutivo con totales de
+          causas iniciadas, resueltas, tasa de resolución y demora promedio.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">2</div>
+          <div class="paso-txt"><strong>Pestañas temáticas:</strong> navegá por Trámite, Sentencias,
+          Recursos, Resumen y Comparativa internacional.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">3</div>
+          <div class="paso-txt"><strong>Tabla de tribunales:</strong> cada fila representa un tribunal
+          con sus métricas clave. Hacé clic en un encabezado de columna para ordenar.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">4</div>
+          <div class="paso-txt"><strong>Exportar CSV:</strong> botón en el encabezado para descargar
+          todos los datos en formato CSV compatible con Excel.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="ico">📍</span>
+        <span>La versión actual contiene datos de <strong>Comodoro Rivadavia 2024</strong>.
+        Próximamente se agregarán las 22 jurisdicciones disponibles del PJN.</span>
+      </div>
+    </div>
+
+    <!-- 4 · MAGISTRADOS -->
+    <div class="sec" id="magistrados">
+      <div class="sec-header">
+        <div class="sec-num">👤</div>
+        <div class="sec-titulo">Monitor de Magistrados</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+        Seguimiento de los 1.103 magistrados del PJN: designaciones, vacantes,
+        renuncias aceptadas y paridad de género. Datos obtenidos de
+        <strong>datos.jus.gob.ar</strong> y el Consejo de la Magistratura.
+      </p>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">1</div>
+          <div class="paso-txt"><strong>Panel KPI:</strong> 6 indicadores clave en la parte superior:
+          magistrados activos, vacantes totales, vacantes sin concurso, renuncias aceptadas,
+          paridad de género y magistrados con licencia.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">2</div>
+          <div class="paso-txt"><strong>Pestaña Magistrados:</strong> tabla completa con nombre, cargo,
+          fuero, jurisdicción, tipo (federal/nacional) y estado (titular/subrogante).
+          Filtros por texto en tiempo real.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">3</div>
+          <div class="paso-txt"><strong>Pestaña Vacantes:</strong> listado de cargos sin cubrir,
+          indicando si hay concurso activo o no.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">4</div>
+          <div class="paso-txt"><strong>Pestaña Renuncias:</strong> magistrados que presentaron
+          renuncia aceptada por el Poder Ejecutivo.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">5</div>
+          <div class="paso-txt"><strong>Pestaña Cruces JGM:</strong> cruce de datos con el Monitor
+          de Jefatura de Gabinete para detectar inconsistencias entre fuentes oficiales.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 · KPIs -->
+    <div class="sec" id="kpis">
+      <div class="sec-header">
+        <div class="sec-num">🔢</div>
+        <div class="sec-titulo">KPIs y métricas explicadas</div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>KPI</th><th>Descripción</th><th>Portal</th></tr>
+          <tr>
+            <td><strong>Causas iniciadas</strong></td>
+            <td>Total de causas nuevas registradas en el período</td>
+            <td><span class="badge badge-blue">Eficiencia</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tasa de resolución</strong></td>
+            <td>% de causas resueltas sobre causas totales en el período</td>
+            <td><span class="badge badge-blue">Eficiencia</span></td>
+          </tr>
+          <tr>
+            <td><strong>Demora promedio</strong></td>
+            <td>Días promedio entre inicio y resolución de una causa</td>
+            <td><span class="badge badge-blue">Eficiencia</span></td>
+          </tr>
+          <tr>
+            <td><strong>Magistrados activos</strong></td>
+            <td>Jueces, fiscales y defensores con designación vigente</td>
+            <td><span class="badge badge-green">Magistrados</span></td>
+          </tr>
+          <tr>
+            <td><strong>Vacantes sin concurso</strong></td>
+            <td>Cargos sin cubrir y sin proceso de selección iniciado</td>
+            <td><span class="badge badge-red">Magistrados</span></td>
+          </tr>
+          <tr>
+            <td><strong>Paridad de género</strong></td>
+            <td>% de mujeres sobre el total de magistrados designados</td>
+            <td><span class="badge badge-green">Magistrados</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6 · FILTROS -->
+    <div class="sec" id="filtros">
+      <div class="sec-header">
+        <div class="sec-num">🔍</div>
+        <div class="sec-titulo">Filtros y búsqueda</div>
+      </div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">1</div>
+          <div class="paso-txt"><strong>Búsqueda en tiempo real:</strong> escribí en cualquier campo
+          de búsqueda para filtrar la tabla instantáneamente. No hay que presionar Enter.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">2</div>
+          <div class="paso-txt"><strong>Ordenar columnas:</strong> hacé clic en el encabezado de
+          cualquier columna para ordenar ascendente; segundo clic para descendente.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">3</div>
+          <div class="paso-txt"><strong>Paginación:</strong> las tablas muestran 50 filas por defecto.
+          Usá los botones de navegación al pie de cada tabla.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">4</div>
+          <div class="paso-txt"><strong>Filtros combinados:</strong> podés usar varios campos de
+          búsqueda simultáneamente para cruzar jurisdicción + fuero + estado.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 · FUENTES DE DATOS -->
+    <div class="sec" id="datos">
+      <div class="sec-header">
+        <div class="sec-num">🗄️</div>
+        <div class="sec-titulo">Fuentes de datos</div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Fuente</th><th>URL</th><th>Datos</th><th>Actualización</th></tr>
+          <tr>
+            <td>PJN Estadísticas</td>
+            <td><a href="https://estadisticas.pjn.gov.ar" target="_blank">estadisticas.pjn.gov.ar</a></td>
+            <td>Causas judiciales</td>
+            <td>Anual</td>
+          </tr>
+          <tr>
+            <td>datos.jus.gob.ar</td>
+            <td><a href="https://datos.jus.gob.ar" target="_blank">datos.jus.gob.ar</a></td>
+            <td>Magistrados, vacantes, renuncias</td>
+            <td>Diaria</td>
+          </tr>
+          <tr>
+            <td>Consejo de la Magistratura</td>
+            <td><a href="https://www.pjn.gov.ar/magistratura" target="_blank">pjn.gov.ar/magistratura</a></td>
+            <td>Designaciones y concursos</td>
+            <td>Diaria</td>
+          </tr>
+          <tr>
+            <td>WJP Rule of Law Index</td>
+            <td><a href="https://worldjusticeproject.org" target="_blank">worldjusticeproject.org</a></td>
+            <td>Comparativa internacional</td>
+            <td>Anual</td>
+          </tr>
+          <tr>
+            <td>Banco Mundial</td>
+            <td><a href="https://data.worldbank.org" target="_blank">data.worldbank.org</a></td>
+            <td>Indicadores de gobernanza</td>
+            <td>Anual</td>
+          </tr>
+        </table>
+      </div>
+      <div class="tip">
+        <span class="ico">⚠️</span>
+        <span>Todos los datos son públicos y de acceso libre. Este portal no modifica ni interpreta
+        los datos originales; sólo los visualiza en un formato más accesible.</span>
+      </div>
+    </div>
+
+    <!-- 8 · ACTUALIZACIÓN AUTOMÁTICA -->
+    <div class="sec" id="actualizacion">
+      <div class="sec-header">
+        <div class="sec-num">🔄</div>
+        <div class="sec-titulo">Actualización automática</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+        Los datos se actualizan diariamente mediante <strong>GitHub Actions</strong>.
+        El pipeline ejecuta los scrapers Python y hace commit automático de los JSONs actualizados.
+      </p>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">1</div>
+          <div class="paso-txt"><code>scraper_magistrados.py</code> — genera 5 JSONs:
+          magistrados.json, designaciones.json, vacantes.json, renuncias.json y meta_justicia.json</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">2</div>
+          <div class="paso-txt"><code>scraper_estadisticas.py</code> — actualiza
+          estadisticas_causas.json con los datos más recientes del PJN</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">3</div>
+          <div class="paso-txt">GitHub Actions ejecuta ambos scrapers a las <strong>03:00 UTC</strong>
+          de lunes a viernes y hace <code>git commit + push</code> automático</div>
+        </div>
+      </div>
+      <pre>
+# .github/workflows/update_data.yml (esquema)
+on:
+  schedule:
+    - cron: '0 3 * * 1-5'   # lunes a viernes 03:00 UTC
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - run: python scraper_magistrados.py
+      - run: python scraper_estadisticas.py
+      - run: git add *.json && git commit -m "data: update $(date)"</pre>
+    </div>
+
+    <!-- 9 · EXPORTAR -->
+    <div class="sec" id="exportar">
+      <div class="sec-header">
+        <div class="sec-num">📥</div>
+        <div class="sec-titulo">Exportar datos</div>
+      </div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n">1</div>
+          <div class="paso-txt">Hacé clic en el botón <strong>⬇ Exportar CSV</strong>
+          que aparece en el encabezado de cada portal.</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">2</div>
+          <div class="paso-txt">Se descarga un archivo <code>.csv</code> con todos los datos
+          de la tabla actual (incluyendo los filtros aplicados).</div>
+        </div>
+        <div class="paso">
+          <div class="paso-n">3</div>
+          <div class="paso-txt">El archivo es compatible con Excel, Google Sheets y cualquier
+          herramienta de análisis de datos.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="ico">💡</span>
+        <span>Los JSONs fuente también están disponibles en el repositorio GitHub y se pueden
+        descargar directamente para uso programático.</span>
+      </div>
+    </div>
+
+    <!-- 10 · TÉCNICO -->
+    <div class="sec" id="tecnico">
+      <div class="sec-header">
+        <div class="sec-num">⚙️</div>
+        <div class="sec-titulo">Información técnica</div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Componente</th><th>Tecnología</th><th>Notas</th></tr>
+          <tr>
+            <td>Frontend</td>
+            <td>HTML5 + CSS3 + JavaScript vanilla</td>
+            <td>Sin dependencias externas, funciona offline</td>
+          </tr>
+          <tr>
+            <td>Datos</td>
+            <td>JSON embebido</td>
+            <td>No requiere servidor ni base de datos</td>
+          </tr>
+          <tr>
+            <td>Scrapers</td>
+            <td>Python 3 (requests, BeautifulSoup)</td>
+            <td>Ejecutados vía GitHub Actions</td>
+          </tr>
+          <tr>
+            <td>CI/CD</td>
+            <td>GitHub Actions</td>
+            <td>Actualización diaria automática</td>
+          </tr>
+          <tr>
+            <td>Hosting</td>
+            <td>GitHub Pages</td>
+            <td>HTTPS, CDN global, gratuito</td>
+          </tr>
+          <tr>
+            <td>Licencia</td>
+            <td>MIT</td>
+            <td>Libre uso, modificación y distribución</td>
+          </tr>
+        </table>
+      </div>
+      <div class="tip">
+        <span class="ico">🐙</span>
+        <span>Repositorio:
+        <a href="https://github.com/Viny2030/justicia" target="_blank">
+        github.com/Viny2030/justicia</a> — Pull requests y reportes de errores son bienvenidos.</span>
+      </div>
+    </div>
+
+    <!-- 11 · AUTOR -->
+    <div class="sec autor-card" id="autor">
+      <div class="sec-header" style="margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="sec-num" style="background:#eff6ff">👤</div>
+        <div class="sec-titulo">Sobre el Autor</div>
+      </div>
+      <div class="autor-perfil">
+        <img class="autor-foto"
+             src="foto.jpg"
+             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23bfdbfe%22 width=%22100%22 height=%22100%22 rx=%2250%22/><text x=%2250%22 y=%2265%22 font-size=%2240%22 text-anchor=%22middle%22>👤</text></svg>'"
+             alt="Ph.D. Vicente Humberto Monteverde"/>
+        <div class="autor-info">
+          <div class="autor-nombre">Ph.D. Vicente Humberto Monteverde</div>
+          <div class="autor-titulo">PhD in Economics · Docente-Investigador UMSA · Transparencia Pública</div>
+          <p class="autor-bio">
+            Doctor en Ciencias Económicas. Docente e investigador en la
+            <em>Universidad del Museo Social Argentino (UMSA)</em>, especializado en
+            economía política, fenómenos de corrupción y transparencia en el gasto público.
+          </p>
+          <p class="autor-bio">
+            Autor de la teoría de <em>Transferencia Regresiva de Ingresos</em> y desarrollador
+            de algoritmos XAI aplicados al análisis de contrataciones públicas y eficiencia judicial.
+            Publicaciones en <em>Journal of Financial Crime</em> (Emerald Publishing).
+          </p>
+          <div class="autor-contacto">
+            <a class="autor-mail" href="mailto:vhmonte@retina.ar">✉ vhmonte@retina.ar</a>
+            <a class="autor-mail" href="mailto:viny01958@gmail.com" style="background:#059669">✉ viny01958@gmail.com</a>
+            <a class="autor-mail" href="https://github.com/Viny2030" target="_blank" style="background:#1e293b">🐙 github.com/Viny2030</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  Fuentes: estadisticas.pjn.gov.ar · datos.jus.gob.ar · Consejo de la Magistratura ·
+  <a href="https://github.com/Viny2030/justicia" target="_blank">Código fuente</a> ·
+  Actualizado diariamente · No afiliado al Gobierno Argentino
+</footer>
+
+<!-- ══════════════════ DONATION MODAL ══════════════════ -->
+<div class="don-overlay" id="don-overlay" onclick="cerrarDonacion(event)">
+  <div class="don-modal">
+    <button class="don-close" onclick="cerrarDonacion()">×</button>
+    <h2>💚 Apoyar el Monitor Judicial</h2>
+    <p class="sub">Este portal es software libre y sin publicidad. Tu apoyo financia el
+    servidor, el tiempo de desarrollo y la investigación independiente en transparencia judicial.</p>
+    <div class="don-opciones">
+      <div class="don-op" id="op-pesos" onclick="mostrarDatos('p')">🇦🇷 Pesos</div>
+      <div class="don-op" id="op-dolar" onclick="mostrarDatos('u')">💵 Dólares</div>
+      <div class="don-op" id="op-exter" onclick="mostrarDatos('e')">🌍 Exterior</div>
+    </div>
+    <div class="don-datos" id="don-datos"></div>
+    <div class="don-footer-note">
+      💙 Cada contribución permite seguir publicando datos que el Estado publica
+      pero no hace fáciles de encontrar.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── TOC active on scroll ──
+  const sections = document.querySelectorAll('.sec[id]');
+  const tocLinks = document.querySelectorAll('.toc-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // ── Smooth scroll ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // ── Donation modal ──
+  const DATOS = {
+    p: [
+      { label: 'Titular',   val: 'Vicente Humberto Monteverde' },
+      { label: 'Banco',     val: 'Banco Nación Argentina' },
+      { label: 'Tipo',      val: 'Caja de Ahorro Pesos' },
+      { label: 'CBU',       val: '0140005203400552652310' },
+      { label: 'Alias',     val: 'ALGORIT.MONTE.PESOS' },
+      { label: 'CUIL/CUIT', val: '20-12034411-1' }
+    ],
+    u: [
+      { label: 'Titular',   val: 'Vicente Humberto Monteverde' },
+      { label: 'Banco',     val: 'Banco Nación Argentina' },
+      { label: 'Tipo',      val: 'Caja de Ahorro Dólares' },
+      { label: 'CBU',       val: '0140005204400550329709' },
+      { label: 'Alias',     val: 'ALGO.MONTE.DOLARES' },
+      { label: 'CUIL/CUIT', val: '20-12034411-1' }
+    ],
+    e: [
+      { label: 'Banco',        val: 'Banco Santander Montevideo' },
+      { label: 'Beneficiario', val: 'Vicente Humberto Monteverde' },
+      { label: 'Dirección',    val: 'Av. Directorio 3024-pb-dto 04' },
+      { label: 'CUIT',         val: '20-12034411-1' },
+      { label: 'Tipo',         val: 'Caja de Ahorro en Dólares' },
+      { label: 'Cuenta',       val: '005200183500' },
+      { label: 'SWIFT',        val: 'BSCHUYMM' }
+    ]
+  };
+
+  window.abrirDonacion = function() {
+    document.getElementById('don-overlay').classList.add('open');
+    document.getElementById('don-datos').innerHTML = '';
+    document.querySelectorAll('.don-op').forEach(o => o.classList.remove('sel'));
+  };
+
+  window.cerrarDonacion = function(e) {
+    if (!e || e.target === document.getElementById('don-overlay'))
+      document.getElementById('don-overlay').classList.remove('open');
+  };
+
+  window.mostrarDatos = function(tipo) {
+    document.querySelectorAll('.don-op').forEach(o => o.classList.remove('sel'));
+    document.getElementById({ p:'op-pesos', u:'op-dolar', e:'op-exter' }[tipo]).classList.add('sel');
+    const rows = DATOS[tipo].map(r =>
+      `<div class="don-row">
+         <span class="don-label">${r.label}</span>
+         <span class="don-val" title="Clic para copiar" onclick="copiar('${r.val}',this)">${r.val}</span>
+       </div>`
+    ).join('');
+    document.getElementById('don-datos').innerHTML =
+      rows + '<p class="don-copy-tip">Clic en cualquier valor para copiar</p>';
+  };
+
+  window.copiar = function(txt, el) {
+    navigator.clipboard.writeText(txt).then(() => {
+      const orig = el.textContent;
+      el.textContent = '✅ Copiado';
+      setTimeout(() => el.textContent = orig, 1500);
+    });
+  };
+</script>
+</body>
+</html>
