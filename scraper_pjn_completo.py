@@ -52,9 +52,9 @@ INDEX_URLS = [
     "https://old.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/index.php",
 ]
 
-OUT_DIR  = Path("pjn_estadisticas")
-DELAY    = 1.5
-TIMEOUT  = 45
+OUT_DIR = Path("pjn_estadisticas")
+DELAY = 1.5
+TIMEOUT = 45
 
 # Las 22 jurisdicciones conocidas del PJN
 JURISDICCIONES = [
@@ -91,7 +91,7 @@ JURISDICCIONES = [
 ]
 
 FORMATOS_DESCARGABLES = {".csv", ".xlsx", ".xls", ".zip"}
-FORMATOS_PDF          = {".pdf"}
+FORMATOS_PDF = {".pdf"}
 
 logging.basicConfig(
     level=logging.INFO,
@@ -103,7 +103,7 @@ log = logging.getLogger(__name__)
 session = requests.Session()
 session.headers.update({
     "User-Agent": "MonitorJudicialAR/2.0 (github.com/Viny2030/justicia)",
-    "Accept":     "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 })
 
 
@@ -122,15 +122,15 @@ def get_html(url: str) -> BeautifulSoup | None:
 def extraer_links(soup: BeautifulSoup, base: str) -> list[dict]:
     """Extrae todos los links a archivos descargables del HTML."""
     links = []
-    seen  = set()
+    seen = set()
 
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
         if not href or href.startswith("#") or href.startswith("mailto:"):
             continue
 
-        url  = urljoin(base, href)
-        ext  = Path(urlparse(url).path).suffix.lower()
+        url = urljoin(base, href)
+        ext = Path(urlparse(url).path).suffix.lower()
         text = a.get_text(strip=True)
 
         if ext not in FORMATOS_DESCARGABLES | FORMATOS_PDF:
@@ -140,10 +140,10 @@ def extraer_links(soup: BeautifulSoup, base: str) -> list[dict]:
         seen.add(url)
 
         links.append({
-            "url":       url,
+            "url": url,
             "extension": ext,
-            "texto":     text,
-            "es_pdf":    ext in FORMATOS_PDF,
+            "texto": text,
+            "es_pdf": ext in FORMATOS_PDF,
         })
 
     return links
@@ -166,7 +166,7 @@ def detectar_jurisdiccion_año(url: str, texto: str) -> tuple[str, str]:
     partes = urlparse(url).path.split("/")
     for p in reversed(partes):
         p = p.replace("_", " ").replace("-", " ").strip()
-        if len(p) > 4 and not p.lower().endswith((".csv",".xlsx",".pdf")):
+        if len(p) > 4 and not p.lower().endswith((".csv", ".xlsx", ".pdf")):
             return p.title(), año
 
     return "Sin clasificar", año
@@ -178,7 +178,7 @@ def parsear_csv(contenido_bytes: bytes) -> pd.DataFrame | None:
             texto = contenido_bytes.decode(enc)
             df = pd.read_csv(
                 StringIO(texto),
-                sep=None,           # detecta ; o ,
+                sep=None,  # detecta ; o ,
                 engine="python",
                 dtype=str,
                 na_values=["", "NULL", "N/A", "S/D"],
@@ -293,11 +293,11 @@ def descargar_y_parsear(link: dict) -> pd.DataFrame | None:
 def limpiar_df(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = (
         df.columns.astype(str)
-                  .str.strip()
-                  .str.lower()
-                  .str.replace(r"\s+", "_", regex=True)
-                  .str.replace(r"[^\w]", "_", regex=True)
-                  .str.strip("_")
+        .str.strip()
+        .str.lower()
+        .str.replace(r"\s+", "_", regex=True)
+        .str.replace(r"[^\w]", "_", regex=True)
+        .str.strip("_")
     )
     df = df.fillna("").copy()
     # quitar filas completamente vacías
@@ -307,7 +307,7 @@ def limpiar_df(df: pd.DataFrame) -> pd.DataFrame:
 
 def guardar(df: pd.DataFrame, stem: str):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    csv_p  = OUT_DIR / f"{stem}.csv"
+    csv_p = OUT_DIR / f"{stem}.csv"
     json_p = OUT_DIR / f"{stem}.json"
     df.to_csv(csv_p, index=False, encoding="utf-8-sig")
     with open(json_p, "w", encoding="utf-8") as f:
@@ -354,13 +354,13 @@ def descubrir_links_portal(desde_año: int = 2024) -> list[dict]:
         # agregar sub-páginas HTML a la cola
         for a in soup.find_all("a", href=True):
             href = a["href"]
-            sub  = urljoin(url_actual, href)
-            ext  = Path(urlparse(sub).suffix.lower() if sub else "")
+            sub = urljoin(url_actual, href)
+            ext = Path(urlparse(sub).path).suffix.lower() if sub else ""
             if (sub.startswith(BASE_URL) or
-                    sub.startswith("https://old.pjn.gov.ar")) and \
-               str(ext) not in FORMATOS_DESCARGABLES and \
-               sub not in urls_visitadas and \
-               len(cola) < 30:
+                sub.startswith("https://old.pjn.gov.ar")) and \
+                    str(ext) not in FORMATOS_DESCARGABLES and \
+                    sub not in urls_visitadas and \
+                    len(cola) < 30:
                 cola.append(sub)
 
     # deduplicar
@@ -381,9 +381,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--desde", type=int, default=2024,
                         help="año de inicio (default: 2024, incluye hasta hoy)")
-    parser.add_argument("--max",  type=int, default=None,
+    parser.add_argument("--max", type=int, default=None,
                         help="máximo de archivos a procesar (test)")
-    parser.add_argument("--pdf",  action="store_true",
+    parser.add_argument("--pdf", action="store_true",
                         help="incluir PDFs (requiere pdfplumber)")
     args = parser.parse_args()
 
@@ -391,12 +391,12 @@ def main():
     log.info(f"Período: {args.desde} → {año_actual}")
 
     stats = {
-        "inicio":       datetime.now(timezone.utc).isoformat(),
-        "desde_año":    args.desde,
-        "hasta_año":    año_actual,
-        "ok":           0,
-        "fallidos":     0,
-        "filas_total":  0,
+        "inicio": datetime.now(timezone.utc).isoformat(),
+        "desde_año": args.desde,
+        "hasta_año": año_actual,
+        "ok": 0,
+        "fallidos": 0,
+        "filas_total": 0,
         "por_jurisdiccion": {},
     }
 
@@ -417,7 +417,7 @@ def main():
 
     # ── 2. descargar y parsear ──
     todos_records = []
-    indice        = []
+    indice = []
 
     for i, lnk in enumerate(links, 1):
         log.info(f"\n[{i}/{len(links)}]")
@@ -431,27 +431,27 @@ def main():
 
         df = limpiar_df(df)
         df["_jurisdiccion"] = jur
-        df["_año"]          = año
-        df["_fuente_url"]   = lnk["url"]
-        df["_descarga"]     = datetime.now(timezone.utc).date().isoformat()
+        df["_año"] = año
+        df["_fuente_url"] = lnk["url"]
+        df["_descarga"] = datetime.now(timezone.utc).date().isoformat()
 
         stem = re.sub(r"[^\w]", "_",
                       f"pjn_{jur[:30]}_{año}_{i}").lower().strip("_")
         csv_p, json_p = guardar(df, stem)
 
-        stats["ok"]          += 1
+        stats["ok"] += 1
         stats["filas_total"] += len(df)
         stats["por_jurisdiccion"].setdefault(jur, 0)
         stats["por_jurisdiccion"][jur] += len(df)
 
         indice.append({
             "jurisdiccion": jur,
-            "año":          año,
-            "filas":        len(df),
-            "columnas":     list(df.columns),
-            "url_fuente":   lnk["url"],
-            "csv":          csv_p,
-            "json":         json_p,
+            "año": año,
+            "filas": len(df),
+            "columnas": list(df.columns),
+            "url_fuente": lnk["url"],
+            "csv": csv_p,
+            "json": json_p,
         })
 
         todos_records.extend(df.to_dict(orient="records"))
@@ -462,7 +462,7 @@ def main():
 
     if todos_records:
         df_master = pd.DataFrame(todos_records)
-        master_csv  = "pjn_estadisticas_completo.csv"
+        master_csv = "pjn_estadisticas_completo.csv"
         master_json = "pjn_estadisticas_completo.json"
 
         df_master.to_csv(master_csv, index=False, encoding="utf-8-sig")
@@ -477,7 +477,7 @@ def main():
     with open(OUT_DIR / "pjn_indice.json", "w", encoding="utf-8") as f:
         json.dump(indice, f, ensure_ascii=False, indent=2)
 
-    stats["fin"]            = datetime.now(timezone.utc).isoformat()
+    stats["fin"] = datetime.now(timezone.utc).isoformat()
     stats["archivos_en_indice"] = len(indice)
 
     with open("pjn_meta.json", "w", encoding="utf-8") as f:
