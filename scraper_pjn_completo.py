@@ -20,9 +20,10 @@ Genera:
   pjn_meta.json
 
 Uso:
-  python scraper_pjn_completo.py
-  python scraper_pjn_completo.py --año 2024
-  python scraper_pjn_completo.py --año 2024 --max 50
+  python scraper_pjn_completo.py                  # 2024 a hoy (default)
+  python scraper_pjn_completo.py --desde 2024     # explícito
+  python scraper_pjn_completo.py --desde 2023     # desde 2023
+  python scraper_pjn_completo.py --desde 2024 --max 50  # test
 """
 
 import os
@@ -316,10 +317,11 @@ def guardar(df: pd.DataFrame, stem: str):
 
 # ── DISCOVERY ─────────────────────────────────────────────────────────────────
 
-def descubrir_links_portal(año_filtro: str | None) -> list[dict]:
-    """Recorre el portal y recolecta todos los links descargables."""
+def descubrir_links_portal(desde_año: int = 2024) -> list[dict]:
+    """Recorre el portal y recolecta todos los links descargables desde desde_año."""
     todos_links = []
     urls_visitadas = set()
+    año_actual = datetime.now().year
 
     # Páginas a visitar (índice + sub-páginas)
     cola = list(INDEX_URLS)
@@ -338,12 +340,15 @@ def descubrir_links_portal(año_filtro: str | None) -> list[dict]:
         links = extraer_links(soup, url_actual)
         log.info(f"   {len(links)} archivos encontrados")
 
-        # filtrar por año si se especificó
+        # filtrar: solo años >= desde_año y <= año_actual
         for lnk in links:
-            if año_filtro:
-                jur, año = detectar_jurisdiccion_año(lnk["url"], lnk["texto"])
-                if año != año_filtro and año != "desconocido":
-                    continue
+            jur, año = detectar_jurisdiccion_año(lnk["url"], lnk["texto"])
+            if año != "desconocido":
+                try:
+                    if not (desde_año <= int(año) <= año_actual):
+                        continue
+                except ValueError:
+                    pass
             todos_links.append(lnk)
 
         # agregar sub-páginas HTML a la cola
@@ -374,17 +379,21 @@ def descubrir_links_portal(año_filtro: str | None) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--año",  default=None,
-                        help="filtrar por año (ej. 2024)")
+    parser.add_argument("--desde", type=int, default=2024,
+                        help="año de inicio (default: 2024, incluye hasta hoy)")
     parser.add_argument("--max",  type=int, default=None,
                         help="máximo de archivos a procesar (test)")
     parser.add_argument("--pdf",  action="store_true",
                         help="incluir PDFs (requiere pdfplumber)")
     args = parser.parse_args()
 
+    año_actual = datetime.now().year
+    log.info(f"Período: {args.desde} → {año_actual}")
+
     stats = {
         "inicio":       datetime.now(timezone.utc).isoformat(),
-        "año_filtro":   args.año,
+        "desde_año":    args.desde,
+        "hasta_año":    año_actual,
         "ok":           0,
         "fallidos":     0,
         "filas_total":  0,
@@ -392,7 +401,7 @@ def main():
     }
 
     # ── 1. discovery ──
-    links = descubrir_links_portal(args.año)
+    links = descubrir_links_portal(desde_año=args.desde)
 
     if not args.pdf:
         links = [l for l in links if not l["es_pdf"]]

@@ -1,0 +1,10 @@
+{
+  "inicio": "2026-04-15T13:42:05.525132+00:00",
+  "datasets_ok": 8,
+  "datasets_fallidos": 2,
+  "recursos_ok": 19,
+  "recursos_fallidos": 0,
+  "filas_total": 91923,
+  "fin": "2026-04-15T13:42:58.909916+00:00",
+  "datasets_en_indice": 8
+}
