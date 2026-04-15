@@ -1,32 +1,20 @@
-# .github/workflows/update_data_completo.yml
-# ─────────────────────────────────────────────────────────────────────────────
-# Actualización diaria completa del sistema judicial nacional.
-# Corre los 4 scrapers en secuencia y hace commit+push de los resultados.
-#
-# Scrapers que corren:
-#   1. scraper_magistrados.py      (existente) → magistrados.json etc.
-#   2. scraper_estadisticas.py     (existente) → estadisticas_causas.json
-#   3. scraper_datos_jus_completo.py (NUEVO)   → datos_jus/*.csv + *.json
-#   4. scraper_pjn_completo.py      (NUEVO)   → pjn_estadisticas/*.csv + maestro
-# ─────────────────────────────────────────────────────────────────────────────
-
-name: Actualización Datos Judiciales Completo
+name: Actualizacion Datos Judiciales
 
 on:
   schedule:
-    - cron: "0 3 * * 1-5"          # lunes–viernes 03:00 UTC (00:00 Argentina)
-  workflow_dispatch:                 # ejecución manual desde GitHub Actions UI
+    - cron: "0 3 * * 1-5"
+  workflow_dispatch:
     inputs:
       solo_pjn:
-        description: "Correr solo scraper_pjn_completo (true/false)"
+        description: "Solo scraper_pjn_completo (true/false)"
         required: false
         default: "false"
       solo_jus:
-        description: "Correr solo scraper_datos_jus_completo (true/false)"
+        description: "Solo scraper_datos_jus_completo (true/false)"
         required: false
         default: "false"
-      año_pjn:
-        description: "Filtrar PJN por año (ej: 2024, vacío = todos)"
+      year_pjn:
+        description: "Filtrar PJN por ano (ej: 2024)"
         required: false
         default: ""
 
@@ -36,114 +24,59 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      # ── checkout ──────────────────────────────────────────────────────────
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      # ── python ────────────────────────────────────────────────────────────
       - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      # ── dependencias ──────────────────────────────────────────────────────
       - name: Instalar dependencias
         run: |
           pip install --upgrade pip
-          pip install \
-            requests \
-            pandas \
-            openpyxl \
-            xlrd \
-            beautifulsoup4 \
-            lxml \
-            pdfplumber \
-            tqdm
+          pip install requests pandas openpyxl xlrd beautifulsoup4 lxml pdfplumber tqdm
 
-      # ── scraper 1: magistrados (existente) ────────────────────────────────
-      - name: "[1/4] scraper_magistrados.py"
+      - name: "1-4 scraper_magistrados.py"
         if: ${{ github.event.inputs.solo_pjn != 'true' && github.event.inputs.solo_jus != 'true' }}
-        run: |
-          echo "▶ Corriendo scraper_magistrados.py"
-          python scraper_magistrados.py || echo "⚠ scraper_magistrados.py finalizó con error (continuando)"
+        run: python scraper_magistrados.py || echo "scraper_magistrados error, continuando"
 
-      # ── scraper 2: estadísticas PJN manual (existente) ────────────────────
-      - name: "[2/4] scraper_estadisticas.py"
+      - name: "2-4 scraper_estadisticas.py"
         if: ${{ github.event.inputs.solo_pjn != 'true' && github.event.inputs.solo_jus != 'true' }}
-        run: |
-          echo "▶ Corriendo scraper_estadisticas.py"
-          python scraper_estadisticas.py || echo "⚠ scraper_estadisticas.py finalizó con error (continuando)"
+        run: python scraper_estadisticas.py || echo "scraper_estadisticas error, continuando"
 
-      # ── scraper 3: datos.jus.gob.ar CKAN completo ─────────────────────────
-      - name: "[3/4] scraper_datos_jus_completo.py"
+      - name: "3-4 scraper_datos_jus_completo.py"
         if: ${{ github.event.inputs.solo_pjn != 'true' }}
-        run: |
-          echo "▶ Corriendo scraper_datos_jus_completo.py"
-          python scraper_datos_jus_completo.py || echo "⚠ datos_jus finalizó con error (continuando)"
+        run: python scraper_datos_jus_completo.py || echo "datos_jus error, continuando"
 
-      # ── scraper 4: PJN estadísticas completo (22 jurisdicciones) ──────────
-      - name: "[4/4] scraper_pjn_completo.py"
+      - name: "4-4 scraper_pjn_completo.py"
         if: ${{ github.event.inputs.solo_jus != 'true' }}
         run: |
-          echo "▶ Corriendo scraper_pjn_completo.py"
-          AÑO="${{ github.event.inputs.año_pjn }}"
-          if [ -n "$AÑO" ]; then
-            python scraper_pjn_completo.py --año "$AÑO"
+          YEAR="${{ github.event.inputs.year_pjn }}"
+          if [ -n "$YEAR" ]; then
+            python scraper_pjn_completo.py --desde "$YEAR" || echo "pjn error, continuando"
           else
-            python scraper_pjn_completo.py
-          fi || echo "⚠ pjn_completo finalizó con error (continuando)"
-
-      # ── commit y push ──────────────────────────────────────────────────────
-      - name: Commit y push de datos actualizados
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # agregar todos los archivos de datos generados
-          git add \
-            *.json \
-            *.csv \
-            datos_jus/*.json \
-            datos_jus/*.csv \
-            pjn_estadisticas/*.json \
-            pjn_estadisticas/*.csv \
-            || true
-
-          # solo hace commit si hay cambios
-          if git diff --cached --quiet; then
-            echo "Sin cambios en los datos — no se hace commit."
-          else
-            FECHA=$(date -u "+%Y-%m-%d %H:%M UTC")
-            git commit -m "data: actualización automática $FECHA
-
-Scrapers ejecutados:
-- scraper_magistrados.py
-- scraper_estadisticas.py
-- scraper_datos_jus_completo.py
-- scraper_pjn_completo.py"
-
-            git push
-            echo "✅ Push exitoso"
+            python scraper_pjn_completo.py || echo "pjn error, continuando"
           fi
 
-      # ── resumen ───────────────────────────────────────────────────────────
-      - name: Mostrar resumen de archivos generados
+      - name: Commit y push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add *.json *.csv datos_jus/ pjn_estadisticas/ || true
+          if git diff --cached --quiet; then
+            echo "Sin cambios, no se hace commit."
+          else
+            git commit -m "data: actualizacion automatica $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "Push exitoso"
+          fi
+
+      - name: Resumen archivos generados
         if: always()
         run: |
-          echo "=== JSONs generados ==="
-          find . -maxdepth 3 -name "*.json" ! -path "./.git/*" \
-            | xargs ls -lh 2>/dev/null | sort -k5 -rh | head -30
-
-          echo ""
-          echo "=== CSVs generados ==="
-          find . -maxdepth 3 -name "*.csv" ! -path "./.git/*" \
-            | xargs ls -lh 2>/dev/null | sort -k5 -rh | head -30
-
-          echo ""
-          echo "=== Metas de corrida ==="
-          for f in pjn_meta.json datos_jus/datos_jus_meta.json meta_justicia.json; do
-            [ -f "$f" ] && echo "--- $f ---" && cat "$f" && echo ""
-          done
+          echo "=== JSONs ===" && find . -maxdepth 3 -name "*.json" ! -path "./.git/*" | head -20
+          echo "=== CSVs ===" && find . -maxdepth 3 -name "*.csv" ! -path "./.git/*" | head -20
