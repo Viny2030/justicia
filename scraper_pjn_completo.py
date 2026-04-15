@@ -65,17 +65,38 @@ def get_html(url):
 
 
 def parsear_csv(content_bytes):
+    ultimo_error = None
     for enc in ("utf-8-sig", "latin-1", "cp1252", "utf-8"):
         try:
             texto = content_bytes.decode(enc)
+        except Exception as e:
+            ultimo_error = e
+            continue
+        # intento 1: auto-detect separador (engine python, tolerante)
+        try:
             df = pd.read_csv(
                 StringIO(texto), sep=None, engine="python",
-                dtype=str, na_values=["", "NULL", "N/A", "S/D"], low_memory=False
+                dtype=str, na_values=["", "NULL", "N/A", "S/D"],
+                low_memory=False, on_bad_lines="skip"
             )
             if not df.empty:
                 return df
-        except Exception:
-            continue
+        except Exception as e:
+            ultimo_error = e
+        # intento 2: separadores explícitos con on_bad_lines
+        for sep in (",", ";", "\t", "|"):
+            for engine in ("c", "python"):
+                try:
+                    df = pd.read_csv(
+                        StringIO(texto), sep=sep, engine=engine,
+                        dtype=str, na_values=["", "NULL", "N/A", "S/D"],
+                        low_memory=False, on_bad_lines="skip"
+                    )
+                    if not df.empty and len(df.columns) > 1:
+                        return df
+                except Exception as e:
+                    ultimo_error = e
+    log.warning(f"    parsear_csv falló: {ultimo_error}")
     return None
 
 
@@ -111,13 +132,15 @@ def descargar(url, ext):
             import zipfile
             frames = []
             with zipfile.ZipFile(tmp) as z:
+                log.info(f"    ZIP contiene: {z.namelist()}")
                 for name in z.namelist():
                     inner_ext = Path(name).suffix.lower()
                     content = z.read(name)
                     if inner_ext == ".csv":
                         df = parsear_csv(content)
                     elif inner_ext in (".xlsx", ".xls"):
-                        p2 = tmp.parent / f"_inner{inner_ext}"
+                        safe_name = re.sub(r"[^\w.]", "_", Path(name).name)
+                        p2 = tmp.parent / f"_inner_{safe_name}"
                         p2.write_bytes(content)
                         df = parsear_excel(p2)
                     else:
@@ -220,7 +243,8 @@ def buscar_datos_gob_ar():
             log.info(f"  datos.gob.ar: {len(resultados)} datasets en {url[-50:]}")
             for pkg in resultados:
                 org = (pkg.get("organization") or {}).get("name", "")
-                if "justicia" not in org.lower() and "judicial" not in pkg.get("title", "").lower():
+                if "justicia" not in org.lower() and "judicial" not in pkg.get("title", "").lower() \
+                        and "poder judicial" not in pkg.get("notes", "").lower():
                     continue
                 for rec in pkg.get("resources", []):
                     fmt = (rec.get("format") or "").lower()
@@ -247,6 +271,8 @@ def main():
     parser.add_argument("--max", type=int, default=None,
                         help="maximo archivos a procesar (test)")
     args = parser.parse_args()
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     año_actual = datetime.now().year
     log.info(f"Periodo: {args.desde} -> {año_actual}")

@@ -1,5 +1,10 @@
-echo "__pycache__/
+__pycache__/
 *.pyc
 venv/
+.venv/
 .env
-*.db" > .gitignore
+*.db
+pjn_estadisticas/
+pjn_estadisticas_completo.csv
+pjn_estadisticas_completo.json
+pjn_meta.json
