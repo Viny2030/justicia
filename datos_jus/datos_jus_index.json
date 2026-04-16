@@ -59,8 +59,8 @@
           "organo_provincia",
           "organo_provincia_id"
         ],
-        "csv": "datos_jus\\datos_jus_magistrados-justicia-federal-y-de-la-justicia-nacional_b12bdbb7.csv",
-        "json": "datos_jus\\datos_jus_magistrados-justicia-federal-y-de-la-justicia-nacional_b12bdbb7.json"
+        "csv": "datos_jus/datos_jus_magistrados-justicia-federal-y-de-la-justicia-nacional_b12bdbb7.csv",
+        "json": "datos_jus/datos_jus_magistrados-justicia-federal-y-de-la-justicia-nacional_b12bdbb7.json"
       }
     ]
   },
@@ -108,8 +108,8 @@
           "localidad_id",
           "localidad_nombre"
         ],
-        "csv": "datos_jus\\datos_jus_designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional_d4fd21f4.csv",
-        "json": "datos_jus\\datos_jus_designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional_d4fd21f4.json"
+        "csv": "datos_jus/datos_jus_designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional_d4fd21f4.csv",
+        "json": "datos_jus/datos_jus_designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional_d4fd21f4.json"
       }
     ]
   },
@@ -157,8 +157,8 @@
           "localidad_id",
           "localidad_nombre"
         ],
-        "csv": "datos_jus\\datos_jus_renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional_e0e6483e.csv",
-        "json": "datos_jus\\datos_jus_renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional_e0e6483e.json"
+        "csv": "datos_jus/datos_jus_renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional_e0e6483e.csv",
+        "json": "datos_jus/datos_jus_renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional_e0e6483e.json"
       }
     ]
   },
@@ -207,8 +207,8 @@
           "link_txt_curriculum_magistrado",
           "link_html_curriculum_magistrado"
         ],
-        "csv": "datos_jus\\datos_jus_seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion_aa6bcb49.csv",
-        "json": "datos_jus\\datos_jus_seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion_aa6bcb49.json"
+        "csv": "datos_jus/datos_jus_seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion_aa6bcb49.csv",
+        "json": "datos_jus/datos_jus_seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion_aa6bcb49.json"
       }
     ]
   },
@@ -263,8 +263,8 @@
           "localidad_id_hacia",
           "localidad_nombre_hacia"
         ],
-        "csv": "datos_jus\\datos_jus_traslados-de-jueces-de-la-justicia-federal-y-de-la-justicia-nacional_ade07cd0.csv",
-        "json": "datos_jus\\datos_jus_traslados-de-jueces-de-la-justicia-federal-y-de-la-justicia-nacional_ade07cd0.json"
+        "csv": "datos_jus/datos_jus_traslados-de-jueces-de-la-justicia-federal-y-de-la-justicia-nacional_ade07cd0.csv",
+        "json": "datos_jus/datos_jus_traslados-de-jueces-de-la-justicia-federal-y-de-la-justicia-nacional_ade07cd0.json"
       }
     ]
   },
@@ -311,8 +311,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_de4e8278.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_de4e8278.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_de4e8278.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_de4e8278.json"
       },
       {
         "recurso_id": "c45e4fc8-56b4-4315-9634-11553a18c50c",
@@ -341,8 +341,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_c45e4fc8.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_c45e4fc8.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_c45e4fc8.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_c45e4fc8.json"
       },
       {
         "recurso_id": "f23a6693-125d-495a-9b83-b3bd595f62aa",
@@ -368,8 +368,8 @@
           "proceso_finalización_fecha",
           "proceso_resultado_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_f23a6693.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_f23a6693.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_f23a6693.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_f23a6693.json"
       },
       {
         "recurso_id": "3b92f297-c0b9-4341-b9c2-3d143f765cd7",
@@ -396,8 +396,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_3b92f297.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_3b92f297.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_3b92f297.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_3b92f297.json"
       },
       {
         "recurso_id": "57cac4b1-d00c-4218-bd8c-4be76b290e9d",
@@ -424,8 +424,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_57cac4b1.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_57cac4b1.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_57cac4b1.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_57cac4b1.json"
       },
       {
         "recurso_id": "6f1a61d4-5813-4b0e-821f-34f07f3c2cf4",
@@ -452,8 +452,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_6f1a61d4.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_6f1a61d4.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_6f1a61d4.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_6f1a61d4.json"
       },
       {
         "recurso_id": "8bc0421a-7935-4558-bb73-cacfb1f280dc",
@@ -480,8 +480,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_8bc0421a.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_8bc0421a.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_8bc0421a.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_8bc0421a.json"
       },
       {
         "recurso_id": "396af0ac-fd1b-4d87-bd90-91d579754051",
@@ -508,8 +508,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_396af0ac.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_396af0ac.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_396af0ac.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_396af0ac.json"
       },
       {
         "recurso_id": "19a9f2af-9151-4766-a557-6f6622be53b3",
@@ -535,8 +535,8 @@
           "proceso_finalización_fecha",
           "proceso_resultado_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_19a9f2af.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_19a9f2af.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_19a9f2af.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_19a9f2af.json"
       },
       {
         "recurso_id": "c63b3bfc-0819-425c-b135-1a22d5df687d",
@@ -563,8 +563,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_c63b3bfc.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_c63b3bfc.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_c63b3bfc.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_c63b3bfc.json"
       },
       {
         "recurso_id": "4fdf5af1-7caa-488e-a41a-b2c6417d71a0",
@@ -583,8 +583,8 @@
           "encuesta_respuesta",
           "cantidad"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_4fdf5af1.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_4fdf5af1.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_4fdf5af1.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_4fdf5af1.json"
       },
       {
         "recurso_id": "e8907c86-e189-419f-af8c-42125d4a121f",
@@ -611,8 +611,8 @@
           "proceso_resultado_descripcion",
           "clase_proceso_descripcion"
         ],
-        "csv": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_e8907c86.csv",
-        "json": "datos_jus\\datos_jus_oralidad-en-los-procesos-civiles_e8907c86.json"
+        "csv": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_e8907c86.csv",
+        "json": "datos_jus/datos_jus_oralidad-en-los-procesos-civiles_e8907c86.json"
       }
     ]
   },
@@ -660,8 +660,8 @@
           "link_html_curriculum_magistrado",
           "provincia_nacimiento_magistrado_id"
         ],
-        "csv": "datos_jus\\datos_jus_curriculums-vitae-de-magistrados-para-cubrir-vacantes-en-el-poder-judicial-y-el-ministerio-publico_d69f519e.csv",
-        "json": "datos_jus\\datos_jus_curriculums-vitae-de-magistrados-para-cubrir-vacantes-en-el-poder-judicial-y-el-ministerio-publico_d69f519e.json"
+        "csv": "datos_jus/datos_jus_curriculums-vitae-de-magistrados-para-cubrir-vacantes-en-el-poder-judicial-y-el-ministerio-publico_d69f519e.csv",
+        "json": "datos_jus/datos_jus_curriculums-vitae-de-magistrados-para-cubrir-vacantes-en-el-poder-judicial-y-el-ministerio-publico_d69f519e.json"
       }
     ]
   },
@@ -696,8 +696,8 @@
           "cantidad_varones",
           "cantidad_mujeres"
         ],
-        "csv": "datos_jus\\datos_jus_estadistica-de-designaciones-de-magistrados-de-la-justicia-federal-y-nacional-por-genero_84a9215b.csv",
-        "json": "datos_jus\\datos_jus_estadistica-de-designaciones-de-magistrados-de-la-justicia-federal-y-nacional-por-genero_84a9215b.json"
+        "csv": "datos_jus/datos_jus_estadistica-de-designaciones-de-magistrados-de-la-justicia-federal-y-nacional-por-genero_84a9215b.csv",
+        "json": "datos_jus/datos_jus_estadistica-de-designaciones-de-magistrados-de-la-justicia-federal-y-nacional-por-genero_84a9215b.json"
       }
     ]
   }
