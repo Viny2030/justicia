@@ -1,9 +1,15 @@
-
 """
 scraper_pjn_completo.py
 Descarga estadisticas de todos los juzgados del PJN desde 2024.
 Fuentes: estadisticas.pjn.gov.ar (CSV/Excel) + datos.gob.ar (PJN datasets)
 NO procesa PDFs.
+
+Características:
+  - Checkpoint: guarda progreso en pjn_checkpoint.json → si se interrumpe,
+    retoma desde el último archivo procesado (usar --resume para activar).
+  - Failures log: pjn_failures.json con detalle de cada archivo fallido.
+  - CRC-32 corrupto: intenta extraer ZIPs con bad CRC usando allowZip64 +
+    fallback manual con zlib para recuperar lo que se pueda.
 """
 
 import re
@@ -14,7 +20,7 @@ import logging
 import argparse
 import requests
 import pandas as pd
-from io import StringIO
+from io import StringIO, BytesIO
 from pathlib import Path
 from datetime import datetime, timezone
 from urllib.parse import urljoin, urlparse
@@ -35,6 +41,8 @@ DATOS_GOB_AR_PJN = [
 ]
 
 OUT_DIR = Path("pjn_estadisticas")
+CHECKPOINT_FILE = Path("pjn_checkpoint.json")
+FAILURES_FILE = Path("pjn_failures.json")
 DELAY = 1.5
 TIMEOUT = 45
 FORMATOS = {".csv", ".xlsx", ".xls", ".zip"}
@@ -115,12 +123,36 @@ def parsear_excel(path_tmp):
         return None
 
 
+def _zip_leer_con_crc_malo(z, name):
+    """
+    Intenta leer una entrada ZIP ignorando errores de CRC-32.
+    Útil para archivos corruptos en el servidor (ej: mediaciones 2024).
+    Estrategia: parchea temporalmente el CRC esperado con el calculado.
+    """
+    import zipfile, zlib
+    info = z.getinfo(name)
+    with z.open(name) as fh:
+        raw = fh.read()
+    # verificar si realmente hay mismatch de CRC
+    crc_real = zlib.crc32(raw) & 0xFFFFFFFF
+    if crc_real != info.CRC:
+        log.warning(f"    CRC-32 mismatch en '{name}': "
+                    f"esperado={info.CRC:#010x} real={crc_real:#010x} — usando datos igualmente")
+    return raw
+
+
 def descargar(url, ext):
+    import zipfile
     try:
         r = session.get(url, timeout=60, stream=True)
         r.raise_for_status()
-        tmp = Path(f"C:/Temp/_pjn_tmp{ext}") if sys.platform == "win32" else Path(f"/tmp/_pjn_tmp{ext}")
-        tmp.parent.mkdir(parents=True, exist_ok=True)
+
+        # nombre de temp único por URL para evitar colisiones entre ZIPs
+        url_hash = abs(hash(url)) % 10 ** 8
+        base_tmp = Path("C:/Temp") if sys.platform == "win32" else Path("/tmp")
+        base_tmp.mkdir(parents=True, exist_ok=True)
+        tmp = base_tmp / f"_pjn_{url_hash}{ext}"
+
         with open(tmp, "wb") as f:
             for chunk in r.iter_content(16384):
                 f.write(chunk)
@@ -129,25 +161,43 @@ def descargar(url, ext):
         log.info(f"    {size_kb:.1f} KB")
 
         if ext == ".zip":
-            import zipfile
             frames = []
-            with zipfile.ZipFile(tmp) as z:
-                log.info(f"    ZIP contiene: {z.namelist()}")
-                for name in z.namelist():
+            try:
+                zf = zipfile.ZipFile(tmp)
+            except zipfile.BadZipFile as e:
+                log.error(f"    ZIP inválido (no recuperable): {e}")
+                return None
+
+            log.info(f"    ZIP contiene: {zf.namelist()}")
+            with zf:
+                for name in zf.namelist():
                     inner_ext = Path(name).suffix.lower()
-                    content = z.read(name)
+                    if inner_ext not in {".csv", ".xlsx", ".xls"}:
+                        continue
+
+                    # intentar leer — si falla por CRC, usar fallback
+                    try:
+                        content = zf.read(name)
+                    except zipfile.BadZipFile as e:
+                        log.warning(f"    Error leyendo '{name}': {e} — intentando recuperar con CRC bypass")
+                        try:
+                            content = _zip_leer_con_crc_malo(zf, name)
+                        except Exception as e2:
+                            log.error(f"    No recuperable '{name}': {e2}")
+                            continue
+
                     if inner_ext == ".csv":
                         df = parsear_csv(content)
-                    elif inner_ext in (".xlsx", ".xls"):
+                    else:
                         safe_name = re.sub(r"[^\w.]", "_", Path(name).name)
-                        p2 = tmp.parent / f"_inner_{safe_name}"
+                        p2 = base_tmp / f"_inner_{url_hash}_{safe_name}"
                         p2.write_bytes(content)
                         df = parsear_excel(p2)
-                    else:
-                        continue
+
                     if df is not None:
                         df["_archivo"] = name
                         frames.append(df)
+
             return pd.concat(frames, ignore_index=True) if frames else None
 
         elif ext == ".csv":
@@ -264,15 +314,56 @@ def buscar_datos_gob_ar():
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 
+# ── CHECKPOINT ────────────────────────────────────────────────────────────────
+
+def checkpoint_cargar():
+    """Carga el checkpoint existente o devuelve estado vacío."""
+    if CHECKPOINT_FILE.exists():
+        try:
+            with open(CHECKPOINT_FILE, encoding="utf-8") as f:
+                cp = json.load(f)
+            log.info(f"  Checkpoint cargado: {len(cp.get('procesados', {}))} URLs ya procesadas")
+            return cp
+        except Exception as e:
+            log.warning(f"  Checkpoint corrupto, ignorando: {e}")
+    return {"procesados": {}, "indice": [], "todos_records_count": 0}
+
+
+def checkpoint_guardar(cp):
+    """Persiste el checkpoint a disco."""
+    with open(CHECKPOINT_FILE, "w", encoding="utf-8") as f:
+        json.dump(cp, f, ensure_ascii=False, indent=2)
+
+
+def failures_guardar(failures):
+    """Guarda el log de fallos detallado."""
+    with open(FAILURES_FILE, "w", encoding="utf-8") as f:
+        json.dump(failures, f, ensure_ascii=False, indent=2)
+    if failures:
+        log.info(f"  Fallos detallados -> {FAILURES_FILE}")
+
+
+# ── MAIN ──────────────────────────────────────────────────────────────────────
+
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Descarga estadísticas del PJN desde datos.gob.ar y estadisticas.pjn.gov.ar"
+    )
     parser.add_argument("--desde", type=int, default=2024,
                         help="anno de inicio (default: 2024)")
     parser.add_argument("--max", type=int, default=None,
                         help="maximo archivos a procesar (test)")
+    parser.add_argument("--resume", action="store_true",
+                        help="retomar desde checkpoint anterior (omite URLs ya procesadas)")
+    parser.add_argument("--reset", action="store_true",
+                        help="borrar checkpoint y empezar desde cero")
     args = parser.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    if args.reset and CHECKPOINT_FILE.exists():
+        CHECKPOINT_FILE.unlink()
+        log.info("  Checkpoint borrado — empezando desde cero")
 
     año_actual = datetime.now().year
     log.info(f"Periodo: {args.desde} -> {año_actual}")
@@ -283,6 +374,7 @@ def main():
         "ok": 0, "fallidos": 0, "filas_total": 0,
         "por_jurisdiccion": {},
     }
+    failures = []
 
     # ── 1. recolectar todos los links ──
     log.info("\n=== Fuente 1: estadisticas.pjn.gov.ar ===")
@@ -299,7 +391,7 @@ def main():
             seen.add(item["url"])
             todos.append(item)
 
-    log.info(f"\nTotal archivos a descargar: {len(todos)}")
+    log.info(f"\nTotal archivos encontrados: {len(todos)}")
 
     if args.max:
         todos = todos[:args.max]
@@ -309,17 +401,40 @@ def main():
         log.error("Sin archivos encontrados. Revisar conectividad con el portal.")
         sys.exit(1)
 
-    # ── 2. descargar y parsear ──
-    todos_records = []
-    indice = []
+    # ── 2. checkpoint: filtrar los ya procesados ──
+    cp = checkpoint_cargar() if args.resume else {"procesados": {}, "indice": [], "todos_records_count": 0}
+    ya_procesados = set(cp["procesados"].keys())
+    pendientes = [item for item in todos if item["url"] not in ya_procesados]
+    saltados = len(todos) - len(pendientes)
 
-    for i, item in enumerate(todos, 1):
+    if saltados > 0:
+        log.info(f"  --resume: saltando {saltados} URLs ya procesadas, quedan {len(pendientes)}")
+        # restaurar stats desde checkpoint
+        for url, estado in cp["procesados"].items():
+            if estado["ok"]:
+                stats["ok"] += 1
+                stats["filas_total"] += estado.get("filas", 0)
+                jur = estado.get("jurisdiccion", "PJN")
+                stats["por_jurisdiccion"].setdefault(jur, 0)
+                stats["por_jurisdiccion"][jur] += estado.get("filas", 0)
+            else:
+                stats["fallidos"] += 1
+                if estado.get("motivo"):
+                    failures.append({"url": url, "motivo": estado["motivo"],
+                                     "numero": estado.get("numero")})
+    indice = cp.get("indice", [])
+
+    # ── 3. descargar y parsear ──
+    todos_records = []  # solo los nuevos de esta sesión
+    total_global = len(todos)
+
+    for i, item in enumerate(pendientes, saltados + 1):
         url = item["url"]
         ext = item["ext"]
         texto = item.get("texto") or item.get("nombre") or item.get("titulo") or ""
-        log.info(f"\n[{i}/{len(todos)}] {ext.upper()} {url[-60:]}")
+        log.info(f"\n[{i}/{total_global}] {ext.upper()} {url[-60:]}")
 
-        # detectar jurisdiccion y año desde la URL/texto
+        # detectar jurisdiccion y año
         combinado = (url + " " + texto).lower()
         m = re.search(r"(20[12]\d)", combinado)
         año = m.group(1) if m else str(args.desde)
@@ -332,10 +447,26 @@ def main():
                 break
 
         time.sleep(DELAY)
-        df = descargar(url, ext)
+
+        # capturar motivo de fallo si hay
+        try:
+            df = descargar(url, ext)
+            motivo = None
+        except Exception as e:
+            df = None
+            motivo = str(e)
 
         if df is None or df.empty:
+            motivo = motivo or "df vacío / no parseable"
             stats["fallidos"] += 1
+            log.warning(f"  FALLO [{i}]: {motivo}")
+            failures.append({"numero": i, "url": url, "ext": ext,
+                             "texto": texto, "motivo": motivo})
+            # guardar en checkpoint igualmente
+            cp["procesados"][url] = {"ok": False, "numero": i,
+                                     "motivo": motivo, "jurisdiccion": jur}
+            checkpoint_guardar(cp)
+            failures_guardar(failures)
             continue
 
         df = limpiar(df)
@@ -352,20 +483,32 @@ def main():
         stats["por_jurisdiccion"].setdefault(jur, 0)
         stats["por_jurisdiccion"][jur] += len(df)
 
-        indice.append({"jurisdiccion": jur, "anno": año, "filas": len(df), "url": url})
+        entrada_indice = {"numero": i, "jurisdiccion": jur, "anno": año,
+                          "filas": len(df), "url": url, "stem": stem}
+        indice.append(entrada_indice)
         todos_records.extend(df.to_dict(orient="records"))
         log.info(f"  OK: {jur} {año} -> {len(df):,} filas")
 
-    # ── 3. archivo maestro ──
+        # actualizar checkpoint después de cada OK
+        cp["procesados"][url] = {"ok": True, "numero": i, "filas": len(df),
+                                 "jurisdiccion": jur, "anno": año}
+        cp["indice"] = indice
+        checkpoint_guardar(cp)
+
+    # ── 4. archivo maestro (append si hay checkpoint) ──
+    maestro_csv = Path("pjn_estadisticas_completo.csv")
+    modo = "a" if (args.resume and maestro_csv.exists()) else "w"
     if todos_records:
         df_m = pd.DataFrame(todos_records)
-        df_m.to_csv("pjn_estadisticas_completo.csv", index=False, encoding="utf-8-sig")
-        with open("pjn_estadisticas_completo.json", "w", encoding="utf-8") as f:
-            json.dump(todos_records, f, ensure_ascii=False, indent=2)
-        log.info(f"\n-> pjn_estadisticas_completo.csv ({len(todos_records):,} filas totales)")
+        df_m.to_csv(maestro_csv, mode=modo,
+                    index=False, encoding="utf-8-sig",
+                    header=(modo == "w"))
+        log.info(f"\n-> {maestro_csv} ({len(todos_records):,} filas nuevas, modo={modo})")
 
     with open(OUT_DIR / "pjn_indice.json", "w", encoding="utf-8") as f:
         json.dump(indice, f, ensure_ascii=False, indent=2)
+
+    failures_guardar(failures)
 
     stats["fin"] = datetime.now(timezone.utc).isoformat()
     with open("pjn_meta.json", "w", encoding="utf-8") as f:
@@ -378,9 +521,16 @@ def main():
   Archivos fallidos: {stats['fallidos']}
   Filas totales    : {stats['filas_total']:,}
   Jurisdicciones   : {len(stats['por_jurisdiccion'])}
+  Fallos detalle   : {FAILURES_FILE}
+  Checkpoint       : {CHECKPOINT_FILE}
 ==================================""")
     for jur, n in sorted(stats["por_jurisdiccion"].items(), key=lambda x: -x[1]):
         log.info(f"  {n:>8,} filas  ->  {jur}")
+
+    if failures:
+        log.info(f"\n  Archivos fallidos ({len(failures)}):")
+        for f in failures:
+            log.info(f"    [{f.get('numero', '?')}] {f['url'][-60:]}  →  {f['motivo']}")
 
 
 if __name__ == "__main__":
