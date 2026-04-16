@@ -1,0 +1,2002 @@
+{
+  "procesados": {
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/aa6bcb49-e24f-489e-a650-788f5e2a3bb4/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-20260116.csv": {
+      "ok": true,
+      "numero": 1,
+      "filas": 4278,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/9a052999-8989-4c82-bba5-f84d07b9a045/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2026.zip": {
+      "ok": true,
+      "numero": 2,
+      "filas": 4278,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/c24f5499-65ca-4f5d-8d79-90e401233894/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2025.zip": {
+      "ok": true,
+      "numero": 3,
+      "filas": 16407,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/7838b6b2-7b3e-4bd2-8ce5-d7ff2a7f48fd/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2024.zip": {
+      "ok": true,
+      "numero": 4,
+      "filas": 30042,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/1659d203-c919-4712-ab4d-11640feaaee2/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2023.zip": {
+      "ok": true,
+      "numero": 5,
+      "filas": 45563,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/ecf1ea80-2fdf-487a-92b3-2295a7ba1608/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2022.zip": {
+      "ok": true,
+      "numero": 6,
+      "filas": 46948,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/2e5c2336-1e5d-4dab-a728-6fc434d1a42f/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2021.zip": {
+      "ok": true,
+      "numero": 7,
+      "filas": 25985,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/7b53b568-0e08-4c48-84a5-fe20930d6c7e/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2020.zip": {
+      "ok": true,
+      "numero": 8,
+      "filas": 3128,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/269924c5-4e69-45c4-bc99-94c341978c17/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2019.zip": {
+      "ok": true,
+      "numero": 9,
+      "filas": 52099,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/3b9ae6ed-ef65-4540-9b03-75702443024f/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2018.zip": {
+      "ok": true,
+      "numero": 10,
+      "filas": 64170,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/06f5d3d6-2dcb-44ad-b4cf-3dfbb7a557c3/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2017.zip": {
+      "ok": true,
+      "numero": 11,
+      "filas": 12919,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/d69f519e-9b34-4080-bfe1-775970beb077/download/cv-magistrados-poder-judicial-ministerio-publico-20260116.csv": {
+      "ok": true,
+      "numero": 12,
+      "filas": 4471,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/c01f8829-070e-4625-af34-9f05bd63b9de/download/cv-magistrados-poder-judicial-ministerio-publico-2026.zip": {
+      "ok": true,
+      "numero": 13,
+      "filas": 4471,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/f1bed229-542e-4040-8ed0-27407528f17b/download/cv-magistrados-poder-judicial-ministerio-publico-2025.zip": {
+      "ok": true,
+      "numero": 14,
+      "filas": 17183,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/ed0d12a7-1bb2-4385-ad42-6d727c57887b/download/cv-magistrados-poder-judicial-ministerio-publico-2024.zip": {
+      "ok": true,
+      "numero": 15,
+      "filas": 44069,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/545d69b2-7b5e-4db5-a169-3f6abf95e710/download/cv-magistrados-poder-judicial-ministerio-publico-2023.zip": {
+      "ok": true,
+      "numero": 16,
+      "filas": 48111,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/f55aa9f1-d726-49ee-9df1-48b89aff47c7/download/cv-magistrados-poder-judicial-ministerio-publico-2022.zip": {
+      "ok": true,
+      "numero": 17,
+      "filas": 53193,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/c3d88416-dcbb-4b6c-a76d-2abd8c41a40c/download/cv-magistrados-poder-judicial-ministerio-publico-2021.zip": {
+      "ok": true,
+      "numero": 18,
+      "filas": 27553,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/7d1fb400-9bce-4b89-868e-10e5a0dfeaa9/download/cv-magistrados-poder-judicial-ministerio-publico-2020.zip": {
+      "ok": true,
+      "numero": 19,
+      "filas": 3324,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/6f2ef5c2-f489-4897-9761-262505a6dda6/download/cv-magistrados-poder-judicial-ministerio-publico-2019.zip": {
+      "ok": true,
+      "numero": 20,
+      "filas": 55641,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/2715c7cf-dffb-4c8e-abbc-cf2d78fd0012/download/cv-magistrados-poder-judicial-ministerio-publico-2018.zip": {
+      "ok": true,
+      "numero": 21,
+      "filas": 69698,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/bcbf47dd-817f-46a6-a6d8-37eeef71e3ec/download/cv-magistrados-poder-judicial-ministerio-publico-2017.zip": {
+      "ok": true,
+      "numero": 22,
+      "filas": 18619,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/b12bdbb7-646f-4701-99b7-1109ce919dd5/download/magistrados-justicia-federal-nacional-20240412.csv": {
+      "ok": true,
+      "numero": 23,
+      "filas": 1643,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/9715396f-d8cb-4433-89a5-6b49c8de39ee/download/magistrados-justicia-federal-nacional-2021.zip": {
+      "ok": true,
+      "numero": 24,
+      "filas": 3196,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/35f650d5-bbee-4743-b7b0-74291db2c949/download/magistrados-justicia-federal-nacional-2019.zip": {
+      "ok": true,
+      "numero": 25,
+      "filas": 7984,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/065a572b-edae-49cd-8d6c-5e129c14b4f2/download/magistrados-justicia-federal-nacional-2018.zip": {
+      "ok": true,
+      "numero": 26,
+      "filas": 4652,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/66d994d1-d2b3-4bd6-82bf-ef491c4be07d/download/magistrados-justicia-federal-nacional-2017.zip": {
+      "ok": true,
+      "numero": 27,
+      "filas": 13961,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/6f12c193-8502-449b-a04f-458ca0eb770f/download/magistrados-justicia-federal-nacional-2024.zip": {
+      "ok": true,
+      "numero": 28,
+      "filas": 1643,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/ade07cd0-734d-43a7-a620-c39fcea1fed4/download/jueces-justicia-federal-nacional-traslados-20220323.csv": {
+      "ok": true,
+      "numero": 29,
+      "filas": 113,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/ce5fd093-e6c9-49c7-a354-982e86a5e1ee/download/jueces-justicia-federal-nacional-traslados-2022.zip": {
+      "ok": true,
+      "numero": 30,
+      "filas": 200,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/5c9700a7-d8b7-4fed-8978-6b0bf29f624c/download/jueces-justicia-federal-nacional-traslados-2021.zip": {
+      "ok": true,
+      "numero": 31,
+      "filas": 70,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/4dfaa301-ffab-4e21-982e-cfb4fe9b52c1/download/jueces-justicia-federal-nacional-traslados-2019.zip": {
+      "ok": true,
+      "numero": 32,
+      "filas": 93,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/e0e6483e-bc07-4c3e-a262-6095065f3e6e/download/magistrados-justicia-federal-nacional-renuncias-20260305.csv": {
+      "ok": true,
+      "numero": 33,
+      "filas": 1656,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/200f4a08-25ef-43cc-81e4-63e7839c09ff/download/magistrados-justicia-federal-nacional-renuncias-2026.zip": {
+      "ok": true,
+      "numero": 34,
+      "filas": 1656,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/938784f0-25f2-4f81-9ecd-ebee659b18b3/download/magistrados-justicia-federal-nacional-renuncias-2025.zip": {
+      "ok": true,
+      "numero": 35,
+      "filas": 9660,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/bc366cbf-d475-451d-bb0a-5802bbdd62e0/download/magistrados-justicia-federal-nacional-renuncias-2024.zip": {
+      "ok": true,
+      "numero": 36,
+      "filas": 28116,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/3a6fba39-1417-4f46-90d3-83dc3f871101/download/magistrados-justicia-federal-nacional-renuncias-2023.zip": {
+      "ok": true,
+      "numero": 37,
+      "filas": 30245,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/a3fa3cbe-f691-4450-9798-0b33db437bc5/download/magistrados-justicia-federal-nacional-renuncias-2022.zip": {
+      "ok": true,
+      "numero": 38,
+      "filas": 25674,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/93019f03-6eeb-421b-938b-635269f40158/download/magistrados-justicia-federal-nacional-renuncias-2021.zip": {
+      "ok": true,
+      "numero": 39,
+      "filas": 13826,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/f54e8aa0-e56a-4f7c-959c-61faa3818d66/download/magistrados-justicia-federal-nacional-renuncias-2020.zip": {
+      "ok": true,
+      "numero": 40,
+      "filas": 11067,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/9caa94ee-521c-464d-91f8-0f39e710be1c/download/magistrados-justicia-federal-nacional-renuncias-2019.zip": {
+      "ok": true,
+      "numero": 41,
+      "filas": 22375,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/205f863a-3af0-49c5-bf4e-1f803c53d214/download/magistrados-justicia-federal-nacional-renuncias-2018.zip": {
+      "ok": true,
+      "numero": 42,
+      "filas": 12096,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/41dd7c3a-1796-4e6f-af91-133bc6c6711d/download/magistrados-justicia-federal-nacional-renuncias-2017.zip": {
+      "ok": true,
+      "numero": 43,
+      "filas": 8204,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/d4fd21f4-f5c5-48f5-a12d-511981f997dc/download/magistrados-justicia-federal-nacional-designaciones-20250310.csv": {
+      "ok": true,
+      "numero": 44,
+      "filas": 3439,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/e409226a-c5f0-45ac-b6bd-b2d77a84ee2d/download/magistrados-justicia-federal-nacional-designaciones-2025.zip": {
+      "ok": true,
+      "numero": 45,
+      "filas": 3439,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/293a0fb9-9126-4f48-84bd-55280fe388c9/download/magistrados-justicia-federal-nacional-designaciones-2024.zip": {
+      "ok": true,
+      "numero": 46,
+      "filas": 3437,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/1dbf4be0-745c-4beb-9f29-a90e9b4c5483/download/magistrados-justicia-federal-nacional-designaciones-2023.zip": {
+      "ok": true,
+      "numero": 47,
+      "filas": 10205,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/d38b166f-0add-4efb-a204-9cc572c70908/download/magistrados-justicia-federal-nacional-designaciones-2022.zip": {
+      "ok": true,
+      "numero": 48,
+      "filas": 7947,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/53cb6186-1e33-42bb-9d14-4c6d66fba6eb/download/magistrados-justicia-federal-nacional-designaciones-2021.zip": {
+      "ok": true,
+      "numero": 49,
+      "filas": 12825,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/9b9717bd-4ffd-4029-9fc7-9d176d84000e/download/magistrados-justicia-federal-nacional-designaciones-2020.zip": {
+      "ok": true,
+      "numero": 50,
+      "filas": 8214,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/ae41e339-f993-4a62-8cc1-166d86277139/download/magistrados-justicia-federal-nacional-designaciones-2019.zip": {
+      "ok": true,
+      "numero": 51,
+      "filas": 17604,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/588bc6a8-8e46-4810-b8c4-47c3f5669f10/download/magistrados-justicia-federal-nacional-designaciones-2018.zip": {
+      "ok": true,
+      "numero": 52,
+      "filas": 25957,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/e8ea6635-0d56-4880-9ae4-4ca7922bb674/download/magistrados-justicia-federal-nacional-designaciones-2017.zip": {
+      "ok": true,
+      "numero": 53,
+      "filas": 17181,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/84a9215b-b599-4b75-8c3e-3d4368eae753/download/estadistica-designacion-magistrados-federal-nacional-por-genero-20250310.csv": {
+      "ok": true,
+      "numero": 54,
+      "filas": 429,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d28b671d-c6e9-4266-89ba-ecf7555b94da/download/magistrados-designaciones-federal-nacional-estadistica-genero-2025.zip": {
+      "ok": true,
+      "numero": 55,
+      "filas": 429,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d54cf804-05f9-4915-a5f5-64785826a2e7/download/magistrados-designaciones-federal-nacional-estadistica-genero-2024.zip": {
+      "ok": true,
+      "numero": 56,
+      "filas": 429,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d7bf9977-0e0c-48f4-8e53-3cf00dc263a5/download/magistrados-designaciones-federal-nacional-estadistica-genero-2023.zip": {
+      "ok": true,
+      "numero": 57,
+      "filas": 1228,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/8a13d91b-71f0-4bc1-8d52-bd915cb3c483/download/magistrados-designaciones-federal-nacional-estadistica-genero-2022.zip": {
+      "ok": true,
+      "numero": 58,
+      "filas": 1199,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/22b07eec-9a5e-479d-95ae-d8da8fe4dced/download/magistrados-designaciones-federal-nacional-estadistica-genero-2021.zip": {
+      "ok": true,
+      "numero": 59,
+      "filas": 1743,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/2b282ae2-b8b8-4574-9fc9-d7b78b2dd697/download/magistrados-designaciones-federal-nacional-estadistica-genero-2020.zip": {
+      "ok": true,
+      "numero": 60,
+      "filas": 1212,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/b5f8d6f1-8036-4e2d-9e66-1da4d21791f8/download/magistrados-designaciones-federal-nacional-estadistica-genero-2019.zip": {
+      "ok": true,
+      "numero": 61,
+      "filas": 2607,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/b533cc93-7127-4024-b566-221d76d5e176/download/magistrados-designaciones-federal-nacional-estadistica-genero-2018.zip": {
+      "ok": true,
+      "numero": 62,
+      "filas": 3849,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/edc8b860-f0d5-482b-86dc-ce1e2e29bd03/download/bienes-secuestrados-decomisados-durante-proceso-penal-20250731.csv": {
+      "ok": true,
+      "numero": 63,
+      "filas": 13077,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/bd2ccd1f-d072-4340-afc8-21f6179e5cc2/download/bienes-secuestrados-decomisados-durante-proceso-penal-2025.zip": {
+      "ok": true,
+      "numero": 64,
+      "filas": 75731,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/194c7d49-555b-4532-9a80-db85a5ab5780/download/bienes-secuestrados-decomisados-durante-proceso-penal-2024.zip": {
+      "ok": true,
+      "numero": 65,
+      "filas": 114110,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/e21dd028-e62b-4ac7-bf70-34dad13fa28a/download/bienes-secuestrados-decomisados-durante-proceso-penal-2023.zip": {
+      "ok": true,
+      "numero": 66,
+      "filas": 113184,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/d64e0c66-c40e-4d18-b30f-2c662aae93ff/download/bienes-secuestrados-decomisados-durante-proceso-penal-2022.zip": {
+      "ok": true,
+      "numero": 67,
+      "filas": 111776,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/42f4172e-8d78-47ac-808c-3316a60ec277/download/bienes-secuestrados-decomisados-durante-proceso-penal-2021.zip": {
+      "ok": true,
+      "numero": 68,
+      "filas": 114177,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/120c6cfc-5cba-4307-b3df-b4412c81617c/download/bienes-secuestrados-decomisados-durante-proceso-penal-2020.zip": {
+      "ok": true,
+      "numero": 69,
+      "filas": 103111,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/785da014-94cc-402e-9485-51de36d68b0a/download/bienes-secuestrados-decomisados-durante-proceso-penal-2019.zip": {
+      "ok": true,
+      "numero": 70,
+      "filas": 86603,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/7da8d08f-612c-4ee8-a078-5a78cf50fa30/download/bienes-secuestrados-decomisados-durante-proceso-penal-2018.zip": {
+      "ok": true,
+      "numero": 71,
+      "filas": 51357,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/c5e5a765-7d55-49db-9f4e-5b47b428f973/download/bienes-secuestrados-decomisados-durante-proceso-penal-2017.zip": {
+      "ok": true,
+      "numero": 72,
+      "filas": 18967,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/249b3214-411f-4fe5-9600-59b44ef7ec06/download/estadistica-mediaciones-prejudiciales-y-judiciales-202603.csv": {
+      "ok": true,
+      "numero": 73,
+      "filas": 80735,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/119a4a9a-923f-4aee-b53d-fcd3a55488d2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2026.zip": {
+      "ok": true,
+      "numero": 74,
+      "filas": 240349,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/20e6ad9f-e91d-429f-a8c9-4afbb73d3716/download/estadistica-mediaciones-prejudiciales-y-judiciales-2025.zip": {
+      "ok": true,
+      "numero": 75,
+      "filas": 914247,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/7a3f4792-a187-45ca-b7f3-dc4afe6a437f/download/estadistica-mediaciones-prejudiciales-y-judiciales-2024.zip": {
+      "ok": true,
+      "numero": 76,
+      "filas": 620554,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/358b49a7-209c-4fe0-ac58-881f47d23265/download/estadistica-mediaciones-prejudiciales-y-judiciales-2023.zip": {
+      "ok": true,
+      "numero": 77,
+      "filas": 761928,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/e05ad8f7-37f3-4abc-b7e3-beb62f8528f2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2022.zip": {
+      "ok": true,
+      "numero": 78,
+      "filas": 686478,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/96a88a21-9877-4796-87cf-5f99babe1c3a/download/estadistica-mediaciones-prejudiciales-y-judiciales-2021.zip": {
+      "ok": true,
+      "numero": 79,
+      "filas": 613171,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/d0c7d85c-99ef-4e6e-b5c8-adc8e02032f2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2020.zip": {
+      "ok": true,
+      "numero": 80,
+      "filas": 549631,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/de11aec5-6ab9-4f43-8807-cb2a7879f78e/download/estadistica-mediaciones-prejudiciales-y-judiciales-2019.zip": {
+      "ok": true,
+      "numero": 81,
+      "filas": 488675,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/c8b57a3a-18ea-4fef-9079-060c2f27a84a/download/listado-mediadores-2018.zip": {
+      "ok": true,
+      "numero": 82,
+      "filas": 34267,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/433e320d-fea5-45ab-ad10-77e788573f1e/download/listado-mediadores-2017.zip": {
+      "ok": true,
+      "numero": 83,
+      "filas": 22542,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/03b4bc00-5913-44d5-8763-0723a4e22355/download/poderes-judiciales-provincias-y-anios-disponibles-causas-penales.csv": {
+      "ok": true,
+      "numero": 84,
+      "filas": 22,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/c15c7130-6f65-4ed7-b28e-d752ff53c098/download/poderes-judiciales-causas-penales-2024-2026.zip": {
+      "ok": true,
+      "numero": 85,
+      "filas": 328,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/868f7aea-73e5-4453-999d-5372d4ae6793/download/poderes-judiciales-actos-procesales-penales-2024-2026.zip": {
+      "ok": true,
+      "numero": 86,
+      "filas": 1202,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/74da2b99-280a-4fc3-adf0-471d2d819b2a/download/poderes-judiciales-causas-penales-2017-2023.zip": {
+      "ok": true,
+      "numero": 87,
+      "filas": 530161,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/f5fae326-794e-44ad-aaaa-c7dacc3ea93f/download/poderes-judiciales-actos-procesales-penales-2017-2023.zip": {
+      "ok": true,
+      "numero": 88,
+      "filas": 344340,
+      "jurisdiccion": "Download",
+      "anno": "2017"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/06290d79-52a7-44e4-98d4-f9c8f7e58a0c/download/poderes-judiciales-causas-penales-muestreo.csv": {
+      "ok": true,
+      "numero": 89,
+      "filas": 1000,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/b16ff684-189c-4e21-8bdc-e597cac5192a/download/poderes-judiciales-actos-procesales-penales-muestreo.csv": {
+      "ok": true,
+      "numero": 90,
+      "filas": 1000,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/e3849f67-9782-4712-bfe2-1afab97b2c9d/download/poderes-judiciales-provincias-y-anios-disponibles-causas-no-penales.csv": {
+      "ok": true,
+      "numero": 91,
+      "filas": 58,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/ec7527b1-589e-441d-ae2d-39ff16eaab49/download/poderes-judiciales-causas-no-penales-2024-2026.zip": {
+      "ok": true,
+      "numero": 92,
+      "filas": 450747,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/a591c3d3-701e-4421-a37f-4c6ae424c389/download/poderes-judiciales-actos-procesales-no-penales-2024-2026.zip": {
+      "ok": true,
+      "numero": 93,
+      "filas": 704851,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/1245e448-f3e3-4658-9258-1c78b600d4ca/download/poderes-judiciales-causas-no-penales-2013-2023.zip": {
+      "ok": true,
+      "numero": 94,
+      "filas": 8449932,
+      "jurisdiccion": "Download",
+      "anno": "2013"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/415671ba-dd7f-42ef-afe5-6322993fed9e/download/poderes-judiciales-actos-procesales-no-penales-2013-2023.zip": {
+      "ok": true,
+      "numero": 95,
+      "filas": 11200176,
+      "jurisdiccion": "Download",
+      "anno": "2013"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/3eacc2c5-ba47-4ff2-841c-a69ef1e3c665/download/poderes-judiciales-actos-procesales-no-penales-muestreo.csv": {
+      "ok": true,
+      "numero": 96,
+      "filas": 1000,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/41510df2-8ad2-44b0-8acf-c526a97db66a/download/poderes-judiciales-causas-no-penales-muestreo.csv": {
+      "ok": true,
+      "numero": 97,
+      "filas": 1000,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/d0e5f1ae-9c55-4b99-af98-fa58980bd8ab/download/listado-mediadores-202603.csv": {
+      "ok": true,
+      "numero": 98,
+      "filas": 3184,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/e1f25859-394e-4f96-ae4c-b1b0929ceb1a/download/listado-mediadores-2026.zip": {
+      "ok": true,
+      "numero": 99,
+      "filas": 9474,
+      "jurisdiccion": "Download",
+      "anno": "2026"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/50a31800-1858-4ea3-9d5e-13b978af31f3/download/listado-mediadores-2025.zip": {
+      "ok": true,
+      "numero": 100,
+      "filas": 34256,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/71e3ad17-9145-4d38-8db1-c55ef9636c62/download/listado-mediadores-2024.zip": {
+      "ok": true,
+      "numero": 101,
+      "filas": 32478,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/c6fa959d-f16f-4593-86ec-3ea46728fabd/download/listado-mediadores-2023.zip": {
+      "ok": true,
+      "numero": 102,
+      "filas": 32197,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/3a351239-569d-482a-b140-fb610089f487/download/listado-mediadores-2022.zip": {
+      "ok": true,
+      "numero": 103,
+      "filas": 31930,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/41a29a3a-4373-4bdd-8727-ed024cf6128b/download/listado-mediadores-2021.zip": {
+      "ok": true,
+      "numero": 104,
+      "filas": 31845,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/413f41fd-80a3-4519-ad60-009f84e91583/download/listado-mediadores-2020.zip": {
+      "ok": true,
+      "numero": 105,
+      "filas": 33395,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/8e1303b3-c06b-415d-a521-b78d184f041b/download/listado-mediadores-2019.zip": {
+      "ok": true,
+      "numero": 106,
+      "filas": 34764,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/5f52e6d1-ebf9-41e7-baf0-893e554f62d2/download/listado-mediadores-2018.zip": {
+      "ok": true,
+      "numero": 107,
+      "filas": 34267,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/9a0b247f-91d4-4f76-984f-30958b132014/download/listado-mediadores-2017.zip": {
+      "ok": true,
+      "numero": 108,
+      "filas": 22542,
+      "jurisdiccion": "Download",
+      "anno": "2014"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/c739509e-d501-4d37-a2df-7f06ec43739a/download/indice-archivos-recibidos-poder-judicial-penal-2024.csv": {
+      "ok": true,
+      "numero": 109,
+      "filas": 24,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/0d4f637c-e9f8-4326-a8bc-2481741d6328/download/indice-archivos-recibidos-poder-judicial-penal-2023.csv": {
+      "ok": true,
+      "numero": 110,
+      "filas": 68,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/9f9d4cd5-a5af-4c54-82ed-d9cd2f6b560e/download/indice-archivos-recibidos-poder-judicial-penal-2022.csv": {
+      "ok": true,
+      "numero": 111,
+      "filas": 68,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/4ad5a148-6214-4a5e-9069-bb85f51f0f04/download/indice-archivos-recibidos-poder-judicial-penal-2021.csv": {
+      "ok": true,
+      "numero": 112,
+      "filas": 72,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/b1f8012a-3a23-4c20-8c5c-5ac0871c2cb0/download/indice-archivos-recibidos-poder-judicial-penal-2020.csv": {
+      "ok": true,
+      "numero": 113,
+      "filas": 20,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/4ed4c165-4e55-4c27-b34e-2e1e17a7676c/download/indice-archivos-recibidos-poder-judicial-penal-2019.csv": {
+      "ok": true,
+      "numero": 114,
+      "filas": 76,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/ef733552-b355-407f-9471-6c2e0af0ed0b/download/indice-archivos-recibidos-poder-judicial-penal-2018.csv": {
+      "ok": true,
+      "numero": 115,
+      "filas": 11,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/5727531a-d349-4a95-ae3c-db0f0310e003/download/pj-penal-archivos-recibidos-2024.zip": {
+      "ok": true,
+      "numero": 116,
+      "filas": 16320,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/fa9eb446-b6a5-43d8-9794-17ba3f17ed3d/download/pj-penal-archivos-recibidos-2023.zip": {
+      "ok": true,
+      "numero": 117,
+      "filas": 159345,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/1edada2e-0a53-4e87-b188-1eb26da0cd54/download/pj-penal-archivos-recibidos-2022.zip": {
+      "ok": true,
+      "numero": 118,
+      "filas": 158950,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/ddb02d30-47a5-413a-8e32-dd5f346560f3/download/pj-penal-archivos-recibidos-2021.zip": {
+      "ok": true,
+      "numero": 119,
+      "filas": 141889,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/b6947ba9-752d-4d98-83cd-e8893af7d447/download/pj-penal-archivos-recibidos-2020.zip": {
+      "ok": true,
+      "numero": 120,
+      "filas": 153087,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/9c978fd4-7b1d-4cb7-8494-e725e2015bed/download/pj-penal-archivos-recibidos-2019.zip": {
+      "ok": true,
+      "numero": 121,
+      "filas": 734330,
+      "jurisdiccion": "Download",
+      "anno": "2015"
+    },
+    "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/7c6cbf6c-faa5-473c-9ed5-51f123537bc5/download/pj-penal-archivos-recibidos-2018.zip": {
+      "ok": true,
+      "numero": 122,
+      "filas": 906953,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/3a6399b4-4866-406b-b575-c06a3848e2df/download/indice-archivos-recibidos-poder-judicial-no-penal-2025.csv": {
+      "ok": true,
+      "numero": 123,
+      "filas": 40,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/30dda12f-52ae-4f8a-b3ef-b8e385654113/download/indice-archivos-recibidos-poder-judicial-no-penal-2024.csv": {
+      "ok": true,
+      "numero": 124,
+      "filas": 72,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/ec008ee6-00ce-498f-9a4d-33415d6c4154/download/indice-archivos-recibidos-poder-judicial-no-penal-2023.csv": {
+      "ok": true,
+      "numero": 125,
+      "filas": 106,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/0f3dffdf-c857-418e-ac72-5b9e9422863a/download/indice-archivos-recibidos-poder-judicial-no-penal-2022.csv": {
+      "ok": true,
+      "numero": 126,
+      "filas": 107,
+      "jurisdiccion": "Download",
+      "anno": "2022"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/31018736-a8d5-4936-8495-00711965ca74/download/indice-archivos-recibidos-poder-judicial-no-penal-2021.csv": {
+      "ok": true,
+      "numero": 127,
+      "filas": 108,
+      "jurisdiccion": "Download",
+      "anno": "2021"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/202be489-f5ab-413f-a7a1-d90d85a61131/download/indice-archivos-recibidos-poder-judicial-no-penal-2020.csv": {
+      "ok": true,
+      "numero": 128,
+      "filas": 140,
+      "jurisdiccion": "Download",
+      "anno": "2020"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/b6e040a5-be68-4317-b510-40f122e51224/download/indice-archivos-recibidos-poder-judicial-no-penal-2019.csv": {
+      "ok": true,
+      "numero": 129,
+      "filas": 121,
+      "jurisdiccion": "Download",
+      "anno": "2019"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/f0fb68e1-e4e9-4af5-8b66-8d083a1c8fa1/download/indice-archivos-recibidos-poder-judicial-no-penal-2018.csv": {
+      "ok": true,
+      "numero": 130,
+      "filas": 10,
+      "jurisdiccion": "Download",
+      "anno": "2018"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/d642654c-881c-4ffc-bceb-28e648c70ac4/download/pj-no-penal-archivos-recibidos-2025.zip": {
+      "ok": true,
+      "numero": 131,
+      "filas": 681040,
+      "jurisdiccion": "Download",
+      "anno": "2025"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/18c3aaea-58d8-43f9-90ae-57abf88d0ff4/download/pj-no-penal-archivos-recibidos-2024.zip": {
+      "ok": true,
+      "numero": 132,
+      "filas": 712684,
+      "jurisdiccion": "Download",
+      "anno": "2024"
+    },
+    "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/62bd8bae-6d33-4a83-b2eb-d2a9a6910c35/download/pj-no-penal-archivos-recibidos-2023.zip": {
+      "ok": true,
+      "numero": 133,
+      "filas": 4730352,
+      "jurisdiccion": "Download",
+      "anno": "2023"
+    }
+  },
+  "indice": [
+    {
+      "numero": 1,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 4278,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/aa6bcb49-e24f-489e-a650-788f5e2a3bb4/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-20260116.csv",
+      "stem": "pjn_download_2026_1"
+    },
+    {
+      "numero": 2,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 4278,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/9a052999-8989-4c82-bba5-f84d07b9a045/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2026.zip",
+      "stem": "pjn_download_2026_2"
+    },
+    {
+      "numero": 3,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 16407,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/c24f5499-65ca-4f5d-8d79-90e401233894/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2025.zip",
+      "stem": "pjn_download_2025_3"
+    },
+    {
+      "numero": 4,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 30042,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/7838b6b2-7b3e-4bd2-8ce5-d7ff2a7f48fd/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2024.zip",
+      "stem": "pjn_download_2024_4"
+    },
+    {
+      "numero": 5,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 45563,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/1659d203-c919-4712-ab4d-11640feaaee2/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2023.zip",
+      "stem": "pjn_download_2023_5"
+    },
+    {
+      "numero": 6,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 46948,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/ecf1ea80-2fdf-487a-92b3-2295a7ba1608/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2022.zip",
+      "stem": "pjn_download_2022_6"
+    },
+    {
+      "numero": 7,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 25985,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/2e5c2336-1e5d-4dab-a728-6fc434d1a42f/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2021.zip",
+      "stem": "pjn_download_2021_7"
+    },
+    {
+      "numero": 8,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 3128,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/7b53b568-0e08-4c48-84a5-fe20930d6c7e/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2020.zip",
+      "stem": "pjn_download_2020_8"
+    },
+    {
+      "numero": 9,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 52099,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/269924c5-4e69-45c4-bc99-94c341978c17/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2019.zip",
+      "stem": "pjn_download_2019_9"
+    },
+    {
+      "numero": 10,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 64170,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/3b9ae6ed-ef65-4540-9b03-75702443024f/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2018.zip",
+      "stem": "pjn_download_2018_10"
+    },
+    {
+      "numero": 11,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 12919,
+      "url": "https://datos.jus.gob.ar/dataset/a6eb5ab3-5c4c-40cb-b901-839f60a148e4/resource/06f5d3d6-2dcb-44ad-b4cf-3dfbb7a557c3/download/ternas-seleccion-magistrados-poder-judicial-ministerio-publico-2017.zip",
+      "stem": "pjn_download_2017_11"
+    },
+    {
+      "numero": 12,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 4471,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/d69f519e-9b34-4080-bfe1-775970beb077/download/cv-magistrados-poder-judicial-ministerio-publico-20260116.csv",
+      "stem": "pjn_download_2026_12"
+    },
+    {
+      "numero": 13,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 4471,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/c01f8829-070e-4625-af34-9f05bd63b9de/download/cv-magistrados-poder-judicial-ministerio-publico-2026.zip",
+      "stem": "pjn_download_2026_13"
+    },
+    {
+      "numero": 14,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 17183,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/f1bed229-542e-4040-8ed0-27407528f17b/download/cv-magistrados-poder-judicial-ministerio-publico-2025.zip",
+      "stem": "pjn_download_2025_14"
+    },
+    {
+      "numero": 15,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 44069,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/ed0d12a7-1bb2-4385-ad42-6d727c57887b/download/cv-magistrados-poder-judicial-ministerio-publico-2024.zip",
+      "stem": "pjn_download_2024_15"
+    },
+    {
+      "numero": 16,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 48111,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/545d69b2-7b5e-4db5-a169-3f6abf95e710/download/cv-magistrados-poder-judicial-ministerio-publico-2023.zip",
+      "stem": "pjn_download_2023_16"
+    },
+    {
+      "numero": 17,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 53193,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/f55aa9f1-d726-49ee-9df1-48b89aff47c7/download/cv-magistrados-poder-judicial-ministerio-publico-2022.zip",
+      "stem": "pjn_download_2022_17"
+    },
+    {
+      "numero": 18,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 27553,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/c3d88416-dcbb-4b6c-a76d-2abd8c41a40c/download/cv-magistrados-poder-judicial-ministerio-publico-2021.zip",
+      "stem": "pjn_download_2021_18"
+    },
+    {
+      "numero": 19,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 3324,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/7d1fb400-9bce-4b89-868e-10e5a0dfeaa9/download/cv-magistrados-poder-judicial-ministerio-publico-2020.zip",
+      "stem": "pjn_download_2020_19"
+    },
+    {
+      "numero": 20,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 55641,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/6f2ef5c2-f489-4897-9761-262505a6dda6/download/cv-magistrados-poder-judicial-ministerio-publico-2019.zip",
+      "stem": "pjn_download_2019_20"
+    },
+    {
+      "numero": 21,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 69698,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/2715c7cf-dffb-4c8e-abbc-cf2d78fd0012/download/cv-magistrados-poder-judicial-ministerio-publico-2018.zip",
+      "stem": "pjn_download_2018_21"
+    },
+    {
+      "numero": 22,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 18619,
+      "url": "https://datos.jus.gob.ar/dataset/2892f2ad-e1f0-47ba-98bf-14ca693f3750/resource/bcbf47dd-817f-46a6-a6d8-37eeef71e3ec/download/cv-magistrados-poder-judicial-ministerio-publico-2017.zip",
+      "stem": "pjn_download_2017_22"
+    },
+    {
+      "numero": 23,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1643,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/b12bdbb7-646f-4701-99b7-1109ce919dd5/download/magistrados-justicia-federal-nacional-20240412.csv",
+      "stem": "pjn_download_2024_23"
+    },
+    {
+      "numero": 24,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 3196,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/9715396f-d8cb-4433-89a5-6b49c8de39ee/download/magistrados-justicia-federal-nacional-2021.zip",
+      "stem": "pjn_download_2021_24"
+    },
+    {
+      "numero": 25,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 7984,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/35f650d5-bbee-4743-b7b0-74291db2c949/download/magistrados-justicia-federal-nacional-2019.zip",
+      "stem": "pjn_download_2019_25"
+    },
+    {
+      "numero": 26,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 4652,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/065a572b-edae-49cd-8d6c-5e129c14b4f2/download/magistrados-justicia-federal-nacional-2018.zip",
+      "stem": "pjn_download_2018_26"
+    },
+    {
+      "numero": 27,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 13961,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/66d994d1-d2b3-4bd6-82bf-ef491c4be07d/download/magistrados-justicia-federal-nacional-2017.zip",
+      "stem": "pjn_download_2017_27"
+    },
+    {
+      "numero": 28,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1643,
+      "url": "https://datos.jus.gob.ar/dataset/3c18d46e-729e-4973-8efd-f54cab18b7e3/resource/6f12c193-8502-449b-a04f-458ca0eb770f/download/magistrados-justicia-federal-nacional-2024.zip",
+      "stem": "pjn_download_2024_28"
+    },
+    {
+      "numero": 29,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 113,
+      "url": "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/ade07cd0-734d-43a7-a620-c39fcea1fed4/download/jueces-justicia-federal-nacional-traslados-20220323.csv",
+      "stem": "pjn_download_2022_29"
+    },
+    {
+      "numero": 30,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 200,
+      "url": "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/ce5fd093-e6c9-49c7-a354-982e86a5e1ee/download/jueces-justicia-federal-nacional-traslados-2022.zip",
+      "stem": "pjn_download_2022_30"
+    },
+    {
+      "numero": 31,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 70,
+      "url": "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/5c9700a7-d8b7-4fed-8978-6b0bf29f624c/download/jueces-justicia-federal-nacional-traslados-2021.zip",
+      "stem": "pjn_download_2021_31"
+    },
+    {
+      "numero": 32,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 93,
+      "url": "https://datos.jus.gob.ar/dataset/94577848-f0c3-42bd-8289-9f751f98fb5a/resource/4dfaa301-ffab-4e21-982e-cfb4fe9b52c1/download/jueces-justicia-federal-nacional-traslados-2019.zip",
+      "stem": "pjn_download_2019_32"
+    },
+    {
+      "numero": 33,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 1656,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/e0e6483e-bc07-4c3e-a262-6095065f3e6e/download/magistrados-justicia-federal-nacional-renuncias-20260305.csv",
+      "stem": "pjn_download_2026_33"
+    },
+    {
+      "numero": 34,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 1656,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/200f4a08-25ef-43cc-81e4-63e7839c09ff/download/magistrados-justicia-federal-nacional-renuncias-2026.zip",
+      "stem": "pjn_download_2026_34"
+    },
+    {
+      "numero": 35,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 9660,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/938784f0-25f2-4f81-9ecd-ebee659b18b3/download/magistrados-justicia-federal-nacional-renuncias-2025.zip",
+      "stem": "pjn_download_2025_35"
+    },
+    {
+      "numero": 36,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 28116,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/bc366cbf-d475-451d-bb0a-5802bbdd62e0/download/magistrados-justicia-federal-nacional-renuncias-2024.zip",
+      "stem": "pjn_download_2024_36"
+    },
+    {
+      "numero": 37,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 30245,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/3a6fba39-1417-4f46-90d3-83dc3f871101/download/magistrados-justicia-federal-nacional-renuncias-2023.zip",
+      "stem": "pjn_download_2023_37"
+    },
+    {
+      "numero": 38,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 25674,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/a3fa3cbe-f691-4450-9798-0b33db437bc5/download/magistrados-justicia-federal-nacional-renuncias-2022.zip",
+      "stem": "pjn_download_2022_38"
+    },
+    {
+      "numero": 39,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 13826,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/93019f03-6eeb-421b-938b-635269f40158/download/magistrados-justicia-federal-nacional-renuncias-2021.zip",
+      "stem": "pjn_download_2021_39"
+    },
+    {
+      "numero": 40,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 11067,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/f54e8aa0-e56a-4f7c-959c-61faa3818d66/download/magistrados-justicia-federal-nacional-renuncias-2020.zip",
+      "stem": "pjn_download_2020_40"
+    },
+    {
+      "numero": 41,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 22375,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/9caa94ee-521c-464d-91f8-0f39e710be1c/download/magistrados-justicia-federal-nacional-renuncias-2019.zip",
+      "stem": "pjn_download_2019_41"
+    },
+    {
+      "numero": 42,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 12096,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/205f863a-3af0-49c5-bf4e-1f803c53d214/download/magistrados-justicia-federal-nacional-renuncias-2018.zip",
+      "stem": "pjn_download_2018_42"
+    },
+    {
+      "numero": 43,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 8204,
+      "url": "https://datos.jus.gob.ar/dataset/36c14e01-d3f6-47f3-9f12-9c25a48fe8c6/resource/41dd7c3a-1796-4e6f-af91-133bc6c6711d/download/magistrados-justicia-federal-nacional-renuncias-2017.zip",
+      "stem": "pjn_download_2017_43"
+    },
+    {
+      "numero": 44,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 3439,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/d4fd21f4-f5c5-48f5-a12d-511981f997dc/download/magistrados-justicia-federal-nacional-designaciones-20250310.csv",
+      "stem": "pjn_download_2025_44"
+    },
+    {
+      "numero": 45,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 3439,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/e409226a-c5f0-45ac-b6bd-b2d77a84ee2d/download/magistrados-justicia-federal-nacional-designaciones-2025.zip",
+      "stem": "pjn_download_2025_45"
+    },
+    {
+      "numero": 46,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 3437,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/293a0fb9-9126-4f48-84bd-55280fe388c9/download/magistrados-justicia-federal-nacional-designaciones-2024.zip",
+      "stem": "pjn_download_2024_46"
+    },
+    {
+      "numero": 47,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 10205,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/1dbf4be0-745c-4beb-9f29-a90e9b4c5483/download/magistrados-justicia-federal-nacional-designaciones-2023.zip",
+      "stem": "pjn_download_2023_47"
+    },
+    {
+      "numero": 48,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 7947,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/d38b166f-0add-4efb-a204-9cc572c70908/download/magistrados-justicia-federal-nacional-designaciones-2022.zip",
+      "stem": "pjn_download_2022_48"
+    },
+    {
+      "numero": 49,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 12825,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/53cb6186-1e33-42bb-9d14-4c6d66fba6eb/download/magistrados-justicia-federal-nacional-designaciones-2021.zip",
+      "stem": "pjn_download_2021_49"
+    },
+    {
+      "numero": 50,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 8214,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/9b9717bd-4ffd-4029-9fc7-9d176d84000e/download/magistrados-justicia-federal-nacional-designaciones-2020.zip",
+      "stem": "pjn_download_2020_50"
+    },
+    {
+      "numero": 51,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 17604,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/ae41e339-f993-4a62-8cc1-166d86277139/download/magistrados-justicia-federal-nacional-designaciones-2019.zip",
+      "stem": "pjn_download_2019_51"
+    },
+    {
+      "numero": 52,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 25957,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/588bc6a8-8e46-4810-b8c4-47c3f5669f10/download/magistrados-justicia-federal-nacional-designaciones-2018.zip",
+      "stem": "pjn_download_2018_52"
+    },
+    {
+      "numero": 53,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 17181,
+      "url": "https://datos.jus.gob.ar/dataset/9f397011-5459-4f1c-b88e-9f48f7824e03/resource/e8ea6635-0d56-4880-9ae4-4ca7922bb674/download/magistrados-justicia-federal-nacional-designaciones-2017.zip",
+      "stem": "pjn_download_2017_53"
+    },
+    {
+      "numero": 54,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 429,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/84a9215b-b599-4b75-8c3e-3d4368eae753/download/estadistica-designacion-magistrados-federal-nacional-por-genero-20250310.csv",
+      "stem": "pjn_download_2025_54"
+    },
+    {
+      "numero": 55,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 429,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d28b671d-c6e9-4266-89ba-ecf7555b94da/download/magistrados-designaciones-federal-nacional-estadistica-genero-2025.zip",
+      "stem": "pjn_download_2025_55"
+    },
+    {
+      "numero": 56,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 429,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d54cf804-05f9-4915-a5f5-64785826a2e7/download/magistrados-designaciones-federal-nacional-estadistica-genero-2024.zip",
+      "stem": "pjn_download_2024_56"
+    },
+    {
+      "numero": 57,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 1228,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/d7bf9977-0e0c-48f4-8e53-3cf00dc263a5/download/magistrados-designaciones-federal-nacional-estadistica-genero-2023.zip",
+      "stem": "pjn_download_2023_57"
+    },
+    {
+      "numero": 58,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 1199,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/8a13d91b-71f0-4bc1-8d52-bd915cb3c483/download/magistrados-designaciones-federal-nacional-estadistica-genero-2022.zip",
+      "stem": "pjn_download_2022_58"
+    },
+    {
+      "numero": 59,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 1743,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/22b07eec-9a5e-479d-95ae-d8da8fe4dced/download/magistrados-designaciones-federal-nacional-estadistica-genero-2021.zip",
+      "stem": "pjn_download_2021_59"
+    },
+    {
+      "numero": 60,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 1212,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/2b282ae2-b8b8-4574-9fc9-d7b78b2dd697/download/magistrados-designaciones-federal-nacional-estadistica-genero-2020.zip",
+      "stem": "pjn_download_2020_60"
+    },
+    {
+      "numero": 61,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 2607,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/b5f8d6f1-8036-4e2d-9e66-1da4d21791f8/download/magistrados-designaciones-federal-nacional-estadistica-genero-2019.zip",
+      "stem": "pjn_download_2019_61"
+    },
+    {
+      "numero": 62,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 3849,
+      "url": "https://datos.jus.gob.ar/dataset/ad511b18-2faf-4c31-9692-1f9d5b0f7e39/resource/b533cc93-7127-4024-b566-221d76d5e176/download/magistrados-designaciones-federal-nacional-estadistica-genero-2018.zip",
+      "stem": "pjn_download_2018_62"
+    },
+    {
+      "numero": 63,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 13077,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/edc8b860-f0d5-482b-86dc-ce1e2e29bd03/download/bienes-secuestrados-decomisados-durante-proceso-penal-20250731.csv",
+      "stem": "pjn_download_2025_63"
+    },
+    {
+      "numero": 64,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 75731,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/bd2ccd1f-d072-4340-afc8-21f6179e5cc2/download/bienes-secuestrados-decomisados-durante-proceso-penal-2025.zip",
+      "stem": "pjn_download_2025_64"
+    },
+    {
+      "numero": 65,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 114110,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/194c7d49-555b-4532-9a80-db85a5ab5780/download/bienes-secuestrados-decomisados-durante-proceso-penal-2024.zip",
+      "stem": "pjn_download_2024_65"
+    },
+    {
+      "numero": 66,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 113184,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/e21dd028-e62b-4ac7-bf70-34dad13fa28a/download/bienes-secuestrados-decomisados-durante-proceso-penal-2023.zip",
+      "stem": "pjn_download_2023_66"
+    },
+    {
+      "numero": 67,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 111776,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/d64e0c66-c40e-4d18-b30f-2c662aae93ff/download/bienes-secuestrados-decomisados-durante-proceso-penal-2022.zip",
+      "stem": "pjn_download_2022_67"
+    },
+    {
+      "numero": 68,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 114177,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/42f4172e-8d78-47ac-808c-3316a60ec277/download/bienes-secuestrados-decomisados-durante-proceso-penal-2021.zip",
+      "stem": "pjn_download_2021_68"
+    },
+    {
+      "numero": 69,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 103111,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/120c6cfc-5cba-4307-b3df-b4412c81617c/download/bienes-secuestrados-decomisados-durante-proceso-penal-2020.zip",
+      "stem": "pjn_download_2020_69"
+    },
+    {
+      "numero": 70,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 86603,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/785da014-94cc-402e-9485-51de36d68b0a/download/bienes-secuestrados-decomisados-durante-proceso-penal-2019.zip",
+      "stem": "pjn_download_2019_70"
+    },
+    {
+      "numero": 71,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 51357,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/7da8d08f-612c-4ee8-a078-5a78cf50fa30/download/bienes-secuestrados-decomisados-durante-proceso-penal-2018.zip",
+      "stem": "pjn_download_2018_71"
+    },
+    {
+      "numero": 72,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 18967,
+      "url": "https://datos.jus.gob.ar/dataset/0acc4f59-d80b-4e22-90a4-acd978a12119/resource/c5e5a765-7d55-49db-9f4e-5b47b428f973/download/bienes-secuestrados-decomisados-durante-proceso-penal-2017.zip",
+      "stem": "pjn_download_2017_72"
+    },
+    {
+      "numero": 73,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 80735,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/249b3214-411f-4fe5-9600-59b44ef7ec06/download/estadistica-mediaciones-prejudiciales-y-judiciales-202603.csv",
+      "stem": "pjn_download_2026_73"
+    },
+    {
+      "numero": 74,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 240349,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/119a4a9a-923f-4aee-b53d-fcd3a55488d2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2026.zip",
+      "stem": "pjn_download_2026_74"
+    },
+    {
+      "numero": 75,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 914247,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/20e6ad9f-e91d-429f-a8c9-4afbb73d3716/download/estadistica-mediaciones-prejudiciales-y-judiciales-2025.zip",
+      "stem": "pjn_download_2025_75"
+    },
+    {
+      "numero": 76,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 620554,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/7a3f4792-a187-45ca-b7f3-dc4afe6a437f/download/estadistica-mediaciones-prejudiciales-y-judiciales-2024.zip",
+      "stem": "pjn_download_2024_76"
+    },
+    {
+      "numero": 77,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 761928,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/358b49a7-209c-4fe0-ac58-881f47d23265/download/estadistica-mediaciones-prejudiciales-y-judiciales-2023.zip",
+      "stem": "pjn_download_2023_77"
+    },
+    {
+      "numero": 78,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 686478,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/e05ad8f7-37f3-4abc-b7e3-beb62f8528f2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2022.zip",
+      "stem": "pjn_download_2022_78"
+    },
+    {
+      "numero": 79,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 613171,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/96a88a21-9877-4796-87cf-5f99babe1c3a/download/estadistica-mediaciones-prejudiciales-y-judiciales-2021.zip",
+      "stem": "pjn_download_2021_79"
+    },
+    {
+      "numero": 80,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 549631,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/d0c7d85c-99ef-4e6e-b5c8-adc8e02032f2/download/estadistica-mediaciones-prejudiciales-y-judiciales-2020.zip",
+      "stem": "pjn_download_2020_80"
+    },
+    {
+      "numero": 81,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 488675,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/de11aec5-6ab9-4f43-8807-cb2a7879f78e/download/estadistica-mediaciones-prejudiciales-y-judiciales-2019.zip",
+      "stem": "pjn_download_2019_81"
+    },
+    {
+      "numero": 82,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 34267,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/c8b57a3a-18ea-4fef-9079-060c2f27a84a/download/listado-mediadores-2018.zip",
+      "stem": "pjn_download_2018_82"
+    },
+    {
+      "numero": 83,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 22542,
+      "url": "https://datos.jus.gob.ar/dataset/a9767469-d903-4158-aa76-b21dd37e8aff/resource/433e320d-fea5-45ab-ad10-77e788573f1e/download/listado-mediadores-2017.zip",
+      "stem": "pjn_download_2017_83"
+    },
+    {
+      "numero": 84,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 22,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/03b4bc00-5913-44d5-8763-0723a4e22355/download/poderes-judiciales-provincias-y-anios-disponibles-causas-penales.csv",
+      "stem": "pjn_download_2024_84"
+    },
+    {
+      "numero": 85,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 328,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/c15c7130-6f65-4ed7-b28e-d752ff53c098/download/poderes-judiciales-causas-penales-2024-2026.zip",
+      "stem": "pjn_download_2024_85"
+    },
+    {
+      "numero": 86,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1202,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/868f7aea-73e5-4453-999d-5372d4ae6793/download/poderes-judiciales-actos-procesales-penales-2024-2026.zip",
+      "stem": "pjn_download_2024_86"
+    },
+    {
+      "numero": 87,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 530161,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/74da2b99-280a-4fc3-adf0-471d2d819b2a/download/poderes-judiciales-causas-penales-2017-2023.zip",
+      "stem": "pjn_download_2017_87"
+    },
+    {
+      "numero": 88,
+      "jurisdiccion": "Download",
+      "anno": "2017",
+      "filas": 344340,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/f5fae326-794e-44ad-aaaa-c7dacc3ea93f/download/poderes-judiciales-actos-procesales-penales-2017-2023.zip",
+      "stem": "pjn_download_2017_88"
+    },
+    {
+      "numero": 89,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1000,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/06290d79-52a7-44e4-98d4-f9c8f7e58a0c/download/poderes-judiciales-causas-penales-muestreo.csv",
+      "stem": "pjn_download_2024_89"
+    },
+    {
+      "numero": 90,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1000,
+      "url": "https://datos.jus.gob.ar/dataset/4e7f024d-5855-492a-8d8e-eb72ecc98d77/resource/b16ff684-189c-4e21-8bdc-e597cac5192a/download/poderes-judiciales-actos-procesales-penales-muestreo.csv",
+      "stem": "pjn_download_2024_90"
+    },
+    {
+      "numero": 91,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 58,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/e3849f67-9782-4712-bfe2-1afab97b2c9d/download/poderes-judiciales-provincias-y-anios-disponibles-causas-no-penales.csv",
+      "stem": "pjn_download_2024_91"
+    },
+    {
+      "numero": 92,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 450747,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/ec7527b1-589e-441d-ae2d-39ff16eaab49/download/poderes-judiciales-causas-no-penales-2024-2026.zip",
+      "stem": "pjn_download_2024_92"
+    },
+    {
+      "numero": 93,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 704851,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/a591c3d3-701e-4421-a37f-4c6ae424c389/download/poderes-judiciales-actos-procesales-no-penales-2024-2026.zip",
+      "stem": "pjn_download_2024_93"
+    },
+    {
+      "numero": 94,
+      "jurisdiccion": "Download",
+      "anno": "2013",
+      "filas": 8449932,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/1245e448-f3e3-4658-9258-1c78b600d4ca/download/poderes-judiciales-causas-no-penales-2013-2023.zip",
+      "stem": "pjn_download_2013_94"
+    },
+    {
+      "numero": 95,
+      "jurisdiccion": "Download",
+      "anno": "2013",
+      "filas": 11200176,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/415671ba-dd7f-42ef-afe5-6322993fed9e/download/poderes-judiciales-actos-procesales-no-penales-2013-2023.zip",
+      "stem": "pjn_download_2013_95"
+    },
+    {
+      "numero": 96,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1000,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/3eacc2c5-ba47-4ff2-841c-a69ef1e3c665/download/poderes-judiciales-actos-procesales-no-penales-muestreo.csv",
+      "stem": "pjn_download_2024_96"
+    },
+    {
+      "numero": 97,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 1000,
+      "url": "https://datos.jus.gob.ar/dataset/031d3827-927e-47af-b679-7fda70aa44a7/resource/41510df2-8ad2-44b0-8acf-c526a97db66a/download/poderes-judiciales-causas-no-penales-muestreo.csv",
+      "stem": "pjn_download_2024_97"
+    },
+    {
+      "numero": 98,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 3184,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/d0e5f1ae-9c55-4b99-af98-fa58980bd8ab/download/listado-mediadores-202603.csv",
+      "stem": "pjn_download_2026_98"
+    },
+    {
+      "numero": 99,
+      "jurisdiccion": "Download",
+      "anno": "2026",
+      "filas": 9474,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/e1f25859-394e-4f96-ae4c-b1b0929ceb1a/download/listado-mediadores-2026.zip",
+      "stem": "pjn_download_2026_99"
+    },
+    {
+      "numero": 100,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 34256,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/50a31800-1858-4ea3-9d5e-13b978af31f3/download/listado-mediadores-2025.zip",
+      "stem": "pjn_download_2025_100"
+    },
+    {
+      "numero": 101,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 32478,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/71e3ad17-9145-4d38-8db1-c55ef9636c62/download/listado-mediadores-2024.zip",
+      "stem": "pjn_download_2024_101"
+    },
+    {
+      "numero": 102,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 32197,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/c6fa959d-f16f-4593-86ec-3ea46728fabd/download/listado-mediadores-2023.zip",
+      "stem": "pjn_download_2023_102"
+    },
+    {
+      "numero": 103,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 31930,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/3a351239-569d-482a-b140-fb610089f487/download/listado-mediadores-2022.zip",
+      "stem": "pjn_download_2022_103"
+    },
+    {
+      "numero": 104,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 31845,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/41a29a3a-4373-4bdd-8727-ed024cf6128b/download/listado-mediadores-2021.zip",
+      "stem": "pjn_download_2021_104"
+    },
+    {
+      "numero": 105,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 33395,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/413f41fd-80a3-4519-ad60-009f84e91583/download/listado-mediadores-2020.zip",
+      "stem": "pjn_download_2020_105"
+    },
+    {
+      "numero": 106,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 34764,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/8e1303b3-c06b-415d-a521-b78d184f041b/download/listado-mediadores-2019.zip",
+      "stem": "pjn_download_2019_106"
+    },
+    {
+      "numero": 107,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 34267,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/5f52e6d1-ebf9-41e7-baf0-893e554f62d2/download/listado-mediadores-2018.zip",
+      "stem": "pjn_download_2018_107"
+    },
+    {
+      "numero": 108,
+      "jurisdiccion": "Download",
+      "anno": "2014",
+      "filas": 22542,
+      "url": "https://datos.jus.gob.ar/dataset/194a4863-67fe-4344-8bdd-e7b6e7e35886/resource/9a0b247f-91d4-4f76-984f-30958b132014/download/listado-mediadores-2017.zip",
+      "stem": "pjn_download_2014_108"
+    },
+    {
+      "numero": 109,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 24,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/c739509e-d501-4d37-a2df-7f06ec43739a/download/indice-archivos-recibidos-poder-judicial-penal-2024.csv",
+      "stem": "pjn_download_2024_109"
+    },
+    {
+      "numero": 110,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 68,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/0d4f637c-e9f8-4326-a8bc-2481741d6328/download/indice-archivos-recibidos-poder-judicial-penal-2023.csv",
+      "stem": "pjn_download_2023_110"
+    },
+    {
+      "numero": 111,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 68,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/9f9d4cd5-a5af-4c54-82ed-d9cd2f6b560e/download/indice-archivos-recibidos-poder-judicial-penal-2022.csv",
+      "stem": "pjn_download_2022_111"
+    },
+    {
+      "numero": 112,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 72,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/4ad5a148-6214-4a5e-9069-bb85f51f0f04/download/indice-archivos-recibidos-poder-judicial-penal-2021.csv",
+      "stem": "pjn_download_2021_112"
+    },
+    {
+      "numero": 113,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 20,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/b1f8012a-3a23-4c20-8c5c-5ac0871c2cb0/download/indice-archivos-recibidos-poder-judicial-penal-2020.csv",
+      "stem": "pjn_download_2020_113"
+    },
+    {
+      "numero": 114,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 76,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/4ed4c165-4e55-4c27-b34e-2e1e17a7676c/download/indice-archivos-recibidos-poder-judicial-penal-2019.csv",
+      "stem": "pjn_download_2019_114"
+    },
+    {
+      "numero": 115,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 11,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/ef733552-b355-407f-9471-6c2e0af0ed0b/download/indice-archivos-recibidos-poder-judicial-penal-2018.csv",
+      "stem": "pjn_download_2018_115"
+    },
+    {
+      "numero": 116,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 16320,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/5727531a-d349-4a95-ae3c-db0f0310e003/download/pj-penal-archivos-recibidos-2024.zip",
+      "stem": "pjn_download_2024_116"
+    },
+    {
+      "numero": 117,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 159345,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/fa9eb446-b6a5-43d8-9794-17ba3f17ed3d/download/pj-penal-archivos-recibidos-2023.zip",
+      "stem": "pjn_download_2023_117"
+    },
+    {
+      "numero": 118,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 158950,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/1edada2e-0a53-4e87-b188-1eb26da0cd54/download/pj-penal-archivos-recibidos-2022.zip",
+      "stem": "pjn_download_2022_118"
+    },
+    {
+      "numero": 119,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 141889,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/ddb02d30-47a5-413a-8e32-dd5f346560f3/download/pj-penal-archivos-recibidos-2021.zip",
+      "stem": "pjn_download_2021_119"
+    },
+    {
+      "numero": 120,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 153087,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/b6947ba9-752d-4d98-83cd-e8893af7d447/download/pj-penal-archivos-recibidos-2020.zip",
+      "stem": "pjn_download_2020_120"
+    },
+    {
+      "numero": 121,
+      "jurisdiccion": "Download",
+      "anno": "2015",
+      "filas": 734330,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/9c978fd4-7b1d-4cb7-8494-e725e2015bed/download/pj-penal-archivos-recibidos-2019.zip",
+      "stem": "pjn_download_2015_121"
+    },
+    {
+      "numero": 122,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 906953,
+      "url": "https://datos.jus.gob.ar/dataset/90178b26-0796-403e-b90b-d71d993db7ff/resource/7c6cbf6c-faa5-473c-9ed5-51f123537bc5/download/pj-penal-archivos-recibidos-2018.zip",
+      "stem": "pjn_download_2018_122"
+    },
+    {
+      "numero": 123,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 40,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/3a6399b4-4866-406b-b575-c06a3848e2df/download/indice-archivos-recibidos-poder-judicial-no-penal-2025.csv",
+      "stem": "pjn_download_2025_123"
+    },
+    {
+      "numero": 124,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 72,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/30dda12f-52ae-4f8a-b3ef-b8e385654113/download/indice-archivos-recibidos-poder-judicial-no-penal-2024.csv",
+      "stem": "pjn_download_2024_124"
+    },
+    {
+      "numero": 125,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 106,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/ec008ee6-00ce-498f-9a4d-33415d6c4154/download/indice-archivos-recibidos-poder-judicial-no-penal-2023.csv",
+      "stem": "pjn_download_2023_125"
+    },
+    {
+      "numero": 126,
+      "jurisdiccion": "Download",
+      "anno": "2022",
+      "filas": 107,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/0f3dffdf-c857-418e-ac72-5b9e9422863a/download/indice-archivos-recibidos-poder-judicial-no-penal-2022.csv",
+      "stem": "pjn_download_2022_126"
+    },
+    {
+      "numero": 127,
+      "jurisdiccion": "Download",
+      "anno": "2021",
+      "filas": 108,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/31018736-a8d5-4936-8495-00711965ca74/download/indice-archivos-recibidos-poder-judicial-no-penal-2021.csv",
+      "stem": "pjn_download_2021_127"
+    },
+    {
+      "numero": 128,
+      "jurisdiccion": "Download",
+      "anno": "2020",
+      "filas": 140,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/202be489-f5ab-413f-a7a1-d90d85a61131/download/indice-archivos-recibidos-poder-judicial-no-penal-2020.csv",
+      "stem": "pjn_download_2020_128"
+    },
+    {
+      "numero": 129,
+      "jurisdiccion": "Download",
+      "anno": "2019",
+      "filas": 121,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/b6e040a5-be68-4317-b510-40f122e51224/download/indice-archivos-recibidos-poder-judicial-no-penal-2019.csv",
+      "stem": "pjn_download_2019_129"
+    },
+    {
+      "numero": 130,
+      "jurisdiccion": "Download",
+      "anno": "2018",
+      "filas": 10,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/f0fb68e1-e4e9-4af5-8b66-8d083a1c8fa1/download/indice-archivos-recibidos-poder-judicial-no-penal-2018.csv",
+      "stem": "pjn_download_2018_130"
+    },
+    {
+      "numero": 131,
+      "jurisdiccion": "Download",
+      "anno": "2025",
+      "filas": 681040,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/d642654c-881c-4ffc-bceb-28e648c70ac4/download/pj-no-penal-archivos-recibidos-2025.zip",
+      "stem": "pjn_download_2025_131"
+    },
+    {
+      "numero": 132,
+      "jurisdiccion": "Download",
+      "anno": "2024",
+      "filas": 712684,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/18c3aaea-58d8-43f9-90ae-57abf88d0ff4/download/pj-no-penal-archivos-recibidos-2024.zip",
+      "stem": "pjn_download_2024_132"
+    },
+    {
+      "numero": 133,
+      "jurisdiccion": "Download",
+      "anno": "2023",
+      "filas": 4730352,
+      "url": "https://datos.jus.gob.ar/dataset/72215330-33e0-4bfb-9c9f-af7922c9c5eb/resource/62bd8bae-6d33-4a83-b2eb-d2a9a6910c35/download/pj-no-penal-archivos-recibidos-2023.zip",
+      "stem": "pjn_download_2023_133"
+    }
+  ],
+  "todos_records_count": 0
+}
