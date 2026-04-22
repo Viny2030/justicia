@@ -1,15 +1,23 @@
-from fastapi import FastAPI
+import os
 import pandas as pd
-from src.utils import calcular_kpi_eficiencia
+from fastapi import FastAPI
 
 app = FastAPI()
 
-# Cargar tus 1103 registros
-# Ajustá la ruta al nombre real de tu archivo en el repo
-df = pd.read_csv("data/juzgados.csv") 
+# Esto detecta automáticamente la carpeta de tu proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Unimos la ruta: carpeta_del_proyecto + data + juzgados.csv
+DATA_PATH = os.path.join(BASE_DIR, "data", "juzgados.csv")
 
-@app.get("/api/v1/juzgado/{id_juzgado}")
-def get_juzgado(id_juzgado: int):
-    # Lógica de auditoría para un juzgado específico de tu lista
-    datos_juzgado = df[df['id'] == id_juzgado].to_dict(orient='records')
-    return datos_juzgado[0] if datos_juzgado else {"error": "No encontrado"}
+@app.on_event("startup")
+def load_data():
+    if not os.path.exists(DATA_PATH):
+        print(f"⚠️ Error: No encuentro el archivo en {DATA_PATH}")
+    else:
+        global df
+        df = pd.read_csv(DATA_PATH)
+        print("✅ Datos de los 1103 juzgados cargados correctamente")
+
+@app.get("/")
+def home():
+    return {"mensaje": "Monitor Judicial Activo", "teoria": "Ph.D. Monteverde"}
