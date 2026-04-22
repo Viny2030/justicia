@@ -16,7 +16,12 @@ def home():
 def listar_juzgados():
     try:
         df = pd.read_csv(DATA_PATH)
-        # Retornamos los primeros 100 para no saturar el navegador
+        
+        # --- SOLUCIÓN AL ERROR ---
+        # Reemplaza los valores NaN por un string vacío para que el JSON sea válido
+        df = df.fillna("") 
+        
+        # Retornamos los registros
         return df.head(100).to_dict(orient="records")
     except Exception as e:
         return {"error": str(e)}
