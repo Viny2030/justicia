@@ -13,16 +13,24 @@ def home():
     return {"mensaje": "Monitor Judicial Activo", "teoria": "Ph.D. Monteverde"}
 
 @app.get("/juzgados")
-def listar_juzgados():
+def listar_juzgados_completos():
     try:
         df = pd.read_csv(DATA_PATH)
         
-        # --- SOLUCIÓN AL ERROR ---
-        # Reemplaza los valores NaN por un string vacío para que el JSON sea válido
-        df = df.fillna("") 
+        # --- SOLUCIÓN AL ERROR DE ARROW ---
+        # Forzamos que la columna conflictiva sea tratada como texto
+        if 'puntaje_comision_seleccion' in df.columns:
+            df['puntaje_comision_seleccion'] = df['puntaje_comision_seleccion'].astype(str)
         
-        # Retornamos los registros
-        return df.head(100).to_dict(orient="records")
+        # Alternativa radical: convertir TODO a string para visualización segura
+        df = df.astype(str).replace("nan", "") 
+        
+        datos_completos = df.to_dict(orient="records")
+        
+        return {
+            "total_registros": len(df),
+            "data": datos_completos
+        }
     except Exception as e:
         return {"error": str(e)}
 
