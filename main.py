@@ -15,16 +15,19 @@ def home():
 @app.get("/juzgados")
 def listar_juzgados_completos():
     try:
+        # Cargamos el archivo
         df = pd.read_csv(DATA_PATH)
         
-        # 1. Convertimos TODO a string para evitar conflictos de tipos (Arrow/NaN)
-        df = df.astype(str).replace("nan", "") 
+        # --- LIMPIEZA CRÍTICA ---
+        # Convertimos todo a string y reemplazamos los NaN por vacío
+        # Esto evita el error "JSON compliant: nan"
+        df = df.astype(str).replace("nan", "")
         
-        datos_completos = df.to_dict(orient="records")
+        datos = df.to_dict(orient="records")
         
         return {
             "total_registros": len(df),
-            "data": datos_completos
+            "data": datos
         }
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": f"Error de procesamiento: {str(e)}"}
