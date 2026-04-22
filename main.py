@@ -1,24 +1,23 @@
-import os
-import pandas as pd
 from fastapi import FastAPI
+import pandas as pd
+import os
 
-app = FastAPI()
+app = FastAPI(title="Monitor de Justicia - Ph.D. Monteverde")
 
-# Esto detecta automáticamente la carpeta de tu proyecto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Unimos la ruta: carpeta_del_proyecto + data + juzgados.csv
-# Cambiamos "data" por "datos_jus" y el nombre del archivo al que tenés
-DATA_PATH = os.path.join(BASE_DIR, "datos_jus", "pjn_estadisticas_completo.csv")
-
-@app.on_event("startup")
-def load_data():
-    if not os.path.exists(DATA_PATH):
-        print(f"⚠️ Error: No encuentro el archivo en {DATA_PATH}")
-    else:
-        global df
-        df = pd.read_csv(DATA_PATH)
-        print("✅ Datos de los 1103 juzgados cargados correctamente")
+# Aseguramos la ruta a tus estadísticas
+DATA_PATH = os.path.join(BASE_DIR, "pjn_estadisticas_completo.csv")
 
 @app.get("/")
 def home():
     return {"mensaje": "Monitor Judicial Activo", "teoria": "Ph.D. Monteverde"}
+
+@app.get("/juzgados")
+def listar_juzgados():
+    try:
+        df = pd.read_csv(DATA_PATH)
+        # Retornamos los primeros 100 para no saturar el navegador
+        return df.head(100).to_dict(orient="records")
+    except Exception as e:
+        return {"error": str(e)}
+
