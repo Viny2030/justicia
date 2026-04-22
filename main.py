@@ -7,7 +7,8 @@ app = FastAPI()
 # Esto detecta automáticamente la carpeta de tu proyecto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Unimos la ruta: carpeta_del_proyecto + data + juzgados.csv
-DATA_PATH = os.path.join(BASE_DIR, "data", "juzgados.csv")
+# Cambiamos "data" por "datos_jus" y el nombre del archivo al que tenés
+DATA_PATH = os.path.join(BASE_DIR, "datos_jus", "pjn_estadisticas_completo.csv")
 
 @app.on_event("startup")
 def load_data():
