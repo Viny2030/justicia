@@ -17,12 +17,7 @@ def listar_juzgados_completos():
     try:
         df = pd.read_csv(DATA_PATH)
         
-        # --- SOLUCIÓN AL ERROR DE ARROW ---
-        # Forzamos que la columna conflictiva sea tratada como texto
-        if 'puntaje_comision_seleccion' in df.columns:
-            df['puntaje_comision_seleccion'] = df['puntaje_comision_seleccion'].astype(str)
-        
-        # Alternativa radical: convertir TODO a string para visualización segura
+        # 1. Convertimos TODO a string para evitar conflictos de tipos (Arrow/NaN)
         df = df.astype(str).replace("nan", "") 
         
         datos_completos = df.to_dict(orient="records")
@@ -33,4 +28,3 @@ def listar_juzgados_completos():
         }
     except Exception as e:
         return {"error": str(e)}
-
