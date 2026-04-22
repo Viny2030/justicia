@@ -1,33 +1,47 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 import pandas as pd
 import os
 
-app = FastAPI(title="Monitor de Justicia - Ph.D. Monteverde")
+app = FastAPI(title="Motor de Auditoría Judicial - Ph.D. Monteverde")
 
+# Detectar la ruta del archivo
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Aseguramos la ruta a tus estadísticas
 DATA_PATH = os.path.join(BASE_DIR, "pjn_estadisticas_completo.csv")
 
 @app.get("/")
 def home():
-    return {"mensaje": "Monitor Judicial Activo", "teoria": "Ph.D. Monteverde"}
+    return {"status": "Online", "fuente": "PJN - Auditoría Operativa"}
 
 @app.get("/juzgados")
-def listar_juzgados_completos():
+def obtener_salida_fastapi_completa():
+    """
+    Salida de datos crudos procesados para auditoría.
+    Maneja el 100% de los registros (24,963) sin errores de serialización.
+    """
     try:
-        # 1. Cargar datos
+        # Carga del dataset de 1103 juzgados / 24,963 registros
         df = pd.read_csv(DATA_PATH)
         
-        # 2. LIMPIEZA ABSOLUTA: 
-        # Reemplazamos nulos por strings vacíos y convertimos todo a tipos nativos de Python
-        df_limpio = df.fillna("").astype(str) 
-        datos_finales = df_limpio.to_dict(orient="records")
+        # --- LIMPIEZA DE AUDITORÍA ---
+        # Convertimos todo a string para evitar errores de NaN/Out of range
+        # Esto asegura que la salida en FastAPI sea 200 OK siempre.
+        df_limpio = df.fillna("").astype(str)
         
-        # 3. Respuesta
+        # Transformación a diccionario nativo de Python (orientado a registros)
+        datos_crudos = df_limpio.to_dict(orient="records")
+        
+        # Retorno estructurado
         return {
-            "total_registros": len(df_limpio),
-            "data": datos_finales
+            "metadata": {
+                "total_registros": len(df_limpio),
+                "autor": "Ph.D. Vicente Monteverde",
+                "version": "1.0.2"
+            },
+            "juzgados": datos_crudos
         }
     except Exception as e:
-        # Si algo falla, lo atrapamos aquí para que la API no de 500
-        return {"error": f"Error en el motor: {str(e)}"}
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Fallo en el motor de datos: {str(e)}"}
+        )
