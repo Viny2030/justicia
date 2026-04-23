@@ -100,10 +100,18 @@ with st.sidebar:
     )
 
     st.subheader("🔍 Filtros")
+
+    # Selector de instancia — diferencia Juzgados de Cámaras
+    instancia = st.radio(
+        "Instancia judicial",
+        ["Todas", "Juzgados (1ª Instancia)", "Cámaras Federales"],
+        help="Filtrá por nivel de instancia. Consejo y CSJN están en el Dashboard Estratégico."
+    )
+
     latencia_max = st.slider("Latencia máxima (días)", 0, 3650, 3650,
                               help="Filtrar causas con más días de proceso")
     estado_filtro = st.multiselect("Estado de causa", options=[], placeholder="Todos")
-    busqueda_juzg  = st.text_input("🔎 Buscar juzgado...")
+    busqueda_juzg  = st.text_input("🔎 Buscar juzgado / cámara...")
 
     st.markdown("---")
     st.markdown("**Dashboards**")
@@ -127,8 +135,10 @@ except Exception as e:
     datos_ok = False
 
 # ── Header ───────────────────────────────────────────────────────────────────
-st.title("📋 Monitor de Gestión de Juzgados Federales")
-st.caption("Auditoría de Procesos · Latencia de Expedientes · Detección de Cuellos de Botella")
+st.title("📋 Monitor Operativo — Juzgados & Cámaras Federales")
+st.caption("Primera Instancia · Instancia de Apelación (Cámaras) · Auditoría de Procesos · Latencia · Cuellos de Botella")
+st.info("📌 **Scope:** Juzgados de Primera Instancia + Cámaras Federales. "
+        "El Consejo de la Magistratura y la CSJN se analizan en el **Dashboard Estratégico**.")
 
 if not datos_ok:
     st.stop()
@@ -144,8 +154,20 @@ COL_TRAMITES  = _col(df, "tramit", "actuacion", "movim")
 COL_EMBARGOS  = _col(df, "embargo", "cautelar", "medida")
 COL_LATENCIA  = _col(df, "latencia", "dias", "tiempo_proceso", "duracion")
 
-# Aplicar filtro de búsqueda
+# Aplicar filtro de instancia (Juzgados vs Cámaras)
 df_filtrado = df.copy()
+if instancia != "Todas" and COL_JUZGADO:
+    if instancia == "Cámaras Federales":
+        mask_inst = df_filtrado[COL_JUZGADO].astype(str).str.contains(
+            r"cámara|camara|cam\.", case=False, na=False, regex=True
+        )
+    else:  # Juzgados (1ª Instancia)
+        mask_inst = ~df_filtrado[COL_JUZGADO].astype(str).str.contains(
+            r"cámara|camara|cam\.", case=False, na=False, regex=True
+        )
+    df_filtrado = df_filtrado[mask_inst]
+
+# Aplicar filtro de búsqueda
 if busqueda_juzg and COL_JUZGADO:
     df_filtrado = df_filtrado[
         df_filtrado[COL_JUZGADO].astype(str).str.contains(busqueda_juzg, case=False, na=False)
@@ -156,8 +178,30 @@ if COL_LATENCIA:
     df_filtrado[COL_LATENCIA] = pd.to_numeric(df_filtrado[COL_LATENCIA], errors="coerce")
     df_filtrado = df_filtrado[df_filtrado[COL_LATENCIA].fillna(0) <= latencia_max]
 
+# ── Desglose rápido por instancia ─────────────────────────────────────────────
+st.markdown("### 🏛️ Composición por Instancia")
+
+if COL_JUZGADO:
+    mask_cam = df[COL_JUZGADO].astype(str).str.contains(
+        r"cámara|camara|cam\.", case=False, na=False, regex=True
+    )
+    n_camaras   = mask_cam.sum()
+    n_juzgados  = (~mask_cam).sum()
+    inst_c1, inst_c2, inst_c3 = st.columns(3)
+    with inst_c1:
+        st.metric("🏢 Juzgados (1ª Instancia)", f"{n_juzgados:,}")
+    with inst_c2:
+        st.metric("🏛️ Cámaras Federales", f"{n_camaras:,}")
+    with inst_c3:
+        st.metric("📁 Total registros", f"{len(df):,}")
+else:
+    st.metric("📁 Total registros", f"{len(df):,}")
+
+st.markdown("---")
+
 # ── KPIs ──────────────────────────────────────────────────────────────────────
-st.markdown("### 📊 Indicadores Operativos")
+st.markdown("### 📊 Indicadores Operativos"
+            + (f" — {instancia}" if instancia != 'Todas' else " — Todas las instancias"))
 
 total_registros = len(df_filtrado)
 latencia_prom   = calcular_latencia_promedio(df_filtrado, COL_LATENCIA)

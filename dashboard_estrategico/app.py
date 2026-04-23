@@ -93,7 +93,13 @@ with st.sidebar:
     st.markdown("---")
 
     st.subheader("🔍 Filtros")
-    fuero_sel    = st.multiselect("Fuero / Ámbito", options=[], placeholder="Todos los fueros")
+    # Solo instancias estratégicas — Cámaras y Juzgados van al Dashboard Operativo
+    instancia_sel = st.multiselect(
+        "Instancia",
+        options=["Corte Suprema (CSJN)", "Consejo de la Magistratura"],
+        default=["Corte Suprema (CSJN)", "Consejo de la Magistratura"],
+        help="Este dashboard cubre solo las instancias de gobierno y máxima jerarquía"
+    )
     jurisd_sel   = st.multiselect("Jurisdicción", options=[], placeholder="Todo el país")
     anio_sel     = st.slider("Año de designación", 2000, datetime.now().year,
                               (2015, datetime.now().year))
@@ -117,8 +123,8 @@ except Exception as e:
     datos_ok = False
 
 # ── Header principal ─────────────────────────────────────────────────────────
-st.title("🏛️ Monitor de Alta Gerencia y Administración Judicial")
-st.caption("Corte Suprema · Consejo de la Magistratura · Cámaras Federales")
+st.title("🏛️ Monitor Estratégico — Corte Suprema & Consejo de la Magistratura")
+st.caption("⚠️ Alcance: CSJN · Consejo de la Magistratura  |  Las Cámaras y Juzgados se analizan en el Dashboard Operativo")
 
 if not datos_ok:
     st.stop()
@@ -185,8 +191,10 @@ with col5:
 st.markdown("---")
 
 # ── Fila de gráficos: Vacancia y Designaciones ───────────────────────────────
-st.markdown("<h3 class='section-header'>🏛️ Consejo de la Magistratura — Gestión de Vacancia</h3>",
+st.markdown("<h3 class='section-header'>🏛️ Consejo de la Magistratura — Gestión de Vacancia y Concursos</h3>",
             unsafe_allow_html=True)
+st.info("📌 **Scope:** Este bloque analiza la gestión administrativa del Consejo. "
+        "El impacto de las vacantes en los juzgados concretos se ve en el **Dashboard Operativo**.")
 
 col_izq, col_der = st.columns([1.3, 1])
 
@@ -251,5 +259,25 @@ st.caption(f"Mostrando {len(df_filtrado):,} de {len(df_mag):,} registros")
 st.dataframe(df_filtrado.head(500), use_container_width=True, height=400)
 
 # ── Footer ───────────────────────────────────────────────────────────────────
+st.markdown("---")
+
+# ── Sección CSJN ─────────────────────────────────────────────────────────────
+st.markdown("<h3 class='section-header'>⚖️ Corte Suprema de Justicia (CSJN)</h3>",
+            unsafe_allow_html=True)
+
+csjn_col1, csjn_col2, csjn_col3 = st.columns(3)
+with csjn_col1:
+    st.metric("👨‍⚖️ Ministros en ejercicio", "5",
+              help="La CSJN tiene 5 miembros actualmente")
+with csjn_col2:
+    st.metric("📋 Quejas resueltas (est.)", "N/D",
+              help="Requiere scraping de acordadas CSJN — integrar nlp_corte_suprema.py")
+with csjn_col3:
+    st.metric("⏱️ Tiempo prom. resolución", "N/D",
+              help="Requiere scraping de fallos — fuente: cij.gov.ar")
+
+st.info("🔧 **Próximo paso:** conectar `src/nlp_corte_suprema.py` para extraer tiempos de "
+        "resolución y fallos de alto impacto desde los PDFs de la CSJN (cij.gov.ar).")
+
 st.markdown("---")
 st.caption("Datos: Consejo de la Magistratura · datos.jus.gob.ar · CSJN  |  Ph.D. Monteverde")
