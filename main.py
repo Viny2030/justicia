@@ -1,88 +1,169 @@
-#!/usr/bin/env python3
-# main.py  —  Entry point para lanzar cualquiera de los dos dashboards desde PyCharm
-#
-# USO desde terminal (en la raíz del proyecto):
-#   python main.py estrategico      → lanza Dashboard 1 (Alta Gerencia)
-#   python main.py operativo        → lanza Dashboard 2 (Juzgados)
-#   python main.py                  → muestra menú interactivo
-#
-# USO desde PyCharm:
-#   Run > Edit Configurations > Parameters: "estrategico" o "operativo"
+# main.py  —  Entry point FastAPI
+# uvicorn main:app --reload --port 8000
 
-import subprocess
-import sys
-import os
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-DASHBOARDS = {
-    "1": ("estrategico", "dashboard_estrategico/app.py", "⚖️  Monitor de Alta Gerencia (CSJN · Consejo · Cámaras)"),
-    "2": ("operativo",   "dashboard_operativo/app.py",   "📊  Monitor de Juzgados Federales (1103 registros)"),
-}
+from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, nav_html
 
-ALIAS = {
-    "estrategico": "1",
-    "estratégico": "1",
-    "alta":        "1",
-    "gerencia":    "1",
-    "operativo":   "2",
-    "juzgados":    "2",
-    "operacional": "2",
-}
+app = FastAPI(title="Monitor Judicial — Ph.D. Monteverde", version="2.0")
+
+from dashboard_estrategico.app import router as router_estrategico
+from dashboard_operativo.app   import router as router_operativo
+app.include_router(router_estrategico, prefix="/estrategico", tags=["Estratégico"])
+app.include_router(router_operativo,   prefix="/operativo",   tags=["Operativo"])
 
 
-def lanzar_streamlit(ruta_app: str, port: int = 8501) -> None:
-    """Ejecuta streamlit run en un subproceso."""
-    cmd = [
-        sys.executable, "-m", "streamlit", "run",
-        ruta_app,
-        "--server.port", str(port),
-        "--server.headless", "false",
-        "--browser.gatherUsageStats", "false",
-    ]
-    print(f"\n🚀 Lanzando: {ruta_app}  →  http://localhost:{port}\n")
-    subprocess.run(cmd)
+# ── Página de inicio ──────────────────────────────────────────────────────────
+@app.get("/", response_class=HTMLResponse)
+def inicio():
+    return HTMLResponse(f"""<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<title>Monitor Judicial — Ph.D. Monteverde</title>
+<style>{BASE_CSS}
+.hero{{text-align:center;padding:40px 24px 28px}}
+.hero h1{{font-size:2rem;font-weight:800}}
+.hero h1 span{{color:var(--gold)}}
+.hero p{{color:var(--muted);font-size:.95rem;margin-top:8px}}
+.grid{{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;
+       padding:0 24px 32px}}
+.card{{background:var(--card);border-radius:14px;padding:28px 32px;width:220px;
+       border-top:4px solid var(--blue);text-decoration:none;color:inherit;
+       transition:transform .2s,box-shadow .2s;text-align:center}}
+.card:hover{{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.5)}}
+.card.gold-t{{border-color:var(--gold)}}
+.card.red-t{{border-color:var(--red)}}
+.card .icon{{font-size:2.2rem;margin-bottom:12px}}
+.card h2{{font-size:1rem;margin-bottom:6px}}
+.card p{{color:var(--muted);font-size:.8rem;line-height:1.5}}
+.disclaimer{{margin:0 24px 24px}}
+</style></head><body>
+{nav_html("inicio")}
+<div class="hero">
+  <h1>Sistema de Monitoreo <span>Judicial</span></h1>
+  <p>Ph.D. Vicente H. Monteverde · Auditoría del Poder Judicial de la Nación Argentina</p>
+</div>
+<div class="disclaimer">{DISCLAIMER}</div>
+<div class="grid">
+  <a class="card" href="/estrategico/corte">
+    <div class="icon">⚖️</div><h2>Corte Suprema</h2>
+    <p>CSJN · Fallos de alto impacto · Tiempos de resolución</p>
+  </a>
+  <a class="card gold-t" href="/estrategico/consejo">
+    <div class="icon">🏛️</div><h2>Consejo</h2>
+    <p>Magistratura · Vacancia · Designaciones · Concursos</p>
+  </a>
+  <a class="card red-t" href="/operativo/camaras">
+    <div class="icon">🏢</div><h2>Cámaras</h2>
+    <p>Instancia de apelación · Carga y latencia federal</p>
+  </a>
+  <a class="card" href="/operativo">
+    <div class="icon">📋</div><h2>Juzgados</h2>
+    <p>1ª Instancia · Mora · Ranking · Cuellos de botella</p>
+  </a>
+</div>
+{FOOTER}
+</body></html>""")
 
 
-def menu_interactivo() -> str:
-    """Muestra menú en consola y retorna la clave elegida."""
-    print("\n" + "═" * 60)
-    print("  🏛️  SISTEMA DE MONITOREO JUDICIAL — Ph.D. Monteverde")
-    print("═" * 60)
-    for key, (_, _, desc) in DASHBOARDS.items():
-        print(f"  [{key}]  {desc}")
-    print("  [q]  Salir")
-    print("═" * 60)
-    return input("\nElegí un dashboard (1/2): ").strip().lower()
+# ── Página Apoyar ─────────────────────────────────────────────────────────────
+@app.get("/apoyar", response_class=HTMLResponse)
+def apoyar():
+    return HTMLResponse(f"""<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<title>Apoyar el Proyecto — Monitor Judicial</title>
+<style>{BASE_CSS}
+.apoyar-wrap{{max-width:820px;margin:0 auto;padding:32px 24px}}
+.apoyar-wrap h1{{font-size:1.5rem;font-weight:700;margin-bottom:6px}}
+.apoyar-wrap h1 span{{color:var(--gold)}}
+.apoyar-wrap .sub{{color:var(--muted);font-size:.9rem;margin-bottom:28px;line-height:1.6}}
+.contact{{background:var(--card);border-radius:12px;padding:22px 26px;
+          border-left:4px solid var(--blue);margin-bottom:20px}}
+.contact h2{{font-size:.85rem;text-transform:uppercase;letter-spacing:2px;
+             color:var(--blue);margin-bottom:14px}}
+.contact p{{font-size:.9rem;color:var(--muted);line-height:1.8}}
+.contact a{{color:var(--gold2);text-decoration:none;font-weight:600}}
+.donate-block{{background:var(--card);border-radius:12px;padding:22px 26px;
+               border-left:4px solid var(--gold);margin-bottom:20px}}
+.donate-block h2{{font-size:.85rem;text-transform:uppercase;letter-spacing:2px;
+                  color:var(--gold);margin-bottom:16px}}
+.tag{{display:inline-block;font-size:.72rem;padding:3px 10px;border-radius:4px;
+      font-weight:600;margin-bottom:10px}}
+.tag.ars{{background:#1a1500;color:var(--gold)}}
+.tag.usd{{background:#0f2a10;color:#86efac}}
+.tag.ext{{background:#0f1e3a;color:#93c5fd}}
+.row{{margin-bottom:8px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}}
+.row .lbl{{font-size:.72rem;text-transform:uppercase;color:var(--muted);
+           letter-spacing:1px;min-width:80px}}
+.row .val{{font-family:monospace;font-size:.88rem;background:#0a1628;
+           padding:4px 10px;border-radius:4px;color:var(--text);
+           word-break:break-all}}
+.divider{{border-top:1px solid var(--border);margin:14px 0}}
+.mision{{background:#0f1e3a;border:1px solid var(--gold);border-radius:8px;
+         padding:16px 20px;font-size:.85rem;color:#94a3b8;line-height:1.7;
+         margin-bottom:20px}}
+.mision strong{{color:var(--gold)}}
+</style></head><body>
+{nav_html("apoyar")}
+<div class="apoyar-wrap">
+  <h1>💛 Apoyar el <span>Proyecto</span></h1>
+  <p class="sub">
+    Este sistema de auditoría judicial es desarrollado de forma independiente con
+    fines académicos y de transparencia pública. Si el trabajo te resulta útil,
+    podés contribuir a su continuidad.
+  </p>
+
+  <div class="mision">
+    <strong>Misión:</strong> Promover la transparencia y el debate informado sobre
+    el funcionamiento del Poder Judicial argentino mediante indicadores algorítmicos
+    construidos sobre datos públicos oficiales del Estado.
+  </div>
+
+  <div class="contact">
+    <h2>✉️ Contacto</h2>
+    <p>
+      <strong>Ph.D. Vicente Humberto Monteverde</strong><br>
+      📧 <a href="mailto:vhmonte@retina.ar">vhmonte@retina.ar</a><br>
+      📧 <a href="mailto:viny01958@gmail.com">viny01958@gmail.com</a><br><br>
+      Consultas académicas, colaboraciones institucionales y
+      acceso a datos ampliados sobre el Poder Judicial.
+    </p>
+  </div>
+
+  <div class="donate-block">
+    <h2>🏦 Datos para Donación</h2>
+
+    <div class="tag ars">🇦🇷 Pesos — Argentina</div>
+    <div class="row"><span class="lbl">Tipo</span><span class="val">Caja de Ahorro</span></div>
+    <div class="row"><span class="lbl">CBU</span><span class="val">0140005203400552652310</span></div>
+    <div class="row"><span class="lbl">Alias</span><span class="val">ALGORIT.MONTE.PESOS</span></div>
+    <div class="row"><span class="lbl">Titular</span><span class="val">Vicente Humberto Monteverde</span></div>
+    <div class="row"><span class="lbl">CUIL</span><span class="val">20-12034411-1</span></div>
+
+    <div class="divider"></div>
+    <div class="tag usd">💵 Dólares — Argentina</div>
+    <div class="row"><span class="lbl">Tipo</span><span class="val">Caja de Ahorro Dólares</span></div>
+    <div class="row"><span class="lbl">CBU</span><span class="val">0140005204400550329709</span></div>
+    <div class="row"><span class="lbl">Alias</span><span class="val">ALGO.MONTE.DOLARES</span></div>
+    <div class="row"><span class="lbl">Titular</span><span class="val">Vicente Humberto Monteverde</span></div>
+
+    <div class="divider"></div>
+    <div class="tag ext">🌐 Desde el Exterior</div>
+    <div class="row"><span class="lbl">Banco</span><span class="val">Banco Santander Montevideo</span></div>
+    <div class="row"><span class="lbl">Beneficiario</span><span class="val">Vicente Humberto Monteverde</span></div>
+    <div class="row"><span class="lbl">Dirección</span><span class="val">Av. Directorio 3024-PB-Dto 04</span></div>
+    <div class="row"><span class="lbl">Cuenta USD</span><span class="val">005200183500</span></div>
+    <div class="row"><span class="lbl">Swift</span><span class="val">BSCHUYMM</span></div>
+    <div class="row"><span class="lbl">CUIL</span><span class="val">20-12034411-1</span></div>
+  </div>
+</div>
+{FOOTER}
+</body></html>""")
 
 
-def main() -> None:
-    arg = sys.argv[1].lower() if len(sys.argv) > 1 else None
-
-    if arg in ALIAS:
-        arg = ALIAS[arg]
-
-    if arg not in DASHBOARDS:
-        arg = menu_interactivo()
-
-    if arg == "q":
-        print("Saliendo...")
-        return
-
-    if arg not in DASHBOARDS:
-        print(f"❌ Opción inválida: '{arg}'. Usá 1, 2, estrategico u operativo.")
-        sys.exit(1)
-
-    _, ruta, desc = DASHBOARDS[arg]
-    ruta_abs = os.path.join(os.path.dirname(os.path.abspath(__file__)), ruta)
-
-    if not os.path.exists(ruta_abs):
-        print(f"❌ No se encontró: {ruta_abs}")
-        print("   Asegurate de haber creado los archivos de cada dashboard.")
-        sys.exit(1)
-
-    # Puerto diferente para cada dashboard (útil si los corrés en paralelo)
-    port = 8501 if arg == "1" else 8502
-    lanzar_streamlit(ruta, port)
-
-
-if __name__ == "__main__":
-    main()
+# ── Compatibilidad legacy ─────────────────────────────────────────────────────
+@app.get("/juzgados", response_class=HTMLResponse)
+def legacy():
+    return HTMLResponse('<meta http-equiv="refresh" content="0; url=/operativo">')
