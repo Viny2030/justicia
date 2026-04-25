@@ -532,9 +532,25 @@ def main():
     if completo_path.exists():
         import json as _j
         raw = _j.load(open(completo_path, encoding="utf-8"))
-        completo_rows = raw if isinstance(raw, list) else raw.get("data", raw.get("juzgados", []))
-        _acumular(completo_rows)
-        log.info(f"  Cargado desde pjn_estadisticas_completo.json: {len(juz_pjn)} organismos")
+        # soportar múltiples estructuras: lista, dict con "data"/"juzgados"/"registros"/clave única
+        if isinstance(raw, list):
+            completo_rows = raw
+        elif isinstance(raw, dict):
+            for _k in ("data", "juzgados", "registros", "estadisticas", "results"):
+                if _k in raw and isinstance(raw[_k], list):
+                    completo_rows = raw[_k]; break
+            else:
+                # buscar primera lista dentro del dict
+                completo_rows = next(
+                    (v for v in raw.values() if isinstance(v, list) and len(v) > 0), []
+                )
+        else:
+            completo_rows = []
+        if completo_rows:
+            _acumular(completo_rows)
+            log.info(f"  Cargado desde pjn_estadisticas_completo.json: {len(juz_pjn)} organismos")
+        else:
+            log.warning(f"  pjn_estadisticas_completo.json encontrado pero vacío o estructura no reconocida (keys: {list(raw.keys()) if isinstance(raw,dict) else type(raw)})")
     else:
         # Opción B: parsear CSVs usando scraper_estadisticas.parse_csv si está disponible
         try:
@@ -584,32 +600,38 @@ def main():
         organismo = pjn_data.get("organismo") or key.title()
 
         # métricas base
+        # pendientes y sentencias: CSV PJN primero, oralidad como fallback
+        oral_total    = oral_data.get("total_causas") or 0
+        oral_resueltas= oral_data.get("resueltas") or 0
+        oral_pendientes = max(oral_total - oral_resueltas, 0)
+
+        pend_cierre  = pjn_data.get("pendientes_cierre") or oral_pendientes
+        dict_def     = pjn_data.get("dictadas_def") or pjn_data.get("dictadas_definitivas") or oral_resueltas
+        total_causas_denom = max(pend_cierre + dict_def, oral_total, 1)
+
         r = {
             "juzgado":           organismo,
             "jurisdiccion":      pjn_data.get("jurisdiccion",""),
+            "fuero":             pjn_data.get("fuero","") or oral_data.get("objeto_principal",""),
             "anio":              pjn_data.get("anio",""),
-            # estadísticas causas
+            # estadísticas causas (CSV PJN o fallback oralidad)
             "pendientes_inicio": pjn_data.get("pendientes_inicio") or 0,
-            "pendientes_cierre": pjn_data.get("pendientes_cierre") or 0,
+            "pendientes_cierre": pend_cierre,
             "agregadas":         pjn_data.get("agregadas") or 0,
-            "dictadas_def":      pjn_data.get("dictadas_def") or 0,
-            "dictadas_inter":    pjn_data.get("dictadas_inter") or 0,
+            "dictadas_def":      dict_def,
+            "dictadas_inter":    pjn_data.get("dictadas_inter") or pjn_data.get("dictadas_interlocutorias") or 0,
             "ingresos":          pjn_data.get("ingresos") or 0,
-            "resueltos":         pjn_data.get("resueltos") or 0,
+            "resueltos":         pjn_data.get("resueltos") or oral_resueltas,
             "clearance_rate":    pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0,
             "disposition_time":  pjn_data.get("disposition_time") or oral_data.get("disposition_time") or 0,
             # oralidad
-            "total_causas_oral": oral_data.get("total_causas") or 0,
+            "total_causas_oral": oral_total,
             "mora_2anios":       oral_data.get("mora_2anios") or 0,
             "pct_mora":          oral_data.get("pct_mora") or 0,
             "objeto_principal":  oral_data.get("objeto_principal",""),
             # costo estimado (presupuesto PJN 2024 ≈ ARS 600.000M / ~600 organismos)
             "costo_anual_estimado": 1_000_000_000,
-            "costo_por_causa": round(1_000_000_000 / max(
-                (pjn_data.get("pendientes_cierre") or 0) +
-                (pjn_data.get("dictadas_def") or 0) +
-                (oral_data.get("total_causas") or 0), 1
-            ), 0),
+            "costo_por_causa": round(1_000_000_000 / total_causas_denom, 0),
             # comparación internacional
             "vs_wjp_civil":    round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100 * WJP_CIVIL_BENCH, 2),
             "vs_cepej_cr":     f"{'OK' if (pjn_data.get('clearance_rate') or oral_data.get('clearance_rate') or 0) >= CEPEJ_CR_BENCH else 'BAJO'}",
