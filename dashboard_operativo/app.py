@@ -45,6 +45,60 @@ def _lats(registros, col_lat):
         except: pass
     return [v for v in vals if v > 0]
 
+def _cargar_operativo(nombre: str) -> list:
+    """
+    Carga datos operativos. Si detecta formato estadisticas_causas.json
+    (con columna 'organismo'), reshapea a una fila por organismo combinando
+    métricas de todos los tipo_csv disponibles.
+    """
+    data = _cargar(nombre)
+    if not data or 'organismo' not in data[0]:
+        return data
+
+    grupos = defaultdict(list)
+    for r in data:
+        org = r.get('organismo', '').strip()
+        if not org or 'total' in org.lower() or org.startswith('(*'):
+            continue
+        grupos[org].append(r)
+
+    result = []
+    for org, recs in sorted(grupos.items()):
+        es_cam = _es_camara(org)
+
+        # Métricas de sentencias/movimiento
+        sent = [r for r in recs if r.get('tipo_csv') in ('sentencias', 'tramite_camara')]
+        latest_sent = sorted(sent, key=lambda r: str(r.get('anio','')))[-1] if sent else {}
+
+        # Métricas de trámite (tiene permanencia y resueltos)
+        tram = [r for r in recs if r.get('tipo_csv') == 'tramite_camara']
+        latest_tram = sorted(tram, key=lambda r: str(r.get('anio','')))[-1] if tram else {}
+
+        # Métricas de recursos
+        rec_recs = [r for r in recs if r.get('tipo_csv') == 'recursos']
+        total_recursos = sum((r.get('recursos_apelacion') or 0) + (r.get('otros_recursos') or 0)
+                             for r in rec_recs)
+
+        latencia   = latest_tram.get('permanencia_breve') or latest_tram.get('permanencia_extensa') or 0
+        resueltos  = latest_tram.get('resueltos') or latest_sent.get('resueltos') or 0
+        pendientes = latest_sent.get('pendientes_cierre') or latest_sent.get('en_tramite_cierre') or 0
+        tasa       = latest_tram.get('tasa_resolucion_pct') or latest_sent.get('tasa_resolucion_pct') or 0
+
+        result.append({
+            'juzgado':         org,
+            'latencia':        latencia,
+            'resueltos':       resueltos,
+            'pendientes':      pendientes,
+            'recursos':        total_recursos,
+            'tasa_resolucion': tasa,
+            'jurisdiccion':    (latest_sent or latest_tram).get('jurisdiccion', ''),
+            'anio':            (latest_sent or latest_tram).get('anio', ''),
+            'estado':          'camara' if es_cam else 'activo',
+        })
+    return result
+
+
+
 # ── HTML helpers ──────────────────────────────────────────────────────────────
 def _head(titulo):
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
@@ -71,7 +125,7 @@ def _foot(): return f"{FOOTER}</body></html>"
 @router.get("/api/kpis")
 def api_kpis(instancia: str = Query("todas"), fuente: str = Query("estadisticas_causas.json")):
     try:
-        registros = _cargar(fuente)
+        registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
         col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
         col_est = _col(registros, "estado", "situac", "resolucion")
@@ -115,7 +169,7 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("estadisticas_
 @router.get("/api/tiempos")
 def api_tiempos(fuente: str = Query("estadisticas_causas.json")):
     try:
-        registros = _cargar(fuente)
+        registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
         col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
 
@@ -160,7 +214,7 @@ def api_juzgados(instancia: str = Query("todas"),
                  fuente: str = Query("estadisticas_causas.json"),
                  top: int = Query(20)):
     try:
-        registros = _cargar(fuente)
+        registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
         col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
 
