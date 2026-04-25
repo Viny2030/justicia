@@ -512,30 +512,51 @@ def main():
     log.info("\n=== PASO 3: Parseo de CSVs PJN ===")
     juz_pjn = defaultdict(lambda: defaultdict(lambda: None))
 
-    csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
-    log.info(f"  {len(csv_files)} archivos en {CSV_DIR}")
+    def _acumular(recs_list):
+        for r in recs_list:
+            if r.get("es_total"):
+                continue
+            org = str(r.get("organismo","")).strip()
+            if not org or "total" in org.lower():
+                continue
+            # normalizar nombre de columnas (scraper_estadisticas usa dictadas_definitivas)
+            r.setdefault("dictadas_def", r.get("dictadas_definitivas") or 0)
+            r.setdefault("dictadas_inter", r.get("dictadas_interlocutorias") or 0)
+            key = org.lower()
+            if str(juz_pjn[key].get("anio","")) <= str(r.get("anio","")):
+                juz_pjn[key].update({k: v for k, v in r.items() if v is not None})
+                juz_pjn[key]["organismo"] = org
 
-    for fpath in csv_files:
+    # Opción A: usar pjn_estadisticas_completo.json si ya existe (más rápido y fiable)
+    completo_path = ROOT / "pjn_estadisticas_completo.json"
+    if completo_path.exists():
+        import json as _j
+        raw = _j.load(open(completo_path, encoding="utf-8"))
+        completo_rows = raw if isinstance(raw, list) else raw.get("data", raw.get("juzgados", []))
+        _acumular(completo_rows)
+        log.info(f"  Cargado desde pjn_estadisticas_completo.json: {len(juz_pjn)} organismos")
+    else:
+        # Opción B: parsear CSVs usando scraper_estadisticas.parse_csv si está disponible
         try:
-            recs = parse_pjn_legacy(fpath)
-            if not recs:
-                # intentar como DataFrame normal
-                df = pd.read_csv(fpath, dtype=str, on_bad_lines="skip",
-                                 encoding="utf-8-sig", low_memory=False)
-                recs = df.to_dict(orient="records")
-            for r in recs:
-                if r.get("es_total"):
-                    continue
-                org = str(r.get("organismo","")).strip()
-                if not org:
-                    continue
-                key = org.lower()
-                # acumular: preferir registros más recientes
-                if juz_pjn[key].get("anio","") <= str(r.get("anio","")):
-                    juz_pjn[key].update({k:v for k,v in r.items() if v is not None})
-                    juz_pjn[key]["organismo"] = org
-        except Exception as e:
-            log.warning(f"  {fpath.name}: {e}")
+            from scraper_estadisticas import parse_csv as _parse_csv_ext
+            csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
+            log.info(f"  Parseando {len(csv_files)} archivos con scraper_estadisticas.parse_csv")
+            for fpath in csv_files:
+                try:
+                    recs = _parse_csv_ext(str(fpath))
+                    _acumular(recs)
+                except Exception as e:
+                    log.warning(f"  {fpath.name}: {e}")
+        except ImportError:
+            # Opción C: parse_pjn_legacy propio
+            csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
+            log.info(f"  Parseando {len(csv_files)} archivos con parse_pjn_legacy")
+            for fpath in csv_files:
+                try:
+                    recs = parse_pjn_legacy(fpath)
+                    _acumular(recs)
+                except Exception as e:
+                    log.warning(f"  {fpath.name}: {e}")
 
     log.info(f"  Juzgados parseados desde PJN CSVs: {len(juz_pjn)}")
 
