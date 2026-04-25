@@ -542,3 +542,366 @@ function filtrarRanking(){{
 recargar();
 </script></body></html>"""
     return HTMLResponse(html)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DASHBOARD NACIONAL — todos los juzgados PJN con métricas CEPEJ/WJP/IRA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _cargar_nacional() -> list:
+    """Lee juzgados_nacional.json generado por scraper_juzgados_nacional.py."""
+    path = os.path.join(ROOT, "juzgados_nacional.json")
+    if not os.path.exists(path):
+        return []
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    if isinstance(data, list):
+        return data
+    return data.get("juzgados", data.get("data", []))
+
+
+@router.get("/api/nacional", response_class=JSONResponse)
+def api_nacional(fuero: str = Query(""), semaforo: str = Query("")):
+    """JSON: todos los juzgados PJN con métricas completas."""
+    try:
+        rows = _cargar_nacional()
+        if fuero:
+            rows = [r for r in rows if fuero.lower() in (r.get("fuero","") or "").lower()]
+        if semaforo:
+            rows = [r for r in rows if (r.get("ira_semaforo","") or "") == semaforo]
+
+        # KPIs agregados
+        total = len(rows)
+        cr_vals  = [r["clearance_rate"] for r in rows if r.get("clearance_rate") is not None]
+        dt_vals  = [r["disposition_time"] for r in rows if r.get("disposition_time") is not None]
+        mora_sum = sum(r.get("mora_2anios") or 0 for r in rows)
+        pend_sum = sum(r.get("pendientes_cierre") or 0 for r in rows)
+        sent_sum = sum(r.get("dictadas_def") or 0 for r in rows)
+        costo_sum= sum(r.get("costo_anual_estimado") or 0 for r in rows)
+
+        cr_prom  = round(sum(cr_vals)/len(cr_vals),1) if cr_vals else 0
+        dt_prom  = round(sum(dt_vals)/len(dt_vals),0) if dt_vals else 0
+
+        semaf_cnt = Counter(r.get("ira_semaforo","⬜") for r in rows)
+        fueros    = sorted(set(r.get("fuero","") or "" for r in rows if r.get("fuero")))
+
+        # Top 20 mora
+        top_mora = sorted(
+            [r for r in rows if r.get("pct_mora") is not None],
+            key=lambda r: r["pct_mora"], reverse=True
+        )[:20]
+
+        # Top 20 backlog (pendientes)
+        top_pend = sorted(
+            [r for r in rows if r.get("pendientes_cierre") is not None],
+            key=lambda r: r["pendientes_cierre"], reverse=True
+        )[:20]
+
+        return JSONResponse({
+            "total": total,
+            "kpis": {
+                "clearance_rate_prom": cr_prom,
+                "disposition_time_prom": int(dt_prom),
+                "pendientes_total": pend_sum,
+                "sentencias_total": sent_sum,
+                "mora_total": mora_sum,
+                "costo_total": costo_sum,
+                "semaforo": dict(semaf_cnt),
+            },
+            "fueros": fueros,
+            "top_mora": [
+                {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
+                 "pct_mora": r.get("pct_mora",0), "mora_2anios": r.get("mora_2anios",0)}
+                for r in top_mora
+            ],
+            "top_pendientes": [
+                {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
+                 "pendientes": r.get("pendientes_cierre",0), "cr": r.get("clearance_rate",0)}
+                for r in top_pend
+            ],
+            "tabla": rows,
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e), "total": 0}, status_code=500)
+
+
+@router.get("/nacional", response_class=HTMLResponse)
+def pagina_nacional():
+    """Dashboard completo por juzgado — todos los nacionales PJN."""
+
+    html_body = r"""
+<div class="scope">
+  🗺️ <strong>Juzgados Nacionales (PJN)</strong> —
+  Estadísticas completas por órgano: mora, clearance rate, disposition time, costo,
+  comparación WJP / CEPEJ / CEJAS e Índice de Riesgo Algorítmico.
+  Datos: <em>scraper_juzgados_nacional.py</em> sobre estadisticas.pjn.gov.ar
+</div>
+
+<!-- KPIs ─────────────────────────────────────── -->
+<div class="kpi-grid" id="nac-kpis">
+  <div class="kpi"><label>Juzgados relevados</label><div class="val" id="nac-total">—</div></div>
+  <div class="kpi" id="kpi-cr">
+    <label>Clearance Rate promedio</label>
+    <div class="val" id="nac-cr">—</div>
+    <div class="sub">CEPEJ objetivo ≥100%</div>
+  </div>
+  <div class="kpi" id="kpi-dt">
+    <label>Disposition Time promedio</label>
+    <div class="val" id="nac-dt">—</div><div class="sub">días · CEPEJ obj. ≤230</div>
+  </div>
+  <div class="kpi rojo">
+    <label>Causas en mora (&gt;2 años)</label>
+    <div class="val" id="nac-mora">—</div>
+  </div>
+  <div class="kpi gold">
+    <label>Costo operativo total</label>
+    <div class="val" id="nac-costo" style="font-size:1.1rem">—</div>
+    <div class="sub">ARS/año estimado</div>
+  </div>
+</div>
+
+<!-- Semáforos IRA -->
+<div style="display:flex;gap:12px;margin:12px 0;flex-wrap:wrap" id="nac-semaf"></div>
+
+<!-- Filtros ──────────────────────────────────── -->
+<div class="controles">
+  <label>Fuero:
+    <select id="fil-fuero" onchange="cargarNacional()">
+      <option value="">Todos</option>
+    </select>
+  </label>
+  <label>IRA:
+    <select id="fil-semaf" onchange="cargarNacional()">
+      <option value="">Todos</option>
+      <option value="🟢">🟢 Bajo riesgo</option>
+      <option value="🟡">🟡 Riesgo medio</option>
+      <option value="🔴">🔴 Alto riesgo</option>
+    </select>
+  </label>
+  <label>Buscar: <input id="fil-buscar" type="text" placeholder="juzgado, magistrado…"
+         oninput="filtrarTabla()" style="width:240px"></label>
+  <label>Ordenar:
+    <select id="fil-orden" onchange="filtrarTabla()">
+      <option value="ira_score">IRA ↑</option>
+      <option value="pct_mora">% mora ↑</option>
+      <option value="pendientes_cierre">Pendientes ↑</option>
+      <option value="disposition_time">Disp. time ↑</option>
+      <option value="clearance_rate_asc">Clearance rate ↑</option>
+    </select>
+  </label>
+</div>
+
+<!-- Gráficos ─────────────────────────────────── -->
+<div class="charts">
+  <div class="chart-box">
+    <h2>🔴 Top 20 — % Mora (&gt;2 años)</h2>
+    <div id="graf-mora" style="height:360px"></div>
+  </div>
+  <div class="chart-box">
+    <h2>📦 Top 20 — Causas pendientes</h2>
+    <div id="graf-pend" style="height:360px"></div>
+  </div>
+</div>
+
+<div class="chart-full" style="margin-top:16px">
+  <h2 style="color:var(--muted);margin:0 0 8px">📊 Distribución Clearance Rate</h2>
+  <div id="graf-cr" style="height:300px"></div>
+</div>
+
+<!-- Tabla ────────────────────────────────────── -->
+<div class="seccion">📋 Detalle por Juzgado</div>
+<div style="overflow-x:auto;margin-top:8px">
+<table id="nac-tabla" style="width:100%;border-collapse:collapse;font-size:.78rem;min-width:1200px">
+  <thead>
+  <tr style="background:var(--card2);color:var(--muted);text-align:left;white-space:nowrap">
+    <th style="padding:8px 10px">IRA</th>
+    <th style="padding:8px 10px">Juzgado</th>
+    <th style="padding:8px 10px">Fuero</th>
+    <th style="padding:8px 10px">Magistrado</th>
+    <th style="padding:8px 10px;text-align:right">Pendientes</th>
+    <th style="padding:8px 10px;text-align:right">Sent./año</th>
+    <th style="padding:8px 10px;text-align:right">Disp.Time</th>
+    <th style="padding:8px 10px;text-align:right">Clear.Rate</th>
+    <th style="padding:8px 10px;text-align:right">% Mora</th>
+    <th style="padding:8px 10px;text-align:right">Costo/causa</th>
+    <th style="padding:8px 10px;text-align:right">vs WJP</th>
+    <th style="padding:8px 10px;text-align:right">vs CEPEJ CR</th>
+    <th style="padding:8px 10px;text-align:right">vs CEPEJ DT</th>
+    <th style="padding:8px 10px">Vacante</th>
+  </tr>
+  </thead>
+  <tbody id="nac-tbody"></tbody>
+</table>
+</div>
+"""
+
+    script = r"""
+const cfg = {responsive:true, displayModeBar:false};
+let _tablaData = [];
+
+async function cargarNacional() {
+  const fuero   = document.getElementById('fil-fuero').value;
+  const semaforo= document.getElementById('fil-semaf').value;
+  const url = `/operativo/api/nacional?fuero=${encodeURIComponent(fuero)}&semaforo=${encodeURIComponent(semaforo)}`;
+  let d;
+  try { d = await fetch(url).then(r=>r.json()); }
+  catch(e) { console.error(e); return; }
+
+  if(d.error) {
+    document.getElementById('nac-total').textContent = 'Sin datos';
+    document.getElementById('nac-tbody').innerHTML =
+      '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">' +
+      '⚠️ Archivo juzgados_nacional.json no encontrado.<br>' +
+      'Corré <code>python scraper_juzgados_nacional.py</code> en el servidor para generarlo.</td></tr>';
+    return;
+  }
+
+  // KPIs
+  document.getElementById('nac-total').textContent = (d.total||0).toLocaleString('es-AR');
+  const cr = d.kpis.clearance_rate_prom;
+  document.getElementById('nac-cr').textContent = cr + '%';
+  document.getElementById('kpi-cr').className = 'kpi ' + (cr>=100?'verde':'rojo');
+  const dt = d.kpis.disposition_time_prom;
+  document.getElementById('nac-dt').textContent = fmt(dt) + ' d';
+  document.getElementById('kpi-dt').className = 'kpi ' + (dt<=230?'verde':'rojo');
+  document.getElementById('nac-mora').textContent = fmt(d.kpis.mora_total);
+  document.getElementById('nac-costo').textContent = '$' + fmt(Math.round(d.kpis.costo_total/1e6)) + 'M';
+
+  // Semáforos
+  const sf = d.kpis.semaforo||{};
+  document.getElementById('nac-semaf').innerHTML = ['🟢','🟡','🔴'].map(s=>`
+    <div style="background:#1a2744;border-radius:8px;padding:10px 18px;text-align:center">
+      <div style="font-size:1.6rem">${s}</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#e2e8f0">${sf[s]||0}</div>
+      <div style="font-size:.75rem;color:#64748b">${s==='🟢'?'Bajo riesgo':s==='🟡'?'Riesgo medio':'Alto riesgo'}</div>
+    </div>`).join('');
+
+  // Fueros selector
+  const sel = document.getElementById('fil-fuero');
+  const cur = sel.value;
+  const opts = ['<option value="">Todos</option>',
+    ...(d.fueros||[]).map(f=>`<option${f===cur?' selected':''}>${f}</option>`)
+  ];
+  sel.innerHTML = opts.join('');
+
+  // Gráfico mora
+  if(d.top_mora && d.top_mora.length) {
+    const tm = d.top_mora;
+    Plotly.newPlot('graf-mora',[{
+      type:'bar', orientation:'h',
+      x: tm.map(r=>r.pct_mora), y: tm.map(r=>r.juzgado),
+      text: tm.map(r=>r.pct_mora+'%'), textposition:'outside',
+      marker:{color:'#e63946',opacity:.85},
+      hovertemplate:'<b>%{y}</b><br>Mora: %{x}%<extra></extra>'
+    }],{
+      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
+      font:{color:'#e2e8f0',size:10},
+      margin:{l:10,r:60,t:10,b:30},
+      xaxis:{gridcolor:'#2d4a7a'},
+      yaxis:{autorange:'reversed',automargin:true,gridcolor:'#2d4a7a'}
+    },cfg);
+  }
+
+  // Gráfico pendientes
+  if(d.top_pendientes && d.top_pendientes.length) {
+    const tp = d.top_pendientes;
+    Plotly.newPlot('graf-pend',[{
+      type:'bar', orientation:'h',
+      x: tp.map(r=>r.pendientes), y: tp.map(r=>r.juzgado),
+      text: tp.map(r=>fmt(r.pendientes)), textposition:'outside',
+      marker:{color:'#3b82f6',opacity:.85},
+      hovertemplate:'<b>%{y}</b><br>Pendientes: %{x}<extra></extra>'
+    }],{
+      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
+      font:{color:'#e2e8f0',size:10},
+      margin:{l:10,r:60,t:10,b:30},
+      xaxis:{gridcolor:'#2d4a7a'},
+      yaxis:{autorange:'reversed',automargin:true,gridcolor:'#2d4a7a'}
+    },cfg);
+  }
+
+  // Distribución clearance rate (histogram)
+  const crVals = (d.tabla||[]).map(r=>r.clearance_rate).filter(v=>v!=null);
+  if(crVals.length) {
+    Plotly.newPlot('graf-cr',[{
+      type:'histogram', x:crVals, nbinsx:30,
+      marker:{color:'#22c55e',opacity:.7},
+      hovertemplate:'CR %{x}%: %{y} juzgados<extra></extra>'
+    },{
+      type:'scatter', mode:'lines',
+      x:[100,100], y:[0, Math.ceil(crVals.length/3)],
+      line:{color:'#c9a227',dash:'dot',width:2},
+      name:'CEPEJ obj. (100%)'
+    }],{
+      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
+      font:{color:'#e2e8f0',size:11},
+      margin:{l:50,r:20,t:10,b:40},
+      xaxis:{title:'Clearance Rate (%)',gridcolor:'#2d4a7a'},
+      yaxis:{title:'Juzgados',gridcolor:'#2d4a7a'},
+      showlegend:true
+    },cfg);
+  }
+
+  _tablaData = d.tabla || [];
+  filtrarTabla();
+}
+
+function filtrarTabla() {
+  const q = (document.getElementById('fil-buscar').value||'').toLowerCase();
+  const orden = document.getElementById('fil-orden').value;
+  let rows = q
+    ? _tablaData.filter(r=>(r.juzgado||'').toLowerCase().includes(q)||(r.magistrado||'').toLowerCase().includes(q)||(r.fuero||'').toLowerCase().includes(q))
+    : [..._tablaData];
+
+  // Ordenar
+  rows.sort((a,b)=>{
+    if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
+    const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
+    return (b[k]||0)-(a[k]||0);
+  });
+
+  const tbody = document.getElementById('nac-tbody');
+  if(!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">Sin resultados</td></tr>';
+    return;
+  }
+
+  const color_cr  = v => v==null?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
+  const color_dt  = v => v==null?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
+  const color_mora= v => v==null?'#64748b':v<5?'#22c55e':v<15?'#f59e0b':'#e63946';
+
+  tbody.innerHTML = rows.map(r=>`
+    <tr style="border-bottom:1px solid #1e3058">
+      <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'}</td>
+      <td style="padding:6px 10px;color:#e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
+          title="${r.juzgado||''}">${r.juzgado||'—'}</td>
+      <td style="padding:6px 10px;color:#64748b;font-size:.75rem">${r.fuero||'—'}</td>
+      <td style="padding:6px 10px;color:#93c5fd;font-size:.78rem">${r.magistrado||'—'}${r.antiguedad_anos?'<br><span style="color:#64748b;font-size:.72rem">'+r.antiguedad_anos+' años</span>':''}</td>
+      <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.pendientes_cierre)}</td>
+      <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.dictadas_def)}</td>
+      <td style="padding:6px 10px;text-align:right;color:${color_dt(r.disposition_time)}">${r.disposition_time!=null?fmt(r.disposition_time)+' d':'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:${color_cr(r.clearance_rate)};font-weight:600">${r.clearance_rate!=null?r.clearance_rate+'%':'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:${color_mora(r.pct_mora)}">${r.pct_mora!=null?r.pct_mora+'%':'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:#94a3b8">${r.costo_por_causa?'$'+fmt(r.costo_por_causa):'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_wjp_civil!=null?r.vs_wjp_civil:'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_cepej_cr!=null?r.vs_cepej_cr:'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_cepej_dt!=null?r.vs_cepej_dt:'—'}</td>
+      <td style="padding:6px 10px;text-align:center">${r.vacante?'<span style="color:#e63946">Vacante</span>':r.en_licencia?'<span style="color:#f59e0b">Licencia</span>':'<span style="color:#22c55e">Activo</span>'}</td>
+    </tr>`).join('');
+}
+
+cargarNacional();
+"""
+
+    parts = [
+        _head("Juzgados Nacionales — Monitor Judicial"),
+        nav_html("nacional"),
+        "<div class='contenido'>",
+        DISCLAIMER,
+        html_body,
+        "</div>",
+        FOOTER,
+        PLOTLY_JS,
+        "<script>", PLOTLY_BASE, script, "</script></body></html>",
+    ]
+    return HTMLResponse("".join(parts))

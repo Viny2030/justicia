@@ -59,6 +59,10 @@ def inicio():
     <div class="icon">🏢</div><h2>Cámaras</h2>
     <p>Instancia de apelación · Carga y latencia federal</p>
   </a>
+  <a class="card blue-t" href="/operativo/nacional">
+    <div class="icon">🗺️</div><h2>Nacional PJN</h2>
+    <p>Todos los juzgados · IRA · CEPEJ · WJP · Costo</p>
+  </a>
   <a class="card" href="/operativo">
     <div class="icon">📋</div><h2>Juzgados</h2>
     <p>1ª Instancia · Mora · Ranking · Cuellos de botella</p>

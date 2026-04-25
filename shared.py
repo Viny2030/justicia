@@ -132,6 +132,7 @@ def nav_html(activo: str = "") -> str:
         ("/estrategico/indicadores", "🌐 Indicadores", "indicadores"),
         ("/estrategico/candidatos", "📋 Candidatos", "candidatos"),
         ("/operativo/camaras",   "🏢 Cámaras",  "camaras"),
+        ("/operativo/nacional",   "🗺️ Nacional",  "nacional"),
         ("/operativo",           "📋 Juzgados", "juzgados"),
     ]
     links = ""
