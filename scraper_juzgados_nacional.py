@@ -527,36 +527,13 @@ def main():
                 juz_pjn[key].update({k: v for k, v in r.items() if v is not None})
                 juz_pjn[key]["organismo"] = org
 
-    # Opción A: usar pjn_estadisticas_completo.json si ya existe (más rápido y fiable)
-    completo_path = ROOT / "pjn_estadisticas_completo.json"
-    if completo_path.exists():
-        import json as _j
-        raw = _j.load(open(completo_path, encoding="utf-8"))
-        # soportar múltiples estructuras: lista, dict con "data"/"juzgados"/"registros"/clave única
-        if isinstance(raw, list):
-            completo_rows = raw
-        elif isinstance(raw, dict):
-            for _k in ("data", "juzgados", "registros", "estadisticas", "results"):
-                if _k in raw and isinstance(raw[_k], list):
-                    completo_rows = raw[_k]; break
-            else:
-                # buscar primera lista dentro del dict
-                completo_rows = next(
-                    (v for v in raw.values() if isinstance(v, list) and len(v) > 0), []
-                )
-        else:
-            completo_rows = []
-        if completo_rows:
-            _acumular(completo_rows)
-            log.info(f"  Cargado desde pjn_estadisticas_completo.json: {len(juz_pjn)} organismos")
-        else:
-            log.warning(f"  pjn_estadisticas_completo.json encontrado pero vacío o estructura no reconocida (keys: {list(raw.keys()) if isinstance(raw,dict) else type(raw)})")
-    else:
-        # Opción B: parsear CSVs usando scraper_estadisticas.parse_csv si está disponible
+    # Parsear CSVs de pjn_estadisticas/ usando scraper_estadisticas.parse_csv
+    # Nota: pjn_estadisticas_completo.json es datos de concursos, NO estadísticas de causas
+    csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
+    if csv_files:
         try:
             from scraper_estadisticas import parse_csv as _parse_csv_ext
-            csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
-            log.info(f"  Parseando {len(csv_files)} archivos con scraper_estadisticas.parse_csv")
+            log.info(f"  Parseando {len(csv_files)} CSVs con scraper_estadisticas.parse_csv")
             for fpath in csv_files:
                 try:
                     recs = _parse_csv_ext(str(fpath))
@@ -564,15 +541,15 @@ def main():
                 except Exception as e:
                     log.warning(f"  {fpath.name}: {e}")
         except ImportError:
-            # Opción C: parse_pjn_legacy propio
-            csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
-            log.info(f"  Parseando {len(csv_files)} archivos con parse_pjn_legacy")
+            log.info(f"  Parseando {len(csv_files)} CSVs con parse_pjn_legacy")
             for fpath in csv_files:
                 try:
                     recs = parse_pjn_legacy(fpath)
                     _acumular(recs)
                 except Exception as e:
                     log.warning(f"  {fpath.name}: {e}")
+    else:
+        log.warning(f"  No se encontraron CSVs en {CSV_DIR}")
 
     log.info(f"  Juzgados parseados desde PJN CSVs: {len(juz_pjn)}")
 
