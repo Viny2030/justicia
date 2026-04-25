@@ -289,6 +289,44 @@ def _cargar_oralidad_all() -> list:
                 pass
     return rows
 
+
+def _cargar_cvs_stats() -> dict:
+    """
+    Lee el JSON de curriculums vitae de candidatos a magistrados desde datos_jus/.
+    Devuelve estadísticas agregadas listas para serializar a JSON.
+    """
+    from collections import Counter as _Counter
+    registros = _cargar_datos_jus("curriculums-vitae")
+    if not registros:
+        return {"total": 0, "universidades": [], "provincias": [], "ambitos": [], "tabla": []}
+
+    total = len(registros)
+
+    univs = _Counter(r.get("universidad", "Sin datos") or "Sin datos" for r in registros)
+    top_univs = [{"nombre": k, "cantidad": v}
+                 for k, v in univs.most_common(15) if k and k != "Sin datos"]
+
+    provs = _Counter(r.get("provincia_nacimiento_magistrado", "Sin datos") or "Sin datos"
+                     for r in registros)
+    top_provs = [{"provincia": k, "cantidad": v}
+                 for k, v in sorted(provs.items(), key=lambda x: -x[1])
+                 if k and k != "Sin datos"][:20]
+
+    ambitos = _Counter(r.get("ambito_origen_concurso_descripcion", "Sin datos") or "Sin datos"
+                       for r in registros)
+    top_ambitos = [{"ambito": k, "cantidad": v} for k, v in ambitos.most_common(10)]
+
+    tabla = [{"nombre":    r.get("nombre_magistrado", ""),
+              "concurso":  r.get("numero_concurso", ""),
+              "ambito":    r.get("ambito_origen_concurso_descripcion", ""),
+              "universidad": r.get("universidad", ""),
+              "provincia": r.get("provincia_nacimiento_magistrado", ""),
+              "link_cv":   r.get("link_html_curriculum_magistrado", "")}
+             for r in registros[:200]]
+
+    return {"total": total, "universidades": top_univs,
+            "provincias": top_provs, "ambitos": top_ambitos, "tabla": tabla}
+
 def _col(recs, *kws):
     if not recs: return None
     keys = recs[0].keys()
@@ -907,7 +945,6 @@ def pagina_consejo():
             FOOTER,
             "<script>", PLOTLY_BASE,
             r"""
-const fmt = n => n==null?'S/D':Number(n).toLocaleString('es-AR');
 const C2={bg:'#0a1628',card:'#1a2744',gold:'#c9a227',blue:'#3b82f6',red:'#e63946',green:'#22c55e',text:'#e2e8f0',muted:'#94a3b8',grid:'#2d4a7a'};
 const Lx=(x={})=>Object.assign({plot_bgcolor:C2.card,paper_bgcolor:C2.card,font:{color:C2.text,family:'Segoe UI',size:12},margin:{l:10,r:10,t:30,b:40},xaxis:{gridcolor:C2.grid,linecolor:C2.grid},yaxis:{gridcolor:C2.grid,linecolor:C2.grid}},x);
 
@@ -1081,7 +1118,6 @@ const Lx=(x={})=>Object.assign({
   yaxis:{gridcolor:C2.grid,linecolor:C2.grid},
 },x);
 const cfg={responsive:true,displayModeBar:false};
-const fmt=n=>n==null?'S/D':Number(n).toLocaleString('es-AR');
 
 // ═══════════════════════════════════════════════
 // 1. WJP — Ranking Regional
@@ -1678,5 +1714,112 @@ fetch('/estrategico/api/seleccion').then(r=>r.json()).then(d=>{
 # REDIRECT /estrategico → /estrategico/consejo
 # ══════════════════════════════════════════════════════════════════════════════
 @router.get("/", response_class=HTMLResponse)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CANDIDATOS — CVs de candidatos a magistrados (datos_jus)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@router.get("/api/candidatos", response_class=JSONResponse)
+def api_candidatos():
+    try:
+        return JSONResponse(_cargar_cvs_stats())
+    except Exception as e:
+        return JSONResponse({"error": str(e), "total": 0}, status_code=500)
+
+
+@router.get("/candidatos", response_class=HTMLResponse)
+def pagina_candidatos():
+    html_body = """
+<div class=\"scope\">
+  📋 <strong>Candidatos a Magistrados</strong> &mdash;
+  Base pública de CVs presentados en concursos del Consejo de la Magistratura.
+  Fuente: <a href=\"https://datos.jus.gob.ar\" target=\"_blank\" style=\"color:var(--gold)\">datos.jus.gob.ar</a>
+</div>
+<div class=\"kpi-grid\">
+  <div class=\"kpi gold\"><label>Total candidatos</label><div class=\"val\" id=\"cv-total\">&#8212;</div><div class=\"sub\">CVs presentados</div></div>
+  <div class=\"kpi\"><label>Universidades representadas</label><div class=\"val\" id=\"cv-univs\">&#8212;</div><div class=\"sub\">Instituciones de egreso</div></div>
+  <div class=\"kpi verde\"><label>Provincias de origen</label><div class=\"val\" id=\"cv-provs\">&#8212;</div><div class=\"sub\">Distribución geográfica</div></div>
+</div>
+<div class=\"seccion\">📊 Distribución por Universidad</div>
+<div class=\"chart-full\"><div id=\"graf-cv-univs\" style=\"height:360px\"></div></div>
+<div class=\"charts\">
+  <div class=\"chart-box\"><h2>🗺️ Provincias de nacimiento</h2><div id=\"graf-cv-provs\" style=\"height:360px\"></div></div>
+  <div class=\"chart-box\"><h2>⚖️ Ámbito del concurso</h2><div id=\"graf-cv-ambitos\" style=\"height:360px\"></div></div>
+</div>
+<div class=\"seccion\">🔍 Candidatos (primeros 200)</div>
+<div class=\"controles\"><label>Buscar: <input id=\"cv-buscar\" type=\"text\" placeholder=\"nombre, universidad, provincia&hellip;\" style=\"width:280px\"></label></div>
+<div style=\"overflow-x:auto\">
+  <table style=\"width:100%;border-collapse:collapse;font-size:.82rem\">
+    <thead><tr style=\"background:var(--card2);color:var(--muted);text-align:left\">
+      <th style=\"padding:8px 12px\">Nombre</th>
+      <th style=\"padding:8px 12px\">Concurso</th>
+      <th style=\"padding:8px 12px\">Universidad</th>
+      <th style=\"padding:8px 12px\">Provincia</th>
+      <th style=\"padding:8px 12px\">Ámbito</th>
+      <th style=\"padding:8px 12px\">CV</th>
+    </tr></thead>
+    <tbody id=\"cv-tbody\"></tbody>
+  </table>
+</div>
+"""
+
+    script = r"""
+const cfg={responsive:true,displayModeBar:false};
+fetch('/estrategico/api/candidatos').then(r=>r.json()).then(d=>{
+  document.getElementById('cv-total').textContent=d.total.toLocaleString('es-AR');
+  document.getElementById('cv-univs').textContent=d.universidades.length;
+  document.getElementById('cv-provs').textContent=d.provincias.length;
+  const uL=d.universidades.map(u=>u.nombre),uV=d.universidades.map(u=>u.cantidad);
+  Plotly.newPlot('graf-cv-univs',[{type:'bar',x:uV,y:uL,orientation:'h',text:uV,textposition:'outside',
+    marker:{color:'#3b82f6',opacity:.85},hovertemplate:'<b>%{y}</b><br>%{x} candidatos<extra></extra>'}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:220,r:60,t:20,b:40},xaxis:{gridcolor:'#2d4a7a'},yaxis:{gridcolor:'#2d4a7a',automargin:true}},cfg);
+  const pL=d.provincias.map(p=>p.provincia),pV=d.provincias.map(p=>p.cantidad);
+  Plotly.newPlot('graf-cv-provs',[{type:'bar',x:pL,y:pV,
+    marker:{color:'#c9a227',opacity:.85},hovertemplate:'<b>%{x}</b><br>%{y}<extra></extra>'}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:40,r:20,t:20,b:80},xaxis:{gridcolor:'#2d4a7a',tickangle:-40},yaxis:{gridcolor:'#2d4a7a'}},cfg);
+  const aL=d.ambitos.map(a=>a.ambito),aV=d.ambitos.map(a=>a.cantidad);
+  Plotly.newPlot('graf-cv-ambitos',[{type:'pie',labels:aL,values:aV,hole:.35,
+    textinfo:'label+percent',hovertemplate:'<b>%{label}</b><br>%{value}<extra></extra>',
+    marker:{colors:['#3b82f6','#c9a227','#22c55e','#e63946','#8b5cf6','#f97316']}}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:10,r:10,t:20,b:10},showlegend:false},cfg);
+  window._cvData=d.tabla;
+  renderTabla(d.tabla);
+}).catch(e=>console.error('Error candidatos:',e));
+function renderTabla(rows){
+  document.getElementById('cv-tbody').innerHTML=rows.map(r=>`
+    <tr style="border-bottom:1px solid #2d4a7a">
+      <td style="padding:7px 12px;color:#e2e8f0">${r.nombre||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8">${r.concurso||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#93c5fd">${r.universidad||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8">${r.provincia||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8;font-size:.76rem">${r.ambito||'&#8212;'}</td>
+      <td style="padding:7px 12px">${r.link_cv?`<a href="${r.link_cv}" target="_blank" style="color:var(--gold)">Ver CV &rarr;</a>`:'&#8212;'}</td>
+    </tr>`).join('');
+}
+document.getElementById('cv-buscar').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  if(!window._cvData)return;
+  renderTabla(window._cvData.filter(r=>
+    (r.nombre||'').toLowerCase().includes(q)||(r.universidad||'').toLowerCase().includes(q)||
+    (r.provincia||'').toLowerCase().includes(q)||(r.ambito||'').toLowerCase().includes(q)));
+});
+"""
+
+    parts = [
+        _head("Candidatos a Magistrados \u2014 Monitor Judicial"),
+        nav_html("candidatos"),
+        "<div class='contenido'>",
+        DISCLAIMER,
+        html_body,
+        "</div>",
+        FOOTER,
+        '<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>',
+        "<script>", script, "</script></body></html>",
+    ]
+    return HTMLResponse("".join(parts))
+
 def redirect_estrategico():
     return HTMLResponse('<meta http-equiv="refresh" content="0; url=/estrategico/consejo">')
