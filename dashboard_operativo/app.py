@@ -139,6 +139,21 @@ def _head(titulo):
 .controles select,.controles input{{background:var(--card);border:1px solid var(--border);
   color:var(--text);padding:6px 12px;border-radius:6px;font-size:.83rem;outline:none}}
 .controles select:focus,.controles input:focus{{border-color:var(--gold)}}
+/* Panel detalle */
+.panel-overlay{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;backdrop-filter:blur(2px)}}
+.panel-overlay.visible{{display:block}}
+.panel-detalle{{position:fixed;top:0;right:-460px;width:440px;height:100vh;
+  background:#0d1b2e;border-left:1px solid #2d4a7a;overflow-y:auto;
+  transition:right .28s cubic-bezier(.4,0,.2,1);z-index:1000;padding:24px 20px}}
+.panel-detalle.abierto{{right:0}}
+.pd-row{{display:flex;justify-content:space-between;align-items:flex-start;
+  padding:7px 0;border-bottom:1px solid #1a2e50;font-size:.82rem;gap:8px}}
+.pd-label{{color:#64748b;flex-shrink:0}}
+.pd-val{{color:#e2e8f0;font-weight:500;text-align:right;word-break:break-word}}
+.pd-sec{{font-size:.7rem;text-transform:uppercase;letter-spacing:1.8px;
+  color:#c9a227;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid #1e3058}}
+.nac-tr-click{{cursor:pointer;transition:background .15s}}
+.nac-tr-click:hover{{background:rgba(45,74,122,.35)!important}}
 </style></head><body>"""
 
 def _foot(): return f"{FOOTER}</body></html>"
@@ -803,6 +818,18 @@ def pagina_nacional():
 </table>
 </div>
 
+<!-- Overlay + panel detalle -->
+<div class="panel-overlay" id="panel-overlay" onclick="cerrarPanel()"></div>
+<div class="panel-detalle" id="panel-detalle">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <span style="color:#64748b;font-size:.78rem;letter-spacing:1px;text-transform:uppercase">Detalle del juzgado</span>
+    <button onclick="cerrarPanel()"
+      style="background:none;border:1px solid #2d4a7a;color:#94a3b8;font-size:1rem;
+             cursor:pointer;padding:3px 10px;border-radius:5px;line-height:1.4">✕</button>
+  </div>
+  <div id="panel-content"></div>
+</div>
+
 <!-- Paginación -->
 <div id="nac-paginacion"
      style="display:flex;gap:10px;align-items:center;justify-content:center;
@@ -1117,7 +1144,8 @@ function filtrarTabla(resetPage=true) {
                         :'<span style="color:#e63946">✗ '+v+'</span>';
 
   tbody.innerHTML = pageRows.map(r=>`
-    <tr style="border-bottom:1px solid #1e3058">
+    <tr class="nac-tr-click" style="border-bottom:1px solid #1e3058"
+        onclick='abrirDetalle(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
       <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'} <span style="font-size:.72rem;color:#64748b">${r.ira_score||0}</span></td>
       <td style="padding:6px 10px;color:#e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
           title="${r.juzgado||''}">${r.juzgado||'—'}</td>
@@ -1134,6 +1162,108 @@ function filtrarTabla(resetPage=true) {
       <td style="padding:6px 10px;text-align:right;font-size:.75rem">${fmt_cepej(r.vs_cepej_dt)}</td>
       <td style="padding:6px 10px;text-align:center">${r.vacante?'<span style="color:#e63946">Vacante</span>':r.en_licencia?'<span style="color:#f59e0b">Licencia</span>':'<span style="color:#22c55e">Activo</span>'}</td>
     </tr>`).join('');
+}
+
+// ── Panel detalle ────────────────────────────────────────────────────────────
+function cerrarPanel() {
+  document.getElementById('panel-overlay').classList.remove('visible');
+  document.getElementById('panel-detalle').classList.remove('abierto');
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') cerrarPanel(); });
+
+function abrirDetalle(r) {
+  const cc  = v => !v||v===0?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
+  const cdt = v => !v||v===0?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
+  const cm  = v => v==null?'#64748b':v<5?'#22c55e':v<15?'#f59e0b':'#e63946';
+  const ci  = s => s==='🟢'?'#22c55e':s==='🟡'?'#f59e0b':'#e63946';
+  const fmtN= v => v!=null&&v!==''&&v!==0 ? Number(v).toLocaleString('es-AR') : null;
+  const fmtCepej = v => !v||v==='—'?null
+    : v==='OK'?'<span style="color:#22c55e">✓ OK</span>'
+    : '<span style="color:#e63946">✗ '+v+'</span>';
+
+  const row = (label, val, color) => {
+    if(val===null||val===undefined||val===''||val==='—') return '';
+    return `<div class="pd-row">
+      <span class="pd-label">${label}</span>
+      <span class="pd-val" style="color:${color||'#e2e8f0'}">${val}</span>
+    </div>`;
+  };
+
+  const iraColor = ci(r.ira_semaforo||'');
+  const iraLabel = r.ira_semaforo==='🟢'?'Bajo riesgo':r.ira_semaforo==='🟡'?'Riesgo medio':'Alto riesgo';
+
+  document.getElementById('panel-content').innerHTML = `
+    <!-- Cabecera -->
+    <div style="margin-bottom:18px">
+      <div style="font-size:1.05rem;color:#e2e8f0;font-weight:600;line-height:1.35;margin-bottom:10px">
+        ${r.juzgado||'—'}
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;background:#1a2744;
+                  border-radius:8px;padding:10px 14px">
+        <span style="font-size:2.2rem;line-height:1">${r.ira_semaforo||'⬜'}</span>
+        <div>
+          <div style="color:${iraColor};font-size:1.25rem;font-weight:700">IRA ${r.ira_score||0}</div>
+          <div style="color:#64748b;font-size:.75rem">${iraLabel}</div>
+        </div>
+        ${r.fuero?`<div style="margin-left:auto;background:#0d1b2e;border:1px solid #2d4a7a;
+                       border-radius:5px;padding:3px 10px;font-size:.75rem;color:#94a3b8">
+                       ${r.fuero}</div>`:''}
+      </div>
+    </div>
+
+    <!-- Magistrado -->
+    <div class="pd-sec">👤 Magistrado</div>
+    ${row('Nombre', r.magistrado||'<span style="color:#475569">Sin designación</span>')}
+    ${row('Antigüedad', r.antiguedad_anos!=null?r.antiguedad_anos+' años':null)}
+    ${row('Fecha de jura', r.fecha_jura||null, '#94a3b8')}
+    ${row('Estado', r.vacante
+        ? '<span style="color:#e63946">⚠ Vacante</span>'
+        : r.en_licencia
+          ? '<span style="color:#f59e0b">Licencia</span>'
+          : '<span style="color:#22c55e">Activo</span>')}
+    ${r.concurso_activo ? row('Concurso activo N°', r.concurso_numero||'Sí', '#f59e0b') : ''}
+
+    <!-- Causas -->
+    <div class="pd-sec">📋 Causas</div>
+    ${row('Jurisdicción', r.jurisdiccion||null, '#94a3b8')}
+    ${row('Año de datos', r.anio||null, '#94a3b8')}
+    ${row('Pendientes al cierre', fmtN(r.pendientes_cierre))}
+    ${row('Pendientes al inicio', fmtN(r.pendientes_inicio))}
+    ${row('Dictadas definitivas / año', fmtN(r.dictadas_def))}
+    ${row('Ingresos', fmtN(r.ingresos))}
+    ${row('Causas oralidad civil', fmtN(r.total_causas_oral))}
+    ${row('Mora +2 años', r.mora_2anios!=null?fmtN(r.mora_2anios)+' causas':null, cm(r.pct_mora||0))}
+
+    <!-- Eficiencia -->
+    <div class="pd-sec">⚡ Eficiencia judicial</div>
+    ${row('Clearance Rate',
+          r.clearance_rate!=null&&r.clearance_rate>0 ? r.clearance_rate+'%' : null,
+          cc(r.clearance_rate))}
+    ${row('Disposition Time',
+          r.disposition_time&&r.disposition_time>0 ? r.disposition_time+' días' : null,
+          cdt(r.disposition_time))}
+    ${row('% Mora',
+          r.pct_mora!=null ? r.pct_mora+'%' : null,
+          cm(r.pct_mora||0))}
+    ${row('Costo / causa (est.)',
+          r.costo_por_causa ? '$ '+fmtN(r.costo_por_causa) : null, '#94a3b8')}
+
+    <!-- Benchmarks -->
+    <div class="pd-sec">🌐 Benchmarks internacionales</div>
+    ${row('vs WJP Civil Factor 7',
+          r.vs_wjp_civil!=null&&r.vs_wjp_civil!==0 ? r.vs_wjp_civil : null, '#64748b')}
+    ${row('vs CEPEJ Clearance Rate', fmtCepej(r.vs_cepej_cr))}
+    ${row('vs CEPEJ Disposition Time', fmtCepej(r.vs_cepej_dt))}
+
+    ${r.objeto_principal ? `
+    <div class="pd-sec">📁 Litigio principal</div>
+    ${row('Objeto más frecuente', r.objeto_principal, '#94a3b8')}` : ''}
+  `;
+
+  document.getElementById('panel-overlay').classList.add('visible');
+  document.getElementById('panel-detalle').classList.add('abierto');
+  document.getElementById('panel-detalle').scrollTop = 0;
 }
 
 cargarNacional();
