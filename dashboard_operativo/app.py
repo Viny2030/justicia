@@ -739,6 +739,11 @@ def pagina_nacional():
       <option value="clearance_rate_asc">Clearance rate ↑</option>
     </select>
   </label>
+  <button onclick="exportarCSV()" title="Descargar tabla filtrada"
+    style="background:#1a3a6e;border:1px solid #2d4a7a;color:#e2e8f0;padding:6px 14px;
+           border-radius:6px;font-size:.83rem;cursor:pointer;white-space:nowrap">
+    ⬇ Exportar CSV
+  </button>
 </div>
 
 <!-- Gráficos ─────────────────────────────────── -->
@@ -783,11 +788,18 @@ def pagina_nacional():
   <tbody id="nac-tbody"></tbody>
 </table>
 </div>
+
+<!-- Paginación -->
+<div id="nac-paginacion"
+     style="display:flex;gap:10px;align-items:center;justify-content:center;
+            margin:16px 0;flex-wrap:wrap"></div>
 """
 
     script = r"""
 const cfg = {responsive:true, displayModeBar:false};
 let _tablaData = [];
+let _currentPage = 1;
+const _rowsPerPage = 50;
 
 async function cargarNacional() {
   const fuero   = document.getElementById('fil-fuero').value;
@@ -896,24 +908,100 @@ async function cargarNacional() {
   filtrarTabla();
 }
 
-function filtrarTabla() {
+function _sortRows(rows, orden) {
+  return rows.sort((a,b)=>{
+    if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
+    const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
+    return (b[k]||0)-(a[k]||0);
+  });
+}
+
+function _filtrarRows() {
   const q = (document.getElementById('fil-buscar').value||'').toLowerCase();
   const orden = document.getElementById('fil-orden').value;
   let rows = q
     ? _tablaData.filter(r=>(r.juzgado||'').toLowerCase().includes(q)||(r.magistrado||'').toLowerCase().includes(q)||(r.fuero||'').toLowerCase().includes(q))
     : [..._tablaData];
+  return _sortRows(rows, orden);
+}
 
-  rows.sort((a,b)=>{
-    if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
-    const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
-    return (b[k]||0)-(a[k]||0);
-  });
-
-  const tbody = document.getElementById('nac-tbody');
-  if(!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">Sin resultados</td></tr>';
+function renderPaginacion(total, totalPages) {
+  const el = document.getElementById('nac-paginacion');
+  const btnStyle = 'background:#1a3a6e;border:1px solid #2d4a7a;color:#e2e8f0;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.82rem;';
+  const btnDisabled = 'background:#111d33;border:1px solid #1e3058;color:#475569;padding:5px 14px;border-radius:6px;cursor:default;font-size:.82rem;';
+  if(totalPages <= 1) {
+    el.innerHTML = `<span style="color:#64748b;font-size:.82rem">${total.toLocaleString('es-AR')} juzgados</span>`;
     return;
   }
+  const pages = [];
+  // siempre mostrar primera, última, y ventana de 2 alrededor de la actual
+  const visible = new Set([1, totalPages]);
+  for(let p = Math.max(1, _currentPage-2); p <= Math.min(totalPages, _currentPage+2); p++) visible.add(p);
+  let prev = 0;
+  for(const p of [...visible].sort((a,b)=>a-b)) {
+    if(prev && p - prev > 1) pages.push('<span style="color:#475569">…</span>');
+    const active = p === _currentPage ? 'background:#2d4a7a;border-color:#4a6fa5;' : '';
+    pages.push(`<button onclick="cambiarPagina(${p})" style="${btnStyle}${active}">${p}</button>`);
+    prev = p;
+  }
+  el.innerHTML = `
+    <button onclick="cambiarPagina(${_currentPage-1})" ${_currentPage===1?'disabled style="'+btnDisabled+'"':'style="'+btnStyle+'"'}>← Ant.</button>
+    ${pages.join('')}
+    <button onclick="cambiarPagina(${_currentPage+1})" ${_currentPage===totalPages?'disabled style="'+btnDisabled+'"':'style="'+btnStyle+'"'}>Sig. →</button>
+    <span style="color:#64748b;font-size:.82rem">&nbsp;${total.toLocaleString('es-AR')} juzgados · pág. ${_currentPage}/${totalPages}</span>
+  `;
+}
+
+function cambiarPagina(page) {
+  _currentPage = page;
+  filtrarTabla(false);
+  document.getElementById('nac-tabla').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function exportarCSV() {
+  const rows = _filtrarRows();
+  const cols = ['juzgado','fuero','magistrado','antiguedad_anos','ira_semaforo','ira_score',
+                'pendientes_cierre','dictadas_def','disposition_time','clearance_rate',
+                'pct_mora','mora_2anios','costo_por_causa','vs_cepej_cr','vs_cepej_dt',
+                'vacante','en_licencia','jurisdiccion','anio'];
+  const headers = ['Juzgado','Fuero','Magistrado','Antigüedad (años)','IRA Semáforo','IRA Score',
+                   'Pendientes cierre','Sent./año','Disp.Time (días)','Clearance Rate (%)',
+                   '% Mora','Causas mora +2años','Costo/causa (ARS)','vs CEPEJ CR','vs CEPEJ DT',
+                   'Vacante','En Licencia','Jurisdicción','Año'];
+  const esc = v => {
+    if(v==null) return '';
+    const s = String(v);
+    return s.includes(',') || s.includes('"') || s.includes('\n') ? '"'+s.replace(/"/g,'""')+'"' : s;
+  };
+  const lines = [headers.map(esc).join(',')];
+  for(const r of rows) lines.push(cols.map(c=>esc(r[c]??'')).join(','));
+  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `juzgados_pjn_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function filtrarTabla(resetPage=true) {
+  if(resetPage) _currentPage = 1;
+  const rows = _filtrarRows();
+  const totalRows = rows.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / _rowsPerPage));
+  if(_currentPage > totalPages) _currentPage = totalPages;
+  const pageRows = rows.slice((_currentPage-1)*_rowsPerPage, _currentPage*_rowsPerPage);
+
+  const tbody = document.getElementById('nac-tbody');
+  if(!pageRows.length) {
+    tbody.innerHTML = '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">Sin resultados</td></tr>';
+    renderPaginacion(0, 0);
+    return;
+  }
+
+  renderPaginacion(totalRows, totalPages);
 
   const color_cr  = v => !v||v===0?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
   const color_dt  = v => !v||v===0?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
@@ -924,7 +1012,7 @@ function filtrarTabla() {
                         :v==='OK'?'<span style="color:#22c55e">✓ OK</span>'
                         :'<span style="color:#e63946">✗ '+v+'</span>';
 
-  tbody.innerHTML = rows.map(r=>`
+  tbody.innerHTML = pageRows.map(r=>`
     <tr style="border-bottom:1px solid #1e3058">
       <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'} <span style="font-size:.72rem;color:#64748b">${r.ira_score||0}</span></td>
       <td style="padding:6px 10px;color:#e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
