@@ -47,18 +47,46 @@ def _lats(registros, col_lat):
 
 def _cargar_operativo(nombre: str) -> list:
     """
-    Carga datos operativos. Si detecta formato estadisticas_causas.json
-    (con columna 'organismo'), reshapea a una fila por organismo combinando
-    métricas de todos los tipo_csv disponibles.
+    Carga datos operativos y normaliza al formato interno:
+      juzgado, latencia, resueltos, pendientes, recursos, tasa_resolucion,
+      jurisdiccion, fuero, estado, anio
+
+    Soporta tres formatos de fuente:
+      1. juzgados_nacional.json  — pre-procesado por scraper_juzgados_nacional.py
+      2. estadisticas_causas.json — formato organismo (reshape por fuero/tipo)
+      3. otros JSON               — pasa tal cual
     """
     data = _cargar(nombre)
-    if not data or 'organismo' not in data[0]:
+    if not data:
+        return data
+
+    # ── FIX: juzgados_nacional.json (tiene 'juzgado' + 'ira_score') ──────────
+    if "juzgado" in data[0] and "ira_score" in data[0]:
+        result = []
+        for r in data:
+            dt = r.get("disposition_time") or 0
+            result.append({
+                "juzgado":         r.get("juzgado", ""),
+                "latencia":        dt,
+                "resueltos":       r.get("dictadas_def") or 0,
+                "pendientes":      r.get("pendientes_cierre") or 0,
+                "recursos":        0,
+                "tasa_resolucion": r.get("clearance_rate") or 0,
+                "jurisdiccion":    r.get("jurisdiccion", ""),
+                "fuero":           r.get("fuero", ""),
+                "estado":          r.get("ira_semaforo", ""),
+                "anio":            r.get("anio", ""),
+            })
+        return result
+
+    # ── estadisticas_causas.json (tiene 'organismo') ──────────────────────────
+    if "organismo" not in data[0]:
         return data
 
     grupos = defaultdict(list)
     for r in data:
-        org = r.get('organismo', '').strip()
-        if not org or 'total' in org.lower() or org.startswith('(*'):
+        org = r.get("organismo", "").strip()
+        if not org or "total" in org.lower() or org.startswith("(*"):
             continue
         grupos[org].append(r)
 
@@ -66,37 +94,35 @@ def _cargar_operativo(nombre: str) -> list:
     for org, recs in sorted(grupos.items()):
         es_cam = _es_camara(org)
 
-        # Métricas de sentencias/movimiento
-        sent = [r for r in recs if r.get('tipo_csv') in ('sentencias', 'tramite_camara')]
-        latest_sent = sorted(sent, key=lambda r: str(r.get('anio','')))[-1] if sent else {}
+        sent = [r for r in recs if r.get("tipo_csv") in ("sentencias", "tramite_camara")]
+        latest_sent = sorted(sent, key=lambda r: str(r.get("anio", "")))[-1] if sent else {}
 
-        # Métricas de trámite (tiene permanencia y resueltos)
-        tram = [r for r in recs if r.get('tipo_csv') == 'tramite_camara']
-        latest_tram = sorted(tram, key=lambda r: str(r.get('anio','')))[-1] if tram else {}
+        tram = [r for r in recs if r.get("tipo_csv") == "tramite_camara"]
+        latest_tram = sorted(tram, key=lambda r: str(r.get("anio", "")))[-1] if tram else {}
 
-        # Métricas de recursos
-        rec_recs = [r for r in recs if r.get('tipo_csv') == 'recursos']
-        total_recursos = sum((r.get('recursos_apelacion') or 0) + (r.get('otros_recursos') or 0)
-                             for r in rec_recs)
+        rec_recs = [r for r in recs if r.get("tipo_csv") == "recursos"]
+        total_recursos = sum(
+            (r.get("recursos_apelacion") or 0) + (r.get("otros_recursos") or 0)
+            for r in rec_recs
+        )
 
-        latencia   = latest_tram.get('permanencia_breve') or latest_tram.get('permanencia_extensa') or 0
-        resueltos  = latest_tram.get('resueltos') or latest_sent.get('resueltos') or 0
-        pendientes = latest_sent.get('pendientes_cierre') or latest_sent.get('en_tramite_cierre') or 0
-        tasa       = latest_tram.get('tasa_resolucion_pct') or latest_sent.get('tasa_resolucion_pct') or 0
+        latencia   = latest_tram.get("permanencia_breve") or latest_tram.get("permanencia_extensa") or 0
+        resueltos  = latest_tram.get("resueltos") or latest_sent.get("resueltos") or 0
+        pendientes = latest_sent.get("pendientes_cierre") or latest_sent.get("en_tramite_cierre") or 0
+        tasa       = latest_tram.get("tasa_resolucion_pct") or latest_sent.get("tasa_resolucion_pct") or 0
 
         result.append({
-            'juzgado':         org,
-            'latencia':        latencia,
-            'resueltos':       resueltos,
-            'pendientes':      pendientes,
-            'recursos':        total_recursos,
-            'tasa_resolucion': tasa,
-            'jurisdiccion':    (latest_sent or latest_tram).get('jurisdiccion', ''),
-            'anio':            (latest_sent or latest_tram).get('anio', ''),
-            'estado':          'camara' if es_cam else 'activo',
+            "juzgado":         org,
+            "latencia":        latencia,
+            "resueltos":       resueltos,
+            "pendientes":      pendientes,
+            "recursos":        total_recursos,
+            "tasa_resolucion": tasa,
+            "jurisdiccion":    (latest_sent or latest_tram).get("jurisdiccion", ""),
+            "anio":            (latest_sent or latest_tram).get("anio", ""),
+            "estado":          "camara" if es_cam else "activo",
         })
     return result
-
 
 
 # ── HTML helpers ──────────────────────────────────────────────────────────────
@@ -104,7 +130,6 @@ def _head(titulo):
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
 <title>{titulo}</title>{PLOTLY_JS}
 <style>{BASE_CSS}
-/* Extras operativo */
 .tiempos-titulo{{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;
                  color:var(--gold);margin:22px 0 12px;padding-left:2px}}
 .kpi-tiempos{{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -123,7 +148,7 @@ def _foot(): return f"{FOOTER}</body></html>"
 # APIS JSON
 # ═══════════════════════════════════════════════════════════════════════════════
 @router.get("/api/kpis")
-def api_kpis(instancia: str = Query("todas"), fuente: str = Query("estadisticas_causas.json")):
+def api_kpis(instancia: str = Query("todas"), fuente: str = Query("juzgados_nacional.json")):
     try:
         registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
@@ -131,26 +156,28 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("estadisticas_
         col_est = _col(registros, "estado", "situac", "resolucion")
 
         todos = registros[:]
-        n_cam = sum(1 for r in todos if col_org and _es_camara(str(r.get(col_org,""))))
+        n_cam = sum(1 for r in todos if col_org and _es_camara(str(r.get(col_org, ""))))
         n_juz = len(todos) - n_cam
 
         if instancia != "todas" and col_org:
             if instancia == "camaras":
-                registros = [r for r in registros if _es_camara(str(r.get(col_org,"")))]
+                registros = [r for r in registros if _es_camara(str(r.get(col_org, "")))]
             else:
-                registros = [r for r in registros if not _es_camara(str(r.get(col_org,"")))]
+                registros = [r for r in registros if not _es_camara(str(r.get(col_org, "")))]
 
         total = len(registros)
         lats  = _lats(registros, col_lat)
-        lat_prom  = round(sum(lats)/len(lats), 1) if lats else 0
+        lat_prom  = round(sum(lats) / len(lats), 1) if lats else 0
         criticos  = sum(1 for l in lats if l >= 365)
         kpi_op    = calcular_kpi_eficiencia(45_000_000_000, max(total, 1))
 
         resueltos = 0
         if col_est:
-            palabras_ok = ("resuelto","sentencia","archivado","cerrado","concluido","finalizado")
-            resueltos = sum(1 for r in registros
-                            if any(p in str(r.get(col_est,"")).lower() for p in palabras_ok))
+            palabras_ok = ("resuelto", "sentencia", "archivado", "cerrado", "concluido", "finalizado", "🟢")
+            resueltos = sum(
+                1 for r in registros
+                if any(p in str(r.get(col_est, "")).lower() for p in palabras_ok)
+            )
         tasa_res = round(resueltos / max(total, 1) * 100, 1)
 
         return {
@@ -167,21 +194,21 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("estadisticas_
 
 
 @router.get("/api/tiempos")
-def api_tiempos(fuente: str = Query("estadisticas_causas.json")):
+def api_tiempos(fuente: str = Query("juzgados_nacional.json")):
     try:
         registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
         col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
 
-        juzgados = [r for r in registros if col_org and not _es_camara(str(r.get(col_org,"")))]
-        camaras  = [r for r in registros if col_org and _es_camara(str(r.get(col_org,"")))]
+        juzgados = [r for r in registros if col_org and not _es_camara(str(r.get(col_org, "")))]
+        camaras  = [r for r in registros if col_org and _es_camara(str(r.get(col_org, "")))]
 
         lats_juz = _lats(juzgados, col_lat)
-        lats_cam = _lats(camaras,  col_lat)
+        lats_cam = _lats(camaras, col_lat)
         lats_all = _lats(registros, col_lat)
 
-        prom_juz = round(sum(lats_juz)/len(lats_juz), 1) if lats_juz else None
-        prom_cam = round(sum(lats_cam)/len(lats_cam), 1) if lats_cam else None
+        prom_juz = round(sum(lats_juz) / len(lats_juz), 1) if lats_juz else None
+        prom_cam = round(sum(lats_cam) / len(lats_cam), 1) if lats_cam else None
 
         mora_2 = sum(1 for l in lats_all if l >= 730)
         pct_mora = round(mora_2 / max(len(lats_all), 1) * 100, 1)
@@ -189,9 +216,9 @@ def api_tiempos(fuente: str = Query("estadisticas_causas.json")):
         if lats_all:
             lats_sorted = sorted(lats_all)
             n = len(lats_sorted)
-            p50 = lats_sorted[int(n*0.5)]
-            p75 = lats_sorted[int(n*0.75)]
-            p90 = lats_sorted[int(n*0.90)]
+            p50 = lats_sorted[int(n * 0.5)]
+            p75 = lats_sorted[int(n * 0.75)]
+            p90 = lats_sorted[int(n * 0.90)]
         else:
             p50 = p75 = p90 = 0
 
@@ -203,16 +230,18 @@ def api_tiempos(fuente: str = Query("estadisticas_causas.json")):
             "p50_dias":             round(p50, 0),
             "p75_dias":             round(p75, 0),
             "p90_dias":             round(p90, 0),
-            "tiene_latencia":       col_lat is not None,
+            "tiene_latencia":       col_lat is not None and len(lats_all) > 0,
         }
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
 
 @router.get("/api/juzgados")
-def api_juzgados(instancia: str = Query("todas"),
-                 fuente: str = Query("estadisticas_causas.json"),
-                 top: int = Query(20)):
+def api_juzgados(
+    instancia: str = Query("todas"),
+    fuente: str = Query("juzgados_nacional.json"),
+    top: int = Query(20),
+):
     try:
         registros = _cargar_operativo(fuente)
         col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
@@ -220,39 +249,49 @@ def api_juzgados(instancia: str = Query("todas"),
 
         if instancia != "todas" and col_org:
             if instancia == "camaras":
-                registros = [r for r in registros if _es_camara(str(r.get(col_org,"")))]
+                registros = [r for r in registros if _es_camara(str(r.get(col_org, "")))]
             else:
-                registros = [r for r in registros if not _es_camara(str(r.get(col_org,"")))]
+                registros = [r for r in registros if not _es_camara(str(r.get(col_org, "")))]
 
         if not col_org:
             return {"juzgados": [], "col_detectada": None}
 
-        conteo = Counter(); lat_sum = defaultdict(float); lat_cnt = defaultdict(int)
+        conteo = Counter()
+        lat_sum = defaultdict(float)
+        lat_cnt = defaultdict(int)
         for r in registros:
             org = str(r.get(col_org, "Sin dato"))
             conteo[org] += 1
             if col_lat:
                 try:
                     v = float(r.get(col_lat, 0) or 0)
-                    if v > 0: lat_sum[org] += v; lat_cnt[org] += 1
-                except: pass
+                    if v > 0:
+                        lat_sum[org] += v
+                        lat_cnt[org] += 1
+                except:
+                    pass
 
         result = []
         for org, cant in conteo.most_common(top):
-            lp = round(lat_sum[org]/lat_cnt[org], 0) if lat_cnt[org] else 0
-            result.append({"juzgado": org, "cantidad": cant,
-                           "latencia_prom": lp, "es_camara": _es_camara(org)})
+            lp = round(lat_sum[org] / lat_cnt[org], 0) if lat_cnt[org] else 0
+            result.append({
+                "juzgado": org,
+                "cantidad": cant,
+                "latencia_prom": lp,
+                "es_camara": _es_camara(org),
+            })
         return {"juzgados": result, "col_detectada": col_org, "total": len(registros)}
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
 
 @router.get("/api/estados")
-def api_estados(fuente: str = Query("estadisticas_causas.json")):
+def api_estados(fuente: str = Query("juzgados_nacional.json")):
     try:
         registros = _cargar(fuente)
-        col = _col(registros, "estado", "situac", "activ", "resolucion")
-        if not col: return {"labels": [], "values": []}
+        col = _col(registros, "estado", "situac", "activ", "resolucion", "fuero")
+        if not col:
+            return {"labels": [], "values": []}
         conteo = Counter(str(r.get(col, "Sin dato")) for r in registros)
         top = conteo.most_common(12)
         return {"labels": [x[0] for x in top], "values": [x[1] for x in top]}
@@ -296,7 +335,7 @@ def pagina_camaras():
 <script>
 {PLOTLY_BASE}
 async function cargar(){{
-  const fuente='estadisticas_causas.json';
+  const fuente='juzgados_nacional.json';
   const[kpis,tiempos,estados,ranking]=await Promise.all([
     fetch('/operativo/api/kpis?fuente='+fuente+'&instancia=camaras').then(r=>r.json()),
     fetch('/operativo/api/tiempos?fuente='+fuente).then(r=>r.json()),
@@ -333,7 +372,7 @@ async function cargar(){{
   `;
 
   document.getElementById('kpi-cam').innerHTML=`
-    <div class="kpi"><label>Total Causas Cámaras</label>
+    <div class="kpi"><label>Total Juzgados/Cámaras</label>
       <div class="val">${{fmt(kpis.total)}}</div></div>
     <div class="kpi ${{kpis.latencia_promedio>90?'rojo':'verde'}}">
       <label>Latencia Promedio</label>
@@ -395,7 +434,8 @@ def pagina_juzgados():
   <div>
     <label>Fuente &nbsp;</label>
     <select id="sel-fuente" onchange="recargar()">
-      <option value="estadisticas_causas.json">estadisticas_causas.json</option>
+      <option value="juzgados_nacional.json" selected>juzgados_nacional.json ✓ (recomendado)</option>
+      <option value="estadisticas_causas.json">estadisticas_causas.json (federales)</option>
       <option value="pjn_checkpoint.json">pjn_checkpoint.json</option>
     </select>
   </div>
@@ -426,11 +466,11 @@ def pagina_juzgados():
 
 <div class="charts">
   <div class="chart-box">
-    <h2>📊 Estado de las Causas</h2>
+    <h2>📊 Distribución por Fuero</h2>
     <div id="graf-estados" style="height:340px"></div>
   </div>
   <div class="chart-box">
-    <h2>🏆 Ranking por Carga <span>(azul=Juzgado · dorado=Cámara)</span></h2>
+    <h2>🏆 Ranking por Disposition Time <span>(top 20)</span></h2>
     <div id="graf-ranking" style="height:340px"></div>
   </div>
 </div>
@@ -459,7 +499,7 @@ async function recargar(){{
   document.getElementById('badge-cam').textContent=`Cámaras: ${{fmt(kpis.n_camaras)}}`;
 
   const sinDatos=!tiempos.tiene_latencia;
-  const nd=sinDatos?'<span class="sub">Sin col. latencia</span>':null;
+  const nd=sinDatos?'<span class="sub">Sin datos de latencia</span>':null;
   const p1c=tiempos.tiempo_prom_primera;
   const p1cam=tiempos.tiempo_prom_camaras;
   const moraClass=tiempos.pct_mora_2anios>10?'alerta':'ok';
@@ -493,13 +533,13 @@ async function recargar(){{
   `;
 
   document.getElementById('kpi-grid').innerHTML=`
-    <div class="kpi"><label>Total Registros</label>
+    <div class="kpi"><label>Total Juzgados</label>
       <div class="val">${{fmt(kpis.total)}}</div></div>
     <div class="kpi ${{kpis.latencia_promedio>180?'rojo':'verde'}}">
-      <label>Latencia Promedio</label>
+      <label>Disposition Time prom.</label>
       <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
       <div class="sub">días · obj. &lt;180</div></div>
-    <div class="kpi rojo"><label>Causas Críticas (&gt;1 año)</label>
+    <div class="kpi rojo"><label>Causas en mora (+1 año)</label>
       <div class="val">${{fmt(kpis.causas_criticas)}}</div>
       <div class="sub">${{kpis.pct_criticas}}%</div></div>
     <div class="kpi gold"><label>Costo Operativo x Causa</label>
@@ -507,13 +547,25 @@ async function recargar(){{
       <div class="sub">ARS estimado</div></div>
   `;
 
-  if(estados.labels&&estados.labels.length)
-    Plotly.newPlot('graf-estados',[{{
-      type:'bar',x:estados.labels,y:estados.values,
-      marker:{{color:C.gold,opacity:.85}},
-    }}],L({{xaxis:{{tickangle:-35,gridcolor:C.grid}}}}),{{responsive:true,displayModeBar:false}});
-  else document.getElementById('graf-estados').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin columna de estado detectada</p>';
+  // Gráfico de fueros (donut si hay fuero, barras si no)
+  if(estados.labels&&estados.labels.length){{
+    const hasFuero = estados.labels.some(l=>['Civil','Comercial','Laboral','Penal','Federal','Familia'].includes(l));
+    if(hasFuero){{
+      Plotly.newPlot('graf-estados',[{{
+        type:'pie',labels:estados.labels,values:estados.values,
+        hole:.4,
+        marker:{{colors:['#3b82f6','#c9a227','#22c55e','#e63946','#8b5cf6','#f59e0b']}},
+        textinfo:'label+percent',
+        hovertemplate:'<b>%{{label}}</b><br>%{{value}} juzgados<extra></extra>'
+      }}],L({{showlegend:true,legend:{{orientation:'h'}},margin:{{t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
+    }} else {{
+      Plotly.newPlot('graf-estados',[{{
+        type:'bar',x:estados.labels,y:estados.values,
+        marker:{{color:C.gold,opacity:.85}},
+      }}],L({{xaxis:{{tickangle:-35,gridcolor:C.grid}}}}),{{responsive:true,displayModeBar:false}});
+    }}
+  }} else document.getElementById('graf-estados').innerHTML=
+    '<p style="color:#4a5568;padding:20px">Sin datos de fuero</p>';
 
   rankData=ranking.juzgados||[];
   renderRanking(rankData);
@@ -522,14 +574,15 @@ async function recargar(){{
 function renderRanking(data){{
   if(!data.length){{
     document.getElementById('graf-ranking').innerHTML=
-      '<p style="color:#4a5568;padding:20px">Sin columna de juzgado detectada</p>';
+      '<p style="color:#4a5568;padding:20px">Sin datos</p>';
     return;
   }}
   Plotly.newPlot('graf-ranking',[{{
     type:'bar',orientation:'h',
-    x:data.map(d=>d.cantidad),y:data.map(d=>d.juzgado),
+    x:data.map(d=>d.latencia_prom||d.cantidad),
+    y:data.map(d=>d.juzgado),
     marker:{{color:data.map(d=>d.es_camara?C.gold:C.blue)}},
-    hovertemplate:'<b>%{{y}}</b><br>Causas: %{{x}}<extra></extra>',
+    hovertemplate:'<b>%{{y}}</b><br>Días: %{{x}}<extra></extra>',
   }}],L({{yaxis:{{autorange:'reversed',gridcolor:C.grid,tickfont:{{size:10}}}},
          margin:{{l:10,r:10,t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
 }}
@@ -566,32 +619,29 @@ def api_nacional(fuero: str = Query(""), semaforo: str = Query("")):
     try:
         rows = _cargar_nacional()
         if fuero:
-            rows = [r for r in rows if fuero.lower() in (r.get("fuero","") or "").lower()]
+            rows = [r for r in rows if fuero.lower() in (r.get("fuero", "") or "").lower()]
         if semaforo:
-            rows = [r for r in rows if (r.get("ira_semaforo","") or "") == semaforo]
+            rows = [r for r in rows if (r.get("ira_semaforo", "") or "") == semaforo]
 
-        # KPIs agregados
         total = len(rows)
         cr_vals  = [r["clearance_rate"] for r in rows if r.get("clearance_rate") is not None]
-        dt_vals  = [r["disposition_time"] for r in rows if r.get("disposition_time") is not None]
+        dt_vals  = [r["disposition_time"] for r in rows if r.get("disposition_time") and r["disposition_time"] > 0]
         mora_sum = sum(r.get("mora_2anios") or 0 for r in rows)
         pend_sum = sum(r.get("pendientes_cierre") or 0 for r in rows)
         sent_sum = sum(r.get("dictadas_def") or 0 for r in rows)
         costo_sum= sum(r.get("costo_anual_estimado") or 0 for r in rows)
 
-        cr_prom  = round(sum(cr_vals)/len(cr_vals),1) if cr_vals else 0
-        dt_prom  = round(sum(dt_vals)/len(dt_vals),0) if dt_vals else 0
+        cr_prom  = round(sum(cr_vals) / len(cr_vals), 1) if cr_vals else 0
+        dt_prom  = round(sum(dt_vals) / len(dt_vals), 0) if dt_vals else 0
 
-        semaf_cnt = Counter(r.get("ira_semaforo","⬜") for r in rows)
-        fueros    = sorted(set(r.get("fuero","") or "" for r in rows if r.get("fuero")))
+        semaf_cnt = Counter(r.get("ira_semaforo", "⬜") for r in rows)
+        fueros    = sorted(set(r.get("fuero", "") or "" for r in rows if r.get("fuero")))
 
-        # Top 20 mora
         top_mora = sorted(
             [r for r in rows if r.get("pct_mora") is not None],
             key=lambda r: r["pct_mora"], reverse=True
         )[:20]
 
-        # Top 20 backlog (pendientes)
         top_pend = sorted(
             [r for r in rows if r.get("pendientes_cierre") is not None],
             key=lambda r: r["pendientes_cierre"], reverse=True
@@ -611,12 +661,12 @@ def api_nacional(fuero: str = Query(""), semaforo: str = Query("")):
             "fueros": fueros,
             "top_mora": [
                 {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
-                 "pct_mora": r.get("pct_mora",0), "mora_2anios": r.get("mora_2anios",0)}
+                 "pct_mora": r.get("pct_mora", 0), "mora_2anios": r.get("mora_2anios", 0)}
                 for r in top_mora
             ],
             "top_pendientes": [
                 {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
-                 "pendientes": r.get("pendientes_cierre",0), "cr": r.get("clearance_rate",0)}
+                 "pendientes": r.get("pendientes_cierre", 0), "cr": r.get("clearance_rate", 0)}
                 for r in top_pend
             ],
             "tabla": rows,
@@ -727,7 +777,7 @@ def pagina_nacional():
     <th style="padding:8px 10px;text-align:right">vs WJP</th>
     <th style="padding:8px 10px;text-align:right">vs CEPEJ CR</th>
     <th style="padding:8px 10px;text-align:right">vs CEPEJ DT</th>
-    <th style="padding:8px 10px">Vacante</th>
+    <th style="padding:8px 10px">Estado</th>
   </tr>
   </thead>
   <tbody id="nac-tbody"></tbody>
@@ -752,7 +802,7 @@ async function cargarNacional() {
     document.getElementById('nac-tbody').innerHTML =
       '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">' +
       '⚠️ Archivo juzgados_nacional.json no encontrado.<br>' +
-      'Corré <code>python scraper_juzgados_nacional.py</code> en el servidor para generarlo.</td></tr>';
+      'Corré <code>python scraper_juzgados_nacional.py --skip-crawl</code> para generarlo.</td></tr>';
     return;
   }
 
@@ -762,8 +812,8 @@ async function cargarNacional() {
   document.getElementById('nac-cr').textContent = cr + '%';
   document.getElementById('kpi-cr').className = 'kpi ' + (cr>=100?'verde':'rojo');
   const dt = d.kpis.disposition_time_prom;
-  document.getElementById('nac-dt').textContent = fmt(dt) + ' d';
-  document.getElementById('kpi-dt').className = 'kpi ' + (dt<=230?'verde':'rojo');
+  document.getElementById('nac-dt').textContent = dt > 0 ? fmt(dt) + ' d' : '—';
+  document.getElementById('kpi-dt').className = 'kpi ' + (dt>0 && dt<=230?'verde':dt>230?'rojo':'');
   document.getElementById('nac-mora').textContent = fmt(d.kpis.mora_total);
   document.getElementById('nac-costo').textContent = '$' + fmt(Math.round(d.kpis.costo_total/1e6)) + 'M';
 
@@ -820,8 +870,8 @@ async function cargarNacional() {
     },cfg);
   }
 
-  // Distribución clearance rate (histogram)
-  const crVals = (d.tabla||[]).map(r=>r.clearance_rate).filter(v=>v!=null);
+  // Histograma clearance rate
+  const crVals = (d.tabla||[]).map(r=>r.clearance_rate).filter(v=>v!=null && v>0);
   if(crVals.length) {
     Plotly.newPlot('graf-cr',[{
       type:'histogram', x:crVals, nbinsx:30,
@@ -853,7 +903,6 @@ function filtrarTabla() {
     ? _tablaData.filter(r=>(r.juzgado||'').toLowerCase().includes(q)||(r.magistrado||'').toLowerCase().includes(q)||(r.fuero||'').toLowerCase().includes(q))
     : [..._tablaData];
 
-  // Ordenar
   rows.sort((a,b)=>{
     if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
     const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
@@ -866,26 +915,31 @@ function filtrarTabla() {
     return;
   }
 
-  const color_cr  = v => v==null?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
-  const color_dt  = v => v==null?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
+  const color_cr  = v => !v||v===0?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
+  const color_dt  = v => !v||v===0?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
   const color_mora= v => v==null?'#64748b':v<5?'#22c55e':v<15?'#f59e0b':'#e63946';
+  const fmt_dt    = v => (!v||v===0)?'—':fmt(v)+' d';
+  const fmt_cr    = v => (!v||v===0)?'—':v+'%';
+  const fmt_cepej = v => (!v||v==='—'||v===0)?'<span style="color:#64748b">—</span>'
+                        :v==='OK'?'<span style="color:#22c55e">✓ OK</span>'
+                        :'<span style="color:#e63946">✗ '+v+'</span>';
 
   tbody.innerHTML = rows.map(r=>`
     <tr style="border-bottom:1px solid #1e3058">
-      <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'}</td>
+      <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'} <span style="font-size:.72rem;color:#64748b">${r.ira_score||0}</span></td>
       <td style="padding:6px 10px;color:#e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
           title="${r.juzgado||''}">${r.juzgado||'—'}</td>
       <td style="padding:6px 10px;color:#64748b;font-size:.75rem">${r.fuero||'—'}</td>
-      <td style="padding:6px 10px;color:#93c5fd;font-size:.78rem">${r.magistrado||'—'}${r.antiguedad_anos?'<br><span style="color:#64748b;font-size:.72rem">'+r.antiguedad_anos+' años</span>':''}</td>
+      <td style="padding:6px 10px;color:#93c5fd;font-size:.78rem">${r.magistrado||'<span style="color:#475569">Sin designación</span>'}${r.antiguedad_anos?'<br><span style="color:#64748b;font-size:.72rem">'+r.antiguedad_anos+' años</span>':''}</td>
       <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.pendientes_cierre)}</td>
       <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.dictadas_def)}</td>
-      <td style="padding:6px 10px;text-align:right;color:${color_dt(r.disposition_time)}">${r.disposition_time!=null?fmt(r.disposition_time)+' d':'—'}</td>
-      <td style="padding:6px 10px;text-align:right;color:${color_cr(r.clearance_rate)};font-weight:600">${r.clearance_rate!=null?r.clearance_rate+'%':'—'}</td>
+      <td style="padding:6px 10px;text-align:right;color:${color_dt(r.disposition_time)}">${fmt_dt(r.disposition_time)}</td>
+      <td style="padding:6px 10px;text-align:right;color:${color_cr(r.clearance_rate)};font-weight:600">${fmt_cr(r.clearance_rate)}</td>
       <td style="padding:6px 10px;text-align:right;color:${color_mora(r.pct_mora)}">${r.pct_mora!=null?r.pct_mora+'%':'—'}</td>
       <td style="padding:6px 10px;text-align:right;color:#94a3b8">${r.costo_por_causa?'$'+fmt(r.costo_por_causa):'—'}</td>
-      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_wjp_civil!=null?r.vs_wjp_civil:'—'}</td>
-      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_cepej_cr!=null?r.vs_cepej_cr:'—'}</td>
-      <td style="padding:6px 10px;text-align:right;color:#64748b;font-size:.75rem">${r.vs_cepej_dt!=null?r.vs_cepej_dt:'—'}</td>
+      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${r.vs_wjp_civil!=null&&r.vs_wjp_civil!==0?r.vs_wjp_civil:'<span style="color:#64748b">—</span>'}</td>
+      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${fmt_cepej(r.vs_cepej_cr)}</td>
+      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${fmt_cepej(r.vs_cepej_dt)}</td>
       <td style="padding:6px 10px;text-align:center">${r.vacante?'<span style="color:#e63946">Vacante</span>':r.en_licencia?'<span style="color:#f59e0b">Licencia</span>':'<span style="color:#22c55e">Activo</span>'}</td>
     </tr>`).join('');
 }

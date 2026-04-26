@@ -110,6 +110,24 @@ def _fix_enc(s):
     except:
         return s
 
+def _inferir_fuero(organismo: str, jurisdiccion: str, objeto: str) -> str:
+    """
+    Infiere el fuero/materia desde nombre del organismo, jurisdicción u objeto principal.
+    Prioridad: nombre del organismo > jurisdicción > presencia de datos de oralidad civil.
+    """
+    org = (organismo or "").lower()
+    jur = (jurisdiccion or "").lower()
+    if "federal" in jur:                              return "Federal"
+    if "comercial" in org:                            return "Comercial"
+    if "laboral" in org:                              return "Laboral"
+    if "penal" in org or "criminal" in org:           return "Penal"
+    if "familia" in org or "menores" in org:          return "Familia"
+    if "seguridad social" in org:                     return "Seg. Social"
+    if "civil" in org:                                return "Civil"
+    if objeto:                                        return "Civil"  # datos_jus = siempre civil
+    if "federal" in org:                              return "Federal"
+    return ""
+
 # ── PASO 1: CRAWL estadisticas.pjn.gov.ar ────────────────────────────────────
 
 def crawl_pjn(max_pages=300):
@@ -618,7 +636,7 @@ def main():
         r = {
             "juzgado":           organismo,
             "jurisdiccion":      pjn_data.get("jurisdiccion",""),
-            "fuero":             pjn_data.get("fuero","") or oral_data.get("objeto_principal",""),
+            "fuero":             pjn_data.get("fuero","") or _inferir_fuero(organismo, pjn_data.get("jurisdiccion",""), oral_data.get("objeto_principal","")),
             "anio":              pjn_data.get("anio",""),
             "pendientes_inicio": pjn_data.get("pendientes_inicio") or 0,
             "pendientes_cierre": pend_cierre,
@@ -637,7 +655,7 @@ def main():
             "costo_por_causa": round(1_000_000_000 / total_causas_denom, 0),
             "vs_wjp_civil":    round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100 * WJP_CIVIL_BENCH, 2),
             "vs_cepej_cr":     f"{'OK' if (pjn_data.get('clearance_rate') or oral_data.get('clearance_rate') or 0) >= CEPEJ_CR_BENCH else 'BAJO'}",
-            "vs_cepej_dt":     f"{'OK' if 0 < (pjn_data.get('disposition_time') or oral_data.get('disposition_time') or 0) <= CEPEJ_DT_BENCH else 'ALTO'}",
+            "vs_cepej_dt":     (lambda dt: "—" if not dt else ("OK" if dt <= CEPEJ_DT_BENCH else "ALTO"))(pjn_data.get('disposition_time') or oral_data.get('disposition_time') or 0),
         }
 
         # FIX #2c: buscar magistrado — exacto primero, luego por número de juzgado
