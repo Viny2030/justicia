@@ -756,11 +756,25 @@ def pagina_nacional():
     <h2>📦 Top 20 — Causas pendientes</h2>
     <div id="graf-pend" style="height:360px"></div>
   </div>
+  <div class="chart-box">
+    <h2>🎯 Distribución IRA</h2>
+    <div id="graf-ira-donut" style="height:360px"></div>
+  </div>
 </div>
 
 <div class="chart-full" style="margin-top:16px">
   <h2 style="color:var(--muted);margin:0 0 8px">📊 Distribución Clearance Rate</h2>
   <div id="graf-cr" style="height:300px"></div>
+</div>
+
+<div class="chart-full" style="margin-top:16px">
+  <h2 style="color:var(--muted);margin:0 0 8px">
+    🔵 Scatter — Clearance Rate vs Disposition Time
+    <span style="font-size:.75rem;font-weight:400;margin-left:8px">
+      Cuadrante ideal: CR≥100% · DT≤230 días (líneas punteadas = benchmarks CEPEJ)
+    </span>
+  </h2>
+  <div id="graf-scatter" style="height:440px"></div>
 </div>
 
 <!-- Tabla ────────────────────────────────────── -->
@@ -902,6 +916,96 @@ async function cargarNacional() {
       yaxis:{title:'Juzgados',gridcolor:'#2d4a7a'},
       showlegend:true
     },cfg);
+  }
+
+  // ── Donut IRA ───────────────────────────────────────────────────────────────
+  const sfData = [
+    {label:'🟢 Bajo riesgo',  val: sf['🟢']||0, color:'#22c55e'},
+    {label:'🟡 Riesgo medio', val: sf['🟡']||0, color:'#f59e0b'},
+    {label:'🔴 Alto riesgo',  val: sf['🔴']||0, color:'#e63946'},
+  ];
+  Plotly.newPlot('graf-ira-donut',[{
+    type:'pie',
+    labels: sfData.map(s=>s.label),
+    values: sfData.map(s=>s.val),
+    hole: 0.52,
+    marker:{colors: sfData.map(s=>s.color), line:{color:'#0d1b2e',width:2}},
+    textinfo:'label+value',
+    textfont:{size:11},
+    hovertemplate:'<b>%{label}</b><br>%{value} juzgados · %{percent}<extra></extra>'
+  }],{
+    plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
+    font:{color:'#e2e8f0', size:11},
+    showlegend:false,
+    margin:{l:10,r:10,t:20,b:20},
+    annotations:[{
+      text:`<b>${(d.total||0).toLocaleString('es-AR')}</b><br>juzgados`,
+      x:0.5, y:0.5, showarrow:false,
+      font:{size:14, color:'#e2e8f0'}
+    }]
+  }, cfg);
+
+  // ── Scatter CR vs DT ────────────────────────────────────────────────────────
+  const scPts = (d.tabla||[]).filter(r=>r.clearance_rate>0 && r.disposition_time>0);
+  const scColors = {'🟢':'#22c55e','🟡':'#f59e0b','🔴':'#e63946'};
+  const scLabels = {'🟢':'Bajo riesgo','🟡':'Riesgo medio','🔴':'Alto riesgo'};
+  const scTraces = ['🟢','🟡','🔴'].map(sem => {
+    const pts = scPts.filter(r=>r.ira_semaforo===sem);
+    return {
+      type:'scatter', mode:'markers',
+      name: sem+' '+scLabels[sem]+' ('+pts.length+')',
+      x: pts.map(r=>r.clearance_rate),
+      y: pts.map(r=>r.disposition_time),
+      text: pts.map(r=>r.juzgado),
+      customdata: pts.map(r=>[
+        r.magistrado||'Sin designación',
+        r.fuero||'—',
+        r.pct_mora!=null?r.pct_mora+'%':'—',
+        r.ira_score||0
+      ]),
+      hovertemplate:
+        '<b>%{text}</b><br>' +
+        'CR: <b>%{x}%</b> · DT: <b>%{y} días</b><br>' +
+        'Magistrado: %{customdata[0]}<br>' +
+        'Fuero: %{customdata[1]} · Mora: %{customdata[2]}<br>' +
+        'IRA Score: %{customdata[3]}<extra></extra>',
+      marker:{color:scColors[sem], size:8, opacity:0.78,
+              line:{color:'#0d1b2e', width:0.5}}
+    };
+  });
+
+  if(scPts.length) {
+    const maxDT = Math.min(Math.max(...scPts.map(r=>r.disposition_time), 500), 3000);
+    const maxCR = Math.max(...scPts.map(r=>r.clearance_rate), 120);
+    scTraces.push({
+      type:'scatter', mode:'lines', name:'CEPEJ CR = 100%',
+      x:[100,100], y:[0, maxDT+100],
+      line:{color:'#c9a227', dash:'dot', width:1.5}, showlegend:true
+    });
+    scTraces.push({
+      type:'scatter', mode:'lines', name:'CEPEJ DT = 230d',
+      x:[0, maxCR+10], y:[230,230],
+      line:{color:'#94a3b8', dash:'dot', width:1.5}, showlegend:true
+    });
+    Plotly.newPlot('graf-scatter', scTraces, {
+      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
+      font:{color:'#e2e8f0', size:11},
+      margin:{l:65,r:20,t:30,b:55},
+      xaxis:{title:'Clearance Rate (%)', gridcolor:'#2d4a7a', zeroline:false, range:[0, maxCR+10]},
+      yaxis:{title:'Disposition Time (días)', gridcolor:'#2d4a7a', zeroline:false, range:[0, maxDT+100]},
+      legend:{orientation:'h', y:1.06, font:{size:10}},
+      annotations:[
+        {x:maxCR*0.85, y:180, text:'✓ Zona CEPEJ', showarrow:false,
+         font:{size:11,color:'#22c55e'}, bgcolor:'rgba(34,197,94,0.12)',
+         borderpad:5, bordercolor:'#22c55e', borderwidth:1},
+        {x:40, y:maxDT*0.8, text:'⚠ Alto backlog', showarrow:false,
+         font:{size:10,color:'#e63946'}, bgcolor:'rgba(230,57,70,0.08)', borderpad:4}
+      ]
+    }, cfg);
+  } else {
+    document.getElementById('graf-scatter').innerHTML =
+      '<p style="color:#4a5568;padding:20px;text-align:center">'+
+      'Sin datos suficientes — se requieren juzgados con CR > 0 y DT > 0</p>';
   }
 
   _tablaData = d.tabla || [];
