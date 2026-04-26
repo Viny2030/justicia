@@ -16,6 +16,7 @@ Uso:
   python scraper_juzgados_nacional.py
   python scraper_juzgados_nacional.py --resume      # retomar descarga interrumpida
   python scraper_juzgados_nacional.py --max-pages 200
+  python scraper_juzgados_nacional.py --skip-crawl  # usar solo CSVs ya descargados
 """
 
 import os, re, json, time, zipfile, logging, argparse, codecs
@@ -46,7 +47,6 @@ SEEDS = [
     "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/index.php",
     "https://estadisticas.pjn.gov.ar/07_estadisticas/",
     "https://estadisticas.pjn.gov.ar/estadisticas/",
-    # Jurisdicciones conocidas — civil, comercial, laboral, penal, seguridad social, familia
     "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/civil.php",
     "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/comercial.php",
     "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/laboral.php",
@@ -100,13 +100,23 @@ def checkpoint_load():
 def checkpoint_save(cp):
     CKPT_FILE.write_text(json.dumps(cp, ensure_ascii=False, indent=2), encoding="utf-8")
 
+# FIX #2: helper para corregir mojibake (latin-1 interpretado como utf-8) en magistrados.json
+def _fix_enc(s):
+    """Corrige doble-encoding común: 'CÃ¡mara' → 'Cámara'"""
+    if not isinstance(s, str):
+        return s
+    try:
+        return s.encode('latin-1').decode('utf-8')
+    except:
+        return s
+
 # ── PASO 1: CRAWL estadisticas.pjn.gov.ar ────────────────────────────────────
 
 def crawl_pjn(max_pages=300):
     """Rastrea el portal PJN sin límite de páginas, recoge todos los CSV/XLS/ZIP."""
     encontrados = []
     visitadas   = set()
-    cola        = list(dict.fromkeys(SEEDS))  # dedup preservando orden
+    cola        = list(dict.fromkeys(SEEDS))
 
     while cola and len(visitadas) < max_pages:
         url = cola.pop(0)
@@ -134,10 +144,9 @@ def crawl_pjn(max_pages=300):
 
             if ext in FORMATOS and full not in {e["url"] for e in encontrados}:
                 texto = a.get_text(strip=True)
-                # filtrar por año reciente (2022 en adelante)
                 combinado = (full + " " + texto).lower()
                 m = re.search(r"20(2[2-9]|[3-9]\d)", combinado)
-                if m or not re.search(r"20\d\d", combinado):  # sin año = incluir igual
+                if m or not re.search(r"20\d\d", combinado):
                     encontrados.append({"url": full, "ext": ext, "texto": texto})
                     log.info(f"    + {ext.upper()} {full[-70:]}")
 
@@ -152,7 +161,6 @@ def crawl_pjn(max_pages=300):
 # ── PASO 2: DESCARGA y PARSE CSVs del PJN ────────────────────────────────────
 
 def descargar_url(url, ext):
-    """Descarga y devuelve DataFrame. Soporta CSV, XLS/X, ZIP."""
     r = session.get(url, timeout=60, stream=True)
     r.raise_for_status()
     raw = r.content
@@ -212,7 +220,6 @@ def parse_pjn_legacy(path_or_bytes):
     if not lines:
         return []
 
-    # detectar tipo
     tipo = "tramite"
     for l in lines[:9]:
         cells = [c.strip() for c in l.split(";")]
@@ -220,7 +227,6 @@ def parse_pjn_legacy(path_or_bytes):
         if "Recursos interpuestos"    in cells[0]:  tipo = "recursos";   break
         if "Resumen del per"          in cells[0]:  tipo = "resumen";    break
 
-    # extraer metadata
     meta = {"anio":"","jurisdiccion":"","tipo_csv": tipo}
     for i, l in enumerate(lines[:10]):
         cells = [c.strip() for c in l.split(";")]
@@ -229,7 +235,6 @@ def parse_pjn_legacy(path_or_bytes):
         if m: meta["anio"] = m.group(1)
         if "Jurisdicci" in v: meta["jurisdiccion"] = re.sub(r"Jurisdicci[oó]n\s*","",v).strip()
 
-    # buscar fila header
     hr = None
     for i, l in enumerate(lines):
         cells = [c.strip() for c in l.split(";")]
@@ -288,7 +293,6 @@ def parse_pjn_legacy(path_or_bytes):
 # ── PASO 4: PROCESAR ORALIDAD (per-causa → per-juzgado) ──────────────────────
 
 def procesar_oralidad():
-    """Lee todos los archivos de oralidad civil y agrega métricas por juzgado."""
     if not DATOS_JUS.exists():
         log.warning("  datos_jus/ no encontrado")
         return {}
@@ -323,14 +327,12 @@ def procesar_oralidad():
 
         fecha_i_str = r.get("causa_fecha_ingreso") or r.get("causa_fecha_recepcion","")
         fecha_f_str = r.get("proceso_finalización_fecha","")
-        resultado   = r.get("proceso_resultado_descripcion","")
         obj         = r.get("causa_objeto_litigio_descripcion","")
 
         agg[key]["causas"] += 1
         if obj:
             agg[key]["objetos"][obj] += 1
 
-        # calcular días
         try:
             fi = date.fromisoformat(fecha_i_str[:10])
             if fecha_f_str:
@@ -371,36 +373,54 @@ def procesar_oralidad():
 # ── PASO 5: CRUZAR con magistrados.json / vacantes.json ──────────────────────
 
 def cargar_magistrados():
-    """Devuelve dict organismo_nombre → {magistrado, fecha_jura, en_licencia}"""
+    """
+    Devuelve dict con dos tipos de keys:
+      - organismo_nombre.lower()  → match exacto
+      - '__num_X'                 → fallback por número de juzgado
+    FIX: corrige mojibake en organo_nombre y nombre_completo.
+    """
     path = ROOT / "magistrados.json"
     if not path.exists():
+        log.warning("  magistrados.json no encontrado")
         return {}
     with open(path, encoding="utf-8") as f:
         d = json.load(f)
     data = d if isinstance(d, list) else list(d.values())[0]
     result = {}
     for r in data:
-        org = r.get("organo_nombre","").strip()
+        # FIX #2a: corregir encoding de los campos de texto
+        org    = _fix_enc(r.get("organo_nombre","")).strip()
+        nombre = _fix_enc(r.get("nombre_completo","")).strip()
         if not org:
             continue
-        nombre = r.get("nombre_completo","").strip()
-        jura   = r.get("fecha_jura","")
-        antig  = None
+        jura  = r.get("fecha_jura","")
+        antig = None
         try:
             antig = (HOY - date.fromisoformat(jura[:10])).days // 365
         except:
             pass
-        result[org.lower()] = {
+        entry = {
             "magistrado":      nombre,
             "fecha_jura":      jura,
             "antiguedad_anos": antig,
             "en_licencia":     r.get("en_licencia", False),
             "vacante":         r.get("vacante", False),
         }
+        # index principal por nombre del órgano normalizado
+        result[org.lower()] = entry
+        # FIX #2b: index secundario por número de juzgado para match fuzzy
+        # ej: "Juzg. Nac. en lo Civil Nro. 5" → key "__num_5"
+        nums = re.findall(r'\b(\d+)\b', org)
+        if nums:
+            num_key = f"__num_{nums[-1]}"
+            # Solo sobreescribir si no existe ya (primer juzgado con ese número gana)
+            if num_key not in result:
+                result[num_key] = entry
+
+    log.info(f"  Magistrados cargados: {len([k for k in result if not k.startswith('__num_')])} organismos")
     return result
 
 def cargar_vacantes():
-    """Devuelve dict organismo_nombre → {concurso_en_tramite, ultimo_titular}"""
     path = ROOT / "vacantes.json"
     if not path.exists():
         return {}
@@ -409,7 +429,7 @@ def cargar_vacantes():
     data = d if isinstance(d, list) else list(d.values())[0]
     result = {}
     for r in data:
-        org = r.get("organo_nombre","").strip()
+        org = _fix_enc(r.get("organo_nombre","")).strip()
         if org:
             result[org.lower()] = {
                 "vacante":           True,
@@ -421,39 +441,30 @@ def cargar_vacantes():
 
 # ── PASO 6: CALCULAR SCORE DE RIESGO ─────────────────────────────────────────
 
-WJP_CIVIL_BENCH    = 0.42   # Argentina WJP Factor 7
-CEPEJ_CR_BENCH     = 100.0  # CEPEJ clearance rate objetivo
-CEPEJ_DT_BENCH     = 230    # CEPEJ disposition time objetivo (días)
-MORA_ALERTA        = 15.0   # % mora que dispara alerta roja
+WJP_CIVIL_BENCH    = 0.42
+CEPEJ_CR_BENCH     = 100.0
+CEPEJ_DT_BENCH     = 230
+MORA_ALERTA        = 15.0
 
 def calcular_ira(r):
-    """
-    Índice de Riesgo Algorítmico (IRA) 0-100.
-    Compuesto de: mora%, clearance rate, disposition time, acumulación, vacancia.
-    """
     score = 0
-    # 1. mora (+30 pts si > 25%, proporcional)
     pct_mora = r.get("pct_mora", 0) or 0
     score += min(30, pct_mora * 1.2)
 
-    # 2. clearance rate bajo (+25 pts si CR < 80%)
     cr = r.get("clearance_rate", 100) or 100
     if cr < 100:
         score += min(25, (100 - cr) * 0.5)
 
-    # 3. disposition time alto (+20 pts si > 460 días = 2×CEPEJ)
     dt = r.get("disposition_time", 0) or 0
     if dt > CEPEJ_DT_BENCH:
         score += min(20, (dt - CEPEJ_DT_BENCH) / CEPEJ_DT_BENCH * 10)
 
-    # 4. acumulación (+15 pts si índice > 1.1)
     pend = r.get("pendientes_cierre", 0) or 0
     inic = r.get("pendientes_inicio", 1) or 1
     acum = pend / inic if inic > 0 else 1
     if acum > 1.0:
         score += min(15, (acum - 1.0) * 30)
 
-    # 5. vacante sin concurso (+10 pts)
     if r.get("vacante") and not r.get("concurso_activo"):
         score += 10
 
@@ -519,7 +530,7 @@ def main():
             org = str(r.get("organismo","")).strip()
             if not org or "total" in org.lower():
                 continue
-            # normalizar nombre de columnas (scraper_estadisticas usa dictadas_definitivas)
+            # normalizar nombre de columnas
             r.setdefault("dictadas_def", r.get("dictadas_definitivas") or 0)
             r.setdefault("dictadas_inter", r.get("dictadas_interlocutorias") or 0)
             key = org.lower()
@@ -527,19 +538,40 @@ def main():
                 juz_pjn[key].update({k: v for k, v in r.items() if v is not None})
                 juz_pjn[key]["organismo"] = org
 
-    # Parsear CSVs de pjn_estadisticas/ usando scraper_estadisticas.parse_csv
-    # Nota: pjn_estadisticas_completo.json es datos de concursos, NO estadísticas de causas
+    # ── FIX #1: Cargar estadisticas_causas.json pre-parseado ──────────────────
+    # Los CSVs en pjn_estadisticas/ fueron guardados por pandas (sin metadata PJN),
+    # así que parse_csv no puede leerlos. estadisticas_causas.json fue generado
+    # por scraper_estadisticas.py sobre los CSVs originales y tiene los datos correctos.
+    ec_path = ROOT / "estadisticas_causas.json"
+    if ec_path.exists():
+        size_kb = ec_path.stat().st_size // 1024
+        log.info(f"  Cargando estadisticas_causas.json pre-parseado ({size_kb}KB)")
+        try:
+            with open(ec_path, encoding="utf-8") as f:
+                ec_data = json.load(f)
+            _acumular(ec_data)
+            log.info(f"  → {len(ec_data)} registros → {len(juz_pjn)} juzgados únicos en juz_pjn")
+        except Exception as e:
+            log.warning(f"  No se pudo cargar estadisticas_causas.json: {e}")
+    else:
+        log.warning("  estadisticas_causas.json no encontrado — ejecutá scraper_estadisticas.py primero")
+
+    # ── Parsear CSVs descargados (complementario al JSON) ─────────────────────
     csv_files = list(CSV_DIR.glob("*.csv")) + list(CSV_DIR.glob("*.xlsx"))
     if csv_files:
         try:
             from scraper_estadisticas import parse_csv as _parse_csv_ext
             log.info(f"  Parseando {len(csv_files)} CSVs con scraper_estadisticas.parse_csv")
+            ok_count = 0
             for fpath in csv_files:
                 try:
                     recs = _parse_csv_ext(str(fpath))
-                    _acumular(recs)
+                    if recs:
+                        _acumular(recs)
+                        ok_count += 1
                 except Exception as e:
                     log.warning(f"  {fpath.name}: {e}")
+            log.info(f"  CSVs con datos: {ok_count}/{len(csv_files)}")
         except ImportError:
             log.info(f"  Parseando {len(csv_files)} CSVs con parse_pjn_legacy")
             for fpath in csv_files:
@@ -551,7 +583,7 @@ def main():
     else:
         log.warning(f"  No se encontraron CSVs en {CSV_DIR}")
 
-    log.info(f"  Juzgados parseados desde PJN CSVs: {len(juz_pjn)}")
+    log.info(f"  Juzgados parseados desde PJN CSVs+JSON: {len(juz_pjn)}")
 
     # ── 3. Oralidad ──
     log.info("\n=== PASO 4: Oralidad civil (per-causa) ===")
@@ -566,7 +598,6 @@ def main():
     log.info("\n=== PASO 6: Unificación y cálculo IRA ===")
     juzgados_final = {}
 
-    # Combinar fuentes
     todos_keys = set(juz_pjn.keys()) | {k.lower() for k in oral.keys()}
 
     for key in todos_keys:
@@ -576,10 +607,8 @@ def main():
 
         organismo = pjn_data.get("organismo") or key.title()
 
-        # métricas base
-        # pendientes y sentencias: CSV PJN primero, oralidad como fallback
-        oral_total    = oral_data.get("total_causas") or 0
-        oral_resueltas= oral_data.get("resueltas") or 0
+        oral_total     = oral_data.get("total_causas") or 0
+        oral_resueltas = oral_data.get("resueltas") or 0
         oral_pendientes = max(oral_total - oral_resueltas, 0)
 
         pend_cierre  = pjn_data.get("pendientes_cierre") or oral_pendientes
@@ -591,7 +620,6 @@ def main():
             "jurisdiccion":      pjn_data.get("jurisdiccion",""),
             "fuero":             pjn_data.get("fuero","") or oral_data.get("objeto_principal",""),
             "anio":              pjn_data.get("anio",""),
-            # estadísticas causas (CSV PJN o fallback oralidad)
             "pendientes_inicio": pjn_data.get("pendientes_inicio") or 0,
             "pendientes_cierre": pend_cierre,
             "agregadas":         pjn_data.get("agregadas") or 0,
@@ -601,22 +629,25 @@ def main():
             "resueltos":         pjn_data.get("resueltos") or oral_resueltas,
             "clearance_rate":    pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0,
             "disposition_time":  pjn_data.get("disposition_time") or oral_data.get("disposition_time") or 0,
-            # oralidad
             "total_causas_oral": oral_total,
             "mora_2anios":       oral_data.get("mora_2anios") or 0,
             "pct_mora":          oral_data.get("pct_mora") or 0,
             "objeto_principal":  oral_data.get("objeto_principal",""),
-            # costo estimado (presupuesto PJN 2024 ≈ ARS 600.000M / ~600 organismos)
             "costo_anual_estimado": 1_000_000_000,
             "costo_por_causa": round(1_000_000_000 / total_causas_denom, 0),
-            # comparación internacional
             "vs_wjp_civil":    round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100 * WJP_CIVIL_BENCH, 2),
             "vs_cepej_cr":     f"{'OK' if (pjn_data.get('clearance_rate') or oral_data.get('clearance_rate') or 0) >= CEPEJ_CR_BENCH else 'BAJO'}",
             "vs_cepej_dt":     f"{'OK' if 0 < (pjn_data.get('disposition_time') or oral_data.get('disposition_time') or 0) <= CEPEJ_DT_BENCH else 'ALTO'}",
         }
 
-        # magistrado
+        # FIX #2c: buscar magistrado — exacto primero, luego por número de juzgado
         mag = mags.get(key) or mags.get(organismo.lower(), {})
+        if not mag:
+            # fallback: extraer número del organismo y buscar por ese número
+            nums = re.findall(r'\b(\d+)\b', organismo)
+            if nums:
+                mag = mags.get(f"__num_{nums[-1]}", {})
+
         r.update({
             "magistrado":       mag.get("magistrado",""),
             "fecha_jura":       mag.get("fecha_jura",""),
@@ -627,9 +658,8 @@ def main():
             "concurso_numero":  vacs.get(key, {}).get("concurso_numero",""),
         })
 
-        # IRA
         ira, semaforo = calcular_ira(r)
-        r["ira_score"]   = ira
+        r["ira_score"]    = ira
         r["ira_semaforo"] = semaforo
 
         juzgados_final[organismo] = r
@@ -646,17 +676,18 @@ def main():
     df_out.to_csv(OUT_CSV, index=False, encoding="utf-8-sig")
     log.info(f"  → {OUT_CSV}")
 
-    # Resumen
-    con_ira_rojo   = sum(1 for r in lista if r.get("ira_score",0) >= 60)
+    con_ira_rojo     = sum(1 for r in lista if r.get("ira_score",0) >= 60)
     con_ira_amarillo = sum(1 for r in lista if 30 <= r.get("ira_score",0) < 60)
-    con_mag = sum(1 for r in lista if r.get("magistrado"))
-    con_oral = sum(1 for r in lista if r.get("total_causas_oral",0) > 0)
+    con_mag          = sum(1 for r in lista if r.get("magistrado"))
+    con_oral         = sum(1 for r in lista if r.get("total_causas_oral",0) > 0)
+    con_pjn          = sum(1 for r in lista if r.get("pendientes_cierre",0) > 0 or r.get("dictadas_def",0) > 0)
 
     log.info(f"""
 ==================================================
   Juzgados totales        : {len(lista)}
-  Con magistrado cruzado  : {con_mag}
   Con datos oralidad      : {con_oral}
+  Con datos PJN CSV/JSON  : {con_pjn}
+  Con magistrado cruzado  : {con_mag}
   IRA 🔴 Alto riesgo      : {con_ira_rojo}
   IRA 🟡 Riesgo medio     : {con_ira_amarillo}
   IRA 🟢 Normal           : {len(lista)-con_ira_rojo-con_ira_amarillo}
