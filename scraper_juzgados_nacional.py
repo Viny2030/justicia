@@ -321,7 +321,7 @@ def procesar_oralidad():
     for r in filas:
         prov  = r.get("provincia_nombre", "")
         jnum  = r.get("juzgado_numero", "")
-        if not jnum:
+        if not jnum or str(jnum).strip() in ("0", ""):
             continue
         key = f"{prov} | Juzgado {jnum}"
 

@@ -1,6 +1,5 @@
 ﻿juzgado,jurisdiccion,fuero,anio,pendientes_inicio,pendientes_cierre,agregadas,dictadas_def,dictadas_inter,ingresos,resueltos,clearance_rate,disposition_time,total_causas_oral,mora_2anios,pct_mora,objeto_principal,costo_anual_estimado,costo_por_causa,vs_wjp_civil,vs_cepej_cr,vs_cepej_dt,magistrado,fecha_jura,antiguedad_anos,en_licencia,vacante,concurso_activo,concurso_numero,ira_score,ira_semaforo
 (**) Corresponde a arqueo informado por la dependencia.-,Federal de Comodoro Rivadavia,,,0,0,0,0,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,ALTO,,,,False,False,False,,0.0,🟢
-Buenos Aires | Juzgado 0,,ALIMENTOS,,0,562,0,459,0,0,459,45.0,360.0,1021,0,0.0,ALIMENTOS,1000000000,979432.0,0.19,BAJO,ALTO,,,,False,False,False,,45.7,🟡
 Buenos Aires | Juzgado 1,,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),,0,3520,0,1273,0,0,1273,26.6,661.0,4793,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,208638.0,0.11,BAJO,ALTO,,,,False,True,False,,68.7,🔴
 Buenos Aires | Juzgado 10,,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),,0,1073,0,559,0,0,559,34.3,863.0,1632,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,612745.0,0.14,BAJO,ALTO,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,60.0,🔴
 Buenos Aires | Juzgado 11,,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),,0,1873,0,670,0,0,670,26.3,911.0,2543,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,393236.0,0.11,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,70.0,🔴
@@ -284,7 +283,6 @@ Tierra Del Fuego | Juzgado Djn1,,COBRO DE PESOS,,0,29,0,7,0,0,7,19.4,2077.0,36,2
 Tierra Del Fuego | Juzgado Djn2,,DAÑOS Y PERJUICIOS,,0,20,0,7,0,0,7,25.9,2055.0,27,16,59.3,DAÑOS Y PERJUICIOS,1000000000,37037037.0,0.11,BAJO,ALTO,,,,False,False,False,,90.0,🔴
 Tierra Del Fuego | Juzgado Djs1,,COBRO DE PESOS,,0,7,0,8,0,0,8,53.3,1620.0,15,7,46.7,COBRO DE PESOS,1000000000,66666667.0,0.22,BAJO,ALTO,,,,False,False,False,,88.3,🔴
 Tierra Del Fuego | Juzgado Djs2,,DAÑOS Y PERJUICIOS,,0,9,0,6,0,0,6,40.0,2105.0,15,9,60.0,DAÑOS Y PERJUICIOS,1000000000,66666667.0,0.17,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Tucumán | Juzgado  ,,COBRO EJECUTIVO,,0,1,0,0,0,0,0,0.0,2825.0,1,1,100.0,COBRO EJECUTIVO,1000000000,1000000000.0,0.0,BAJO,ALTO,,,,False,False,False,,50.0,🟡
 Tucumán | Juzgado Civ Y Com 1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,ALTO,,,,False,True,False,,25.0,🟢
 Tucumán | Juzgado Civ Y Com 2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,ALTO,,,,False,True,False,,25.0,🟢
 Tucumán | Juzgado Civ Y Com 3,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
