@@ -156,11 +156,9 @@ def acerca():
     <img src="/foto_autor" alt="Ph.D. Vicente H. Monteverde" onerror="this.style.background='#1a2744'">
     <div class="perfil-info">
       <h1>Ph.D. Vicente <span>Humberto Monteverde</span></h1>
-      <div class="titulo">Doctor en Ciencias — Investigador en Transparencia Judicial</div>
+      <div class="titulo">Ph.D. in Economics</div>
       <p>
-        Especialista en análisis algorítmico del Poder Judicial argentino. Desarrolla
-        herramientas de auditoría basadas en datos públicos oficiales para promover la
-        transparencia, el debate académico y el control ciudadano del sistema judicial.
+        Especialista en análisis algorítmico y el control ciudadano de la transparencia.
       </p>
       <div class="chips">
         <span class="chip gold">Ph.D.</span>
