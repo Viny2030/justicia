@@ -176,19 +176,39 @@ def acerca():
   <div class="bloque">
     <h3>Formación</h3>
     <ul>
-      <li>Doctor (Ph.D.) — <em>[Universidad · Año]</em></li>
-      <li>Maestría en <em>[disciplina]</em> — <em>[Universidad · Año]</em></li>
-      <li>Licenciatura en <em>[disciplina]</em> — <em>[Universidad · Año]</em></li>
+      <li><strong>Ph.D. of Philosophy, Major in Economics</strong> — Atlantic International University, USA · 2015</li>
+      <li><strong>Master en Administración Estratégica</strong> — Universidad de Belgrano · 1997</li>
+      <li><strong>Master in International Business</strong> — École Nationale des Ponts et Chaussées, Francia · 1995</li>
+      <li><strong>Contador Público Nacional</strong> — Universidad de Morón · 1984</li>
+      <li>Diploma en Business Data Science · Diploma en Business Analytics — Universidad de Aconcagua</li>
+      <li>Perito Judicial en Delitos Económicos · Master en Compliance Officer — ESNECA Business School</li>
     </ul>
   </div>
 
   <div class="bloque">
     <h3>Actividad Académica y de Investigación</h3>
     <ul>
-      <li>Investigador en transparencia y eficiencia del Poder Judicial de la Nación Argentina</li>
+      <li>Co-director de la Diplomatura en Data Science — Universidad del Museo Social Argentino</li>
+      <li>Profesor de la Diplomatura en Business Analytics — Universidad de Aconcagua</li>
       <li>Desarrollador del Sistema de Monitoreo Judicial — indicadores IRA, CEPEJ, WJP adaptados al contexto argentino</li>
       <li>Análisis de datos judiciales con fuentes públicas: datos.jus.gob.ar, estadisticas.pjn.gov.ar, CSJN</li>
-      <li><em>[Publicaciones, docencia, cargos — completar]</em></li>
+      <li>ORCID: <a href="https://orcid.org/0000-0001-8884-4811" target="_blank">0000-0001-8884-4811</a> · Scopus: 57210103809 · ResearchGate: <a href="https://www.researchgate.net/profile/Vincenzo-Monteverde" target="_blank">perfil</a></li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Publicaciones</h3>
+    <ul>
+      <li>
+        <strong><a href="https://www.amazon.com/-/es/vicente-monteverde-ebook/dp/B0FKN699R1/" target="_blank">
+          Algorithms for Fraud and Corruption: Detection
+        </a></strong> — Kindle Edition · 219 págs. · Inglés · Agosto 2025<br>
+        <span style="font-size:.81rem;color:var(--muted)">
+          Aplicación práctica de algoritmos avanzados (machine learning, detección de anomalías)
+          para detectar, prevenir y mitigar fraude y corrupción en escenarios reales.
+          JEL: C45, C53, D73, G28, K42.
+        </span>
+      </li>
     </ul>
   </div>
 
