@@ -1,0 +1,88 @@
+name: Scraper Diario — Monitor Judicial PJN
+
+on:
+  schedule:
+    - cron: '0 6 * * *'        # todos los días a las 06:00 UTC (03:00 ARG)
+  workflow_dispatch:            # también se puede disparar a mano desde GitHub
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1. Checkout del repo
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # 2. Python
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. Dependencias mínimas (sin spacy ni streamlit — solo lo que usa el scraper)
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install requests beautifulsoup4 pandas openpyxl lxml
+
+      # 4. Correr el scraper (solo con los datos ya descargados — sin crawl HTTP)
+      - name: Ejecutar scraper_juzgados_nacional
+        run: python scraper_juzgados_nacional.py --skip-crawl
+        env:
+          PYTHONIOENCODING: utf-8
+
+      # 5. Correr scraper de magistrados si el JSON tiene más de 7 días
+      - name: Actualizar magistrados (semanal)
+        run: |
+          python -c "
+          import os, json
+          from datetime import date, timedelta
+          meta = 'meta_justicia.json'
+          if os.path.exists(meta):
+              with open(meta) as f:
+                  d = json.load(f)
+              ultima = d.get('ultima_actualizacion','')[:10]
+              if ultima and (date.today() - date.fromisoformat(ultima)).days < 7:
+                  print(f'magistrados.json OK (actualizado {ultima}) — skip')
+                  exit(0)
+          print('Actualizando magistrados...')
+          os.system('python scraper_magistrados.py')
+          "
+        env:
+          PYTHONIOENCODING: utf-8
+
+      # 6. Verificar que el JSON generado es válido
+      - name: Verificar juzgados_nacional.json
+        run: |
+          python -c "
+          import json, sys
+          with open('juzgados_nacional.json', encoding='utf-8') as f:
+              data = json.load(f)
+          total = len(data)
+          con_oral = sum(1 for r in data if r.get('total_causas_oral', 0) > 0)
+          alto_riesgo = sum(1 for r in data if r.get('ira_score', 0) >= 60)
+          print(f'OK: {total} juzgados | {con_oral} con oralidad | {alto_riesgo} alto riesgo IRA')
+          if total < 200:
+              print('ERROR: menos de 200 juzgados — algo salió mal')
+              sys.exit(1)
+          "
+
+      # 7. Commit y push si hubo cambios
+      - name: Commit datos actualizados
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add juzgados_nacional.json juzgados_nacional.csv meta_justicia.json
+          # Solo hace commit si hay cambios reales
+          git diff --staged --quiet || git commit -m "data: actualización diaria $(date -u +%Y-%m-%d)"
+
+      - name: Push
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
