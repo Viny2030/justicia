@@ -134,12 +134,13 @@ def nav_html(activo: str = "") -> str:
         ("/operativo/camaras",   "🏢 Cámaras",  "camaras"),
         ("/operativo/nacional",   "🗺️ Nacional",  "nacional"),
         ("/operativo",           "📋 Juzgados", "juzgados"),
+        ("/manual",              "📖 Manual",   "manual"),
     ]
     links = ""
     for url, label, key in tabs:
         cls = "active" if activo == key else ""
         links += f'<a href="{url}" class="{cls}">{label}</a>'
-    links += '<a href="/apoyar" class="apoyar">💛 Apoyar</a>'
+    links += '<a href="/acerca" class="apoyar">👤 Autor</a>'
     return f"""<nav class="topnav">
   <a class="brand" href="/">⚖️ Monitor Judicial</a>
   <div class="links">{links}</div>

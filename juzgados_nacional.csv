@@ -1,310 +1,302 @@
-﻿juzgado,jurisdiccion,fuero,anio,pendientes_inicio,pendientes_cierre,agregadas,dictadas_def,dictadas_inter,ingresos,resueltos,clearance_rate,disposition_time,total_causas_oral,mora_2anios,pct_mora,objeto_principal,costo_anual_estimado,costo_por_causa,vs_wjp_civil,vs_cepej_cr,vs_cepej_dt,magistrado,fecha_jura,antiguedad_anos,en_licencia,vacante,concurso_activo,concurso_numero,ira_score,ira_semaforo
-(**) Corresponde a arqueo informado por la dependencia.-,Federal de Comodoro Rivadavia,Federal,,0,0,0,0,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,—,,,,False,False,False,,0.0,🟢
-Buenos Aires | Juzgado 1,,Civil,,0,3520,0,1273,0,0,1273,26.6,661.0,4793,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,208638.0,0.11,BAJO,ALTO,,,,False,True,False,,68.7,🔴
-Buenos Aires | Juzgado 10,,Civil,,0,1073,0,559,0,0,559,34.3,863.0,1632,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,612745.0,0.14,BAJO,ALTO,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 11,,Civil,,0,1873,0,670,0,0,670,26.3,911.0,2543,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,393236.0,0.11,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,70.0,🔴
-Buenos Aires | Juzgado 12,,Civil,,0,1544,0,693,0,0,693,31.0,795.0,2237,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,447027.0,0.13,BAJO,ALTO,"MÁRQUEZ, Luis Oscar",,,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 13,,Civil,,0,119,0,94,0,0,94,44.1,672.0,213,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,4694836.0,0.19,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,False,False,,59.2,🟡
-Buenos Aires | Juzgado 14,,Civil,,0,536,0,198,0,0,198,27.0,721.0,734,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,1362398.0,0.11,BAJO,ALTO,,,,False,True,False,,70.0,🔴
-Buenos Aires | Juzgado 15,,Civil,,0,771,0,391,0,0,391,33.6,456.0,1162,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,860585.0,0.14,BAJO,ALTO,"MARTÍN, Adrián Norberto",,,False,False,False,,49.8,🟡
-Buenos Aires | Juzgado 16,,Civil,,0,842,0,389,0,0,389,31.6,393.0,1231,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,812348.0,0.13,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,57.1,🟡
-Buenos Aires | Juzgado 17,,Civil,,0,245,0,169,0,0,169,40.8,1256.0,414,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,2415459.0,0.17,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 18,,Civil,,0,269,0,138,0,0,138,33.9,871.0,407,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,2457002.0,0.14,BAJO,ALTO,"MEDINA, Darío Martín",,,False,True,False,,70.0,🔴
-Buenos Aires | Juzgado 19,,Civil,,0,113,0,248,0,0,248,68.7,953.0,361,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,2770083.0,0.29,BAJO,ALTO,"NARDIELLO, Angel Gabriel",,,False,True,False,,60.6,🔴
-Buenos Aires | Juzgado 2,,Civil,,0,4474,0,1927,0,0,1927,30.1,713.0,6401,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,156226.0,0.13,BAJO,ALTO,,,,False,True,False,,70.0,🔴
-Buenos Aires | Juzgado 20,,Civil,,0,223,0,30,0,0,30,11.9,489.0,253,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,3952569.0,0.05,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,True,False,,61.3,🔴
-Buenos Aires | Juzgado 3,,Civil,,0,3213,0,1335,0,0,1335,29.4,742.0,4548,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,219877.0,0.12,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 4,,Civil,,0,1834,0,651,0,0,651,26.2,709.0,2485,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,402414.0,0.11,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 5,,Civil,,0,1059,0,359,0,0,359,25.3,924.0,1418,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,705219.0,0.11,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 6,,Civil,,0,1088,0,376,0,0,376,25.7,813.0,1464,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,683060.0,0.11,BAJO,ALTO,,,,False,True,False,,70.0,🔴
-Buenos Aires | Juzgado 7,,Civil,,0,1220,0,498,0,0,498,29.0,825.0,1718,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,582072.0,0.12,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,60.0,🔴
-Buenos Aires | Juzgado 8,,Civil,,0,1883,0,357,0,0,357,15.9,752.0,2240,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,446429.0,0.07,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,60.0,🔴
-Buenos Aires | Juzgado 9,,Civil,,0,1814,0,1031,0,0,1031,36.2,825.0,2845,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),1000000000,351494.0,0.15,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,70.0,🔴
-Chaco | Juzgado Charata - 1,,Civil,,0,59,0,2,0,0,2,3.3,2453.0,61,59,96.7,DAÑOS Y PERJUICIOS,1000000000,16393443.0,0.01,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chaco | Juzgado Charata - 2,,Civil,,0,58,0,1,0,0,1,1.7,2486.0,59,58,98.3,DAÑOS Y PERJUICIOS,1000000000,16949153.0,0.01,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chaco | Juzgado Civ Y Com 1,,,,0,455,0,0,0,0,0,0.0,0.0,455,0,0.0,,1000000000,2197802.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 14,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 15,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"MARTÍN, Adrián Norberto",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 16,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 17,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 19,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"NARDIELLO, Angel Gabriel",,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 2,,,,0,260,0,0,0,0,0,0.0,0.0,260,0,0.0,,1000000000,3846154.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 20,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LEIF GUARDIA, Diego",,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 21,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"CANDELA, Walter José",2021-09-02,4.0,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 22,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"CUSMANICH, Patricia Elisa",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 3,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 6,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chaco | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,15.0,🟢
-Chaco | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,25.0,🟢
-Chaco | Juzgado Gral. San Martín - 1,,Civil,,0,50,0,0,0,0,0,0.0,2521.0,50,50,100.0,DAÑOS Y PERJUICIOS,1000000000,20000000.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Chaco | Juzgado Juan José Castelli - 1,,Civil,,0,37,0,0,0,0,0,0.0,2525.0,37,37,100.0,DAÑOS Y PERJUICIOS,1000000000,27027027.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Chaco | Juzgado Pcia. Roque Sáenz Peña - 1,,Civil,,0,114,0,0,0,0,0,0.0,2522.0,114,114,100.0,DAÑOS Y PERJUICIOS,1000000000,8771930.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Chaco | Juzgado Pcia. Roque Sáenz Peña - 2,,Civil,,0,125,0,2,0,0,2,1.6,2484.0,127,125,98.4,DAÑOS Y PERJUICIOS,1000000000,7874016.0,0.01,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chaco | Juzgado Resistencia - 1,,Civil,,0,3,0,0,0,0,0,0.0,2507.0,3,3,100.0,NULIDAD,1000000000,333333333.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Chaco | Juzgado Resistencia - 14,,Civil,,0,1,0,0,0,0,0,0.0,2625.0,1,1,100.0,ESCRITURACIÓN,1000000000,1000000000.0,0.0,BAJO,ALTO,,,,False,True,False,,60.0,🔴
-Chaco | Juzgado Resistencia - 15,,Civil,,0,3,0,0,0,0,0,0.0,2596.0,3,3,100.0,ESCRITURACIÓN,1000000000,333333333.0,0.0,BAJO,ALTO,"MARTÍN, Adrián Norberto",,,False,False,False,,65.0,🔴
-Chaco | Juzgado Resistencia - 16,,Civil,,0,104,0,1,0,0,1,1.0,2511.0,105,104,99.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9523810.0,0.0,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,100.0,🔴
-Chaco | Juzgado Resistencia - 17,,Civil,,0,100,0,2,0,0,2,2.0,2477.0,102,100,98.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9803922.0,0.01,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 19,,Civil,,0,107,0,1,0,0,1,0.9,2506.0,108,107,99.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9259259.0,0.0,BAJO,ALTO,"NARDIELLO, Angel Gabriel",,,False,True,False,,100.0,🔴
-Chaco | Juzgado Resistencia - 2,,Civil,,0,96,0,1,0,0,1,1.0,2507.0,97,96,99.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,10309278.0,0.0,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chaco | Juzgado Resistencia - 20,,Civil,,0,114,0,0,0,0,0,0.0,2525.0,114,114,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,8771930.0,0.0,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,True,False,,75.0,🔴
-Chaco | Juzgado Resistencia - 21,,Civil,,0,111,0,1,0,0,1,0.9,2512.0,112,111,99.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,8928571.0,0.0,BAJO,ALTO,"CANDELA, Walter José",2021-09-02,4.0,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 22,,Civil,,0,109,0,0,0,0,0,0.0,2532.0,109,109,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9174312.0,0.0,BAJO,ALTO,"CUSMANICH, Patricia Elisa",,,False,False,False,,65.0,🔴
-Chaco | Juzgado Resistencia - 3,,Civil,,0,110,0,3,0,0,3,2.7,2459.0,113,110,97.3,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,8849558.0,0.01,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 4,,Civil,,0,109,0,3,0,0,3,2.7,2462.0,112,109,97.3,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,8928571.0,0.01,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 5,,Civil,,0,98,0,4,0,0,4,3.9,2422.0,102,98,96.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9803922.0,0.02,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 6,,Civil,,0,106,0,0,0,0,0,0.0,2526.0,106,106,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9433962.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Chaco | Juzgado Resistencia - 7,,Civil,,0,102,0,4,0,0,4,3.8,2434.0,106,102,96.2,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,9433962.0,0.02,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,90.0,🔴
-Chaco | Juzgado Resistencia - 9,,Civil,,0,115,0,0,0,0,0,0.0,2526.0,115,115,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,8695652.0,0.0,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,75.0,🔴
-Chaco | Juzgado Villa Ángela - 1,,Civil,,0,52,0,3,0,0,3,5.5,2393.0,55,52,94.5,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,18181818.0,0.02,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chaco | Juzgado Villa Ángela - 2,,Civil,,0,39,0,3,0,0,3,7.1,2361.0,42,39,92.9,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,1000000000,23809524.0,0.03,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chubut | Juzgado 1,,Civil,,0,59,0,3,0,0,3,4.8,2804.0,62,59,95.2,Daños y perjuicios,1000000000,16129032.0,0.02,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chubut | Juzgado 2,,Civil,,0,26,0,8,0,0,8,23.5,2397.0,34,26,76.5,Daños y perjuicios,1000000000,29411765.0,0.1,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Chubut | Juzgado Juz Civ 1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chubut | Juzgado Juz Civ 2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chubut | Juzgado Juz Civ. Com Y Lab   1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chubut | Juzgado Juz Civ. Com Y Lab 1,,,,0,195,0,0,0,0,0,0.0,0.0,195,0,0.0,,1000000000,5128205.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Chubut | Juzgado Juz. Civ 1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Corrientes | Juzgado Civil Y Comercial - Gbdr. Virasoro,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial - Monte Caseros,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial - Paso De Los Libres,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial - S. Tome,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial - Saladas,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°1,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°12,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"MÁRQUEZ, Luis Oscar",,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°13,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LEIF GUARDIA, Diego",,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°2,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°3,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial N°6,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Corrientes | Juzgado Civil Y Comercial Y Laboral - Ituzaingo,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial Y Laboral - Monte Caseros,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial Y Laboral - Paso De Los Libres,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Civil Y Comercial Y Laboral - S. Tome,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-"Corrientes | Juzgado Civil, Comercial Y Laboral -B.Vista",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-"Corrientes | Juzgado Civil, Comercial Y Laboral -Curuzú",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-"Corrientes | Juzgado Civil, Comercial Y Laboral -Mercedes",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-"Corrientes | Juzgado Civil, Comercial, Familia Y Ca - Curuzú",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-"Corrientes | Juzgado Civil, Comercial, Laboral. Esquina",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Multifuero - Empedrado,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Multifuero - San Roque,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Corrientes | Juzgado Multifuero - Santa Rosa,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Cámara,Federal de Comodoro Rivadavia,Federal,,0,3443,80,3594,468,0,0,0.0,0.0,0,0,0.0,,1000000000,142106.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 1,,,,0,455,0,0,0,0,0,0.0,0.0,455,0,0.0,,1000000000,2197802.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 10,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 12,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"MÁRQUEZ, Luis Oscar",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 15,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"MARTÍN, Adrián Norberto",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 16,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 17,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 18,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"MEDINA, Darío Martín",,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 2,,,,0,390,0,0,0,0,0,0.0,0.0,390,0,0.0,,1000000000,2564103.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 20,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LEIF GUARDIA, Diego",,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 27,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"ROMEO, Jorge Horacio",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 28,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"RENGEL MIRAT, Carlos Alberto",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 3,,,,0,260,0,0,0,0,0,0.0,0.0,260,0,0.0,,1000000000,3846154.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 30,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 31,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"FERNÁNDEZ GARELLO, Vivian Cecilia",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 32,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"CARUSO, Eduardo Alejandro",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 34,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"REBAUDI BASAVILBASO, Ignacio Martín",2019-08-20,6.0,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 35,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LIEBER, Herman Bernardo",,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 36,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"FONT, Sebastián Francisco",2018-06-22,7.0,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 4,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 41,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"GALMARINI, Marcos",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 48,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"SPERONI, Julio Carlos",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 49,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"TORELLO, Viviana Silvia",2018-06-22,7.0,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 51,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 6,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Córdoba | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,15.0,🟢
-Córdoba | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,25.0,🟢
-Córdoba | Juzgado J.1A Inst.C.C.Fam.2A,,Civil,,0,14,0,4,0,0,4,22.2,2197.0,18,14,77.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,55555556.0,0.09,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado J.1A Inst.C.C.Fam.3A-Sec.5 - Rio Cuarto,,Civil,,0,1,0,0,0,0,0,0.0,2404.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,1000000000.0,0.0,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,50.0,🟡
-Córdoba | Juzgado J.1A Inst.C.C.Fam.4A-Sec.7 - Rio Cuarto,,Civil,,0,1,0,0,0,0,0,0.0,3056.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,1000000000.0,0.0,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,50.0,🟡
-Córdoba | Juzgado J.1A Inst.C.C.Fam.6A,,Civil,,0,17,0,16,0,0,16,48.5,1720.0,33,17,51.5,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,30303030.0,0.2,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado J.1A Inst.C.C.Fam.7A,,Civil,,0,32,0,17,0,0,17,34.7,1951.0,49,32,65.3,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,20408163.0,0.15,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com  5A Nom-Sec,,Civil,,0,40,0,14,0,0,14,25.9,2159.0,54,40,74.1,ORDINARIO - TRAM ORAL,1000000000,18518519.0,0.11,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com  6A Nom-Sec,,Civil,,0,45,0,19,0,0,19,29.7,2202.0,64,45,70.3,ORDINARIO - TRAM ORAL,1000000000,15625000.0,0.12,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com  9A Nom-Sec,,Civil,,0,27,0,4,0,0,4,12.9,2353.0,31,27,87.1,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,32258065.0,0.05,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 12A Nom-Sec,,Civil,,0,24,0,1,0,0,1,4.0,2413.0,25,24,96.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,40000000.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 15A Nom-Sec,,Civil,,0,39,0,19,0,0,19,32.8,2166.0,58,39,67.2,ORDINARIO - TRAM ORAL,1000000000,17241379.0,0.14,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 16A Nom-Sec,,Civil,,0,1,0,0,0,0,0,0.0,2401.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUICIOS - OTRAS FORMAS DE RESPONSABILIDAD EXTRACONTRACTUAL - TRAM ORAL,1000000000,1000000000.0,0.0,BAJO,ALTO,,,,False,False,False,,50.0,🟡
-Córdoba | Juzgado Juzg 1A Inst Civ Com 17A Nom-Sec,,Civil,,0,32,0,9,0,0,9,22.0,2243.0,41,32,78.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,24390244.0,0.09,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 27A Nom-Sec,,Civil,,0,30,0,4,0,0,4,11.8,2678.0,34,30,88.2,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,29411765.0,0.05,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 31A Nom-Sec,,Civil,,0,26,0,7,0,0,7,21.2,2244.0,33,26,78.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,30303030.0,0.09,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 32A Nom-Sec,,Civil,,0,22,0,8,0,0,8,26.7,2053.0,30,22,73.3,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,33333333.0,0.11,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 34A Nom-Sec,,Civil,,0,28,0,7,0,0,7,20.0,2239.0,35,28,80.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,28571429.0,0.08,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 35A Nom-Sec,,Civil,,0,26,0,5,0,0,5,16.1,2191.0,31,26,83.9,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,32258065.0,0.07,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 36A Nom-Sec,,Civil,,0,28,0,5,0,0,5,15.2,2451.0,33,28,84.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,30303030.0,0.06,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 48A Nom-Sec,,Civil,,0,26,0,3,0,0,3,10.3,2344.0,29,26,89.7,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,34482759.0,0.04,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 49A Nom-Sec,,Civil,,0,24,0,15,0,0,15,38.5,1776.0,39,24,61.5,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,25641026.0,0.16,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Córdoba | Juzgado Juzg 1A Inst Civ Com 51A Nom-Sec,,Civil,,0,56,0,3,0,0,3,5.1,2943.0,59,56,94.9,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,1000000000,16949153.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Entre Ríos | Juzgado 1,,Civil,,0,939,0,226,0,0,226,19.4,2056.0,1165,289,24.8,ORDINARIO DAÑOS Y PERJUICIOS,1000000000,858369.0,0.08,BAJO,ALTO,,,,False,True,False,,99.8,🔴
-Entre Ríos | Juzgado 2,,Civil,,0,854,0,132,0,0,132,13.4,2210.0,986,204,20.7,ORDINARIO DAÑOS Y PERJUICIOS,1000000000,1014199.0,0.06,BAJO,ALTO,,,,False,True,False,,94.8,🔴
-Entre Ríos | Juzgado 3,,Civil,,0,229,0,42,0,0,42,15.5,2223.0,271,74,27.3,ORDINARIO DAÑOS Y PERJUICIOS,1000000000,3690037.0,0.07,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,90.0,🔴
-Entre Ríos | Juzgado 4,,Civil,,0,141,0,25,0,0,25,15.1,1896.0,166,31,18.7,ORDINARIO,1000000000,6024096.0,0.06,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,82.4,🔴
-Entre Ríos | Juzgado 5,,Civil,,0,95,0,21,0,0,21,18.1,2239.0,116,30,25.9,ORDINARIO ACCIDENTES DE TRANSITO,1000000000,8620690.0,0.08,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,90.0,🔴
-Entre Ríos | Juzgado 6,,Civil,,0,178,0,43,0,0,43,19.5,1872.0,221,48,21.7,ORDINARIO (CIVIL),1000000000,4524887.0,0.08,BAJO,ALTO,,,,False,True,False,,96.0,🔴
-Entre Ríos | Juzgado 7,,Civil,,0,77,0,32,0,0,32,29.4,1382.0,109,12,11.0,ORDINARIO ACCIDENTES DE TRANSITO,1000000000,9174312.0,0.12,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,73.2,🔴
-Entre Ríos | Juzgado 8,,Civil,,0,80,0,26,0,0,26,24.5,1468.0,106,15,14.2,ORDINARIO ACCIDENTES DE TRANSITO,1000000000,9433962.0,0.1,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,77.0,🔴
-Entre Ríos | Juzgado Diamante,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado Federación,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado Federal,,Federal,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado Islas Del Ibicuy,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado San Salvador,,,,0,45,0,0,0,0,0,0.0,0.0,45,0,0.0,,1000000000,22222222.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado Tala,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Entre Ríos | Juzgado Victoria,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales,Federal de Comodoro Rivadavia,Federal,,0,969,9,1001,205,0,0,0.0,0.0,0,0,0.0,,1000000000,507614.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Caleta Olivia,Federal de Comodoro Rivadavia,Federal,,0,782,0,782,0,0,0,0.0,0.0,0,0,0.0,,1000000000,639386.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Comodoro Rivadavia,Federal de Comodoro Rivadavia,Federal,,0,540,0,540,0,0,0,0.0,0.0,0,0,0.0,,1000000000,925926.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Esquel,Federal de Comodoro Rivadavia,Federal,,0,302,0,302,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1655629.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Rawson N° 1,Federal de Comodoro Rivadavia,Federal,,0,744,16,749,309,0,0,0.0,0.0,0,0,0.0,,1000000000,669792.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Juzgados Federales | Rawson N° 2,Federal de Comodoro Rivadavia,Federal,,0,2535,0,2535,1091,0,0,0.0,0.0,0,0,0.0,,1000000000,197239.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Juzgados Federales | Río Gallegos,Federal de Comodoro Rivadavia,Federal,,1,426,0,426,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1173709.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Río Grande,Federal de Comodoro Rivadavia,Federal,,0,141,0,141,0,0,0,0.0,0.0,0,0,0.0,,1000000000,3546099.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Juzgados Federales | Ushuaia,Federal de Comodoro Rivadavia,Federal,,1,49,0,49,0,0,0,0.0,0.0,0,0,0.0,,1000000000,10204082.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Penal,Federal de Comodoro Rivadavia,Federal,,0,0,0,0,0,550,380,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,—,,,,False,False,False,,0.0,🟢
-Primera Instancia,Federal de Comodoro Rivadavia,Federal,,0,14119,639,14844,2927,0,0,0.0,0.0,0,0,0.0,,1000000000,34527.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Referencia:  (*) Corresponde a arqueo informado por la dependencia.,Federal de Comodoro Rivadavia,Federal,,0,0,0,0,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,—,,,,False,False,False,,0.0,🟢
-Referencia:  (*) Creada por el Juzgado con la aprovación de la Cámara Federal de Apelaciones en Expediente C.S.J.N. Nş 5543/2023.-,Federal de Comodoro Rivadavia,Federal,,0,0,0,0,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,—,,,,False,False,False,,0.0,🟢
-Referencia: (*) Creada por el Juzgado con la aprovación de la Cámara Federal de Apelaciones en Expediente C.S.J.N. Nş 5543/2023.-,Federal de Comodoro Rivadavia,Federal,,0,0,0,0,0,0,0,0.0,0.0,0,0,0.0,,1000000000,1000000000.0,0.0,BAJO,—,,,,False,False,False,,0.0,🟢
-San Juan | Juzgado Administrativo - Contencioso,,Civil,,0,19,0,1,0,0,1,5.0,3004.0,20,19,95.0,ORDINARIO,1000000000,50000000.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-San Juan | Juzgado Civ Y Com 1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-San Juan | Juzgado Civ Y Com 11,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,25.0,🟢
-San Juan | Juzgado Civ Y Com 3,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-San Juan | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-San Juan | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-San Juan | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,15.0,🟢
-San Juan | Juzgado Civ Y Com 8,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,15.0,🟢
-San Juan | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,25.0,🟢
-San Juan | Juzgado Civil - 11°,,Civil,,0,70,0,3,0,0,3,4.1,2692.0,73,70,95.9,ORDINARIO,1000000000,13698630.0,0.02,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,100.0,🔴
-San Juan | Juzgado Civil - 1°,,Civil,,0,40,0,1,0,0,1,2.4,2447.0,41,40,97.6,ORDINARIO,1000000000,24390244.0,0.01,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-San Juan | Juzgado Civil - 3°,,Civil,,0,83,0,5,0,0,5,5.7,2624.0,88,83,94.3,ORDINARIO,1000000000,11363636.0,0.02,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,90.0,🔴
-San Juan | Juzgado Civil - 4°,,Civil,,0,99,0,3,0,0,3,2.9,2723.0,102,99,97.1,ORDINARIO,1000000000,9803922.0,0.01,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,90.0,🔴
-San Juan | Juzgado Civil - 5°,,Civil,,0,41,0,1,0,0,1,2.4,3156.0,42,36,85.7,DAÑOS Y PERJUICIOS,1000000000,23809524.0,0.01,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,90.0,🔴
-San Juan | Juzgado Civil - 7°,,Civil,,0,142,0,0,0,0,0,0.0,3304.0,142,49,34.5,ORDINARIO,1000000000,7042254.0,0.0,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,65.0,🔴
-San Juan | Juzgado Civil - 8°,,Civil,,0,44,0,0,0,0,0,0.0,2763.0,44,44,100.0,ORDINARIO,1000000000,22727273.0,0.0,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,65.0,🔴
-San Juan | Juzgado Civil - 9°,,Civil,,0,128,0,5,0,0,5,3.8,2672.0,133,128,96.2,ORDINARIO,1000000000,7518797.0,0.02,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,100.0,🔴
-San Juan | Juzgado Comercial Especial,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-San Juan | Juzgado Contencioso Administrativo,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-San Juan | Juzgado Especial - Comercial Especial,,Comercial,,0,8,0,2,0,0,2,20.0,2622.0,10,8,80.0,REVISIÓN (ART. 37 LEY 24522),1000000000,100000000.0,0.08,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-San Juan | Juzgado Jachal,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-San Juan | Juzgado Laboral - 1°,,Laboral,,0,157,0,0,0,0,0,0.0,2502.0,157,157,100.0,ORDINARIO,1000000000,6369427.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-San Juan | Juzgado Laboral - 2°,,Laboral,,0,163,0,16,0,0,16,8.9,2344.0,179,163,91.1,ORDINARIO,1000000000,5586592.0,0.04,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-San Juan | Juzgado Laboral - 3°,,Laboral,,0,204,0,59,0,0,59,22.4,2152.0,263,204,77.6,ORDINARIO,1000000000,3802281.0,0.09,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,90.0,🔴
-San Juan | Juzgado Laboral - 4°,,Laboral,,0,166,0,2,0,0,2,1.2,2567.0,168,165,98.2,ORDINARIO,1000000000,5952381.0,0.01,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,90.0,🔴
-San Juan | Juzgado Laboral - 5°,,Laboral,,0,152,0,18,0,0,18,10.6,2651.0,170,152,89.4,ORDINARIO,1000000000,5882353.0,0.04,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,90.0,🔴
-San Juan | Juzgado Laboral - 6°,,Laboral,,0,142,0,12,0,0,12,7.8,2304.0,154,142,92.2,ORDINARIO,1000000000,6493506.0,0.03,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-San Juan | Juzgado Laboral N°1,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-San Juan | Juzgado Laboral N°2,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-San Juan | Juzgado Laboral N°3,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-San Juan | Juzgado Laboral N°4,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-San Juan | Juzgado Laboral N°5,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-San Juan | Juzgado Laboral N°6,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado 1,,Civil,,0,2543,0,0,0,0,0,0.0,2813.0,2543,2543,100.0,DAÑOS Y PERJUICIOS,1000000000,393236.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 10,,Civil,,0,152,0,0,0,0,0,0.0,3035.0,152,152,100.0,DEMANDA DE DERECHO DE CONSUMO,1000000000,6578947.0,0.0,BAJO,ALTO,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 11,,Civil,,0,87,0,0,0,0,0,0.0,3183.0,87,87,100.0,DEMANDA ORDINARIA,1000000000,11494253.0,0.0,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 12,,Civil,,0,118,0,0,0,0,0,0.0,3005.0,118,118,100.0,DAÑOS Y PERJUICIOS,1000000000,8474576.0,0.0,BAJO,ALTO,"MÁRQUEZ, Luis Oscar",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 13,,Civil,,0,153,0,0,0,0,0,0.0,3106.0,153,153,100.0,DAÑOS Y PERJUICIOS,1000000000,6535948.0,0.0,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 14,,Civil,,0,138,0,0,0,0,0,0.0,3179.0,138,138,100.0,DAÑOS Y PERJUICIOS,1000000000,7246377.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 15,,Civil,,0,170,0,0,0,0,0,0.0,3041.0,170,170,100.0,DAÑOS Y PERJUICIOS,1000000000,5882353.0,0.0,BAJO,ALTO,"MARTÍN, Adrián Norberto",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 16,,Civil,,0,174,0,0,0,0,0,0.0,3089.0,174,174,100.0,DAÑOS Y PERJUICIOS,1000000000,5747126.0,0.0,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 17,,Civil,,0,107,0,0,0,0,0,0.0,2828.0,107,107,100.0,COBRO DE PESOS,1000000000,9345794.0,0.0,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 18,,Civil,,0,136,0,0,0,0,0,0.0,2932.0,136,136,100.0,DAÑOS Y PERJUICIOS,1000000000,7352941.0,0.0,BAJO,ALTO,"MEDINA, Darío Martín",,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 2,,Civil,,0,2598,0,0,0,0,0,0.0,2815.0,2598,2598,100.0,DAÑOS Y PERJUICIOS,1000000000,384911.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 3,,Civil,,0,1325,0,0,0,0,0,0.0,2865.0,1325,1325,100.0,DAÑOS Y PERJUICIOS,1000000000,754717.0,0.0,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 4,,Civil,,0,768,0,0,0,0,0,0.0,2796.0,768,768,100.0,DAÑOS Y PERJUICIOS,1000000000,1302083.0,0.0,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 5,,Civil,,0,981,0,0,0,0,0,0.0,2838.0,981,981,100.0,DAÑOS Y PERJUICIOS,1000000000,1019368.0,0.0,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 6,,Civil,,0,1127,0,0,0,0,0,0.0,2869.0,1127,1127,100.0,DAÑOS Y PERJUICIOS,1000000000,887311.0,0.0,BAJO,ALTO,,,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado 7,,Civil,,0,219,0,0,0,0,0,0.0,3074.0,219,219,100.0,JUICIOS ORDINARIOS,1000000000,4566210.0,0.0,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,65.0,🔴
-Santa Fe | Juzgado 8,,Civil,,0,256,0,0,0,0,0,0.0,3029.0,256,256,100.0,DAÑOS Y PERJUICIOS,1000000000,3906250.0,0.0,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,65.0,🔴
-Santa Fe | Juzgado 9,,Civil,,0,207,0,0,0,0,0,0.0,3017.0,207,207,100.0,JUICIOS ORDINARIOS,1000000000,4830918.0,0.0,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,75.0,🔴
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  10Ma Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  11Ra Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  12Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  13Ra Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  14Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  15Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  16Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  17Ma Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  18Va Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  1Ra Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  2Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  3Ra Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  5Ta Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  6Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  7Ma Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  8Va Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  9Na Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial 2Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Distrito En Lo Civil Y Comercial 4Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Juzgado De Circuito N°1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado Juzgado De Circuito N°2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado Juzgado De Circuito N°3,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Juzgado De Circuito N°4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Juzgado De Circuito N°5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Tre N°1 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado Tre N°1 - Santa Fe,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado Tre N°2 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santa Fe | Juzgado Tre N°4 - Santa Fe,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-Santa Fe | Juzgado Tre N°6 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Santiago Del Estero | Juzgado  1Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 1Ra. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 2Da Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 2Da. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 3Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 3Ra. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 4Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 4Ta. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 5Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado 6Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado Ac1,,Civil,,0,54,0,0,0,0,0,0.0,3447.0,54,54,100.0,PRESCRIPCION,1000000000,18518519.0,0.0,BAJO,ALTO,,,,False,False,False,,65.0,🔴
-Santiago Del Estero | Juzgado Añatuya,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado Bc1,,Civil,,0,276,0,8,0,0,8,2.8,2826.0,284,276,97.2,DAÑOS Y PERJUICIOS - BENEFICIO DE LITIGAR SIN GASTOS,1000000000,3521127.0,0.01,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado Bc2,,Civil,,0,225,0,6,0,0,6,2.6,2838.0,231,225,97.4,DAÑOS Y PERJUICIOS - BENEFICIO DE LITIGAR SIN GASTOS,1000000000,4329004.0,0.01,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C1,,Civil,,0,298,0,5,0,0,5,1.7,2770.0,303,298,98.3,DAÑOS Y PERJUICIOS,1000000000,3300330.0,0.01,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C2,,Civil,,0,272,0,18,0,0,18,6.2,2764.0,290,272,93.8,DAÑOS Y PERJUICIOS,1000000000,3448276.0,0.03,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C3,,Civil,,0,248,0,20,0,0,20,7.5,2789.0,268,248,92.5,DAÑOS Y PERJUICIOS,1000000000,3731343.0,0.03,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C4,,Civil,,0,359,0,18,0,0,18,4.8,2971.0,377,359,95.2,DAÑOS Y PERJUICIOS,1000000000,2652520.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C5,,Civil,,0,412,0,13,0,0,13,3.1,2948.0,425,412,96.9,DAÑOS Y PERJUICIOS,1000000000,2352941.0,0.01,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado C6,,Civil,,0,321,0,19,0,0,19,5.6,3175.0,340,321,94.4,DAÑOS Y PERJUICIOS,1000000000,2941176.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado Fc1,,Civil,,0,2,0,0,0,0,0,0.0,3040.0,2,2,100.0,PRESCRIPCION ADQUISITIVA VEINTEAÑAL,1000000000,500000000.0,0.0,BAJO,ALTO,,,,False,False,False,,65.0,🔴
-Santiago Del Estero | Juzgado Frias,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado La Banda 1Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado La Banda 2Da Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado Mc1,,Civil,,0,10,0,0,0,0,0,0.0,3418.0,10,10,100.0,DAÑOS Y PERJUICIOS,1000000000,100000000.0,0.0,BAJO,ALTO,,,,False,False,False,,65.0,🔴
-Santiago Del Estero | Juzgado Monte Quemado,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Santiago Del Estero | Juzgado P1,,Civil,,0,58,0,3,0,0,3,4.9,2903.0,61,58,95.1,PRESCRIPCION,1000000000,16393443.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado P2,,Civil,,0,80,0,3,0,0,3,3.6,3062.0,83,80,96.4,PRESCRIPCION,1000000000,12048193.0,0.02,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado P3,,Civil,,0,29,0,2,0,0,2,6.5,3272.0,31,29,93.5,PRESCRIPCION,1000000000,32258065.0,0.03,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Santiago Del Estero | Juzgado P4,,Civil,,0,45,0,5,0,0,5,10.0,2719.0,50,45,90.0,PRESCRIPCION,1000000000,20000000.0,0.04,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Segunda Instancia,Federal de Comodoro Rivadavia,Federal,,0,3443,80,3594,468,0,0,0.0,0.0,0,0,0.0,,1000000000,142106.0,0.0,BAJO,—,,,,False,False,False,,15.0,🟢
-Tierra Del Fuego | Juzgado Djn1,,Civil,,0,29,0,7,0,0,7,19.4,2081.0,36,28,77.8,COBRO DE PESOS,1000000000,27777778.0,0.08,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Tierra Del Fuego | Juzgado Djn2,,Civil,,0,20,0,7,0,0,7,25.9,2059.0,27,16,59.3,DAÑOS Y PERJUICIOS,1000000000,37037037.0,0.11,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Tierra Del Fuego | Juzgado Djs1,,Civil,,0,7,0,8,0,0,8,53.3,1624.0,15,7,46.7,COBRO DE PESOS,1000000000,66666667.0,0.22,BAJO,ALTO,,,,False,False,False,,88.3,🔴
-Tierra Del Fuego | Juzgado Djs2,,Civil,,0,9,0,6,0,0,6,40.0,2108.0,15,9,60.0,DAÑOS Y PERJUICIOS,1000000000,66666667.0,0.17,BAJO,ALTO,,,,False,False,False,,90.0,🔴
-Tucumán | Juzgado Civ Y Com 1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Tucumán | Juzgado Civ Y Com 2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Tucumán | Juzgado Civ Y Com 3,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,1000000000,7692308.0,0.0,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,15.0,🟢
-Tucumán | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,15.0,🟢
-Tucumán | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-Tucumán | Juzgado Civ Y Com 6,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,,,,False,True,False,,25.0,🟢
-Tucumán | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,15.0,🟢
-Tucumán | Juzgado Civ Y Com 8,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,15.0,🟢
-Tucumán | Juzgado Civil Y Com 1,,Civil,,0,99,0,11,0,0,11,10.0,2962.0,110,99,90.0,DAÑOS Y PERJUICIOS,1000000000,9090909.0,0.04,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Tucumán | Juzgado Civil Y Com 2,,Civil,,0,104,0,15,0,0,15,12.6,3065.0,119,104,87.4,DAÑOS Y PERJUICIOS,1000000000,8403361.0,0.05,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Tucumán | Juzgado Civil Y Com 3,,Civil,,0,47,0,15,0,0,15,24.2,2471.0,62,47,75.8,DAÑOS Y PERJUICIOS,1000000000,16129032.0,0.1,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,90.0,🔴
-Tucumán | Juzgado Civil Y Com 4,,Civil,,0,55,0,11,0,0,11,16.7,2794.0,66,55,83.3,DAÑOS Y PERJUICIOS,1000000000,15151515.0,0.07,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,90.0,🔴
-Tucumán | Juzgado Civil Y Com 5,,Civil,,0,42,0,5,0,0,5,10.6,3251.0,47,42,89.4,DAÑOS Y PERJUICIOS,1000000000,21276596.0,0.04,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,90.0,🔴
-Tucumán | Juzgado Civil Y Com 6,,Civil,,0,45,0,25,0,0,25,35.7,2152.0,70,45,64.3,DAÑOS Y PERJUICIOS,1000000000,14285714.0,0.15,BAJO,ALTO,,,,False,True,False,,100.0,🔴
-Tucumán | Juzgado Civil Y Com 7,,Civil,,0,32,0,4,0,0,4,11.1,3025.0,36,32,88.9,DAÑOS Y PERJUICIOS,1000000000,27777778.0,0.05,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,90.0,🔴
-Tucumán | Juzgado Civil Y Com 8,,Civil,,0,37,0,17,0,0,17,31.5,2539.0,54,37,68.5,DAÑOS Y PERJUICIOS,1000000000,18518519.0,0.13,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,90.0,🔴
-Tucumán | Juzgado Doc Y Loc 1,,Civil,,0,131,0,0,0,0,0,0.0,2587.0,131,1,0.8,PAGO POR CONSIGNACION / CONSIGNACION,1000000000,7633588.0,0.0,BAJO,ALTO,,,,False,True,False,,46.0,🟡
-Tucumán | Juzgado Doc Y Loc 2,,Civil,,0,130,0,3,0,0,3,2.3,291.0,133,0,0.0,CUMPLIMIENTO DE CONTRATO,1000000000,7518797.0,0.01,BAJO,ALTO,,,,False,True,False,,52.7,🟡
-Tucumán | Juzgado Doc Y Loc 3,,Civil,,0,131,0,1,0,0,1,0.8,1716.0,132,1,0.8,DAÑOS Y PERJUICIOS,1000000000,7575758.0,0.0,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,61.0,🔴
-Tucumán | Juzgado Doc Y Loc 4,,Civil,,0,69,0,2,0,0,2,2.8,2554.0,71,4,5.6,ESPECIALES (RESIDUAL),1000000000,14084507.0,0.01,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,66.7,🔴
-Tucumán | Juzgado Doc Y Loc 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,1000000000,15384615.0,0.0,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,15.0,🟢
-Tucumán | Juzgado Doc Y Loc 6,,Civil,,0,66,0,0,0,0,0,0.0,2550.0,66,1,1.5,COBRO (ORDINARIO),1000000000,15151515.0,0.0,BAJO,ALTO,,,,False,True,False,,46.8,🟡
-Tucumán | Juzgado Doc Y Loc 7,,Civil,,0,70,0,0,0,0,0,0.0,3186.0,70,5,7.1,DAÑOS Y PERJUICIOS,1000000000,14285714.0,0.0,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,43.5,🟡
-Tucumán | Juzgado Doc Y Loc 8,,Civil,,0,67,0,0,0,0,0,0.0,3352.0,67,2,3.0,DAÑOS Y PERJUICIOS,1000000000,14925373.0,0.0,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,38.6,🟡
-Tucumán | Juzgado Doc Y Loc 9,,Civil,,0,67,0,1,0,0,1,1.5,2325.0,68,2,2.9,ESPECIALES (RESIDUAL),1000000000,14705882.0,0.01,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,73.5,🔴
+﻿juzgado,jurisdiccion,fuero,anio,pendientes_inicio,pendientes_cierre,agregadas,dictadas_def,dictadas_inter,ingresos,resueltos,clearance_rate,disposition_time,total_causas_oral,mora_2anios,pct_mora,objeto_principal,costo_anual_estimado,costo_por_causa,vs_wjp_civil,gap_wjp_civil,vs_cepej_cr,vs_cepej_dt,magistrado,fecha_jura,antiguedad_anos,en_licencia,vacante,concurso_activo,concurso_numero,sin_datos_estadisticos,ira_score,ira_semaforo
+Buenos Aires | Juzgado 1,,Civil,,0,3520,0,1273,0,0,1273,26.6,661.0,4793,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,104319.0,0.266,-0.154,BAJO,ALTO,"MAYORGA, Silvina",2018-06-22,7.0,False,False,False,,False,58.7,🟡
+Buenos Aires | Juzgado 10,,Civil,,0,1073,0,559,0,0,559,34.3,863.0,1632,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,306373.0,0.343,-0.077,BAJO,ALTO,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 11,,Civil,,0,1873,0,670,0,0,670,26.3,911.0,2543,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,196618.0,0.263,-0.157,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 12,,Civil,,0,1544,0,693,0,0,693,31.0,795.0,2237,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,223514.0,0.31,-0.11,BAJO,ALTO,"MÁRQUEZ, Luis Oscar",,,False,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 13,,Civil,,0,119,0,94,0,0,94,44.1,672.0,213,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,2347418.0,0.441,0.021,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,False,False,,False,59.2,🟡
+Buenos Aires | Juzgado 14,,Civil,,0,536,0,198,0,0,198,27.0,721.0,734,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,681199.0,0.27,-0.15,BAJO,ALTO,,,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 15,,Civil,,0,771,0,391,0,0,391,33.6,456.0,1162,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,430293.0,0.336,-0.084,BAJO,ALTO,"MARTÍN, Adrián Norberto",,,False,False,False,,False,49.8,🟡
+Buenos Aires | Juzgado 16,,Civil,,0,842,0,389,0,0,389,31.6,393.0,1231,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,406174.0,0.316,-0.104,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,False,57.1,🟡
+Buenos Aires | Juzgado 17,,Civil,,0,245,0,169,0,0,169,40.8,1256.0,414,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,1207729.0,0.408,-0.012,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 18,,Civil,,0,269,0,138,0,0,138,33.9,871.0,407,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,1228501.0,0.339,-0.081,BAJO,ALTO,"MEDINA, Darío Martín",,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 19,,Civil,,0,113,0,248,0,0,248,68.7,953.0,361,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,1385042.0,0.687,0.267,BAJO,ALTO,"NARDIELLO, Angel Gabriel",,,False,True,False,,False,60.6,🔴
+Buenos Aires | Juzgado 2,,Civil,,0,4474,0,1927,0,0,1927,30.1,713.0,6401,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,78113.0,0.301,-0.119,BAJO,ALTO,"VENDITTI, Walter Antonio",2018-06-22,7.0,False,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 20,,Civil,,0,223,0,30,0,0,30,11.9,489.0,253,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,1976285.0,0.119,-0.301,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,True,False,,False,61.3,🔴
+Buenos Aires | Juzgado 3,,Civil,,0,3213,0,1335,0,0,1335,29.4,742.0,4548,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,109938.0,0.294,-0.126,BAJO,ALTO,"GUTIERREZ, Daniel Omar",,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 4,,Civil,,0,1834,0,651,0,0,651,26.2,709.0,2485,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,201207.0,0.262,-0.158,BAJO,ALTO,"FLORES VEGA, Nada",,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 5,,Civil,,0,1059,0,359,0,0,359,25.3,924.0,1418,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,352609.0,0.253,-0.167,BAJO,ALTO,"MAYORGA, Silvina",,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 6,,Civil,,0,1088,0,376,0,0,376,25.7,813.0,1464,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,341530.0,0.257,-0.163,BAJO,ALTO,,,,False,True,False,,False,70.0,🔴
+Buenos Aires | Juzgado 7,,Civil,,0,1220,0,498,0,0,498,29.0,825.0,1718,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,291036.0,0.29,-0.13,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 8,,Civil,,0,1883,0,357,0,0,357,15.9,752.0,2240,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,223214.0,0.159,-0.261,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,60.0,🔴
+Buenos Aires | Juzgado 9,,Civil,,0,1814,0,1031,0,0,1031,36.2,825.0,2845,0,0.0,DAÑOS Y PERJ.AUTOM. C/LES. O MUERTE (EXC.ESTADO),500000000,175747.0,0.362,-0.058,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,False,70.0,🔴
+Chaco | Juzgado Charata - 1,,Civil,,0,59,0,2,0,0,2,3.3,2449.0,61,59,96.7,DAÑOS Y PERJUICIOS,500000000,8196721.0,0.033,-0.387,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Charata - 2,,Civil,,0,58,0,1,0,0,1,1.7,2482.0,59,58,98.3,DAÑOS Y PERJUICIOS,500000000,8474576.0,0.017,-0.403,BAJO,ALTO,"MIANOVICH, Ricardo Alcides",2020-11-24,5.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Civ Y Com 1,,,,0,455,0,0,0,0,0,0.0,0.0,455,0,0.0,,500000000,1098901.0,0.0,-0.42,BAJO,—,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 14,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Civ Y Com 15,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MARTÍN, Adrián Norberto",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 16,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Civ Y Com 17,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 19,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"NARDIELLO, Angel Gabriel",,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Civ Y Com 2,,,,0,260,0,0,0,0,0,0.0,0.0,260,0,0.0,,500000000,1923077.0,0.0,-0.42,BAJO,—,"MIANOVICH, Ricardo Alcides",2020-11-24,5.0,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 20,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LEIF GUARDIA, Diego",,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Civ Y Com 21,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"CANDELA, Walter José",2021-09-02,4.0,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 22,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"CUSMANICH, Patricia Elisa",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 3,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 6,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,False,15.0,🟢
+Chaco | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,False,25.0,🟢
+Chaco | Juzgado Gral. San Martín - 1,,Civil,,0,50,0,0,0,0,0,0.0,2517.0,50,50,100.0,DAÑOS Y PERJUICIOS,500000000,10000000.0,0.0,-0.42,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Juan José Castelli - 1,,Civil,,0,37,0,0,0,0,0,0.0,2521.0,37,37,100.0,DAÑOS Y PERJUICIOS,500000000,13513514.0,0.0,-0.42,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Pcia. Roque Sáenz Peña - 1,,Civil,,0,114,0,0,0,0,0,0.0,2518.0,114,114,100.0,DAÑOS Y PERJUICIOS,500000000,4385965.0,0.0,-0.42,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Pcia. Roque Sáenz Peña - 2,,Civil,,0,125,0,2,0,0,2,1.6,2480.0,127,125,98.4,DAÑOS Y PERJUICIOS,500000000,3937008.0,0.016,-0.404,BAJO,ALTO,"MIANOVICH, Ricardo Alcides",2020-11-24,5.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 1,,Civil,,0,3,0,0,0,0,0,0.0,2503.0,3,3,100.0,NULIDAD,500000000,166666667.0,0.0,-0.42,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Resistencia - 14,,Civil,,0,1,0,0,0,0,0,0.0,2621.0,1,1,100.0,ESCRITURACIÓN,500000000,500000000.0,0.0,-0.42,BAJO,ALTO,,,,False,True,False,,False,60.0,🔴
+Chaco | Juzgado Resistencia - 15,,Civil,,0,3,0,0,0,0,0,0.0,2592.0,3,3,100.0,ESCRITURACIÓN,500000000,166666667.0,0.0,-0.42,BAJO,ALTO,"MARTÍN, Adrián Norberto",,,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Resistencia - 16,,Civil,,0,104,0,1,0,0,1,1.0,2507.0,105,104,99.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4761905.0,0.01,-0.41,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,False,100.0,🔴
+Chaco | Juzgado Resistencia - 17,,Civil,,0,100,0,2,0,0,2,2.0,2473.0,102,100,98.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4901961.0,0.02,-0.4,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 19,,Civil,,0,107,0,1,0,0,1,0.9,2502.0,108,107,99.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4629630.0,0.009,-0.411,BAJO,ALTO,"NARDIELLO, Angel Gabriel",,,False,True,False,,False,100.0,🔴
+Chaco | Juzgado Resistencia - 2,,Civil,,0,96,0,1,0,0,1,1.0,2503.0,97,96,99.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,5154639.0,0.01,-0.41,BAJO,ALTO,"MIANOVICH, Ricardo Alcides",2020-11-24,5.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 20,,Civil,,0,114,0,0,0,0,0,0.0,2521.0,114,114,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4385965.0,0.0,-0.42,BAJO,ALTO,"LEIF GUARDIA, Diego",,,False,True,False,,False,75.0,🔴
+Chaco | Juzgado Resistencia - 21,,Civil,,0,111,0,1,0,0,1,0.9,2508.0,112,111,99.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4464286.0,0.009,-0.411,BAJO,ALTO,"CANDELA, Walter José",2021-09-02,4.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 22,,Civil,,0,109,0,0,0,0,0,0.0,2528.0,109,109,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4587156.0,0.0,-0.42,BAJO,ALTO,"CUSMANICH, Patricia Elisa",,,False,False,False,,False,65.0,🔴
+Chaco | Juzgado Resistencia - 3,,Civil,,0,110,0,3,0,0,3,2.7,2455.0,113,110,97.3,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4424779.0,0.027,-0.393,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 4,,Civil,,0,109,0,3,0,0,3,2.7,2458.0,112,109,97.3,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4464286.0,0.027,-0.393,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 5,,Civil,,0,98,0,4,0,0,4,3.9,2418.0,102,98,96.1,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4901961.0,0.039,-0.381,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 6,,Civil,,0,106,0,0,0,0,0,0.0,2522.0,106,106,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4716981.0,0.0,-0.42,BAJO,ALTO,,,,False,True,False,,False,75.0,🔴
+Chaco | Juzgado Resistencia - 7,,Civil,,0,102,0,4,0,0,4,3.8,2430.0,106,102,96.2,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4716981.0,0.038,-0.382,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Resistencia - 9,,Civil,,0,115,0,0,0,0,0,0.0,2522.0,115,115,100.0,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,4347826.0,0.0,-0.42,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,False,75.0,🔴
+Chaco | Juzgado Villa Ángela - 1,,Civil,,0,52,0,3,0,0,3,5.5,2390.0,55,52,94.5,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,9090909.0,0.055,-0.365,BAJO,ALTO,"NIREMPERGER, Zunilda",2017-05-24,8.0,False,False,False,,False,90.0,🔴
+Chaco | Juzgado Villa Ángela - 2,,Civil,,0,39,0,3,0,0,3,7.1,2357.0,42,39,92.9,DAÑOS Y PERJUICIOS POR ACCIDENTE DE TRÁNSITO,500000000,11904762.0,0.071,-0.349,BAJO,ALTO,"MIANOVICH, Ricardo Alcides",2020-11-24,5.0,False,False,False,,False,90.0,🔴
+Chubut | Juzgado 1,,Civil,,0,59,0,3,0,0,3,4.8,2800.0,62,59,95.2,Daños y perjuicios,500000000,8064516.0,0.048,-0.372,BAJO,ALTO,"SASTRE, Hugo Ricardo",,,False,False,False,,False,90.0,🔴
+Chubut | Juzgado 2,,Civil,,0,26,0,8,0,0,8,23.5,2394.0,34,26,76.5,Daños y perjuicios,500000000,14705882.0,0.235,-0.185,BAJO,ALTO,"LLERAL, Guillermo Gustavo",2016-10-04,9.0,False,False,False,,False,90.0,🔴
+Chubut | Juzgado Juz Civ 1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"SASTRE, Hugo Ricardo",,,False,False,False,,False,15.0,🟢
+Chubut | Juzgado Juz Civ 2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"LLERAL, Guillermo Gustavo",2016-10-04,9.0,False,False,False,,False,15.0,🟢
+Chubut | Juzgado Juz Civ. Com Y Lab   1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"SASTRE, Hugo Ricardo",,,False,False,False,,False,15.0,🟢
+Chubut | Juzgado Juz Civ. Com Y Lab 1,,,,0,195,0,0,0,0,0,0.0,0.0,195,0,0.0,,500000000,2564103.0,0.0,-0.42,BAJO,—,"SASTRE, Hugo Ricardo",,,False,False,False,,False,15.0,🟢
+Chubut | Juzgado Juz. Civ 1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"SASTRE, Hugo Ricardo",,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial - Gbdr. Virasoro,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial - Monte Caseros,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial - Paso De Los Libres,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial - S. Tome,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial - Saladas,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°1,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"FRESNEDA, Gustavo del Corazón de Jesús",,,False,True,False,,False,25.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°12,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MÁRQUEZ, Luis Oscar",,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°13,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LEIF GUARDIA, Diego",,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°2,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"VALLEJOS, Juan Carlos",,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°3,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial N°6,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Corrientes | Juzgado Civil Y Comercial Y Laboral - Ituzaingo,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial Y Laboral - Monte Caseros,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial Y Laboral - Paso De Los Libres,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Civil Y Comercial Y Laboral - S. Tome,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+"Corrientes | Juzgado Civil, Comercial Y Laboral -B.Vista",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+"Corrientes | Juzgado Civil, Comercial Y Laboral -Curuzú",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+"Corrientes | Juzgado Civil, Comercial Y Laboral -Mercedes",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+"Corrientes | Juzgado Civil, Comercial, Familia Y Ca - Curuzú",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+"Corrientes | Juzgado Civil, Comercial, Laboral. Esquina",,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Multifuero - Empedrado,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Multifuero - San Roque,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Corrientes | Juzgado Multifuero - Santa Rosa,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 1,,,,0,455,0,0,0,0,0,0.0,0.0,455,0,0.0,,500000000,1098901.0,0.0,-0.42,BAJO,—,"PRADO, Carolina",2019-05-07,6.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 10,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"NOCETI ACHÁVAL, Alejandro",2017-09-11,8.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 12,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MÁRQUEZ, Luis Oscar",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 15,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MARTÍN, Adrián Norberto",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 16,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 17,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 18,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MEDINA, Darío Martín",,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 2,,,,0,390,0,0,0,0,0,0.0,0.0,390,0,0.0,,500000000,1282051.0,0.0,-0.42,BAJO,—,"COSTA, María Noel",2019-05-07,6.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 20,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LEIF GUARDIA, Diego",,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 27,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"ROMEO, Jorge Horacio",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 28,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"RENGEL MIRAT, Carlos Alberto",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 3,,,,0,260,0,0,0,0,0,0.0,0.0,260,0,0.0,,500000000,1923077.0,0.0,-0.42,BAJO,—,"GIORDANO, Cristina Edith",2019-05-15,6.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 30,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 31,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"FERNÁNDEZ GARELLO, Vivian Cecilia",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 32,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"CARUSO, Eduardo Alejandro",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 34,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"REBAUDI BASAVILBASO, Ignacio Martín",2019-08-20,6.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 35,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LIEBER, Herman Bernardo",,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 36,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"FONT, Sebastián Francisco",2018-06-22,7.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 4,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 41,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"GALMARINI, Marcos",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 48,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"SPERONI, Julio Carlos",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 49,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"TORELLO, Viviana Silvia",2018-06-22,7.0,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 51,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 6,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,False,15.0,🟢
+Córdoba | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,False,25.0,🟢
+Córdoba | Juzgado J.1A Inst.C.C.Fam.2A,,Civil,,0,14,0,4,0,0,4,22.2,2194.0,18,14,77.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,27777778.0,0.222,-0.198,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado J.1A Inst.C.C.Fam.3A-Sec.5 - Rio Cuarto,,Civil,,0,1,0,0,0,0,0,0.0,2400.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,500000000.0,0.0,-0.42,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,50.0,🟡
+Córdoba | Juzgado J.1A Inst.C.C.Fam.4A-Sec.7 - Rio Cuarto,,Civil,,0,1,0,0,0,0,0,0.0,3052.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,500000000.0,0.0,-0.42,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,50.0,🟡
+Córdoba | Juzgado J.1A Inst.C.C.Fam.6A,,Civil,,0,17,0,16,0,0,16,48.5,1718.0,33,17,51.5,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,15151515.0,0.485,0.065,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado J.1A Inst.C.C.Fam.7A,,Civil,,0,32,0,17,0,0,17,34.7,1948.0,49,32,65.3,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,10204082.0,0.347,-0.073,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com  5A Nom-Sec,,Civil,,0,40,0,14,0,0,14,25.9,2156.0,54,40,74.1,ORDINARIO - TRAM ORAL,500000000,9259259.0,0.259,-0.161,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com  6A Nom-Sec,,Civil,,0,45,0,19,0,0,19,29.7,2200.0,64,45,70.3,ORDINARIO - TRAM ORAL,500000000,7812500.0,0.297,-0.123,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com  9A Nom-Sec,,Civil,,0,27,0,4,0,0,4,12.9,2350.0,31,27,87.1,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,16129032.0,0.129,-0.291,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 12A Nom-Sec,,Civil,,0,24,0,1,0,0,1,4.0,2409.0,25,24,96.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,20000000.0,0.04,-0.38,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 15A Nom-Sec,,Civil,,0,39,0,19,0,0,19,32.8,2163.0,58,39,67.2,ORDINARIO - TRAM ORAL,500000000,8620690.0,0.328,-0.092,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 16A Nom-Sec,,Civil,,0,1,0,0,0,0,0,0.0,2397.0,1,1,100.0,ABREVIADO - DAÑOS Y PERJUICIOS - OTRAS FORMAS DE RESPONSABILIDAD EXTRACONTRACTUAL - TRAM ORAL,500000000,500000000.0,0.0,-0.42,BAJO,ALTO,,,,False,False,False,,False,50.0,🟡
+Córdoba | Juzgado Juzg 1A Inst Civ Com 17A Nom-Sec,,Civil,,0,32,0,9,0,0,9,22.0,2240.0,41,32,78.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,12195122.0,0.22,-0.2,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 27A Nom-Sec,,Civil,,0,30,0,4,0,0,4,11.8,2675.0,34,30,88.2,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,14705882.0,0.118,-0.302,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 31A Nom-Sec,,Civil,,0,26,0,7,0,0,7,21.2,2241.0,33,26,78.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,15151515.0,0.212,-0.208,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 32A Nom-Sec,,Civil,,0,22,0,8,0,0,8,26.7,2050.0,30,22,73.3,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,16666667.0,0.267,-0.153,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 34A Nom-Sec,,Civil,,0,28,0,7,0,0,7,20.0,2236.0,35,28,80.0,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,14285714.0,0.2,-0.22,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 35A Nom-Sec,,Civil,,0,26,0,5,0,0,5,16.1,2187.0,31,26,83.9,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,16129032.0,0.161,-0.259,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 36A Nom-Sec,,Civil,,0,28,0,5,0,0,5,15.2,2448.0,33,28,84.8,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,15151515.0,0.152,-0.268,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 48A Nom-Sec,,Civil,,0,26,0,3,0,0,3,10.3,2340.0,29,26,89.7,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,17241379.0,0.103,-0.317,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 49A Nom-Sec,,Civil,,0,24,0,15,0,0,15,38.5,1773.0,39,24,61.5,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,12820513.0,0.385,-0.035,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Córdoba | Juzgado Juzg 1A Inst Civ Com 51A Nom-Sec,,Civil,,0,56,0,3,0,0,3,5.1,2939.0,59,56,94.9,ABREVIADO - DAÑOS Y PERJUCIOS - ACCIDENTES DE TRANSITO - TRAM ORAL,500000000,8474576.0,0.051,-0.369,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Entre Ríos | Juzgado 1,,Civil,,0,939,0,226,0,0,226,19.4,2054.0,1165,289,24.8,ORDINARIO DAÑOS Y PERJUICIOS,500000000,429185.0,0.194,-0.226,BAJO,ALTO,"RÍOS, Leandro Damián",,,False,False,False,,False,89.8,🔴
+Entre Ríos | Juzgado 2,,Civil,,0,854,0,132,0,0,132,13.4,2207.0,986,204,20.7,ORDINARIO DAÑOS Y PERJUICIOS,500000000,507099.0,0.134,-0.286,BAJO,ALTO,"ALONSO, Daniel Edgardo",,,False,False,False,,False,84.8,🔴
+Entre Ríos | Juzgado 3,,Civil,,0,229,0,42,0,0,42,15.5,2220.0,271,74,27.3,ORDINARIO DAÑOS Y PERJUICIOS,500000000,1845018.0,0.155,-0.265,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,False,90.0,🔴
+Entre Ríos | Juzgado 4,,Civil,,0,141,0,25,0,0,25,15.1,1894.0,166,31,18.7,ORDINARIO,500000000,3012048.0,0.151,-0.269,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,82.4,🔴
+Entre Ríos | Juzgado 5,,Civil,,0,95,0,21,0,0,21,18.1,2237.0,116,30,25.9,ORDINARIO ACCIDENTES DE TRANSITO,500000000,4310345.0,0.181,-0.239,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,90.0,🔴
+Entre Ríos | Juzgado 6,,Civil,,0,178,0,43,0,0,43,19.5,1870.0,221,48,21.7,ORDINARIO (CIVIL),500000000,2262443.0,0.195,-0.225,BAJO,ALTO,,,,False,True,False,,False,96.0,🔴
+Entre Ríos | Juzgado 7,,Civil,,0,77,0,32,0,0,32,29.4,1381.0,109,12,11.0,ORDINARIO ACCIDENTES DE TRANSITO,500000000,4587156.0,0.294,-0.126,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,73.2,🔴
+Entre Ríos | Juzgado 8,,Civil,,0,80,0,26,0,0,26,24.5,1467.0,106,15,14.2,ORDINARIO ACCIDENTES DE TRANSITO,500000000,4716981.0,0.245,-0.175,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,77.0,🔴
+Entre Ríos | Juzgado Diamante,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado Federación,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado Federal,,Federal,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado Islas Del Ibicuy,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado San Salvador,,,,0,45,0,0,0,0,0,0.0,0.0,45,0,0.0,,500000000,11111111.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado Tala,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Entre Ríos | Juzgado Victoria,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales,Federal de Comodoro Rivadavia,Federal,,0,969,9,1001,205,0,0,0.0,0.0,0,0,0.0,,500000000,253807.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Caleta Olivia,Federal de Comodoro Rivadavia,Federal,,0,782,0,782,0,0,0,0.0,0.0,0,0,0.0,,500000000,319693.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Comodoro Rivadavia,Federal de Comodoro Rivadavia,Federal,,0,540,0,540,0,0,0,0.0,0.0,0,0,0.0,,500000000,462963.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Esquel,Federal de Comodoro Rivadavia,Federal,,0,302,0,302,0,0,0,0.0,0.0,0,0,0.0,,500000000,827815.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Rawson N° 1,Federal de Comodoro Rivadavia,Federal,,0,744,16,749,309,0,0,0.0,0.0,0,0,0.0,,500000000,334896.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Juzgados Federales | Rawson N° 2,Federal de Comodoro Rivadavia,Federal,,0,2535,0,2535,1091,0,0,0.0,0.0,0,0,0.0,,500000000,98619.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Juzgados Federales | Río Gallegos,Federal de Comodoro Rivadavia,Federal,,1,426,0,426,0,0,0,0.0,0.0,0,0,0.0,,500000000,586854.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Río Grande,Federal de Comodoro Rivadavia,Federal,,0,141,0,141,0,0,0,0.0,0.0,0,0,0.0,,500000000,1773050.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Juzgados Federales | Ushuaia,Federal de Comodoro Rivadavia,Federal,,1,49,0,49,0,0,0,0.0,0.0,0,0,0.0,,500000000,5102041.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Administrativo - Contencioso,,Civil,,0,19,0,1,0,0,1,5.0,3000.0,20,19,95.0,ORDINARIO,500000000,25000000.0,0.05,-0.37,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Civ Y Com 1,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"RAGO GALLO, Leopoldo J.",,,False,True,False,,False,25.0,🟢
+San Juan | Juzgado Civ Y Com 11,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,False,25.0,🟢
+San Juan | Juzgado Civ Y Com 3,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Civ Y Com 8,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,15.0,🟢
+San Juan | Juzgado Civ Y Com 9,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"DIETA DE HERRERO, Ana",,,False,True,False,,False,25.0,🟢
+San Juan | Juzgado Civil - 11°,,Civil,,0,70,0,3,0,0,3,4.1,2688.0,73,70,95.9,ORDINARIO,500000000,6849315.0,0.041,-0.379,BAJO,ALTO,"SAÑUDO, Alfredo Alejandro",,,False,True,False,,False,100.0,🔴
+San Juan | Juzgado Civil - 1°,,Civil,,0,40,0,1,0,0,1,2.4,2444.0,41,40,97.6,ORDINARIO,500000000,12195122.0,0.024,-0.396,BAJO,ALTO,"RAGO GALLO, Leopoldo J.",,,False,True,False,,False,100.0,🔴
+San Juan | Juzgado Civil - 3°,,Civil,,0,83,0,5,0,0,5,5.7,2620.0,88,83,94.3,ORDINARIO,500000000,5681818.0,0.057,-0.363,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Civil - 4°,,Civil,,0,99,0,3,0,0,3,2.9,2720.0,102,99,97.1,ORDINARIO,500000000,4901961.0,0.029,-0.391,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Civil - 5°,,Civil,,0,41,0,1,0,0,1,2.4,3152.0,42,36,85.7,DAÑOS Y PERJUICIOS,500000000,11904762.0,0.024,-0.396,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Civil - 7°,,Civil,,0,142,0,0,0,0,0,0.0,3300.0,142,49,34.5,ORDINARIO,500000000,3521127.0,0.0,-0.42,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,65.0,🔴
+San Juan | Juzgado Civil - 8°,,Civil,,0,44,0,0,0,0,0,0.0,2759.0,44,44,100.0,ORDINARIO,500000000,11363636.0,0.0,-0.42,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,65.0,🔴
+San Juan | Juzgado Civil - 9°,,Civil,,0,128,0,5,0,0,5,3.8,2668.0,133,128,96.2,ORDINARIO,500000000,3759398.0,0.038,-0.382,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,False,100.0,🔴
+San Juan | Juzgado Comercial Especial,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Contencioso Administrativo,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Especial - Comercial Especial,,Comercial,,0,8,0,2,0,0,2,20.0,2618.0,10,8,80.0,REVISIÓN (ART. 37 LEY 24522),500000000,50000000.0,0.2,-0.22,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Jachal,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Laboral - 1°,,Laboral,,0,157,0,0,0,0,0,0.0,2498.0,157,157,100.0,ORDINARIO,500000000,3184713.0,0.0,-0.42,BAJO,ALTO,"RAGO GALLO, Leopoldo J.",,,False,True,False,,False,75.0,🔴
+San Juan | Juzgado Laboral - 2°,,Laboral,,0,163,0,16,0,0,16,8.9,2340.0,179,163,91.1,ORDINARIO,500000000,2793296.0,0.089,-0.331,BAJO,ALTO,"RAGO GALLO, Leopoldo J.",,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Laboral - 3°,,Laboral,,0,204,0,59,0,0,59,22.4,2149.0,263,204,77.6,ORDINARIO,500000000,1901141.0,0.224,-0.196,BAJO,ALTO,"VALLE, Gustavo Pablo",,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Laboral - 4°,,Laboral,,0,166,0,2,0,0,2,1.2,2563.0,168,165,98.2,ORDINARIO,500000000,2976190.0,0.012,-0.408,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Laboral - 5°,,Laboral,,0,152,0,18,0,0,18,10.6,2647.0,170,152,89.4,ORDINARIO,500000000,2941176.0,0.106,-0.314,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,90.0,🔴
+San Juan | Juzgado Laboral - 6°,,Laboral,,0,142,0,12,0,0,12,7.8,2300.0,154,142,92.2,ORDINARIO,500000000,3246753.0,0.078,-0.342,BAJO,ALTO,,,,False,True,False,,False,100.0,🔴
+San Juan | Juzgado Laboral N°1,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"RAGO GALLO, Leopoldo J.",,,False,True,False,,False,25.0,🟢
+San Juan | Juzgado Laboral N°2,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"RAGO GALLO, Leopoldo J.",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Laboral N°3,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VALLE, Gustavo Pablo",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Laboral N°4,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Laboral N°5,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+San Juan | Juzgado Laboral N°6,,Laboral,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Santa Fe | Juzgado 1,,Civil,,0,2543,0,0,0,0,0,0.0,2809.0,2543,2543,100.0,DAÑOS Y PERJUICIOS,500000000,196618.0,0.0,-0.42,BAJO,ALTO,"VÁSQUEZ, Ricardo Moisés",,,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 10,,Civil,,0,152,0,0,0,0,0,0.0,3031.0,152,152,100.0,DEMANDA DE DERECHO DE CONSUMO,500000000,3289474.0,0.0,-0.42,BAJO,ALTO,"DEL TEGLIA, Marcelo Alejandro",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 11,,Civil,,0,87,0,0,0,0,0,0.0,3179.0,87,87,100.0,DEMANDA ORDINARIA,500000000,5747126.0,0.0,-0.42,BAJO,ALTO,"MAFFIOLI, Carolina Laura",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 12,,Civil,,0,118,0,0,0,0,0,0.0,3001.0,118,118,100.0,DAÑOS Y PERJUICIOS,500000000,4237288.0,0.0,-0.42,BAJO,ALTO,"ALVAREZ, Matías Gabriel",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 13,,Civil,,0,153,0,0,0,0,0,0.0,3102.0,153,153,100.0,DAÑOS Y PERJUICIOS,500000000,3267974.0,0.0,-0.42,BAJO,ALTO,"URIONA, Martin Ignacio",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 14,,Civil,,0,138,0,0,0,0,0,0.0,3175.0,138,138,100.0,DAÑOS Y PERJUICIOS,500000000,3623188.0,0.0,-0.42,BAJO,ALTO,"MUZZIO MANEVY, Luisina",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 15,,Civil,,0,170,0,0,0,0,0,0.0,3037.0,170,170,100.0,DAÑOS Y PERJUICIOS,500000000,2941176.0,0.0,-0.42,BAJO,ALTO,"ARGIBAY MOLINA, Juan Agustín",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 16,,Civil,,0,174,0,0,0,0,0,0.0,3085.0,174,174,100.0,DAÑOS Y PERJUICIOS,500000000,2873563.0,0.0,-0.42,BAJO,ALTO,"BARRIONUEVO, Liliana Noemí",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 17,,Civil,,0,107,0,0,0,0,0,0.0,2824.0,107,107,100.0,COBRO DE PESOS,500000000,4672897.0,0.0,-0.42,BAJO,ALTO,"GIUDICE BRAVO, Juan Facundo",,,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 18,,Civil,,0,136,0,0,0,0,0,0.0,2928.0,136,136,100.0,DAÑOS Y PERJUICIOS,500000000,3676471.0,0.0,-0.42,BAJO,ALTO,"MEDINA, Darío Martín",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 2,,Civil,,0,2598,0,0,0,0,0,0.0,2811.0,2598,2598,100.0,DAÑOS Y PERJUICIOS,500000000,192456.0,0.0,-0.42,BAJO,ALTO,"DILARIO, Elena Beatriz",2023-04-27,3.0,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 3,,Civil,,0,1325,0,0,0,0,0,0.0,2861.0,1325,1325,100.0,DAÑOS Y PERJUICIOS,500000000,377358.0,0.0,-0.42,BAJO,ALTO,"MARTÍNEZ FERRERO, Eugenio Jorge",2017-10-17,8.0,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 4,,Civil,,0,768,0,0,0,0,0,0.0,2792.0,768,768,100.0,DAÑOS Y PERJUICIOS,500000000,651042.0,0.0,-0.42,BAJO,ALTO,"BAILAQUE, Marcelo Martín",,,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 5,,Civil,,0,981,0,0,0,0,0,0.0,2834.0,981,981,100.0,DAÑOS Y PERJUICIOS,500000000,509684.0,0.0,-0.42,BAJO,ALTO,"MILITELLO, Julieta Eliana",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 6,,Civil,,0,1127,0,0,0,0,0,0.0,2865.0,1127,1127,100.0,DAÑOS Y PERJUICIOS,500000000,443656.0,0.0,-0.42,BAJO,ALTO,"KISHIMOTO, Claudio Rodolfo",2023-08-01,2.0,False,False,False,,False,65.0,🔴
+Santa Fe | Juzgado 7,,Civil,,0,219,0,0,0,0,0,0.0,3070.0,219,219,100.0,JUICIOS ORDINARIOS,500000000,2283105.0,0.0,-0.42,BAJO,ALTO,"TISCORNIA NOËL, Federica",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 8,,Civil,,0,256,0,0,0,0,0,0.0,3025.0,256,256,100.0,DAÑOS Y PERJUICIOS,500000000,1953125.0,0.0,-0.42,BAJO,ALTO,"GAMBACORTA, Martín",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado 9,,Civil,,0,207,0,0,0,0,0,0.0,3013.0,207,207,100.0,JUICIOS ORDINARIOS,500000000,2415459.0,0.0,-0.42,BAJO,ALTO,"ALBERDI, Santiago Cruz",,,False,True,False,,False,75.0,🔴
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  10Ma Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  11Ra Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  12Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  13Ra Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  14Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  15Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  16Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  17Ma Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  18Va Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  1Ra Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  2Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  3Ra Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  5Ta Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  6Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  7Ma Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  8Va Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial  9Na Nominación,,Comercial,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial 2Da Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Distrito En Lo Civil Y Comercial 4Ta Nominación,,Comercial,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Juzgado De Circuito N°1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"VÁSQUEZ, Ricardo Moisés",,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Juzgado De Circuito N°2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"DILARIO, Elena Beatriz",2023-04-27,3.0,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Juzgado De Circuito N°3,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"MARTÍNEZ FERRERO, Eugenio Jorge",2017-10-17,8.0,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Juzgado De Circuito N°4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"BAILAQUE, Marcelo Martín",,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Juzgado De Circuito N°5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"MILITELLO, Julieta Eliana",,,False,True,False,,False,25.0,🟢
+Santa Fe | Juzgado Tre N°1 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VÁSQUEZ, Ricardo Moisés",,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Tre N°1 - Santa Fe,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VÁSQUEZ, Ricardo Moisés",,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Tre N°2 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"DILARIO, Elena Beatriz",2023-04-27,3.0,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Tre N°4 - Santa Fe,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"BAILAQUE, Marcelo Martín",,,False,False,False,,False,15.0,🟢
+Santa Fe | Juzgado Tre N°6 - Rosario,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"KISHIMOTO, Claudio Rodolfo",2023-08-01,2.0,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 1Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 1Ra. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 2Da Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 2Da. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 3Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 3Ra. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 4Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 4Ta. Nom.,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 5Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado 6Ta Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado Ac1,,Civil,,0,54,0,0,0,0,0,0.0,3443.0,54,54,100.0,PRESCRIPCION,500000000,9259259.0,0.0,-0.42,BAJO,ALTO,,,,False,False,False,,False,65.0,🔴
+Santiago Del Estero | Juzgado Añatuya,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado Bc1,,Civil,,0,276,0,8,0,0,8,2.8,2822.0,284,276,97.2,DAÑOS Y PERJUICIOS - BENEFICIO DE LITIGAR SIN GASTOS,500000000,1760563.0,0.028,-0.392,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado Bc2,,Civil,,0,225,0,6,0,0,6,2.6,2834.0,231,225,97.4,DAÑOS Y PERJUICIOS - BENEFICIO DE LITIGAR SIN GASTOS,500000000,2164502.0,0.026,-0.394,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C1,,Civil,,0,298,0,5,0,0,5,1.7,2766.0,303,298,98.3,DAÑOS Y PERJUICIOS,500000000,1650165.0,0.017,-0.403,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C2,,Civil,,0,272,0,18,0,0,18,6.2,2760.0,290,272,93.8,DAÑOS Y PERJUICIOS,500000000,1724138.0,0.062,-0.358,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C3,,Civil,,0,248,0,20,0,0,20,7.5,2785.0,268,248,92.5,DAÑOS Y PERJUICIOS,500000000,1865672.0,0.075,-0.345,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C4,,Civil,,0,359,0,18,0,0,18,4.8,2967.0,377,359,95.2,DAÑOS Y PERJUICIOS,500000000,1326260.0,0.048,-0.372,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C5,,Civil,,0,412,0,13,0,0,13,3.1,2944.0,425,412,96.9,DAÑOS Y PERJUICIOS,500000000,1176471.0,0.031,-0.389,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado C6,,Civil,,0,321,0,19,0,0,19,5.6,3172.0,340,321,94.4,DAÑOS Y PERJUICIOS,500000000,1470588.0,0.056,-0.364,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado Fc1,,Civil,,0,2,0,0,0,0,0,0.0,3036.0,2,2,100.0,PRESCRIPCION ADQUISITIVA VEINTEAÑAL,500000000,250000000.0,0.0,-0.42,BAJO,ALTO,,,,False,False,False,,False,65.0,🔴
+Santiago Del Estero | Juzgado Frias,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado La Banda 1Ra Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado La Banda 2Da Nom,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado Mc1,,Civil,,0,10,0,0,0,0,0,0.0,3414.0,10,10,100.0,DAÑOS Y PERJUICIOS,500000000,50000000.0,0.0,-0.42,BAJO,ALTO,,,,False,False,False,,False,65.0,🔴
+Santiago Del Estero | Juzgado Monte Quemado,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,False,False,,False,15.0,🟢
+Santiago Del Estero | Juzgado P1,,Civil,,0,58,0,3,0,0,3,4.9,2899.0,61,58,95.1,PRESCRIPCION,500000000,8196721.0,0.049,-0.371,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado P2,,Civil,,0,80,0,3,0,0,3,3.6,3059.0,83,80,96.4,PRESCRIPCION,500000000,6024096.0,0.036,-0.384,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado P3,,Civil,,0,29,0,2,0,0,2,6.5,3269.0,31,29,93.5,PRESCRIPCION,500000000,16129032.0,0.065,-0.355,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Santiago Del Estero | Juzgado P4,,Civil,,0,45,0,5,0,0,5,10.0,2716.0,50,45,90.0,PRESCRIPCION,500000000,10000000.0,0.1,-0.32,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Tierra Del Fuego | Juzgado Djn1,,Civil,,0,29,0,7,0,0,7,19.4,2078.0,36,28,77.8,COBRO DE PESOS,500000000,13888889.0,0.194,-0.226,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Tierra Del Fuego | Juzgado Djn2,,Civil,,0,20,0,7,0,0,7,25.9,2056.0,27,16,59.3,DAÑOS Y PERJUICIOS,500000000,18518519.0,0.259,-0.161,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Tierra Del Fuego | Juzgado Djs1,,Civil,,0,7,0,8,0,0,8,53.3,1621.0,15,7,46.7,COBRO DE PESOS,500000000,33333333.0,0.533,0.113,BAJO,ALTO,,,,False,False,False,,False,88.3,🔴
+Tierra Del Fuego | Juzgado Djs2,,Civil,,0,9,0,6,0,0,6,40.0,2105.0,15,9,60.0,DAÑOS Y PERJUICIOS,500000000,33333333.0,0.4,-0.02,BAJO,ALTO,,,,False,False,False,,False,90.0,🔴
+Tucumán | Juzgado Civ Y Com 1,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,25.0,🟢
+Tucumán | Juzgado Civ Y Com 2,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,25.0,🟢
+Tucumán | Juzgado Civ Y Com 3,,,,0,130,0,0,0,0,0,0.0,0.0,130,0,0.0,,500000000,3846154.0,0.0,-0.42,BAJO,—,"DIAZ VELEZ, José Manuel",2022-09-15,3.0,False,False,False,,False,15.0,🟢
+Tucumán | Juzgado Civ Y Com 4,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,15.0,🟢
+Tucumán | Juzgado Civ Y Com 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+Tucumán | Juzgado Civ Y Com 6,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,,,,False,True,False,,False,25.0,🟢
+Tucumán | Juzgado Civ Y Com 7,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"VEGA, Gabriel Eduardo",,,False,False,False,,False,15.0,🟢
+Tucumán | Juzgado Civ Y Com 8,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,15.0,🟢
+Tucumán | Juzgado Civil Y Com 1,,Civil,,0,99,0,11,0,0,11,10.0,2958.0,110,99,90.0,DAÑOS Y PERJUICIOS,500000000,4545455.0,0.1,-0.32,BAJO,ALTO,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,100.0,🔴
+Tucumán | Juzgado Civil Y Com 2,,Civil,,0,104,0,15,0,0,15,12.6,3062.0,119,104,87.4,DAÑOS Y PERJUICIOS,500000000,4201681.0,0.126,-0.294,BAJO,ALTO,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,100.0,🔴
+Tucumán | Juzgado Civil Y Com 3,,Civil,,0,47,0,15,0,0,15,24.2,2468.0,62,47,75.8,DAÑOS Y PERJUICIOS,500000000,8064516.0,0.242,-0.178,BAJO,ALTO,"DIAZ VELEZ, José Manuel",2022-09-15,3.0,False,False,False,,False,90.0,🔴
+Tucumán | Juzgado Civil Y Com 4,,Civil,,0,55,0,11,0,0,11,16.7,2790.0,66,55,83.3,DAÑOS Y PERJUICIOS,500000000,7575758.0,0.167,-0.253,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,90.0,🔴
+Tucumán | Juzgado Civil Y Com 5,,Civil,,0,42,0,5,0,0,5,10.6,3247.0,47,42,89.4,DAÑOS Y PERJUICIOS,500000000,10638298.0,0.106,-0.314,BAJO,ALTO,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,90.0,🔴
+Tucumán | Juzgado Civil Y Com 6,,Civil,,0,45,0,25,0,0,25,35.7,2149.0,70,45,64.3,DAÑOS Y PERJUICIOS,500000000,7142857.0,0.357,-0.063,BAJO,ALTO,,,,False,True,False,,False,100.0,🔴
+Tucumán | Juzgado Civil Y Com 7,,Civil,,0,32,0,4,0,0,4,11.1,3021.0,36,32,88.9,DAÑOS Y PERJUICIOS,500000000,13888889.0,0.111,-0.309,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,90.0,🔴
+Tucumán | Juzgado Civil Y Com 8,,Civil,,0,37,0,17,0,0,17,31.5,2536.0,54,37,68.5,DAÑOS Y PERJUICIOS,500000000,9259259.0,0.315,-0.105,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,90.0,🔴
+Tucumán | Juzgado Doc Y Loc 1,,Civil,,0,131,0,0,0,0,0,0.0,2583.0,131,1,0.8,PAGO POR CONSIGNACION / CONSIGNACION,500000000,3816794.0,0.0,-0.42,BAJO,ALTO,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,46.0,🟡
+Tucumán | Juzgado Doc Y Loc 2,,Civil,,0,130,0,3,0,0,3,2.3,291.0,133,0,0.0,CUMPLIMIENTO DE CONTRATO,500000000,3759398.0,0.023,-0.397,BAJO,ALTO,"DIAZ VELEZ, José Manuel",,,False,True,False,,False,52.7,🟡
+Tucumán | Juzgado Doc Y Loc 3,,Civil,,0,131,0,1,0,0,1,0.8,1714.0,132,1,0.8,DAÑOS Y PERJUICIOS,500000000,3787879.0,0.008,-0.412,BAJO,ALTO,"DIAZ VELEZ, José Manuel",2022-09-15,3.0,False,False,False,,False,61.0,🔴
+Tucumán | Juzgado Doc Y Loc 4,,Civil,,0,69,0,2,0,0,2,2.8,2551.0,71,4,5.6,ESPECIALES (RESIDUAL),500000000,7042254.0,0.028,-0.392,BAJO,ALTO,"LAUFER, Pablo Gustavo",2018-11-08,7.0,False,False,False,,False,66.7,🔴
+Tucumán | Juzgado Doc Y Loc 5,,,,0,65,0,0,0,0,0,0.0,0.0,65,0,0.0,,500000000,7692308.0,0.0,-0.42,BAJO,—,"PÉREZ LANCE, Adrián A.",,,False,False,False,,False,15.0,🟢
+Tucumán | Juzgado Doc Y Loc 6,,Civil,,0,66,0,0,0,0,0,0.0,2546.0,66,1,1.5,COBRO (ORDINARIO),500000000,7575758.0,0.0,-0.42,BAJO,ALTO,,,,False,True,False,,False,46.8,🟡
+Tucumán | Juzgado Doc Y Loc 7,,Civil,,0,70,0,0,0,0,0,0.0,3182.0,70,5,7.1,DAÑOS Y PERJUICIOS,500000000,7142857.0,0.0,-0.42,BAJO,ALTO,"VEGA, Gabriel Eduardo",,,False,False,False,,False,43.5,🟡
+Tucumán | Juzgado Doc Y Loc 8,,Civil,,0,67,0,0,0,0,0,0.0,3348.0,67,2,3.0,DAÑOS Y PERJUICIOS,500000000,7462687.0,0.0,-0.42,BAJO,ALTO,"CANDELA, Walter José",2017-04-20,9.0,True,False,False,,False,38.6,🟡
+Tucumán | Juzgado Doc Y Loc 9,,Civil,,0,67,0,1,0,0,1,1.5,2323.0,68,2,2.9,ESPECIALES (RESIDUAL),500000000,7352941.0,0.015,-0.405,BAJO,ALTO,"DIETA DE HERRERO, Ana",,,False,True,False,,False,73.5,🔴

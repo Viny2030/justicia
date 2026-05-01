@@ -639,7 +639,7 @@ def api_nacional(fuero: str = Query(""), semaforo: str = Query("")):
             rows = [r for r in rows if (r.get("ira_semaforo", "") or "") == semaforo]
 
         total = len(rows)
-        cr_vals  = [r["clearance_rate"] for r in rows if r.get("clearance_rate") is not None]
+        cr_vals  = [r["clearance_rate"] for r in rows if r.get("clearance_rate")]  # excluye 0 = sin datos
         dt_vals  = [r["disposition_time"] for r in rows if r.get("disposition_time") and r["disposition_time"] > 0]
         mora_sum = sum(r.get("mora_2anios") or 0 for r in rows)
         pend_sum = sum(r.get("pendientes_cierre") or 0 for r in rows)
@@ -747,6 +747,7 @@ def pagina_nacional():
          oninput="filtrarTabla()" style="width:240px"></label>
   <label>Ordenar:
     <select id="fil-orden" onchange="filtrarTabla()">
+      <option value="alfabetico" selected>A → Z</option>
       <option value="ira_score">IRA ↑</option>
       <option value="pct_mora">% mora ↑</option>
       <option value="pendientes_cierre">Pendientes ↑</option>
@@ -1041,6 +1042,7 @@ async function cargarNacional() {
 
 function _sortRows(rows, orden) {
   return rows.sort((a,b)=>{
+    if(orden==='alfabetico')        return (a.juzgado||'').localeCompare(b.juzgado||'', 'es');
     if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
     const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
     return (b[k]||0)-(a[k]||0);

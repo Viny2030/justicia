@@ -19,7 +19,7 @@ Uso:
   python scraper_juzgados_nacional.py --skip-crawl  # usar solo CSVs ya descargados
 """
 
-import os, re, json, time, zipfile, logging, argparse, codecs
+import os, re, json, time, zipfile, logging, argparse, codecs, unicodedata
 from io import BytesIO, StringIO
 from pathlib import Path
 from datetime import datetime, date, timedelta
@@ -83,6 +83,12 @@ def safe_num(v):
         return int(float(s)) if s and s != "-" else 0
     except:
         return 0
+
+def _nfc(s):
+    """Normaliza a NFC para eliminar diferencias invisibles de encoding (ej: acentos compuestos vs descompuestos)."""
+    if not s:
+        return ""
+    return unicodedata.normalize("NFC", str(s).strip())
 
 def decode_bytes(raw):
     for enc in ("cp1252", "latin-1", "utf-8-sig", "utf-8"):
@@ -337,9 +343,9 @@ def procesar_oralidad():
     })
 
     for r in filas:
-        prov  = r.get("provincia_nombre", "")
-        jnum  = r.get("juzgado_numero", "")
-        if not jnum or str(jnum).strip() in ("0", ""):
+        prov  = _nfc(r.get("provincia_nombre", ""))   # FIX #1: NFC normaliza acentos compuestos/descompuestos
+        jnum  = str(r.get("juzgado_numero", "")).strip()
+        if not jnum or jnum in ("0", ""):
             continue
         key = f"{prov} | Juzgado {jnum}"
 
@@ -390,12 +396,46 @@ def procesar_oralidad():
 
 # ── PASO 5: CRUZAR con magistrados.json / vacantes.json ──────────────────────
 
+# Mapeo de nombres de provincia oral → provincia en magistrados.json
+_PROV_MAP = {
+    "buenos aires":        "buenos aires",
+    "ciudad de buenos aires": "ciudad autónoma de bs.as.",
+    "caba":                "ciudad autónoma de bs.as.",
+    "córdoba":             "córdoba",
+    "cordoba":             "córdoba",
+    "santa fe":            "santa fe",
+    "chaco":               "chaco",
+    "entre ríos":         "entre ríos",
+    "entre rios":          "entre ríos",
+    "corrientes":          "corrientes",
+    "tucumán":             "tucumán",
+    "tucuman":             "tucumán",
+    "chubut":              "chubut",
+    "san juan":            "san juan",
+    "mendoza":             "mendoza",
+    "salta":               "salta",
+    "jujuy":               "jujuy",
+    "misiones":            "misiones",
+    "formosa":             "formosa",
+    "neuquén":             "neuquén",
+    "neuquen":             "neuquén",
+    "río negro":           "río negro",
+    "rio negro":           "río negro",
+    "santa cruz":          "santa cruz",
+    "la pampa":            "la pampa",
+    "san luis":            "san luis",
+    "la rioja":            "la rioja",
+    "catamarca":           "catamarca",
+    "santiago del estero": "santiago del estero",
+    "tierra del fuego":    "tierra del fuego",
+}
+
 def cargar_magistrados():
     """
-    Devuelve dict con dos tipos de keys:
-      - organismo_nombre.lower()  → match exacto
-      - '__num_X'                 → fallback por número de juzgado
-    FIX: corrige mojibake en organo_nombre y nombre_completo.
+    Devuelve dict con tres índices:
+      - organo_nombre.lower()         → match exacto
+      - (prov_norm, numero_str)       → FIX D: match por provincia+número (oral data)
+      - '__num_X'                    → fallback genérico por número
     """
     path = ROOT / "magistrados.json"
     if not path.exists():
@@ -404,11 +444,13 @@ def cargar_magistrados():
     with open(path, encoding="utf-8") as f:
         d = json.load(f)
     data = d if isinstance(d, list) else list(d.values())[0]
-    result = {}
+    result       = {}
+    prov_num_idx = {}   # (prov_norm, num) → entry — FIX D
+
     for r in data:
-        # FIX #2a: corregir encoding de los campos de texto
-        org    = _fix_enc(r.get("organo_nombre","")).strip()
-        nombre = _fix_enc(r.get("nombre_completo","")).strip()
+        org    = _nfc(_fix_enc(r.get("organo_nombre",""))).strip()
+        nombre = _nfc(_fix_enc(r.get("nombre_completo",""))).strip()
+        prov   = _nfc(_fix_enc(r.get("provincia",""))).strip().lower()
         if not org:
             continue
         jura  = r.get("fecha_jura","")
@@ -424,18 +466,26 @@ def cargar_magistrados():
             "en_licencia":     r.get("en_licencia", False),
             "vacante":         r.get("vacante", False),
         }
-        # index principal por nombre del órgano normalizado
+        # Index 1: exacto por organo_nombre
         result[org.lower()] = entry
-        # FIX #2b: index secundario por número de juzgado para match fuzzy
-        # ej: "Juzg. Nac. en lo Civil Nro. 5" → key "__num_5"
+        # Index 2: (provincia_normalizada, número) — para oral keys "Prov | Juzgado N"
+        prov_norm = _PROV_MAP.get(prov, prov)
         nums = re.findall(r'\b(\d+)\b', org)
+        if nums and prov_norm:
+            key_pn = (prov_norm, nums[-1])
+            if key_pn not in prov_num_idx:   # primer magistrado con ese par gana
+                prov_num_idx[key_pn] = entry
+        # Index 3: solo número como fallback último recurso
         if nums:
             num_key = f"__num_{nums[-1]}"
-            # Solo sobreescribir si no existe ya (primer juzgado con ese número gana)
             if num_key not in result:
                 result[num_key] = entry
 
-    log.info(f"  Magistrados cargados: {len([k for k in result if not k.startswith('__num_')])} organismos")
+    # Guardar el índice provincia+número como atributo del dict
+    result["__prov_num_idx__"] = prov_num_idx  # type: ignore
+
+    log.info(f"  Magistrados cargados: {len([k for k in result if not k.startswith('__')])} organismos "
+             f"| {len(prov_num_idx)} pares (prov,num)")
     return result
 
 def cargar_vacantes():
@@ -465,6 +515,10 @@ CEPEJ_DT_BENCH     = 230
 MORA_ALERTA        = 15.0
 
 def calcular_ira(r):
+    # FIX #2: si no hay datos estadísticos, no calcular IRA — retornar "sin_datos" string (no emoji)
+    if r.get("sin_datos_estadisticos"):
+        return 0.0, "sin_datos"
+
     score = 0
     pct_mora = r.get("pct_mora", 0) or 0
     score += min(30, pct_mora * 1.2)
@@ -616,12 +670,15 @@ def main():
     log.info("\n=== PASO 6: Unificación y cálculo IRA ===")
     juzgados_final = {}
 
-    todos_keys = set(juz_pjn.keys()) | {k.lower() for k in oral.keys()}
+    # FIX #1: índice oral con NFC + lowercase para match robusto
+    oral_lc = {_nfc(k).lower(): v for k, v in oral.items()}
+
+    todos_keys = set(juz_pjn.keys()) | set(oral_lc.keys())
 
     for key in todos_keys:
         pjn_data  = dict(juz_pjn.get(key, {}))
-        oral_data = oral.get(key, oral.get(
-            next((k for k in oral if k.lower() == key), None), {}))
+        # FIX #1: lookup NFC-normalizado elimina diferencias invisibles de encoding
+        oral_data = oral_lc.get(_nfc(key).lower(), {})
 
         organismo = pjn_data.get("organismo") or key.title()
 
@@ -651,17 +708,26 @@ def main():
             "mora_2anios":       oral_data.get("mora_2anios") or 0,
             "pct_mora":          oral_data.get("pct_mora") or 0,
             "objeto_principal":  oral_data.get("objeto_principal",""),
-            "costo_anual_estimado": 1_000_000_000,
-            "costo_por_causa": round(1_000_000_000 / total_causas_denom, 0),
-            "vs_wjp_civil":    round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100 * WJP_CIVIL_BENCH, 2),
+            "costo_anual_estimado": 500_000_000,       # ~$500M ARS/año por juzgado (PJN 2024)
+            "costo_por_causa": round(500_000_000 / total_causas_denom, 0),
+            "vs_wjp_civil":    round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100, 3),
+            "gap_wjp_civil":   round((pjn_data.get("clearance_rate") or oral_data.get("clearance_rate") or 0) / 100 - WJP_CIVIL_BENCH, 3),
             "vs_cepej_cr":     f"{'OK' if (pjn_data.get('clearance_rate') or oral_data.get('clearance_rate') or 0) >= CEPEJ_CR_BENCH else 'BAJO'}",
             "vs_cepej_dt":     (lambda dt: "—" if not dt else ("OK" if dt <= CEPEJ_DT_BENCH else "ALTO"))(pjn_data.get('disposition_time') or oral_data.get('disposition_time') or 0),
         }
 
-        # FIX #2c: buscar magistrado — exacto primero, luego por número de juzgado
+        # FIX D: buscar magistrado — exacto → (prov+num) → solo num
         mag = mags.get(key) or mags.get(organismo.lower(), {})
         if not mag:
-            # fallback: extraer número del organismo y buscar por ese número
+            # FIX D: intentar match por (provincia, número) — cubre oral keys "Prov | Juzgado N"
+            prov_num_idx = mags.get("__prov_num_idx__", {})
+            if "|" in organismo:
+                prov_part = _nfc(organismo.split("|")[0]).strip().lower()
+                prov_norm = _PROV_MAP.get(prov_part, prov_part)
+                nums = re.findall(r'\b(\d+)\b', organismo)
+                if nums and prov_norm:
+                    mag = prov_num_idx.get((prov_norm, nums[-1]), {})
+        if not mag:
             nums = re.findall(r'\b(\d+)\b', organismo)
             if nums:
                 mag = mags.get(f"__num_{nums[-1]}", {})
@@ -676,9 +742,27 @@ def main():
             "concurso_numero":  vacs.get(key, {}).get("concurso_numero",""),
         })
 
+        # FIX #2: flag bool puro — no depende de emoji para contar "sin datos"
+        r["sin_datos_estadisticos"] = not bool(
+            r.get("pendientes_cierre", 0) or
+            r.get("dictadas_def", 0) or
+            r.get("total_causas_oral", 0) or
+            r.get("clearance_rate", 0)
+        )
+
         ira, semaforo = calcular_ira(r)
         r["ira_score"]    = ira
         r["ira_semaforo"] = semaforo
+
+        # FIX C: descartar artefactos del parseo CSV (registros sin nombre real)
+        org_lc = organismo.strip().lower()
+        if not org_lc or len(organismo.strip()) < 6:
+            continue
+        if org_lc in {"primera instancia", "segunda instancia", "cámara", "camara",
+                      "penal", "civil", "laboral", "comercial", "(**)", "penal "}:
+            continue
+        if org_lc.startswith(("referencia:", "(**)")):
+            continue
 
         juzgados_final[organismo] = r
 
@@ -694,25 +778,31 @@ def main():
     df_out.to_csv(OUT_CSV, index=False, encoding="utf-8-sig")
     log.info(f"  → {OUT_CSV}")
 
-    con_ira_rojo     = sum(1 for r in lista if r.get("ira_score",0) >= 60)
-    con_ira_amarillo = sum(1 for r in lista if 30 <= r.get("ira_score",0) < 60)
+    # FIX #2: contar usando bool puro — sin comparar emojis (falla en consola Windows cp1252)
+    con_sin_datos    = sum(1 for r in lista if r.get("sin_datos_estadisticos"))
+    con_datos        = [r for r in lista if not r.get("sin_datos_estadisticos")]
+    con_ira_rojo     = sum(1 for r in con_datos if r.get("ira_score", 0) >= 60)
+    con_ira_amarillo = sum(1 for r in con_datos if 30 <= r.get("ira_score", 0) < 60)
+    con_ira_verde    = len(con_datos) - con_ira_rojo - con_ira_amarillo
     con_mag          = sum(1 for r in lista if r.get("magistrado"))
-    con_oral         = sum(1 for r in lista if r.get("total_causas_oral",0) > 0)
-    con_pjn          = sum(1 for r in lista if r.get("pendientes_cierre",0) > 0 or r.get("dictadas_def",0) > 0)
+    con_oral         = sum(1 for r in lista if r.get("total_causas_oral", 0) > 0)
+    con_pjn          = sum(1 for r in lista if r.get("pendientes_cierre", 0) > 0 or r.get("dictadas_def", 0) > 0)
 
-    log.info(f"""
-==================================================
-  Juzgados totales        : {len(lista)}
-  Con datos oralidad      : {con_oral}
-  Con datos PJN CSV/JSON  : {con_pjn}
-  Con magistrado cruzado  : {con_mag}
-  IRA 🔴 Alto riesgo      : {con_ira_rojo}
-  IRA 🟡 Riesgo medio     : {con_ira_amarillo}
-  IRA 🟢 Normal           : {len(lista)-con_ira_rojo-con_ira_amarillo}
-==================================================
-  Salida: {OUT_JSON}
-  Salida: {OUT_CSV}
-==================================================""")
+    log.info(
+        "\n=================================================="
+        f"\n  Juzgados totales        : {len(lista)}"
+        f"\n  Con datos oralidad      : {con_oral}"
+        f"\n  Con datos PJN CSV/JSON  : {con_pjn}"
+        f"\n  Con magistrado cruzado  : {con_mag}"
+        f"\n  IRA Alto riesgo  (>=60) : {con_ira_rojo}"
+        f"\n  IRA Riesgo medio (>=30) : {con_ira_amarillo}"
+        f"\n  IRA Normal       (<30)  : {con_ira_verde}"
+        f"\n  IRA (sin datos)         : {con_sin_datos}"
+        "\n=================================================="
+        f"\n  Salida: {OUT_JSON}"
+        f"\n  Salida: {OUT_CSV}"
+        "\n=================================================="
+    )
 
 
 if __name__ == "__main__":
