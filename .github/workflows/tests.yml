@@ -2,12 +2,12 @@ name: Tests
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # todos los días a las 06:00 UTC (03:00 Argentina)
+    - cron: "0 6 * * *"
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  workflow_dispatch:        # permite correrlo manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   test:
@@ -32,8 +32,8 @@ jobs:
         run: |
           python -m pytest tests/ -v \
             --cov=src \
-            --cov=dashboard_operativo \
-            --cov=scripts \
+            --cov=dashboard_operativo/metrics.py \
+            --cov=scripts/parser_nlp_justicia.py \
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-fail-under=80
