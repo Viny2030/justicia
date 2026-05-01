@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # todos los días a las 06:00 UTC (03:00 Argentina)
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:        # permite correrlo manualmente desde GitHub
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install pytest pytest-cov pandas numpy
+
+      - name: Correr tests con cobertura
+        run: |
+          python -m pytest tests/ -v \
+            --cov=src \
+            --cov=dashboard_operativo \
+            --cov=scripts \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=80
+
+      - name: Subir reporte de cobertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 30
