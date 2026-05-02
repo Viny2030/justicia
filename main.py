@@ -1,6 +1,7 @@
 # main.py  —  Entry point FastAPI
 # uvicorn main:app --reload --port 8000
-
+from api.database import init_db
+init_db()  # crea tablas automáticamente al arrancar
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, FileResponse
 import sys, os
