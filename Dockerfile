@@ -21,7 +21,7 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir \
     fastapi \
-    uvicorn[standard] \
+    "uvicorn[standard]" \
     pandas \
     plotly \
     numpy \
@@ -38,7 +38,7 @@ RUN mkdir -p data/raw data/processed
 
 # ── Healthcheck ───────────────────────────────────────────────────────────────
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
+    CMD curl -f http://localhost:${PORT:-8000}/ || exit 1
 
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 EXPOSE 8000
