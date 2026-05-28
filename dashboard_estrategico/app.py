@@ -1251,6 +1251,7 @@ Plotly.newPlot('graf-vdem-appt',[
 // 5. RECPJ / CEPEJ — Eficiencia del Consejo
 // ═══════════════════════════════════════════════
 // Clearance Rate comparativa
+if(document.getElementById('graf-cepej-cr')){
 Plotly.newPlot('graf-cepej-cr',[{type:'bar',x:cepejCrLabels,y:cepejCrValues,
   text:cepejCrValues.map(v=>v+'%'),textposition:'outside',
   marker:{color:cepejCrColors,opacity:.9},
@@ -1261,8 +1262,10 @@ Plotly.newPlot('graf-cepej-cr',[{type:'bar',x:cepejCrLabels,y:cepejCrValues,
               line:{color:C2.green,width:2,dash:'dot'}}],
      annotations:[{x:4,y:102,text:'Objetivo CEPEJ: 100%',
                    font:{color:C2.green,size:11},showarrow:false}]}),cfg);
+}
 
 // Disposition Time comparativa
+if(document.getElementById('graf-cepej-dt')){
 Plotly.newPlot('graf-cepej-dt',[{type:'bar',x:cepejDtLabels,y:cepejDtValues,
   text:cepejDtValues.map(v=>v+'d'),textposition:'outside',
   marker:{color:cepejDtColors,opacity:.9},
@@ -1273,6 +1276,7 @@ Plotly.newPlot('graf-cepej-dt',[{type:'bar',x:cepejDtLabels,y:cepejDtValues,
               line:{color:C2.green,width:2,dash:'dot'}}],
      annotations:[{x:4,y:255,text:'Ref. OCDE: 240 días',
                    font:{color:C2.green,size:11},showarrow:false}]}),cfg);
+}
 
 // Métricas CEPEJ en vivo (desde la API)
 fetch('/estrategico/api/cepej').then(r=>r.json()).then(d=>{
