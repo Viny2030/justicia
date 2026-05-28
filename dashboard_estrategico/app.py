@@ -1108,7 +1108,6 @@ def pagina_indicadores():
 
     # ── Script de gráficos (sin f-string para evitar conflicto de llaves) ──
     chart_script = r"""
-document.addEventListener('DOMContentLoaded', function(){
 const C2={bg:'#0a1628',card:'#1a2744',gold:'#c9a227',blue:'#3b82f6',red:'#e63946',
           green:'#22c55e',text:'#e2e8f0',muted:'#94a3b8',grid:'#2d4a7a',purple:'#8b5cf6',orange:'#f97316'};
 const Lx=(x={})=>Object.assign({
@@ -1376,11 +1375,6 @@ const odsHtml=odsData.map(o=>{
   </div>`;
 }).join('');
 document.getElementById('kpi-ods').innerHTML=odsHtml;
-}); // end DOMContentLoaded
-"""
-
-    # ── JS adicional: APIs reales (oralidad/traslados/genero/seleccion)
-    new_api_js = r"""
 
 // ═══════════════════════════════════════════════
 // 8. RECPJ/CEPEJ — datos reales desde /api/oralidad
@@ -1392,7 +1386,6 @@ fetch('/estrategico/api/oralidad').then(r=>r.json()).then(d=>{
   const dtVals  = d.provincias.map(p=>p.disposition_time||0);
   const crCols  = crVals.map(v=>v>=100?C2.green:v>=90?C2.gold:C2.red);
   const dtCols  = dtVals.map(v=>v<=240?C2.green:v<=420?C2.gold:C2.red);
-
   if(document.getElementById('graf-oral-cr')){
     Plotly.newPlot('graf-oral-cr',[{type:'bar',x:provs,y:crVals,
       text:crVals.map(v=>v+'%'),textposition:'outside',marker:{color:crCols,opacity:.9},
@@ -1475,6 +1468,9 @@ fetch('/estrategico/api/seleccion').then(r=>r.json()).then(d=>{
   }
 }).catch(()=>{});
 """
+
+    # ── new_api_js vacío — ya integrado en chart_script
+    new_api_js = ""
 
     # ── HTML body ──────────────────────────────────────────────────────
     html_body = """
