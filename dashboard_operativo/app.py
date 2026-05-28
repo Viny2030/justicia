@@ -183,12 +183,36 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("juzgados_naci
         total = len(registros)
         lats  = _lats(registros, col_lat)
         lat_prom  = round(sum(lats) / len(lats), 1) if lats else 0
+        # criticos: juzgados cuyo disposition_time promedio supera 365 dias
         criticos  = sum(1 for l in lats if l >= 365)
-        kpi_op    = calcular_kpi_eficiencia(45_000_000_000, max(total, 1))
+
+        # Costo estimado por juzgado (presupuesto PJN / total juzgados)
+        kpi_costo_juzgado = calcular_kpi_eficiencia(45_000_000_000, max(total, 1))
+
+        # Costo real por causa: mediana de juzgados con datos reales (excluye cap $500M)
+        CAP_DEFAULT = 500_000_000
+        costos_reales = []
+        try:
+            raw = _cargar(fuente)
+            if raw and isinstance(raw, list) and raw and "costo_por_causa" in raw[0]:
+                costos_reales = [
+                    float(r["costo_por_causa"])
+                    for r in raw
+                    if r.get("costo_por_causa") and 0 < float(r["costo_por_causa"]) < CAP_DEFAULT
+                ]
+        except Exception:
+            costos_reales = []
+        if costos_reales:
+            costos_reales.sort()
+            mediana_costo = costos_reales[len(costos_reales) // 2]
+            promedio_costo = round(sum(costos_reales) / len(costos_reales), 0)
+        else:
+            mediana_costo = None
+            promedio_costo = None
 
         resueltos = 0
         if col_est:
-            palabras_ok = ("resuelto", "sentencia", "archivado", "cerrado", "concluido", "finalizado", "🟢")
+            palabras_ok = ("resuelto", "sentencia", "archivado", "cerrado", "concluido", "finalizado", "\U0001f7e2")
             resueltos = sum(
                 1 for r in registros
                 if any(p in str(r.get(col_est, "")).lower() for p in palabras_ok)
@@ -198,9 +222,15 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("juzgados_naci
         return {
             "total": total, "n_juzgados": n_juz, "n_camaras": n_cam,
             "latencia_promedio": lat_prom,
+            # juzgados con DT >= 365 dias (no causas individuales)
             "causas_criticas": criticos,
             "pct_criticas": round(criticos / max(total, 1) * 100, 1),
-            "costo_por_causa": round(kpi_op, 0),
+            # costo_por_causa legacy (presupuesto / N juzgados - NO es por causa)
+            "costo_por_causa": round(kpi_costo_juzgado, 0),
+            # costos reales calculados desde datos oralidad
+            "costo_mediana_causa": round(mediana_costo, 0) if mediana_costo else None,
+            "costo_promedio_causa": round(promedio_costo, 0) if promedio_costo else None,
+            "n_juzgados_con_costo_real": len(costos_reales),
             "tasa_resolucion": tasa_res,
             "resueltos": resueltos,
         }
@@ -393,12 +423,12 @@ async function cargar(){{
       <label>Latencia Promedio</label>
       <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
       <div class="sub">días · obj. &lt;90</div></div>
-    <div class="kpi rojo"><label>Causas Críticas (&gt;1 año)</label>
+    <div class="kpi rojo"><label>Órganos con DT &gt;1 año</label>
       <div class="val">${{fmt(kpis.causas_criticas)}}</div>
-      <div class="sub">${{kpis.pct_criticas}}%</div></div>
-    <div class="kpi gold"><label>Costo Operativo x Causa</label>
+      <div class="sub">${{kpis.pct_criticas}}% de órganos relevados</div></div>
+    <div class="kpi gold"><label>Costo estimado x juzgado</label>
       <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS estimado</div></div>
+      <div class="sub">ARS · presupuesto PJN / N órganos</div></div>
   `;
 
   if(estados.labels&&estados.labels.length)
@@ -554,12 +584,12 @@ async function recargar(){{
       <label>Disposition Time prom.</label>
       <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
       <div class="sub">días · obj. &lt;180</div></div>
-    <div class="kpi rojo"><label>Causas en mora (+1 año)</label>
+    <div class="kpi rojo"><label>Juzgados con mora (&gt;1 año DT)</label>
       <div class="val">${{fmt(kpis.causas_criticas)}}</div>
-      <div class="sub">${{kpis.pct_criticas}}%</div></div>
-    <div class="kpi gold"><label>Costo Operativo x Causa</label>
+      <div class="sub">${{kpis.pct_criticas}}% de juzgados relevados</div></div>
+    <div class="kpi gold"><label>Costo estimado x juzgado</label>
       <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS estimado</div></div>
+      <div class="sub">ARS · presupuesto PJN / N juzgados${{kpis.costo_mediana_causa ? ' · mediana/causa: $'+fmt(kpis.costo_mediana_causa) : ''}}</div></div>
   `;
 
   // Gráfico de fueros (donut si hay fuero, barras si no)
