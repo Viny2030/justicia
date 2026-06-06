@@ -47,6 +47,24 @@ def inicio():
   <p>Ph.D. Vicente H. Monteverde · Auditoría del Poder Judicial de la Nación Argentina</p>
 </div>
 <div class="disclaimer">{DISCLAIMER}</div>
+<div class="disclaimer" style="margin-top:12px">
+  <div style="background:#e8f4fd;border-left:4px solid #003f8a;border-radius:6px;padding:1rem 1.2rem;font-size:.82rem;color:#333;line-height:1.75;">
+    <strong>⚖️ Marco Legal y Transparencia</strong><br><br>
+    Los datos publicados en este monitor provienen exclusivamente de fuentes oficiales del Estado argentino.
+    Su reutilización está amparada por la <strong>Ley 27.275 de Acceso a la Información Pública</strong>,
+    que obliga a los organismos públicos a publicar activamente la información que producen, obtienen, transforman o controlan,
+    y por el <strong>Decreto 1172/2003</strong> sobre libre acceso a la información pública en el Poder Ejecutivo Nacional.<br><br>
+    Los datos curriculares de magistrados corresponden a declaración obligatoria ante el Consejo de la Magistratura
+    conforme al <strong>art. 16 de la Ley 27.275</strong>. Este portal procesa únicamente información de funcionarios públicos
+    en ejercicio de sus funciones, excluida del ámbito de protección individual conforme al art. 2 de la
+    <strong>Ley 25.326 de Protección de Datos Personales</strong> y a la doctrina consolidada de la
+    <strong>Agencia de Acceso a la Información Pública (AAIP)</strong>.<br><br>
+    Los indicadores, índices y alertas son el resultado de <strong>análisis algorítmico sobre datos oficiales</strong> y no constituyen
+    imputaciones, acusaciones ni determinaciones de responsabilidad penal, civil o administrativa.
+    No reemplazan los mecanismos formales de control del Estado (AGN · SIGEN · Ministerio Público Fiscal).
+    Para consultas sobre el tratamiento de datos: <a href="mailto:vhmonte@retina.ar" style="color:#003f8a;">vhmonte@retina.ar</a>
+  </div>
+</div>
 <div class="grid">
   <a class="card" href="/estrategico/corte">
     <div class="icon">⚖️</div><h2>Corte Suprema</h2>
