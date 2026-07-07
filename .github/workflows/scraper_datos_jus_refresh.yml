@@ -10,11 +10,18 @@ name: 🌐 Refresh datos.jus.gob.ar (datos_jus/) — Mensual
 # existente lo vuelve a ejecutar, así que esos datos quedan cada vez más
 # viejos aunque el resto del sitio parezca actualizarse a diario.
 #
-# Este workflow nuevo corre scraper_datos_jus_completo.py (ya existente, sin
-# modificar) contra la API CKAN de datos.jus.gob.ar. Frecuencia mensual
-# porque son datasets publicados por el Estado que no cambian todos los días
-# — ajustá el cron si el organismo empieza a publicar con más frecuencia.
-# No modifica ningún archivo existente, sólo agrega este workflow.
+# Este workflow corre scraper_datos_jus_resiliente.py — un wrapper NUEVO que
+# importa scraper_datos_jus_completo.py sin modificarlo, sube el timeout de
+# 30s a 90s y agrega 3 reintentos con backoff. Se agregó después de que la
+# primera corrida de este workflow falló: los 6 datasets dieron
+# "Read timed out (timeout=30)" contra datos.jus.gob.ar. Se confirmó por
+# fuera de GitHub Actions (curl directo) que el portal no respondía en ese
+# momento — no era un problema de este workflow ni del scraper.
+#
+# Frecuencia mensual porque son datasets publicados por el Estado que no
+# cambian todos los días — ajustá el cron si el organismo empieza a publicar
+# con más frecuencia. No modifica ningún archivo existente, sólo agrega este
+# workflow + scraper_datos_jus_resiliente.py.
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
@@ -55,12 +62,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pandas openpyxl
 
-      - name: 🌐 Descargar datasets de datos.jus.gob.ar
+      - name: 🌐 Descargar datasets de datos.jus.gob.ar (con reintentos)
         run: |
           if [ -n "${{ github.event.inputs.solo }}" ]; then
-            python scraper_datos_jus_completo.py --solo ${{ github.event.inputs.solo }}
+            python scraper_datos_jus_resiliente.py --solo ${{ github.event.inputs.solo }}
           else
-            python scraper_datos_jus_completo.py
+            python scraper_datos_jus_resiliente.py
           fi
 
       - name: ✅ Verificar resultado
@@ -74,7 +81,7 @@ jobs:
           print(f\"Filas totales    : {meta['filas_total']:,}\")
           print(f\"Corrida          : {meta['inicio']} → {meta['fin']}\")
           if meta['datasets_ok'] == 0:
-              print('ERROR: no se descargó ningún dataset — no se commitea')
+              print('ERROR: no se descargó ningún dataset — no se commitea (ver si datos.jus.gob.ar sigue caído)')
               sys.exit(1)
           "
 
