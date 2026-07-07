@@ -22,6 +22,12 @@ name: 🌐 Refresh datos.jus.gob.ar (datos_jus/) — Mensual
 # cambian todos los días — ajustá el cron si el organismo empieza a publicar
 # con más frecuencia. No modifica ningún archivo existente, sólo agrega este
 # workflow + scraper_datos_jus_resiliente.py.
+#
+# 2026-07-07: agregado git fetch + rebase antes del push final. El job puede
+# tardar 10-30 min por los reintentos del wrapper resiliente; si en ese
+# tiempo alguien pushea otro commit a main, el "git push" de este job
+# quedaba rechazado (non-fast-forward) y el commit de datos se perdía en el
+# runner efímero (pasó justo con el run que trajo "designaciones").
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
@@ -94,5 +100,17 @@ jobs:
             echo "Sin cambios en datos_jus/."
           else
             git commit -m "data: refresh datos.jus.gob.ar $(date -u '+%Y-%m-%d')"
+            # El job puede tardar 10-30 min por los reintentos del wrapper
+            # resiliente. Si en ese tiempo se pushea otro commit a main (por
+            # ejemplo, un fix subido a mano), "git push" solo rechaza por
+            # "non-fast-forward" y el commit de esta corrida se pierde en el
+            # runner efimero. Por eso: pull --rebase antes de pushear, para
+            # traer lo nuevo de main y reintentar el push arriba de eso.
+            git fetch origin main
+            git rebase origin/main || {
+              echo "ERROR: rebase con conflictos - abortando rebase, se pierde este commit de datos.";
+              git rebase --abort;
+              exit 1;
+            }
             git push
           fi
