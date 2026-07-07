@@ -1,0 +1,106 @@
+name: 🏛️ Crawl Completo PJN (causas/oralidad) — Semanal
+
+# ─────────────────────────────────────────────────────────────────────────────
+# POR QUÉ EXISTE ESTE WORKFLOW
+# ─────────────────────────────────────────────────────────────────────────────
+# El workflow "scraper_diario.yml" (ya existente, no se toca) corre TODOS los
+# días pero con la bandera `--skip-crawl`, es decir: sólo re-cruza los CSVs
+# YA descargados con los datos de magistrados/vacantes del día. NUNCA vuelve a
+# bajar estadísticas nuevas de estadisticas.pjn.gov.ar. Como consecuencia, los
+# indicadores operativos por juzgado (clearance_rate, disposition_time,
+# pct_mora, pendientes) que alimentan /operativo/nacional quedan congelados
+# en la última vez que alguien corrió el script completo a mano.
+#
+# Este workflow nuevo corre `scraper_juzgados_nacional.py` SIN --skip-crawl,
+# o sea con el crawl real (`crawl_pjn` + descarga de CSVs), para que esos
+# indicadores se actualicen de verdad. No modifica scraper_diario.yml ni
+# ningún otro archivo existente — es 100% aditivo.
+#
+# Frecuencia semanal (no diaria) porque el crawl completo recorre hasta
+# 300 páginas de estadisticas.pjn.gov.ar con demora entre requests (variable
+# DELAY del script) — correrlo todos los días sería agresivo contra el sitio
+# público y no aporta nada (las estadísticas oficiales no se actualizan a
+# diario). Ajustá el cron si preferís otra cadencia.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  schedule:
+    - cron: "0 5 * * 3"   # Miércoles 05:00 UTC = 02:00 ART — no pisa a scraper_diario.yml (06:00 UTC) ni a update_magistrados.yml (06:00 UTC)
+  workflow_dispatch:
+    inputs:
+      max_pages:
+        description: "Máximo de páginas a crawlear (default 300)"
+        required: false
+        default: "300"
+      resume:
+        description: "Retomar desde el último checkpoint (pjn_checkpoint.json)"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  crawl-completo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40   # el crawl completo tarda más que el modo --skip-crawl
+
+    steps:
+      - name: 📥 Checkout repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 🐍 Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # NOTA: se instalan las dependencias explícitas del scraper (igual que
+      # hace scraper_diario.yml) en vez de `pip install -r requirements.txt`,
+      # porque ese archivo está guardado en un encoding que pip no parsea bien.
+      - name: 📦 Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pandas openpyxl lxml
+
+      - name: 🏛️ Crawl completo estadisticas.pjn.gov.ar
+        run: |
+          ARGS="--max-pages ${{ github.event.inputs.max_pages || '300' }}"
+          if [ "${{ github.event.inputs.resume || 'true' }}" = "true" ]; then
+            ARGS="$ARGS --resume"
+          fi
+          echo "Ejecutando: python scraper_juzgados_nacional.py $ARGS"
+          python scraper_juzgados_nacional.py $ARGS
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: ✅ Verificar juzgados_nacional.json
+        run: |
+          python -c "
+          import json, sys
+          with open('juzgados_nacional.json', encoding='utf-8') as f:
+              data = json.load(f)
+          total = len(data)
+          con_oral = sum(1 for r in data if r.get('total_causas_oral', 0) > 0)
+          con_pjn  = sum(1 for r in data if r.get('pendientes_cierre', 0) > 0 or r.get('dictadas_def', 0) > 0)
+          sin_datos = sum(1 for r in data if r.get('sin_datos_estadisticos'))
+          print(f'OK: {total} juzgados | {con_oral} con oralidad | {con_pjn} con PJN CSV | {sin_datos} sin datos')
+          if total < 200:
+              print('ERROR: menos de 200 juzgados — algo salió mal, no se commitea')
+              sys.exit(1)
+          "
+
+      - name: 📤 Commit y push de datos actualizados
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f juzgados_nacional.json juzgados_nacional.csv
+          if [ -f pjn_checkpoint.json ]; then git add -f pjn_checkpoint.json; fi
+          if git diff --staged --quiet; then
+            echo "Sin cambios en los datos del crawl completo."
+          else
+            git commit -m "data: crawl completo PJN $(date -u '+%Y-%m-%d')"
+            git push
+          fi

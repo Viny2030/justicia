@@ -1,350 +1,776 @@
-# dashboard_operativo/app.py
-# Rutas: /operativo  /operativo/camaras
-#        + APIs JSON
+# dashboard_estrategico/app.py  —  VERSIÓN COMPLETA CON INDICADORES INTERNACIONALES
+# ─────────────────────────────────────────────────────────────────────────────
+# MÓDULOS INCLUIDOS:
+#   1. WJP Rule of Law Index 2023 — ranking, radar 8 dims, histórico
+#   2. IPC Transparencia Internacional 2023 — regional + histórico
+#   3. World Bank WGI 2022 — 6 dims Argentina + Rule of Law regional
+#   4. V-Dem Institute 2023 — JCI histórico, High Court Independence, Nombramientos
+#   5. RECPJ / CEPEJ — Clearance Rate, Disposition Time, concursos, disciplinarios
+#   6. CEJAS — Independencia Personal de Magistrados
+#   7. ODS 16 (ONU) — 5 indicadores con semáforo
+#   8. OCDE — Duración procedimientos civiles comparativa
+# ─────────────────────────────────────────────────────────────────────────────
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, JSONResponse
-import json, os, sys
-from collections import Counter, defaultdict
+import json as _json
+import os, sys, traceback
+from collections import Counter
+from datetime import datetime
 
 router = APIRouter()
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(ROOT)
 
-from src.utils import calcular_kpi_eficiencia
+from src.utils import calcular_tasa_vacancia, calcular_costo_por_sentencia
 from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, nav_html
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-def _cargar(nombre: str) -> list:
-    path = os.path.join(ROOT, nombre)
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    if isinstance(data, list):
-        return data
-    for key in ("data", "juzgados", "causas", "estadisticas", "registros", "results"):
-        if key in data:
-            return data[key]
-    return list(data.values())[0] if data else []
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — WJP (World Justice Project Rule of Law Index 2023)
+# Fuente: worldjusticeproject.org — escala 0–1
+# ══════════════════════════════════════════════════════════════════════════════
+_WJP_RANKING = {
+    "Perú":0.40,"México":0.41,"Colombia":0.46,"Argentina":0.47,
+    "Brasil":0.48,"Costa Rica":0.55,"Chile":0.59,"Uruguay":0.64,"OCDE (prom.)":0.68,
+}
+_WJP_COLORS = {
+    "Perú":"#e63946","México":"#e63946","Colombia":"#f97316",
+    "Argentina":"#c9a227","Brasil":"#f97316","Costa Rica":"#22c55e",
+    "Chile":"#22c55e","Uruguay":"#22c55e","OCDE (prom.)":"#3b82f6",
+}
+_WJP_DIMS = [
+    "Límites al Poder Gub.","Ausencia de Corrupción","Gobierno Abierto",
+    "Derechos Fundamentales","Orden y Seguridad","Cumplimiento Regulatorio",
+    "Justicia Civil","Justicia Penal",
+]
+_WJP_ARG  = [0.56, 0.39, 0.47, 0.53, 0.59, 0.45, 0.42, 0.38]
+_WJP_LAC  = [0.52, 0.43, 0.45, 0.55, 0.57, 0.44, 0.44, 0.40]
+_WJP_OCDE = [0.72, 0.71, 0.63, 0.75, 0.78, 0.68, 0.68, 0.62]
+_WJP_HIST = {2015:0.50,2016:0.50,2017:0.49,2018:0.48,2019:0.49,
+             2020:0.48,2021:0.47,2022:0.47,2023:0.47}
 
-def _col(registros: list, *kws: str):
-    if not registros: return None
-    keys = registros[0].keys()
+# WJP Factores clave para Cortes Superiores (1, 2, 7, 8)
+_WJP_FACTORES_KEY = {
+    "Factor 1 — Límites al Poder Gubernamental": {
+        "arg":0.56,"lac":0.52,"ocde":0.72,
+        "desc":"Capacidad legal y técnica del PJ para auditar y frenar al Ejecutivo.",
+        "subfactores":["Controles legislativos","Controles judiciales","Controles independientes","Sanciones no gubernamentales","Transición no violenta de poder"],
+        "sub_arg":[0.63,0.52,0.55,0.61,0.49],
+    },
+    "Factor 2 — Ausencia de Corrupción": {
+        "arg":0.39,"lac":0.43,"ocde":0.71,
+        "desc":"Jueces y funcionarios de altas cortes libres de sobornos e influencias privadas.",
+        "subfactores":["Corrupción en ejecutivo","Corrupción en legislativo","Corrupción en judicial","Corrupción en policía"],
+        "sub_arg":[0.38,0.35,0.41,0.43],
+    },
+    "Factor 7 — Justicia Civil": {
+        "arg":0.42,"lac":0.44,"ocde":0.68,
+        "desc":"Procesos accesibles, expeditos, sin discriminación e independientes.",
+        "subfactores":["Accesibilidad","Sin discriminación","Sin corrupción","Sin influencia indebida","Sin demoras irrazonables","Ejecución efectiva"],
+        "sub_arg":[0.44,0.48,0.39,0.40,0.35,0.47],
+    },
+    "Factor 8 — Justicia Penal": {
+        "arg":0.38,"lac":0.40,"ocde":0.62,
+        "desc":"Sistema penal efectivo, imparcial y sin detenciones preventivas abusivas.",
+        "subfactores":["Efectividad investigativa","Adjudicación imparcial","Sin detención preventiva excesiva","Sin influencia política","Sin corrupción","Sin trato degradante"],
+        "sub_arg":[0.44,0.37,0.30,0.36,0.41,0.42],
+    },
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — World Bank WGI 2022
+# Fuente: databank.worldbank.org — escala -2.5 a +2.5
+# ══════════════════════════════════════════════════════════════════════════════
+_WGI_DIM = [
+    "Estado de Derecho","Control de Corrupción","Efectividad Gubernamental",
+    "Calidad Regulatoria","Estabilidad Política","Voz y Rendición de Cuentas",
+]
+_WGI_ARG  = [-0.21, -0.35, -0.22, -0.06, -0.28, 0.32]
+_WGI_ROL  = {
+    "Uruguay":1.12,"Chile":0.97,"Costa Rica":0.58,"Brasil":0.03,
+    "Argentina":-0.21,"Colombia":-0.31,"Perú":-0.44,"México":-0.60,"Bolivia":-0.73,
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — IPC Transparencia Internacional 2023
+# Fuente: transparency.org/en/cpi — escala 0–100
+# ══════════════════════════════════════════════════════════════════════════════
+_IPC_LAC  = {
+    "Uruguay":74,"Chile":63,"Costa Rica":55,"Brasil":36,"Argentina":37,
+    "Ecuador":33,"Colombia":34,"Perú":33,"Bolivia":31,"México":31,"Paraguay":25,
+}
+_IPC_HIST = {
+    2013:34,2014:34,2015:32,2016:36,2017:39,2018:40,
+    2019:45,2020:42,2021:38,2022:38,2023:37,
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — V-Dem Institute (Varieties of Democracy) 2023
+# Fuente: v-dem.net — escala 0–1; mayor valor = más democrático/independiente
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Judicial Constraints on the Executive Index — Argentina histórico
+_VDEM_JCI_HIST = {
+    2000:0.74,2002:0.70,2004:0.72,2006:0.73,2008:0.72,2010:0.71,
+    2012:0.72,2014:0.69,2016:0.67,2018:0.64,2020:0.61,2022:0.59,2023:0.58,
+}
+
+# JCI comparativa regional (2023)
+_VDEM_JCI_REG = {
+    "Uruguay":0.89,"Chile":0.87,"Costa Rica":0.84,"Brasil":0.72,
+    "Colombia":0.68,"Argentina":0.59,"Perú":0.55,"México":0.52,"Bolivia":0.42,
+}
+
+# High Court Independence — Argentina histórico
+_VDEM_HCI_HIST = {
+    2000:0.71,2002:0.66,2004:0.68,2006:0.69,2008:0.69,2010:0.68,
+    2012:0.70,2014:0.67,2016:0.65,2018:0.63,2020:0.60,2022:0.58,2023:0.57,
+}
+
+# Judicial Appointments — calidad del proceso (escala 0–4, CEPEJ/V-Dem cruzado)
+_VDEM_APPT_DIMS   = [
+    "Concurso meritocrático","Independencia política del proceso",
+    "Transparencia de puntajes","Paridad de género","Fiscalización ciudadana",
+]
+_VDEM_APPT_ARG    = [3.2, 2.8, 2.5, 2.1, 2.3]
+_VDEM_APPT_LAC    = [3.3, 3.0, 2.9, 2.7, 2.6]
+_VDEM_APPT_OCDE   = [4.1, 4.3, 4.2, 3.9, 3.8]
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — RECPJ / CEPEJ Benchmarks
+# Fuente: CEPEJ (Comisión Europea para la Eficacia de la Justicia)
+#         Red Europea de Consejos del Poder Judicial — Justice at a Glance
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Benchmarks objetivo (CEPEJ/OCDE)
+_CEPEJ_BENCH = {
+    "Clearance Rate (%)":      {"objetivo":100.0, "alerta":95.0,  "unidad":"%",    "desc":"Casos resueltos / casos ingresados × 100. <100% = acumulación de rezago."},
+    "Disposition Time (días)": {"objetivo":240,   "alerta":400,   "unidad":"días", "desc":"Tiempo promedio estimado para resolver un caso (casos pendientes / tasa de resolución × 365)."},
+    "% Vacantes por concurso": {"objetivo":100.0, "alerta":80.0,  "unidad":"%",    "desc":"Porcentaje de cargos vacantes que tienen concurso en trámite o completado."},
+    "Presupuesto autónomo":    {"objetivo":1,     "alerta":0,     "unidad":"bool", "desc":"El Consejo gestiona presupuesto sin intervención del Ejecutivo (1=Sí / 0=Parcial)."},
+}
+
+# Valores de referencia de países LAC/OCDE para Clearance Rate
+_CEPEJ_CR_COMP = {
+    "Alemania":105,"Francia":101,"España":97,"Chile":95,
+    "Uruguay":93,"Colombia":87,"Argentina (est.)":82,"Perú":78,"México":74,
+}
+
+# Valores de referencia Disposition Time (días) para fuero civil 1ª instancia
+_CEPEJ_DT_COMP = {
+    "Noruega":98,"Dinamarca":110,"Países Bajos":115,"Alemania":184,
+    "España":253,"Chile":310,"Uruguay":340,"Colombia":520,
+    "Argentina (est.)":420,"OCDE prom.":240,
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — CEJAS (Centro de Estudios de Justicia de las Américas)
+# Fuente: cejamericas.org — Índice de Independencia Personal de Magistrados
+# Escala 0–1; mayor valor = mayor independencia
+# ══════════════════════════════════════════════════════════════════════════════
+_CEJAS_DIMS = [
+    "Inamovilidad real en el cargo",
+    "Protección contra remoción arbitraria",
+    "Inmunidad frente a presión del Ejecutivo",
+    "Protección contra campañas de desprestigio",
+    "Remuneración adecuada y protegida",
+    "Autonomía en asignación de causas",
+]
+_CEJAS_ARG    = [0.58, 0.52, 0.54, 0.41, 0.67, 0.55]
+_CEJAS_LAC    = [0.62, 0.59, 0.57, 0.53, 0.61, 0.60]
+_CEJAS_TARGET = [0.80, 0.80, 0.80, 0.80, 0.80, 0.80]
+
+# CEJAS histórico compuesto (Índice agregado de Independencia Personal)
+_CEJAS_HIST = {
+    2012:0.63,2014:0.62,2016:0.60,2018:0.58,2020:0.55,2022:0.54,2023:0.54,
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DATOS ESTÁTICOS — ODS 16 (ONU)
+# ══════════════════════════════════════════════════════════════════════════════
+_ODS16 = [
+    {"id":"16.3.2","titulo":"Presos sin condena",
+     "valor":48.5,"meta":30.0,"unidad":"%","anio":2022,
+     "fuente":"UNODC / SNEEP Argentina","semaforo":"rojo",
+     "desc":"Casi la mitad de los detenidos están en prisión preventiva sin sentencia firme."},
+    {"id":"16.3.1","titulo":"Víctimas que denunciaron",
+     "valor":24.2,"meta":60.0,"unidad":"%","anio":2021,
+     "fuente":"INDEC / Encuesta de Victimización","semaforo":"rojo",
+     "desc":"3 de cada 4 víctimas de delito no acuden al sistema formal de justicia."},
+    {"id":"16.6.2","titulo":"Satisfacción con justicia",
+     "valor":42.1,"meta":70.0,"unidad":"%","anio":2022,
+     "fuente":"Latinobarómetro 2023","semaforo":"alerta",
+     "desc":"Porcentaje de ciudadanos satisfechos con el funcionamiento del sistema judicial."},
+    {"id":"16.5.1","titulo":"Soborno en administración pública",
+     "valor":11.3,"meta":0.0,"unidad":"%","anio":2021,
+     "fuente":"UNODC / GCB Latinoamérica","semaforo":"alerta",
+     "desc":"Personas que pagaron un soborno al interactuar con instituciones públicas."},
+    {"id":"16.b.1","titulo":"Discriminación en acceso a justicia",
+     "valor":18.7,"meta":0.0,"unidad":"%","anio":2022,
+     "fuente":"WJP Factor 7 — Justicia Civil","semaforo":"alerta",
+     "desc":"Reporte de discriminación (género, etnia, nivel socioeconómico) al acceder al sistema."},
+]
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CONSTANTES INSTITUCIONALES
+# ══════════════════════════════════════════════════════════════════════════════
+PRESUPUESTO_CSJN_ARS = 28_500_000_000
+PRESUPUESTO_PJN_ARS  = 280_000_000_000
+SENTENCIAS_PJN_ANIO  = 85_000
+POBLACION_ARGENTINA  = 46_000_000
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# HELPERS
+# ══════════════════════════════════════════════════════════════════════════════
+def _cargar(nombre):
+    """Busca el archivo en data/ primero (versiones más ricas), luego en root."""
+    for prefix in ("data", ""):
+        path = os.path.join(ROOT, prefix, nombre) if prefix else os.path.join(ROOT, nombre)
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                data = _json.load(f)
+            if isinstance(data, list):
+                return data
+            for k in ("data","magistrados","vacantes","designaciones","causas","results"):
+                if k in data:
+                    return data[k]
+            return list(data.values())[0] if data else []
+    raise FileNotFoundError(nombre)
+
+def _cargar_safe(nombre):
+    try: return _cargar(nombre)
+    except: return []
+
+def _cargar_datos_jus(keyword: str) -> list:
+    """
+    Carga el primer archivo JSON en datos_jus/ cuyo nombre contenga `keyword`.
+    Devuelve lista de registros o [] si no encuentra nada.
+    """
+    dj_dir = os.path.join(ROOT, "datos_jus")
+    if not os.path.isdir(dj_dir):
+        return []
+    for fname in sorted(os.listdir(dj_dir)):
+        if keyword in fname and fname.endswith(".json"):
+            try:
+                with open(os.path.join(dj_dir, fname), encoding="utf-8") as f:
+                    d = _json.load(f)
+                if isinstance(d, list):
+                    return d
+                for k in ("data","results","records","rows"):
+                    if k in d:
+                        return d[k]
+                return list(d.values())[0] if d else []
+            except Exception:
+                pass
+    return []
+
+def _cargar_oralidad_all() -> list:
+    """
+    Concatena todos los archivos de oralidad en datos_jus/.
+    Columnas clave: causa_fecha_ingreso/recepcion, proceso_finalización_fecha,
+                    proceso_resultado_descripcion, provincia_nombre.
+    """
+    dj_dir = os.path.join(ROOT, "datos_jus")
+    if not os.path.isdir(dj_dir):
+        return []
+    rows = []
+    for fname in sorted(os.listdir(dj_dir)):
+        if "oralidad-en-los-procesos-civiles" in fname and fname.endswith(".json"):
+            # skip encuestas de satisfacción (no tienen causas)
+            if "encuesta" in fname:
+                continue
+            try:
+                with open(os.path.join(dj_dir, fname), encoding="utf-8") as f:
+                    d = _json.load(f)
+                chunk = d if isinstance(d, list) else d.get("data", d.get("results", []))
+                rows.extend(chunk)
+            except Exception:
+                pass
+    return rows
+
+
+def _cargar_cvs_stats() -> dict:
+    """
+    Lee el JSON de curriculums vitae de candidatos a magistrados desde datos_jus/.
+    Devuelve estadísticas agregadas listas para serializar a JSON.
+    """
+    from collections import Counter as _Counter
+    registros = _cargar_datos_jus("curriculums-vitae")
+    if not registros:
+        return {"total": 0, "universidades": [], "provincias": [], "ambitos": [], "tabla": []}
+
+    total = len(registros)
+
+    univs = _Counter(r.get("universidad", "Sin datos") or "Sin datos" for r in registros)
+    top_univs = [{"nombre": k, "cantidad": v}
+                 for k, v in univs.most_common(15) if k and k != "Sin datos"]
+
+    provs = _Counter(r.get("provincia_nacimiento_magistrado", "Sin datos") or "Sin datos"
+                     for r in registros)
+    top_provs = [{"provincia": k, "cantidad": v}
+                 for k, v in sorted(provs.items(), key=lambda x: -x[1])
+                 if k and k != "Sin datos"][:20]
+
+    ambitos = _Counter(r.get("ambito_origen_concurso_descripcion", "Sin datos") or "Sin datos"
+                       for r in registros)
+    top_ambitos = [{"ambito": k, "cantidad": v} for k, v in ambitos.most_common(10)]
+
+    tabla = [{"nombre":    r.get("nombre_magistrado", ""),
+              "concurso":  r.get("numero_concurso", ""),
+              "ambito":    r.get("ambito_origen_concurso_descripcion", ""),
+              "universidad": r.get("universidad", ""),
+              "provincia": r.get("provincia_nacimiento_magistrado", ""),
+              "link_cv":   r.get("link_html_curriculum_magistrado", "")}
+             for r in registros[:200]]
+
+    return {"total": total, "universidades": top_univs,
+            "provincias": top_provs, "ambitos": top_ambitos, "tabla": tabla}
+
+def _col(recs, *kws):
+    if not recs: return None
+    keys = recs[0].keys()
     for kw in kws:
         m = next((k for k in keys if kw.lower() in k.lower()), None)
         if m: return m
     return None
 
-def _es_camara(nombre: str) -> bool:
-    return any(p in nombre.lower() for p in ("cámara", "camara", "cam."))
+def _es_csjn(val):
+    v = val.lower()
+    return any(p in v for p in ("corte suprema","csjn","suprema","corte"))
 
-def _lats(registros, col_lat):
-    vals = []
-    if not col_lat: return vals
-    for r in registros:
-        try: vals.append(float(r.get(col_lat, 0) or 0))
-        except: pass
-    return [v for v in vals if v > 0]
+def _antiguedad_bucket(dias):
+    if dias < 365:  return "< 1 año"
+    if dias < 730:  return "1–2 años"
+    if dias < 1460: return "2–4 años"
+    if dias < 2920: return "4–8 años"
+    return "> 8 años"
 
-def _cargar_operativo(nombre: str) -> list:
+BUCKET_ORDER = ["< 1 año","1–2 años","2–4 años","4–8 años","> 8 años"]
+
+def _head(titulo):
+    return (
+        "<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'>"
+        f"<title>{titulo}</title>{PLOTLY_JS}"
+        f"<style>{BASE_CSS}</style></head><body>"
+    )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# APIs JSON
+# ══════════════════════════════════════════════════════════════════════════════
+@router.get("/api/kpis")
+def api_kpis():
+    try:
+        mag = _cargar("magistrados.json")
+        vac = _cargar("vacantes.json")
+        des = _cargar("designaciones.json")
+        tm = len(mag); tv = len(vac); cu = tm - tv
+        return {
+            "total_magistrados": tm, "total_vacantes": tv, "cargos_cubiertos": cu,
+            "tasa_vacancia_pct": calcular_tasa_vacancia(cu, tm),
+            "total_designaciones": len(des),
+            "costo_por_sentencia": calcular_costo_por_sentencia(PRESUPUESTO_PJN_ARS, SENTENCIAS_PJN_ANIO),
+            "ministros_csjn": 5,
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/vacancia")
+def api_vacancia():
+    try:
+        vac = _cargar("vacantes.json")
+        col = _col(vac, "jurisdic","provincia","lugar","sede")
+        if not col:
+            return {"labels":[],"values":[],"col_detectada": None}
+        top = Counter(str(r.get(col,"Sin dato")) for r in vac).most_common(15)
+        return {"labels":[x[0] for x in top],"values":[x[1] for x in top],
+                "col_detectada": col,"total": len(vac)}
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/designaciones")
+def api_designaciones():
+    try:
+        des = _cargar("designaciones.json")
+        cf = _col(des,"fuero","ambito","organo","tipo_cargo")
+        fueros = {}
+        if cf:
+            top = Counter(str(r.get(cf,"")) for r in des).most_common(8)
+            fueros = {"labels":[x[0] for x in top],"values":[x[1] for x in top]}
+
+        # NOTA: _cargar() prioriza data/designaciones.json (historico 1976-1998,
+        # 2.000 registros) sobre designaciones.json de la raiz (2001-2023,
+        # 619 registros). Para "total" y "por_fuero" eso esta bien (es el
+        # dataset mas completo), pero para la serie POR ANIO deja el grafico
+        # vacio: ningun registro de data/designaciones.json cae en la ventana
+        # 2000-2026 que filtramos abajo. Por eso la serie temporal se arma
+        # explicitamente con designaciones.json de la raiz, que si tiene
+        # fechas recientes (fecha_jura). No cambia "total" ni "por_fuero".
+        des_para_anio = des
+        des_raiz_path = os.path.join(ROOT, "designaciones.json")
+        if os.path.exists(des_raiz_path):
+            try:
+                with open(des_raiz_path, "r", encoding="utf-8") as f:
+                    raiz = _json.load(f)
+                if isinstance(raiz, list) and raiz:
+                    des_para_anio = raiz
+            except Exception:
+                pass
+
+        cd = _col(des_para_anio,"fecha","anio","año","date","periodo")
+        por_anio = {}
+        if cd:
+            c: Counter = Counter()
+            for r in des_para_anio:
+                a = str(r.get(cd,""))[:4]
+                if a.isdigit() and 2000 <= int(a) <= 2026:
+                    c[a] += 1
+            s = sorted(c.items())
+            por_anio = {"labels":[x[0] for x in s],"values":[x[1] for x in s]}
+        return {"por_fuero": fueros,"por_anio": por_anio,"total": len(des)}
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/corte")
+def api_corte():
+    try:
+        causas_raw = _cargar_safe("estadisticas_causas.json") or _cargar_safe("pjn_checkpoint.json")
+        col_org  = _col(causas_raw,"juzgado","organo","tribunal","camara","instancia")
+        col_lat  = _col(causas_raw,"latencia","dias","tiempo_proceso","duracion","antiguedad")
+        col_est  = _col(causas_raw,"estado","situac","resolucion","resultado")
+        col_fech = _col(causas_raw,"fecha_inicio","inicio","ingreso","fecha_radicacion","fecha")
+
+        csjn = ([r for r in causas_raw if _es_csjn(str(r.get(col_org,"")))]
+                if col_org else [])
+        tiene_datos_reales = len(csjn) > 0
+        buckets: Counter = Counter()
+        sentencias = pendientes = 0
+
+        if tiene_datos_reales:
+            palabras_ok = ("resuelto","sentencia","archivado","cerrado","concluido","finalizado","acuerdo")
+            for r in csjn:
+                est_val = str(r.get(col_est,"")).lower() if col_est else ""
+                if any(p in est_val for p in palabras_ok):
+                    sentencias += 1
+                else:
+                    pendientes += 1
+                    dias = 0
+                    if col_lat:
+                        try: dias = float(r.get(col_lat, 0) or 0)
+                        except: pass
+                    elif col_fech:
+                        try:
+                            fecha = datetime.strptime(str(r.get(col_fech,""))[:10], "%Y-%m-%d")
+                            dias = (datetime.now() - fecha).days
+                        except: pass
+                    buckets[_antiguedad_bucket(dias) if dias > 0 else "Sin fecha"] += 1
+            total_csjn = len(csjn)
+        else:
+            total_csjn = 25_000; sentencias = 4_800; pendientes = total_csjn - sentencias
+            buckets = Counter({"< 1 año":3200,"1–2 años":4500,"2–4 años":6800,"4–8 años":5900,"> 8 años":4600})
+
+        ant_labels = [b for b in BUCKET_ORDER if b in buckets] + [b for b in buckets if b not in BUCKET_ORDER]
+        return {
+            "tiene_datos_reales": tiene_datos_reales,
+            "total_expedientes": total_csjn, "pendientes": pendientes, "sentencias": sentencias,
+            "eficiencia_pct": round(sentencias / max(total_csjn,1) * 100, 1),
+            "costo_x_sentencia": round(PRESUPUESTO_CSJN_ARS / max(sentencias,1), 0),
+            "costo_x_habitante": round(PRESUPUESTO_CSJN_ARS / POBLACION_ARGENTINA, 2),
+            "presupuesto_csjn": PRESUPUESTO_CSJN_ARS, "poblacion": POBLACION_ARGENTINA,
+            "antiguedad": {"labels": ant_labels, "values": [buckets[b] for b in ant_labels]},
+            "ministros": 5,
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/cepej")
+def api_cepej():
     """
-    Carga datos operativos y normaliza al formato interno:
-      juzgado, latencia, resueltos, pendientes, recursos, tasa_resolucion,
-      jurisdiccion, fuero, estado, anio
-
-    Soporta tres formatos de fuente:
-      1. juzgados_nacional.json  — pre-procesado por scraper_juzgados_nacional.py
-      2. estadisticas_causas.json — formato organismo (reshape por fuero/tipo)
-      3. otros JSON               — pasa tal cual
+    Métricas RECPJ/CEPEJ desde fuentes reales:
+    - Clearance Rate + Disposition Time ← datos_jus/oralidad (causas reales)
+    - % concurso_en_tramite ← datos_jus/magistrados_b12bdbb7 (columna directa)
+    - Género magistratura ← datos_jus/estadistica_genero (serie 2000-2025)
+    - Designaciones recientes ← datos_jus/designaciones_d4fd21f4
+    - Renuncias recientes ← datos_jus/renuncias_e0e6483e (data/ si no está en root)
     """
-    data = _cargar(nombre)
-    if not data:
-        return data
+    try:
+        # ── 1. Clearance Rate y Disposition Time — fuente: oralidad ─────────
+        #    proceso_resultado_descripcion: valor no vacío = causa resuelta
+        #    causa_fecha_ingreso / proceso_finalización_fecha → Disposition Time real
+        oralidad = _cargar_oralidad_all()
+        total_causas_oral = len(oralidad)
 
-    # ── FIX: juzgados_nacional.json (tiene 'juzgado' + 'ira_score') ──────────
-    if "juzgado" in data[0] and "ira_score" in data[0]:
-        result = []
-        for r in data:
-            dt = r.get("disposition_time") or 0
-            result.append({
-                "juzgado":         r.get("juzgado", ""),
-                "latencia":        dt,
-                "resueltos":       r.get("dictadas_def") or 0,
-                "pendientes":      r.get("pendientes_cierre") or 0,
-                "recursos":        0,
-                "tasa_resolucion": r.get("clearance_rate") or 0,
-                "jurisdiccion":    r.get("jurisdiccion", ""),
-                "fuero":           r.get("fuero", ""),
-                "estado":          r.get("ira_semaforo", ""),
-                "anio":            r.get("anio", ""),
-            })
-        return result
+        col_res  = _col(oralidad, "proceso_resultado","resultado","finalizacion_tipo")
+        col_ing  = _col(oralidad, "causa_fecha_ingreso","causa_fecha_recepcion","fecha_ingreso","fecha_recepcion")
+        col_fin  = _col(oralidad, "proceso_finalización_fecha","proceso_finalizacion_fecha","fecha_finalizacion")
 
-    # ── estadisticas_causas.json (tiene 'organismo') ──────────────────────────
-    if "organismo" not in data[0]:
-        return data
+        resueltos_oral = 0
+        tiempos_oral   = []
+        if oralidad:
+            for r in oralidad:
+                res_val = str(r.get(col_res,"")).strip() if col_res else ""
+                if res_val and res_val.lower() not in ("","nan","none","sin dato"):
+                    resueltos_oral += 1
+                # Disposition Time real (ingreso → fin)
+                if col_ing and col_fin:
+                    try:
+                        t_in  = datetime.strptime(str(r.get(col_ing,""))[:10], "%Y-%m-%d")
+                        t_fin = datetime.strptime(str(r.get(col_fin,""))[:10], "%Y-%m-%d")
+                        dias  = (t_fin - t_in).days
+                        if 0 < dias < 5000:
+                            tiempos_oral.append(dias)
+                    except Exception:
+                        pass
 
-    grupos = defaultdict(list)
-    for r in data:
-        org = r.get("organismo", "").strip()
-        if not org or "total" in org.lower() or org.startswith("(*"):
-            continue
-        grupos[org].append(r)
+        clearance_rate = round(resueltos_oral / max(total_causas_oral,1) * 100, 1) if total_causas_oral > 0 else None
+        disp_time_real = round(sum(tiempos_oral) / len(tiempos_oral), 0) if tiempos_oral else None
 
-    result = []
-    for org, recs in sorted(grupos.items()):
-        es_cam = _es_camara(org)
+        # ── 2. % Vacantes con concurso_en_tramite — datos_jus magistrados ───
+        #    columna exacta: concurso_en_tramite = "SI"/"NO"
+        dj_mag = _cargar_datos_jus("magistrados-justicia-federal")
+        vacantes_dj     = [r for r in dj_mag if str(r.get("cargo_vacante","")).upper() in ("SI","SÍ","S","TRUE","1","YES")]
+        con_concurso_dj = sum(1 for r in vacantes_dj if str(r.get("concurso_en_tramite","")).upper() in ("SI","SÍ","S","TRUE","1","YES"))
+        total_vac_dj    = len(vacantes_dj)
+        pct_concurso    = round(con_concurso_dj / max(total_vac_dj,1) * 100, 1) if total_vac_dj > 0 else None
 
-        sent = [r for r in recs if r.get("tipo_csv") in ("sentencias", "tramite_camara")]
-        latest_sent = sorted(sent, key=lambda r: str(r.get("anio", "")))[-1] if sent else {}
+        # Género desde mismo dataset magistrados datos_jus
+        fem = masc = 0
+        for r in dj_mag:
+            g = str(r.get("magistrado_genero","")).upper()
+            if g in ("F","FEMENINO"):    fem  += 1
+            elif g in ("M","MASCULINO"): masc += 1
+        pct_fem = round(fem / max(fem+masc,1) * 100, 1) if (fem+masc) > 0 else None
 
-        tram = [r for r in recs if r.get("tipo_csv") == "tramite_camara"]
-        latest_tram = sorted(tram, key=lambda r: str(r.get("anio", "")))[-1] if tram else {}
-
-        rec_recs = [r for r in recs if r.get("tipo_csv") == "recursos"]
-        total_recursos = sum(
-            (r.get("recursos_apelacion") or 0) + (r.get("otros_recursos") or 0)
-            for r in rec_recs
+        # ── 3. Designaciones recientes — datos_jus designaciones ────────────
+        dj_des = _cargar_datos_jus("designaciones-de-magistrados")
+        des_recientes = sum(
+            1 for r in dj_des
+            if str(r.get("fecha_desginacion","") or r.get("fecha_designacion",""))[:4].lstrip("0") in ("2023","2024","2025","2026")
         )
 
-        latencia   = latest_tram.get("permanencia_breve") or latest_tram.get("permanencia_extensa") or 0
-        resueltos  = latest_tram.get("resueltos") or latest_sent.get("resueltos") or 0
-        pendientes = latest_sent.get("pendientes_cierre") or latest_sent.get("en_tramite_cierre") or 0
-        tasa       = latest_tram.get("tasa_resolucion_pct") or latest_sent.get("tasa_resolucion_pct") or 0
-
-        result.append({
-            "juzgado":         org,
-            "latencia":        latencia,
-            "resueltos":       resueltos,
-            "pendientes":      pendientes,
-            "recursos":        total_recursos,
-            "tasa_resolucion": tasa,
-            "jurisdiccion":    (latest_sent or latest_tram).get("jurisdiccion", ""),
-            "anio":            (latest_sent or latest_tram).get("anio", ""),
-            "estado":          "camara" if es_cam else "activo",
-        })
-    return result
-
-
-# ── HTML helpers ──────────────────────────────────────────────────────────────
-def _head(titulo):
-    return f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
-<title>{titulo}</title>{PLOTLY_JS}
-<style>{BASE_CSS}
-.tiempos-titulo{{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;
-                 color:var(--gold);margin:22px 0 12px;padding-left:2px}}
-.kpi-tiempos{{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-              gap:14px;margin-bottom:28px}}
-.controles{{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;align-items:center}}
-.controles label{{font-size:.81rem;color:var(--muted)}}
-.controles select,.controles input{{background:var(--card);border:1px solid var(--border);
-  color:var(--text);padding:6px 12px;border-radius:6px;font-size:.83rem;outline:none}}
-.controles select:focus,.controles input:focus{{border-color:var(--gold)}}
-/* Panel detalle */
-.panel-overlay{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;backdrop-filter:blur(2px)}}
-.panel-overlay.visible{{display:block}}
-.panel-detalle{{position:fixed;top:0;right:-460px;width:440px;height:100vh;
-  background:#0d1b2e;border-left:1px solid #2d4a7a;overflow-y:auto;
-  transition:right .28s cubic-bezier(.4,0,.2,1);z-index:1000;padding:24px 20px}}
-.panel-detalle.abierto{{right:0}}
-.pd-row{{display:flex;justify-content:space-between;align-items:flex-start;
-  padding:7px 0;border-bottom:1px solid #1a2e50;font-size:.82rem;gap:8px}}
-.pd-label{{color:#64748b;flex-shrink:0}}
-.pd-val{{color:#e2e8f0;font-weight:500;text-align:right;word-break:break-word}}
-.pd-sec{{font-size:.7rem;text-transform:uppercase;letter-spacing:1.8px;
-  color:#c9a227;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid #1e3058}}
-.nac-tr-click{{cursor:pointer;transition:background .15s}}
-.nac-tr-click:hover{{background:rgba(45,74,122,.35)!important}}
-</style></head><body>"""
-
-def _foot(): return f"{FOOTER}</body></html>"
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# APIS JSON
-# ═══════════════════════════════════════════════════════════════════════════════
-@router.get("/api/kpis")
-def api_kpis(instancia: str = Query("todas"), fuente: str = Query("juzgados_nacional.json")):
-    try:
-        registros = _cargar_operativo(fuente)
-        col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
-        col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
-        col_est = _col(registros, "estado", "situac", "resolucion")
-
-        todos = registros[:]
-        n_cam = sum(1 for r in todos if col_org and _es_camara(str(r.get(col_org, ""))))
-        n_juz = len(todos) - n_cam
-
-        if instancia != "todas" and col_org:
-            if instancia == "camaras":
-                registros = [r for r in registros if _es_camara(str(r.get(col_org, "")))]
-            else:
-                registros = [r for r in registros if not _es_camara(str(r.get(col_org, "")))]
-
-        total = len(registros)
-        lats  = _lats(registros, col_lat)
-        lat_prom  = round(sum(lats) / len(lats), 1) if lats else 0
-        # criticos: juzgados cuyo disposition_time promedio supera 365 dias
-        criticos  = sum(1 for l in lats if l >= 365)
-
-        # Costo estimado por juzgado (presupuesto PJN / total juzgados)
-        kpi_costo_juzgado = calcular_kpi_eficiencia(45_000_000_000, max(total, 1))
-
-        # Costo real por causa: mediana de juzgados con datos reales (excluye cap $500M)
-        CAP_DEFAULT = 500_000_000
-        costos_reales = []
-        try:
-            raw = _cargar(fuente)
-            if raw and isinstance(raw, list) and raw and "costo_por_causa" in raw[0]:
-                costos_reales = [
-                    float(r["costo_por_causa"])
-                    for r in raw
-                    if r.get("costo_por_causa") and 0 < float(r["costo_por_causa"]) < CAP_DEFAULT
-                ]
-        except Exception:
-            costos_reales = []
-        if costos_reales:
-            costos_reales.sort()
-            mediana_costo = costos_reales[len(costos_reales) // 2]
-            promedio_costo = round(sum(costos_reales) / len(costos_reales), 0)
-        else:
-            mediana_costo = None
-            promedio_costo = None
-
-        resueltos = 0
-        if col_est:
-            palabras_ok = ("resuelto", "sentencia", "archivado", "cerrado", "concluido", "finalizado", "\U0001f7e2")
-            resueltos = sum(
-                1 for r in registros
-                if any(p in str(r.get(col_est, "")).lower() for p in palabras_ok)
-            )
-        tasa_res = round(resueltos / max(total, 1) * 100, 1)
+        # ── 4. Renuncias recientes — datos_jus renuncias ────────────────────
+        dj_ren = _cargar_datos_jus("renuncias-de-magistrados")
+        # fallback: data/renuncias.json si datos_jus vacío
+        if not dj_ren:
+            dj_ren = _cargar_safe("renuncias.json")
+        ren_recientes = sum(
+            1 for r in dj_ren
+            if str(r.get("fecha_renuncia",""))[:4] in ("2023","2024","2025","2026")
+        )
 
         return {
-            "total": total, "n_juzgados": n_juz, "n_camaras": n_cam,
-            "latencia_promedio": lat_prom,
-            # juzgados con DT >= 365 dias (no causas individuales)
-            "causas_criticas": criticos,
-            "pct_criticas": round(criticos / max(total, 1) * 100, 1),
-            # costo_por_causa legacy (presupuesto / N juzgados - NO es por causa)
-            "costo_por_causa": round(kpi_costo_juzgado, 0),
-            # costos reales calculados desde datos oralidad
-            "costo_mediana_causa": round(mediana_costo, 0) if mediana_costo else None,
-            "costo_promedio_causa": round(promedio_costo, 0) if promedio_costo else None,
-            "n_juzgados_con_costo_real": len(costos_reales),
-            "tasa_resolucion": tasa_res,
-            "resueltos": resueltos,
+            "tiene_datos_reales": total_causas_oral > 0,
+            # Clearance Rate / Disposition Time — fuente: oralidad real
+            "clearance_rate":         clearance_rate,
+            "disposition_time_dias":  int(disp_time_real) if disp_time_real else None,
+            "total_causas_oralidad":  total_causas_oral,
+            "causas_resueltas":       resueltos_oral,
+            "tiempos_computados":     len(tiempos_oral),
+            # Concursos — fuente: datos_jus magistrados
+            "total_vacantes":         total_vac_dj,
+            "vacantes_con_concurso":  con_concurso_dj,
+            "pct_vacantes_concurso":  pct_concurso,
+            # Género — fuente: datos_jus magistrados
+            "magistradas_femenino":   fem,
+            "magistrados_masculino":  masc,
+            "pct_magistradas_mujeres": pct_fem,
+            # Dinámica reciente
+            "designaciones_recientes": des_recientes,
+            "renuncias_recientes":     ren_recientes,
         }
     except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=500)
+        return JSONResponse({"error": str(e), "traceback": traceback.format_exc()}, status_code=500)
 
 
-@router.get("/api/tiempos")
-def api_tiempos(fuente: str = Query("juzgados_nacional.json")):
+@router.get("/api/oralidad")
+def api_oralidad():
+    """
+    Clearance Rate y Disposition Time por provincia, desde datos_jus/oralidad.
+    Fuente: Programa Oralidad Civil — Ministerio de Justicia.
+    ~60.000 causas reales de 11 provincias.
+    """
     try:
-        registros = _cargar_operativo(fuente)
-        col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
-        col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
+        oralidad = _cargar_oralidad_all()
+        if not oralidad:
+            return {"error": "No se encontraron archivos de oralidad en datos_jus/"}
 
-        juzgados = [r for r in registros if col_org and not _es_camara(str(r.get(col_org, "")))]
-        camaras  = [r for r in registros if col_org and _es_camara(str(r.get(col_org, "")))]
+        col_res  = _col(oralidad, "proceso_resultado","resultado","finalizacion_tipo")
+        col_ing  = _col(oralidad, "causa_fecha_ingreso","causa_fecha_recepcion","fecha_ingreso")
+        col_fin  = _col(oralidad, "proceso_finalización_fecha","proceso_finalizacion_fecha","fecha_finalizacion")
+        col_prov = _col(oralidad, "provincia_nombre","provincia","jurisdiccion")
+        col_tipo = _col(oralidad, "clase_proceso_descripcion","tipo_proceso","clase_proceso")
 
-        lats_juz = _lats(juzgados, col_lat)
-        lats_cam = _lats(camaras, col_lat)
-        lats_all = _lats(registros, col_lat)
+        por_provincia: dict = {}
+        tipos_proceso: Counter = Counter()
 
-        prom_juz = round(sum(lats_juz) / len(lats_juz), 1) if lats_juz else None
-        prom_cam = round(sum(lats_cam) / len(lats_cam), 1) if lats_cam else None
+        for r in oralidad:
+            prov = str(r.get(col_prov,"Sin dato")) if col_prov else "Sin dato"
+            if prov not in por_provincia:
+                por_provincia[prov] = {"total":0,"resueltos":0,"tiempos":[]}
+            por_provincia[prov]["total"] += 1
 
-        mora_2 = sum(1 for l in lats_all if l >= 730)
-        pct_mora = round(mora_2 / max(len(lats_all), 1) * 100, 1)
+            res_val = str(r.get(col_res,"")).strip() if col_res else ""
+            if res_val and res_val.lower() not in ("","nan","none","sin dato"):
+                por_provincia[prov]["resueltos"] += 1
 
-        if lats_all:
-            lats_sorted = sorted(lats_all)
-            n = len(lats_sorted)
-            p50 = lats_sorted[int(n * 0.5)]
-            p75 = lats_sorted[int(n * 0.75)]
-            p90 = lats_sorted[int(n * 0.90)]
-        else:
-            p50 = p75 = p90 = 0
-
-        return {
-            "tiempo_prom_primera":  prom_juz,
-            "tiempo_prom_camaras":  prom_cam,
-            "mora_2anios":          mora_2,
-            "pct_mora_2anios":      pct_mora,
-            "p50_dias":             round(p50, 0),
-            "p75_dias":             round(p75, 0),
-            "p90_dias":             round(p90, 0),
-            "tiene_latencia":       col_lat is not None and len(lats_all) > 0,
-        }
-    except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=500)
-
-
-@router.get("/api/juzgados")
-def api_juzgados(
-    instancia: str = Query("todas"),
-    fuente: str = Query("juzgados_nacional.json"),
-    top: int = Query(20),
-):
-    try:
-        registros = _cargar_operativo(fuente)
-        col_org = _col(registros, "juzgado", "organo", "tribunal", "camara")
-        col_lat = _col(registros, "latencia", "dias", "tiempo_proceso", "duracion")
-
-        if instancia != "todas" and col_org:
-            if instancia == "camaras":
-                registros = [r for r in registros if _es_camara(str(r.get(col_org, "")))]
-            else:
-                registros = [r for r in registros if not _es_camara(str(r.get(col_org, "")))]
-
-        if not col_org:
-            return {"juzgados": [], "col_detectada": None}
-
-        conteo = Counter()
-        lat_sum = defaultdict(float)
-        lat_cnt = defaultdict(int)
-        for r in registros:
-            org = str(r.get(col_org, "Sin dato"))
-            conteo[org] += 1
-            if col_lat:
+            if col_ing and col_fin:
                 try:
-                    v = float(r.get(col_lat, 0) or 0)
-                    if v > 0:
-                        lat_sum[org] += v
-                        lat_cnt[org] += 1
-                except:
+                    t_in  = datetime.strptime(str(r.get(col_ing,""))[:10], "%Y-%m-%d")
+                    t_fin = datetime.strptime(str(r.get(col_fin,""))[:10], "%Y-%m-%d")
+                    dias  = (t_fin - t_in).days
+                    if 0 < dias < 5000:
+                        por_provincia[prov]["tiempos"].append(dias)
+                except Exception:
                     pass
 
-        result = []
-        for org, cant in conteo.most_common(top):
-            lp = round(lat_sum[org] / lat_cnt[org], 0) if lat_cnt[org] else 0
-            result.append({
-                "juzgado": org,
-                "cantidad": cant,
-                "latencia_prom": lp,
-                "es_camara": _es_camara(org),
+            if col_tipo:
+                t = str(r.get(col_tipo,"")).strip()
+                if t:
+                    tipos_proceso[t] += 1
+
+        # Construir resumen por provincia
+        resumen = []
+        for prov, d in sorted(por_provincia.items()):
+            cr  = round(d["resueltos"] / max(d["total"],1) * 100, 1)
+            dt  = round(sum(d["tiempos"]) / len(d["tiempos"]), 0) if d["tiempos"] else None
+            resumen.append({
+                "provincia":        prov,
+                "total_causas":     d["total"],
+                "causas_resueltas": d["resueltos"],
+                "clearance_rate":   cr,
+                "disposition_time": int(dt) if dt else None,
             })
-        return {"juzgados": result, "col_detectada": col_org, "total": len(registros)}
+
+        top_tipos = tipos_proceso.most_common(8)
+
+        return {
+            "total_causas":       len(oralidad),
+            "provincias":         resumen,
+            "tipos_proceso":      {"labels":[x[0] for x in top_tipos],
+                                   "values":[x[1] for x in top_tipos]},
+            "col_resultado_detectada": col_res,
+            "col_fecha_fin_detectada": col_fin,
+        }
     except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=500)
+        return JSONResponse({"error": str(e), "traceback": traceback.format_exc()}, status_code=500)
 
 
-@router.get("/api/estados")
-def api_estados(fuente: str = Query("juzgados_nacional.json")):
+@router.get("/api/traslados")
+def api_traslados():
+    """
+    Traslados de jueces — indicador RECPJ de protección contra traslados arbitrarios.
+    Fuente: datos_jus/traslados_ade07cd0.json — 113 registros.
+    Columnas: magistrado_nombre, fecha_traslado, motivo_traslado,
+              organo_nombre_desde/hacia, provincia_nombre_desde/hacia.
+    """
     try:
-        registros = _cargar(fuente)
-        col = _col(registros, "estado", "situac", "activ", "resolucion", "fuero")
-        if not col:
-            return {"labels": [], "values": []}
-        conteo = Counter(str(r.get(col, "Sin dato")) for r in registros)
-        top = conteo.most_common(12)
-        return {"labels": [x[0] for x in top], "values": [x[1] for x in top]}
+        traslados = _cargar_datos_jus("traslados-de-jueces")
+        if not traslados:
+            return {"total": 0, "error": "No se encontró archivo de traslados en datos_jus/"}
+
+        total = len(traslados)
+
+        # Por motivo
+        por_motivo: Counter = Counter()
+        for r in traslados:
+            m = str(r.get("motivo_traslado","Sin dato")).strip() or "Sin dato"
+            por_motivo[m] += 1
+
+        # Por año
+        por_anio: Counter = Counter()
+        for r in traslados:
+            fecha = str(r.get("fecha_traslado","") or r.get("norma_fecha",""))[:4]
+            if fecha.isdigit() and 2000 <= int(fecha) <= 2026:
+                por_anio[fecha] += 1
+        por_anio_sorted = sorted(por_anio.items())
+
+        # Por provincia destino
+        por_prov_destino: Counter = Counter()
+        for r in traslados:
+            p = str(r.get("provincia_nombre_hacia","Sin dato")).strip() or "Sin dato"
+            por_prov_destino[p] += 1
+
+        # Por género
+        fem = masc = 0
+        for r in traslados:
+            g = str(r.get("magistrado_genero","")).upper()
+            if g in ("F","FEMENINO"):    fem  += 1
+            elif g in ("M","MASCULINO"): masc += 1
+
+        return {
+            "total":           total,
+            "por_motivo":      {"labels":list(por_motivo.keys()), "values":list(por_motivo.values())},
+            "por_anio":        {"labels":[x[0] for x in por_anio_sorted],
+                                "values":[x[1] for x in por_anio_sorted]},
+            "por_prov_destino":{"labels":[x[0] for x in por_prov_destino.most_common(10)],
+                                "values":[x[1] for x in por_prov_destino.most_common(10)]},
+            "genero":          {"femenino": fem, "masculino": masc},
+        }
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
 
-<<<<<<< Updated upstream
+@router.get("/api/genero")
+def api_genero():
+    """
+    Serie temporal de designaciones por género 2000–2025.
+    Fuente: datos_jus/estadistica_genero_84a9215b.json — 429 registros.
+    Columnas: designacion_anio, cargo_tipo, instancia_tipo,
+              cantidad_varones, cantidad_mujeres.
+    """
+    try:
+        gen_data = _cargar_datos_jus("estadistica-de-designaciones")
+        if not gen_data:
+            return {"error": "No se encontró archivo de estadística por género en datos_jus/"}
+
+        # Serie anual agregada
+        por_anio: dict = {}
+        por_cargo: dict = {}
+        for r in gen_data:
+            anio = str(r.get("designacion_anio",""))[:4]
+            if not (anio.isdigit() and 2000 <= int(anio) <= 2026):
+                continue
+            v = int(r.get("cantidad_varones",  0) or 0)
+            m = int(r.get("cantidad_mujeres",  0) or 0)
+            if anio not in por_anio:
+                por_anio[anio] = {"varones":0,"mujeres":0}
+            por_anio[anio]["varones"] += v
+            por_anio[anio]["mujeres"] += m
+
+            cargo = str(r.get("cargo_tipo","Otro")).strip()
+            if cargo not in por_cargo:
+                por_cargo[cargo] = {"varones":0,"mujeres":0}
+            por_cargo[cargo]["varones"] += v
+            por_cargo[cargo]["mujeres"] += m
+
+        anios_sorted = sorted(por_anio.keys())
+        total_v = sum(d["varones"] for d in por_anio.values())
+        total_m = sum(d["mujeres"] for d in por_anio.values())
+
+        return {
+            "total_varones": total_v,
+            "total_mujeres": total_m,
+            "pct_mujeres":   round(total_m / max(total_v+total_m,1) * 100, 1),
+            "serie_anual": {
+                "anios":   anios_sorted,
+                "varones": [por_anio[a]["varones"] for a in anios_sorted],
+                "mujeres": [por_anio[a]["mujeres"] for a in anios_sorted],
+            },
+            "por_cargo": [
+                {"cargo": k, "varones": v["varones"], "mujeres": v["mujeres"],
+                 "pct_mujeres": round(v["mujeres"]/max(v["varones"]+v["mujeres"],1)*100,1)}
+                for k,v in sorted(por_cargo.items())
+            ],
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
 @router.get("/api/seleccion")
 def api_seleccion():
     """
@@ -1069,974 +1495,353 @@ fetch('/estrategico/api/seleccion').then(r=>r.json()).then(d=>{
     # ── HTML body ──────────────────────────────────────────────────────
     html_body = """
 
-=======
-# ═══════════════════════════════════════════════════════════════════════════════
-# PESTAÑA: CÁMARAS FEDERALES
-# ═══════════════════════════════════════════════════════════════════════════════
-@router.get("/camaras", response_class=HTMLResponse)
-def pagina_camaras():
-    html = _head("Cámaras Federales — Monitor Judicial")
-    html += nav_html("camaras")
-    html += f"""<div class="contenido">
-{DISCLAIMER}
->>>>>>> Stashed changes
 <div class="scope">
-  🏢 <strong>Cámaras Federales de Apelación</strong> —
-  Instancia revisora de las sentencias de primera instancia.
-  Datos filtrados automáticamente por nombre de órgano (contiene "cámara" / "camara" / "cam.").
+  🌐 <strong>Indicadores Comparativos Internacionales</strong> —
+  Marcos WJP · IPC · WGI · V-Dem · RECPJ/CEPEJ · CEJAS · ODS 16 · OCDE.
+  <a href="#fuentes" style="color:var(--gold);margin-left:8px">Ver fuentes →</a>
 </div>
 
-<div class="seccion">⏱ Tiempos de Resolución — Cámaras</div>
-<div class="kpi-tiempos" id="kpi-tiempos-cam"><div class="loading">Calculando…</div></div>
-
-<div class="seccion">📊 Indicadores Operativos</div>
-<div class="kpi-grid" id="kpi-cam"><div class="loading">Cargando…</div></div>
-
-<div class="charts">
-  <div class="chart-box">
-    <h2>📊 Estado de Causas — Cámaras</h2>
-    <div id="graf-estados-cam" style="height:340px"></div>
-  </div>
-  <div class="chart-box">
-    <h2>🏆 Ranking Cámaras por Carga</h2>
-    <div id="graf-ranking-cam" style="height:340px"></div>
-  </div>
-</div>
-</div>
-{FOOTER}
-<script>
-{PLOTLY_BASE}
-async function cargar(){{
-  const fuente='juzgados_nacional.json';
-  const[kpis,tiempos,estados,ranking]=await Promise.all([
-    fetch('/operativo/api/kpis?fuente='+fuente+'&instancia=camaras').then(r=>r.json()),
-    fetch('/operativo/api/tiempos?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/estados?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/juzgados?fuente='+fuente+'&instancia=camaras&top=20').then(r=>r.json()),
-  ]);
-
-  const sinLat=!tiempos.tiene_latencia;
-  const nd=sinLat?'<span class="sub">Sin col. latencia</span>':null;
-  const pc=tiempos.tiempo_prom_camaras;
-  const moraC=tiempos.pct_mora_2anios>10?'alerta':'ok';
-
-  document.getElementById('kpi-tiempos-cam').innerHTML=`
-    <div class="kpi-t">
-      <label>🏛️ Tiempo prom. Cámaras</label>
-      <div class="val">${{nd||pc+'<span class="uni">días</span>'}}</div>
-      <div class="sub">${{pc&&pc>90?'🔴 Supera objetivo de 90 días':pc?'🟢 Dentro del objetivo':''}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>✅ Tasa de Resolución</label>
-      <div class="val">${{fmt(kpis.tasa_resolucion)}}<span class="uni">%</span></div>
-      <div class="sub">${{fmt(kpis.resueltos)}} causas resueltas</div>
-    </div>
-    <div class="kpi-t">
-      <label>⏳ Mora Judicial (+2 años)</label>
-      <div class="val ${{moraC}}">${{nd||fmt(tiempos.mora_2anios)}}</div>
-      <div class="sub ${{moraC}}">${{nd||tiempos.pct_mora_2anios+'% del total'}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>📈 Percentiles P50/P75/P90</label>
-      <div class="val" style="font-size:1.1rem">${{nd||fmt(tiempos.p50_dias)+'d'}}</div>
-      <div class="sub">${{nd||'P75: '+fmt(tiempos.p75_dias)+'d · P90: '+fmt(tiempos.p90_dias)+'d'}}</div>
-    </div>
-  `;
-
-  document.getElementById('kpi-cam').innerHTML=`
-    <div class="kpi"><label>Total Juzgados/Cámaras</label>
-      <div class="val">${{fmt(kpis.total)}}</div></div>
-    <div class="kpi ${{kpis.latencia_promedio>90?'rojo':'verde'}}">
-      <label>Latencia Promedio</label>
-      <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
-      <div class="sub">días · obj. &lt;90</div></div>
-    <div class="kpi rojo"><label>Órganos con DT &gt;1 año</label>
-      <div class="val">${{fmt(kpis.causas_criticas)}}</div>
-      <div class="sub">${{kpis.pct_criticas}}% de órganos relevados</div></div>
-    <div class="kpi gold"><label>Costo estimado x juzgado</label>
-      <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS · presupuesto PJN / N órganos</div></div>
-  `;
-
-  if(estados.labels&&estados.labels.length)
-    Plotly.newPlot('graf-estados-cam',[{{
-      type:'bar',x:estados.labels,y:estados.values,
-      marker:{{color:C.gold,opacity:.85}}
-    }}],L({{xaxis:{{tickangle:-35,gridcolor:C.grid}}}}),{{responsive:true,displayModeBar:false}});
-  else document.getElementById('graf-estados-cam').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin columna de estado detectada</p>';
-
-  const data=ranking.juzgados||[];
-  if(data.length)
-    Plotly.newPlot('graf-ranking-cam',[{{
-      type:'bar',orientation:'h',
-      x:data.map(d=>d.cantidad),y:data.map(d=>d.juzgado),
-      marker:{{color:C.gold,opacity:.85}},
-      hovertemplate:'<b>%{{y}}</b><br>Causas: %{{x}}<extra></extra>',
-    }}],L({{yaxis:{{autorange:'reversed',gridcolor:C.grid,tickfont:{{size:10}}}},
-           margin:{{l:10,r:10,t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
-  else document.getElementById('graf-ranking-cam').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin columna de órgano detectada</p>';
-}}
-cargar().catch(e=>{{
-  document.getElementById('kpi-cam').innerHTML=
-    '<div style="color:var(--red)">Error: '+e.message+'</div>';
-}});
-</script></body></html>"""
-    return HTMLResponse(html)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# PESTAÑA: JUZGADOS DE PRIMERA INSTANCIA
-# ═══════════════════════════════════════════════════════════════════════════════
-@router.get("/", response_class=HTMLResponse)
-def pagina_juzgados():
-    html = _head("Juzgados — Monitor Judicial")
-    html += nav_html("juzgados")
-    html += f"""<div class="contenido">
-{DISCLAIMER}
-<div class="scope">
-  📋 <strong>Juzgados de Primera Instancia</strong> —
-  Mora judicial, tiempos de resolución y ranking por carga.
-  Las Cámaras de Apelación tienen su
-  <a href="/operativo/camaras">propia pestaña →</a>
-</div>
-
-<div class="controles">
-  <div>
-    <label>Fuente &nbsp;</label>
-    <select id="sel-fuente" onchange="recargar()">
-      <option value="juzgados_nacional.json" selected>juzgados_nacional.json ✓ (recomendado)</option>
-      <option value="estadisticas_causas.json">estadisticas_causas.json (federales)</option>
-      <option value="pjn_checkpoint.json">pjn_checkpoint.json</option>
-    </select>
-  </div>
-  <div>
-    <label>Instancia &nbsp;</label>
-    <select id="sel-instancia" onchange="recargar()">
-      <option value="todas">Todas</option>
-      <option value="juzgados">Juzgados (1ª Instancia)</option>
-      <option value="camaras">Cámaras Federales</option>
-    </select>
-  </div>
-  <div>
-    <input type="text" id="busqueda" placeholder="🔎 Buscar juzgado / cámara…"
-           oninput="filtrarRanking()" style="width:260px">
-  </div>
-</div>
-
+<!-- 1. WJP -->
+<div class="seccion">⚖️ 1. World Justice Project — Índice Estado de Derecho 2023</div>
 <div class="inst-badges">
-  <div class="badge blue" id="badge-juz">Juzgados: —</div>
-  <div class="badge gold" id="badge-cam">Cámaras: —</div>
+  <div class="badge blue">Escala 0–1 · Mayor = mejor Estado de Derecho</div>
+  <div class="badge gold">Argentina: 0.47 · Puesto 65/142 países</div>
+  <div class="badge red">LAC prom.: 0.50 · OCDE prom.: 0.68</div>
 </div>
-
-<div class="seccion">⏱ Tiempos de Resolución Judicial</div>
-<div class="kpi-tiempos" id="kpi-tiempos"><div class="loading">Calculando tiempos…</div></div>
-
-<div class="seccion">📊 Indicadores Operativos</div>
-<div class="kpi-grid" id="kpi-grid"><div class="loading">Cargando…</div></div>
-
 <div class="charts">
-  <div class="chart-box">
-    <h2>📊 Distribución por Fuero</h2>
-    <div id="graf-estados" style="height:340px"></div>
-  </div>
-  <div class="chart-box">
-    <h2>🏆 Ranking por Disposition Time <span>(top 20)</span></h2>
-    <div id="graf-ranking" style="height:340px"></div>
+  <div class="chart-box"><h2>🌎 Ranking Regional WJP 2023</h2>
+    <div id="graf-wjp-rank" style="height:340px"></div></div>
+  <div class="chart-box"><h2>📊 8 Dimensiones: ARG vs. LAC vs. OCDE</h2>
+    <div id="graf-wjp-radar" style="height:340px"></div></div>
+</div>
+<div class="chart-full"><h2>🔑 Factores Clave para Cortes Superiores (1 · 2 · 7 · 8)</h2>
+  <div id="graf-wjp-factores" style="height:280px"></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px">
+    <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid var(--gold)">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:5px">Factor 1 — Límites al Poder Gub.</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Capacidad del PJ para <strong style="color:var(--text)">auditar y frenar al Ejecutivo</strong>. ARG: 0.56 vs OCDE: 0.72.</div>
+    </div>
+    <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);margin-bottom:5px">Factor 2 — Ausencia de Corrupción</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Jueces libres de <strong style="color:var(--text)">sobornos e influencias privadas</strong>. ARG: 0.39 — el peor de los 4.</div>
+    </div>
+    <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid var(--blue)">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--blue);margin-bottom:5px">Factor 7 — Justicia Civil</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Procesos <strong style="color:var(--text)">accesibles y sin demoras</strong>. ARG: 0.42. Subfactor demoras: 0.35.</div>
+    </div>
+    <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid #f97316">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:#f97316;margin-bottom:5px">Factor 8 — Justicia Penal</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6"><strong style="color:var(--text)">Proceso penal efectivo e imparcial</strong>. ARG: 0.38. Preventiva: 0.30.</div>
+    </div>
   </div>
 </div>
+<div class="chart-full"><h2>📅 Evolución WJP Argentina 2015–2023</h2>
+  <div id="graf-wjp-hist" style="height:200px"></div></div>
+
+<!-- 2. IPC -->
+<div class="seccion">🔍 2. IPC Transparencia Internacional 2023</div>
+<div class="inst-badges">
+  <div class="badge blue">Escala 0–100 · Mayor = menor corrupción percibida</div>
+  <div class="badge gold">Argentina: 37/100 · Puesto 99/180 países</div>
 </div>
-{FOOTER}
-<script>
-{PLOTLY_BASE}
-let rankData=[];
-
-function params(){{
-  return `fuente=${{document.getElementById('sel-fuente').value}}&instancia=${{document.getElementById('sel-instancia').value}}`;
-}}
-
-async function recargar(){{
-  const p=params();
-  const fuente=document.getElementById('sel-fuente').value;
-
-  const[kpis,tiempos,estados,ranking]=await Promise.all([
-    fetch('/operativo/api/kpis?'+p).then(r=>r.json()),
-    fetch('/operativo/api/tiempos?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/estados?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/juzgados?'+p+'&top=20').then(r=>r.json()),
-  ]);
-
-  document.getElementById('badge-juz').textContent=`Juzgados: ${{fmt(kpis.n_juzgados)}}`;
-  document.getElementById('badge-cam').textContent=`Cámaras: ${{fmt(kpis.n_camaras)}}`;
-
-  const sinDatos=!tiempos.tiene_latencia;
-  const nd=sinDatos?'<span class="sub">Sin datos de latencia</span>':null;
-  const p1c=tiempos.tiempo_prom_primera;
-  const p1cam=tiempos.tiempo_prom_camaras;
-  const moraClass=tiempos.pct_mora_2anios>10?'alerta':'ok';
-
-  document.getElementById('kpi-tiempos').innerHTML=`
-    <div class="kpi-t">
-      <label>⚖️ Tiempo prom. 1ª Instancia</label>
-      <div class="val">${{nd||p1c+'<span class="uni">días</span>'}}</div>
-      <div class="sub">${{p1c&&p1c>180?'🔴 Supera objetivo de 180 días':p1c?'🟢 Dentro del objetivo':''}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>🏛️ Tiempo prom. Cámaras</label>
-      <div class="val">${{nd||p1cam+'<span class="uni">días</span>'}}</div>
-      <div class="sub">${{p1cam&&p1cam>90?'🔴 Supera objetivo de 90 días':p1cam?'🟢 Dentro del objetivo':''}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>✅ Tasa de Resolución</label>
-      <div class="val">${{fmt(kpis.tasa_resolucion)}}<span class="uni">%</span></div>
-      <div class="sub">${{fmt(kpis.resueltos)}} causas resueltas</div>
-    </div>
-    <div class="kpi-t">
-      <label>⏳ Mora Judicial (+2 años)</label>
-      <div class="val ${{moraClass}}">${{nd||fmt(tiempos.mora_2anios)}}</div>
-      <div class="sub ${{moraClass}}">${{nd||tiempos.pct_mora_2anios+'% del total'}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>📈 Percentiles de Latencia</label>
-      <div class="val" style="font-size:1.1rem">${{nd||'P50: '+fmt(tiempos.p50_dias)+'d'}}</div>
-      <div class="sub">${{nd||'P75: '+fmt(tiempos.p75_dias)+'d · P90: '+fmt(tiempos.p90_dias)+'d'}}</div>
-    </div>
-  `;
-
-  document.getElementById('kpi-grid').innerHTML=`
-    <div class="kpi"><label>Total Juzgados</label>
-      <div class="val">${{fmt(kpis.total)}}</div></div>
-    <div class="kpi ${{kpis.latencia_promedio>180?'rojo':'verde'}}">
-      <label>Disposition Time prom.</label>
-      <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
-      <div class="sub">días · obj. &lt;180</div></div>
-    <div class="kpi rojo"><label>Juzgados con mora (&gt;1 año DT)</label>
-      <div class="val">${{fmt(kpis.causas_criticas)}}</div>
-      <div class="sub">${{kpis.pct_criticas}}% de juzgados relevados</div></div>
-    <div class="kpi gold"><label>Costo estimado x juzgado</label>
-      <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS · presupuesto PJN / N juzgados${{kpis.costo_mediana_causa ? ' · mediana/causa: $'+fmt(kpis.costo_mediana_causa) : ''}}</div></div>
-  `;
-
-  // Gráfico de fueros (donut si hay fuero, barras si no)
-  if(estados.labels&&estados.labels.length){{
-    const hasFuero = estados.labels.some(l=>['Civil','Comercial','Laboral','Penal','Federal','Familia'].includes(l));
-    if(hasFuero){{
-      Plotly.newPlot('graf-estados',[{{
-        type:'pie',labels:estados.labels,values:estados.values,
-        hole:.4,
-        marker:{{colors:['#3b82f6','#c9a227','#22c55e','#e63946','#8b5cf6','#f59e0b']}},
-        textinfo:'label+percent',
-        hovertemplate:'<b>%{{label}}</b><br>%{{value}} juzgados<extra></extra>'
-      }}],L({{showlegend:true,legend:{{orientation:'h'}},margin:{{t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
-    }} else {{
-      Plotly.newPlot('graf-estados',[{{
-        type:'bar',x:estados.labels,y:estados.values,
-        marker:{{color:C.gold,opacity:.85}},
-      }}],L({{xaxis:{{tickangle:-35,gridcolor:C.grid}}}}),{{responsive:true,displayModeBar:false}});
-    }}
-  }} else document.getElementById('graf-estados').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin datos de fuero</p>';
-
-  rankData=ranking.juzgados||[];
-  renderRanking(rankData);
-}}
-
-function renderRanking(data){{
-  if(!data.length){{
-    document.getElementById('graf-ranking').innerHTML=
-      '<p style="color:#4a5568;padding:20px">Sin datos</p>';
-    return;
-  }}
-  Plotly.newPlot('graf-ranking',[{{
-    type:'bar',orientation:'h',
-    x:data.map(d=>d.latencia_prom||d.cantidad),
-    y:data.map(d=>d.juzgado),
-    marker:{{color:data.map(d=>d.es_camara?C.gold:C.blue)}},
-    hovertemplate:'<b>%{{y}}</b><br>Días: %{{x}}<extra></extra>',
-  }}],L({{yaxis:{{autorange:'reversed',gridcolor:C.grid,tickfont:{{size:10}}}},
-         margin:{{l:10,r:10,t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
-}}
-
-function filtrarRanking(){{
-  const q=document.getElementById('busqueda').value.toLowerCase();
-  renderRanking(q?rankData.filter(d=>d.juzgado.toLowerCase().includes(q)):rankData);
-}}
-
-recargar();
-</script></body></html>"""
-    return HTMLResponse(html)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# DASHBOARD NACIONAL — todos los juzgados PJN con métricas CEPEJ/WJP/IRA
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def _cargar_nacional() -> list:
-    """Lee juzgados_nacional.json generado por scraper_juzgados_nacional.py."""
-    path = os.path.join(ROOT, "juzgados_nacional.json")
-    if not os.path.exists(path):
-        return []
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    if isinstance(data, list):
-        return data
-    return data.get("juzgados", data.get("data", []))
-
-
-@router.get("/api/nacional", response_class=JSONResponse)
-def api_nacional(fuero: str = Query(""), semaforo: str = Query("")):
-    """JSON: todos los juzgados PJN con métricas completas."""
-    try:
-        rows = _cargar_nacional()
-        if fuero:
-            rows = [r for r in rows if fuero.lower() in (r.get("fuero", "") or "").lower()]
-        if semaforo:
-            rows = [r for r in rows if (r.get("ira_semaforo", "") or "") == semaforo]
-
-        total = len(rows)
-        cr_vals  = [r["clearance_rate"] for r in rows if r.get("clearance_rate")]  # excluye 0 = sin datos
-        dt_vals  = [r["disposition_time"] for r in rows if r.get("disposition_time") and r["disposition_time"] > 0]
-        mora_sum = sum(r.get("mora_2anios") or 0 for r in rows)
-        pend_sum = sum(r.get("pendientes_cierre") or 0 for r in rows)
-        sent_sum = sum(r.get("dictadas_def") or 0 for r in rows)
-        costo_sum= sum(r.get("costo_anual_estimado") or 0 for r in rows)
-
-        cr_prom  = round(sum(cr_vals) / len(cr_vals), 1) if cr_vals else 0
-        dt_prom  = round(sum(dt_vals) / len(dt_vals), 0) if dt_vals else 0
-
-        semaf_cnt = Counter(r.get("ira_semaforo", "⬜") for r in rows)
-        fueros    = sorted(set(r.get("fuero", "") or "" for r in rows if r.get("fuero")))
-
-        top_mora = sorted(
-            [r for r in rows if r.get("pct_mora") is not None],
-            key=lambda r: r["pct_mora"], reverse=True
-        )[:20]
-
-        top_pend = sorted(
-            [r for r in rows if r.get("pendientes_cierre") is not None],
-            key=lambda r: r["pendientes_cierre"], reverse=True
-        )[:20]
-
-        return JSONResponse({
-            "total": total,
-            "kpis": {
-                "clearance_rate_prom": cr_prom,
-                "disposition_time_prom": int(dt_prom),
-                "pendientes_total": pend_sum,
-                "sentencias_total": sent_sum,
-                "mora_total": mora_sum,
-                "costo_total": costo_sum,
-                "semaforo": dict(semaf_cnt),
-            },
-            "fueros": fueros,
-            "top_mora": [
-                {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
-                 "pct_mora": r.get("pct_mora", 0), "mora_2anios": r.get("mora_2anios", 0)}
-                for r in top_mora
-            ],
-            "top_pendientes": [
-                {"juzgado": r.get("juzgado",""), "fuero": r.get("fuero",""),
-                 "pendientes": r.get("pendientes_cierre", 0), "cr": r.get("clearance_rate", 0)}
-                for r in top_pend
-            ],
-            "tabla": rows,
-        })
-    except Exception as e:
-        return JSONResponse({"error": str(e), "total": 0}, status_code=500)
-
-
-@router.get("/nacional", response_class=HTMLResponse)
-def pagina_nacional():
-    """Dashboard completo por juzgado — todos los nacionales PJN."""
-
-    html_body = r"""
-<div class="scope">
-  🗺️ <strong>Juzgados Nacionales (PJN)</strong> —
-  Estadísticas completas por órgano: mora, clearance rate, disposition time, costo,
-  comparación WJP / CEPEJ / CEJAS e Índice de Riesgo Algorítmico.
-  Datos: <em>scraper_juzgados_nacional.py</em> sobre estadisticas.pjn.gov.ar
-</div>
-
-<!-- KPIs ─────────────────────────────────────── -->
-<div class="kpi-grid" id="nac-kpis">
-  <div class="kpi"><label>Juzgados relevados</label><div class="val" id="nac-total">—</div></div>
-  <div class="kpi" id="kpi-cr">
-    <label>Clearance Rate promedio</label>
-    <div class="val" id="nac-cr">—</div>
-    <div class="sub">CEPEJ objetivo ≥100%</div>
-  </div>
-  <div class="kpi" id="kpi-dt">
-    <label>Disposition Time promedio</label>
-    <div class="val" id="nac-dt">—</div><div class="sub">días · CEPEJ obj. ≤230</div>
-  </div>
-  <div class="kpi rojo">
-    <label>Causas en mora (&gt;2 años)</label>
-    <div class="val" id="nac-mora">—</div>
-  </div>
-  <div class="kpi gold">
-    <label>Costo operativo total</label>
-    <div class="val" id="nac-costo" style="font-size:1.1rem">—</div>
-    <div class="sub">ARS/año estimado</div>
-  </div>
-</div>
-
-<!-- Semáforos IRA -->
-<div style="display:flex;gap:12px;margin:12px 0;flex-wrap:wrap" id="nac-semaf"></div>
-
-<!-- Filtros ──────────────────────────────────── -->
-<div class="controles">
-  <label>Fuero:
-    <select id="fil-fuero" onchange="cargarNacional()">
-      <option value="">Todos</option>
-    </select>
-  </label>
-  <label>IRA:
-    <select id="fil-semaf" onchange="cargarNacional()">
-      <option value="">Todos</option>
-      <option value="🟢">🟢 Bajo riesgo</option>
-      <option value="🟡">🟡 Riesgo medio</option>
-      <option value="🔴">🔴 Alto riesgo</option>
-    </select>
-  </label>
-  <label>Buscar: <input id="fil-buscar" type="text" placeholder="juzgado, magistrado…"
-         oninput="filtrarTabla()" style="width:240px"></label>
-  <label>Ordenar:
-    <select id="fil-orden" onchange="filtrarTabla()">
-      <option value="alfabetico" selected>A → Z</option>
-      <option value="ira_score">IRA ↑</option>
-      <option value="pct_mora">% mora ↑</option>
-      <option value="pendientes_cierre">Pendientes ↑</option>
-      <option value="disposition_time">Disp. time ↑</option>
-      <option value="clearance_rate_asc">Clearance rate ↑</option>
-    </select>
-  </label>
-  <button onclick="exportarCSV()" title="Descargar tabla filtrada"
-    style="background:#1a3a6e;border:1px solid #2d4a7a;color:#e2e8f0;padding:6px 14px;
-           border-radius:6px;font-size:.83rem;cursor:pointer;white-space:nowrap">
-    ⬇ Exportar CSV
-  </button>
-</div>
-
-<!-- Gráficos ─────────────────────────────────── -->
 <div class="charts">
-  <div class="chart-box">
-    <h2>🔴 Top 20 — % Mora (&gt;2 años)</h2>
-    <div id="graf-mora" style="height:360px"></div>
+  <div class="chart-box"><h2>🌎 IPC Comparativo Regional 2023</h2>
+    <div id="graf-ipc-reg" style="height:340px"></div></div>
+  <div class="chart-box"><h2>📅 Evolución IPC Argentina 2013–2023</h2>
+    <div id="graf-ipc-hist" style="height:340px"></div></div>
+</div>
+
+<!-- 3. WGI -->
+<div class="seccion">🏦 3. Banco Mundial — Indicadores de Gobernanza 2022 (WGI)</div>
+<div class="inst-badges">
+  <div class="badge blue">Escala -2.5 a +2.5 · Mayor valor = mejor gobernanza</div>
+  <div class="badge red">Argentina: negativo en 5 de 6 dimensiones</div>
+</div>
+<div class="charts">
+  <div class="chart-box"><h2>📊 Argentina — 6 Dimensiones WGI</h2>
+    <div id="graf-wgi-dim" style="height:340px"></div></div>
+  <div class="chart-box"><h2>🌎 Rule of Law Regional (WGI)</h2>
+    <div id="graf-wgi-rol" style="height:340px"></div></div>
+</div>
+
+<!-- 4. V-DEM -->
+<div class="seccion">🔬 4. V-Dem Institute (Varieties of Democracy) 2023</div>
+<div class="inst-badges">
+  <div class="badge blue">Escala 0–1 · Precisión académica · Series desde 1900</div>
+  <div class="badge gold">ARG JCI 2023: 0.58 · Tendencia descendente desde 2012</div>
+  <div class="badge red">ARG HCI 2023: 0.57 · Por debajo del promedio LAC</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+  <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid #8b5cf6">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:#8b5cf6;margin-bottom:5px">Índice Restricciones Judiciales al Ejecutivo (JCI)</div>
+    <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Mide si el Ejecutivo <strong style="color:var(--text)">respeta la Constitución y cumple los fallos</strong>. Cayó 0.13 pts desde 2012.</div>
   </div>
-  <div class="chart-box">
-    <h2>📦 Top 20 — Causas pendientes</h2>
-    <div id="graf-pend" style="height:360px"></div>
-  </div>
-  <div class="chart-box">
-    <h2>🎯 Distribución IRA</h2>
-    <div id="graf-ira-donut" style="height:360px"></div>
+  <div style="background:#0f1e3a;border-radius:8px;padding:12px 14px;border-left:3px solid var(--gold)">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:5px">Independencia de las Altas Cortes (HCI)</div>
+    <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Autonomía frente a <strong style="color:var(--text)">presiones del gobierno y poderes fácticos</strong>. Declive sostenido desde 2012.</div>
   </div>
 </div>
-
-<div class="chart-full" style="margin-top:16px">
-  <h2 style="color:var(--muted);margin:0 0 8px">📊 Distribución Clearance Rate</h2>
-  <div id="graf-cr" style="height:300px"></div>
+<div class="chart-full"><h2>📅 Evolución JCI y HCI — Argentina 2000–2023</h2>
+  <div id="graf-vdem-hist" style="height:240px"></div></div>
+<div class="charts">
+  <div class="chart-box"><h2>🌎 Restricciones Judiciales al Ejecutivo — Regional</h2>
+    <div id="graf-vdem-reg" style="height:340px"></div></div>
+  <div class="chart-box"><h2>🏛️ Calidad de Nombramientos Judiciales (0–4)</h2>
+    <div id="graf-vdem-appt" style="height:340px"></div></div>
 </div>
 
-<div class="chart-full" style="margin-top:16px">
-  <h2 style="color:var(--muted);margin:0 0 8px">
-    🔵 Scatter — Clearance Rate vs Disposition Time
-    <span style="font-size:.75rem;font-weight:400;margin-left:8px">
-      Cuadrante ideal: CR≥100% · DT≤230 días (líneas punteadas = benchmarks CEPEJ)
-    </span>
-  </h2>
-  <div id="graf-scatter" style="height:440px"></div>
+<!-- 5. RECPJ / CEPEJ -->
+<div class="seccion">🏛️ 5. RECPJ / CEPEJ — Eficiencia Institucional (datos reales PJN)</div>
+<div class="inst-badges">
+  <div class="badge blue">Fuente: Programa Oralidad Civil · datos.jus.gob.ar</div>
+  <div class="badge gold">~60.000 causas reales · 11 provincias</div>
 </div>
-
-<!-- Tabla ────────────────────────────────────── -->
-<div class="seccion">📋 Detalle por Juzgado</div>
-<div style="overflow-x:auto;margin-top:8px">
-<table id="nac-tabla" style="width:100%;border-collapse:collapse;font-size:.78rem;min-width:1200px">
-  <thead>
-  <tr style="background:var(--card2);color:var(--muted);text-align:left;white-space:nowrap">
-    <th style="padding:8px 10px">IRA</th>
-    <th style="padding:8px 10px">Juzgado</th>
-    <th style="padding:8px 10px">Fuero</th>
-    <th style="padding:8px 10px">Magistrado</th>
-    <th style="padding:8px 10px;text-align:right">Pendientes</th>
-    <th style="padding:8px 10px;text-align:right">Sent./año</th>
-    <th style="padding:8px 10px;text-align:right">Disp.Time</th>
-    <th style="padding:8px 10px;text-align:right">Clear.Rate</th>
-    <th style="padding:8px 10px;text-align:right">% Mora</th>
-    <th style="padding:8px 10px;text-align:right">Costo/causa</th>
-    <th style="padding:8px 10px;text-align:right">vs WJP</th>
-    <th style="padding:8px 10px;text-align:right">vs CEPEJ CR</th>
-    <th style="padding:8px 10px;text-align:right">vs CEPEJ DT</th>
-    <th style="padding:8px 10px">Estado</th>
-  </tr>
-  </thead>
-  <tbody id="nac-tbody"></tbody>
-</table>
+<div class="kpi-grid" id="kpi-cepej" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+  <div class="loading">Cargando métricas CEPEJ…</div>
 </div>
-
-<!-- Overlay + panel detalle -->
-<div class="panel-overlay" id="panel-overlay" onclick="cerrarPanel()"></div>
-<div class="panel-detalle" id="panel-detalle">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-    <span style="color:#64748b;font-size:.78rem;letter-spacing:1px;text-transform:uppercase">Detalle del juzgado</span>
-    <button onclick="cerrarPanel()"
-      style="background:none;border:1px solid #2d4a7a;color:#94a3b8;font-size:1rem;
-             cursor:pointer;padding:3px 10px;border-radius:5px;line-height:1.4">✕</button>
+<div class="chart-full"><h2>📊 Clearance Rate por Provincia — datos reales Programa Oralidad</h2>
+  <div id="graf-oral-cr" style="height:260px"></div>
+  <div style="text-align:right;font-size:.72rem;color:var(--muted);margin-top:4px">
+    Total: <span id="kpi-oral-total">cargando…</span> · Fuente: datos.jus.gob.ar/oralidad
   </div>
-  <div id="panel-content"></div>
+</div>
+<div class="chart-full"><h2>⏱️ Disposition Time por Provincia (días) — datos reales</h2>
+  <div id="graf-oral-dt" style="height:260px"></div></div>
+<div style="background:#0f1e3a;border:1px solid #2d4a7a;border-radius:8px;padding:14px 18px;font-size:.82rem;color:#94a3b8;line-height:1.7;margin-bottom:20px">
+  <strong style="color:var(--gold)">📐 Fórmulas CEPEJ:</strong><br>
+  <code style="color:#93c5fd">Clearance Rate</code> = (Causas con resultado registrado / Total causas ingresadas) × 100 — CR &lt; 100%: acumulación de rezago.<br>
+  <code style="color:#93c5fd">Disposition Time</code> = Promedio de (fecha_finalización − fecha_ingreso) en días para causas completadas.
 </div>
 
-<!-- Paginación -->
-<div id="nac-paginacion"
-     style="display:flex;gap:10px;align-items:center;justify-content:center;
-            margin:16px 0;flex-wrap:wrap"></div>
-"""
+<!-- Traslados -->
+<div class="seccion">🚦 5b. RECPJ — Protección contra Traslados Arbitrarios</div>
+<div class="inst-badges">
+  <div class="badge blue">Fuente: datos_jus/traslados · 113 traslados registrados</div>
+  <div class="badge red">RECPJ: protección contra traslados = prerrequisito de independencia</div>
+</div>
+<div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:14px">
+  <div class="kpi rojo"><label>Total Traslados registrados</label>
+    <div class="val" id="kpi-traslados-total">cargando…</div>
+    <div class="sub">Fuente oficial datos.jus.gob.ar</div></div>
+  <div class="kpi gold"><label>Concursos únicos (Selección)</label>
+    <div class="val" id="kpi-concursos-unicos">cargando…</div>
+    <div class="sub">Ternas para cubrir vacantes</div></div>
+  <div class="kpi"><label>Mujeres designadas (hist.)</label>
+    <div class="val" id="kpi-genero-pct">cargando…</div>
+    <div class="sub">% sobre total designaciones 2000–2025</div></div>
+</div>
+<div class="charts">
+  <div class="chart-box"><h2>📂 Traslados por Motivo</h2>
+    <div id="graf-traslados-motivo" style="height:300px"></div></div>
+  <div class="chart-box"><h2>📅 Traslados por Año</h2>
+    <div id="graf-traslados-anio" style="height:300px"></div></div>
+</div>
 
-    script = r"""
-const cfg = {responsive:true, displayModeBar:false};
-let _tablaData = [];
-let _currentPage = 1;
-const _rowsPerPage = 50;
+<!-- Selección/Concursos -->
+<div class="seccion">📋 5c. Nombramientos — Calidad del Proceso (datos reales)</div>
+<div class="chart-full"><h2>📅 Ternas de Selección Publicadas por Año — datos reales</h2>
+  <div id="graf-seleccion-anio" style="height:220px"></div>
+  <div style="font-size:.75rem;color:var(--muted);margin-top:6px">Fuente: datos_jus/seleccion_magistrados · 4.278 ternas reales 2006–2026</div>
+</div>
 
-async function cargarNacional() {
-  const fuero   = document.getElementById('fil-fuero').value;
-  const semaforo= document.getElementById('fil-semaf').value;
-  const url = `/operativo/api/nacional?fuero=${encodeURIComponent(fuero)}&semaforo=${encodeURIComponent(semaforo)}`;
-  let d;
-  try { d = await fetch(url).then(r=>r.json()); }
-  catch(e) { console.error(e); return; }
+<!-- 6. CEJAS -->
+<div class="seccion">🌍 6. CEJAS — Independencia Personal de Magistrados</div>
+<div class="inst-badges">
+  <div class="badge blue">Centro de Estudios de Justicia de las Américas</div>
+  <div class="badge red">ARG: brecha crítica en protección contra desprestigio (0.41)</div>
+</div>
+<div style="background:#0f1e3a;border-left:4px solid #f97316;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:.82rem;color:#94a3b8;line-height:1.6">
+  <strong style="color:#f97316">⚠️ Para algoritmos de detección de corrupción:</strong>
+  La protección contra campañas de desprestigio y la inamovilidad son
+  <em>precursores tempranos de captura institucional</em> (CEJAS 2023).
+</div>
+<div class="charts">
+  <div class="chart-box"><h2>🕸️ Radar Independencia Personal — ARG vs. LAC vs. Estándar</h2>
+    <div id="graf-cejas-radar" style="height:380px"></div></div>
+  <div class="chart-box"><h2>📊 Brechas vs. estándar mínimo (0.80)</h2>
+    <div id="graf-cejas-brechas" style="height:380px"></div></div>
+</div>
+<div class="chart-full"><h2>📅 Índice de Independencia Personal — Argentina 2012–2023</h2>
+  <div id="graf-cejas-hist" style="height:210px"></div></div>
 
-  if(d.error) {
-    document.getElementById('nac-total').textContent = 'Sin datos';
-    document.getElementById('nac-tbody').innerHTML =
-      '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">' +
-      '⚠️ Archivo juzgados_nacional.json no encontrado.<br>' +
-      'Corré <code>python scraper_juzgados_nacional.py --skip-crawl</code> para generarlo.</td></tr>';
-    return;
-  }
+<!-- 7. Género -->
+<div class="seccion">⚧ 7. Paridad de Género en Designaciones — datos reales 2000–2025</div>
+<div class="inst-badges">
+  <div class="badge blue">Fuente: datos_jus/estadistica_genero · 429 registros reales</div>
+</div>
+<div class="chart-full"><h2>📅 Designaciones por Género — Serie Anual 2000–2025</h2>
+  <div id="graf-genero-serie" style="height:260px"></div></div>
 
-  // KPIs
-  document.getElementById('nac-total').textContent = (d.total||0).toLocaleString('es-AR');
-  const cr = d.kpis.clearance_rate_prom;
-  document.getElementById('nac-cr').textContent = cr + '%';
-  document.getElementById('kpi-cr').className = 'kpi ' + (cr>=100?'verde':'rojo');
-  const dt = d.kpis.disposition_time_prom;
-  document.getElementById('nac-dt').textContent = dt > 0 ? fmt(dt) + ' d' : '—';
-  document.getElementById('kpi-dt').className = 'kpi ' + (dt>0 && dt<=230?'verde':dt>230?'rojo':'');
-  document.getElementById('nac-mora').textContent = fmt(d.kpis.mora_total);
-  document.getElementById('nac-costo').textContent = '$' + fmt(Math.round(d.kpis.costo_total/1e6)) + 'M';
+<!-- 8. ODS 16 -->
+<div class="seccion">🇺🇳 8. ODS 16 — Paz, Justicia e Instituciones Sólidas</div>
+<div class="kpi-grid" id="kpi-ods" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))"></div>
 
-  // Semáforos
-  const sf = d.kpis.semaforo||{};
-  document.getElementById('nac-semaf').innerHTML = ['🟢','🟡','🔴'].map(s=>`
-    <div style="background:#1a2744;border-radius:8px;padding:10px 18px;text-align:center">
-      <div style="font-size:1.6rem">${s}</div>
-      <div style="font-size:1.4rem;font-weight:700;color:#e2e8f0">${sf[s]||0}</div>
-      <div style="font-size:.75rem;color:#64748b">${s==='🟢'?'Bajo riesgo':s==='🟡'?'Riesgo medio':'Alto riesgo'}</div>
-    </div>`).join('');
-
-  // Fueros selector
-  const sel = document.getElementById('fil-fuero');
-  const cur = sel.value;
-  const opts = ['<option value="">Todos</option>',
-    ...(d.fueros||[]).map(f=>`<option${f===cur?' selected':''}>${f}</option>`)
-  ];
-  sel.innerHTML = opts.join('');
-
-  // Gráfico mora
-  if(d.top_mora && d.top_mora.length) {
-    const tm = d.top_mora;
-    Plotly.newPlot('graf-mora',[{
-      type:'bar', orientation:'h',
-      x: tm.map(r=>r.pct_mora), y: tm.map(r=>r.juzgado),
-      text: tm.map(r=>r.pct_mora+'%'), textposition:'outside',
-      marker:{color:'#e63946',opacity:.85},
-      hovertemplate:'<b>%{y}</b><br>Mora: %{x}%<extra></extra>'
-    }],{
-      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
-      font:{color:'#e2e8f0',size:10},
-      margin:{l:10,r:60,t:10,b:30},
-      xaxis:{gridcolor:'#2d4a7a'},
-      yaxis:{autorange:'reversed',automargin:true,gridcolor:'#2d4a7a'}
-    },cfg);
-  }
-
-  // Gráfico pendientes
-  if(d.top_pendientes && d.top_pendientes.length) {
-    const tp = d.top_pendientes;
-    Plotly.newPlot('graf-pend',[{
-      type:'bar', orientation:'h',
-      x: tp.map(r=>r.pendientes), y: tp.map(r=>r.juzgado),
-      text: tp.map(r=>fmt(r.pendientes)), textposition:'outside',
-      marker:{color:'#3b82f6',opacity:.85},
-      hovertemplate:'<b>%{y}</b><br>Pendientes: %{x}<extra></extra>'
-    }],{
-      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
-      font:{color:'#e2e8f0',size:10},
-      margin:{l:10,r:60,t:10,b:30},
-      xaxis:{gridcolor:'#2d4a7a'},
-      yaxis:{autorange:'reversed',automargin:true,gridcolor:'#2d4a7a'}
-    },cfg);
-  }
-
-  // Histograma clearance rate
-  const crVals = (d.tabla||[]).map(r=>r.clearance_rate).filter(v=>v!=null && v>0);
-  if(crVals.length) {
-    Plotly.newPlot('graf-cr',[{
-      type:'histogram', x:crVals, nbinsx:30,
-      marker:{color:'#22c55e',opacity:.7},
-      hovertemplate:'CR %{x}%: %{y} juzgados<extra></extra>'
-    },{
-      type:'scatter', mode:'lines',
-      x:[100,100], y:[0, Math.ceil(crVals.length/3)],
-      line:{color:'#c9a227',dash:'dot',width:2},
-      name:'CEPEJ obj. (100%)'
-    }],{
-      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
-      font:{color:'#e2e8f0',size:11},
-      margin:{l:50,r:20,t:10,b:40},
-      xaxis:{title:'Clearance Rate (%)',gridcolor:'#2d4a7a'},
-      yaxis:{title:'Juzgados',gridcolor:'#2d4a7a'},
-      showlegend:true
-    },cfg);
-  }
-
-  // ── Donut IRA ───────────────────────────────────────────────────────────────
-  const sfData = [
-    {label:'🟢 Bajo riesgo',  val: sf['🟢']||0, color:'#22c55e'},
-    {label:'🟡 Riesgo medio', val: sf['🟡']||0, color:'#f59e0b'},
-    {label:'🔴 Alto riesgo',  val: sf['🔴']||0, color:'#e63946'},
-  ];
-  Plotly.newPlot('graf-ira-donut',[{
-    type:'pie',
-    labels: sfData.map(s=>s.label),
-    values: sfData.map(s=>s.val),
-    hole: 0.52,
-    marker:{colors: sfData.map(s=>s.color), line:{color:'#0d1b2e',width:2}},
-    textinfo:'label+value',
-    textfont:{size:11},
-    hovertemplate:'<b>%{label}</b><br>%{value} juzgados · %{percent}<extra></extra>'
-  }],{
-    plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
-    font:{color:'#e2e8f0', size:11},
-    showlegend:false,
-    margin:{l:10,r:10,t:20,b:20},
-    annotations:[{
-      text:`<b>${(d.total||0).toLocaleString('es-AR')}</b><br>juzgados`,
-      x:0.5, y:0.5, showarrow:false,
-      font:{size:14, color:'#e2e8f0'}
-    }]
-  }, cfg);
-
-  // ── Scatter CR vs DT ────────────────────────────────────────────────────────
-  const scPts = (d.tabla||[]).filter(r=>r.clearance_rate>0 && r.disposition_time>0);
-  const scColors = {'🟢':'#22c55e','🟡':'#f59e0b','🔴':'#e63946'};
-  const scLabels = {'🟢':'Bajo riesgo','🟡':'Riesgo medio','🔴':'Alto riesgo'};
-  const scTraces = ['🟢','🟡','🔴'].map(sem => {
-    const pts = scPts.filter(r=>r.ira_semaforo===sem);
-    return {
-      type:'scatter', mode:'markers',
-      name: sem+' '+scLabels[sem]+' ('+pts.length+')',
-      x: pts.map(r=>r.clearance_rate),
-      y: pts.map(r=>r.disposition_time),
-      text: pts.map(r=>r.juzgado),
-      customdata: pts.map(r=>[
-        r.magistrado||'Sin designación',
-        r.fuero||'—',
-        r.pct_mora!=null?r.pct_mora+'%':'—',
-        r.ira_score||0
-      ]),
-      hovertemplate:
-        '<b>%{text}</b><br>' +
-        'CR: <b>%{x}%</b> · DT: <b>%{y} días</b><br>' +
-        'Magistrado: %{customdata[0]}<br>' +
-        'Fuero: %{customdata[1]} · Mora: %{customdata[2]}<br>' +
-        'IRA Score: %{customdata[3]}<extra></extra>',
-      marker:{color:scColors[sem], size:8, opacity:0.78,
-              line:{color:'#0d1b2e', width:0.5}}
-    };
-  });
-
-  if(scPts.length) {
-    const maxDT = Math.min(Math.max(...scPts.map(r=>r.disposition_time), 500), 3000);
-    const maxCR = Math.max(...scPts.map(r=>r.clearance_rate), 120);
-    scTraces.push({
-      type:'scatter', mode:'lines', name:'CEPEJ CR = 100%',
-      x:[100,100], y:[0, maxDT+100],
-      line:{color:'#c9a227', dash:'dot', width:1.5}, showlegend:true
-    });
-    scTraces.push({
-      type:'scatter', mode:'lines', name:'CEPEJ DT = 230d',
-      x:[0, maxCR+10], y:[230,230],
-      line:{color:'#94a3b8', dash:'dot', width:1.5}, showlegend:true
-    });
-    Plotly.newPlot('graf-scatter', scTraces, {
-      plot_bgcolor:'#1a2744', paper_bgcolor:'#1a2744',
-      font:{color:'#e2e8f0', size:11},
-      margin:{l:65,r:20,t:30,b:55},
-      xaxis:{title:'Clearance Rate (%)', gridcolor:'#2d4a7a', zeroline:false, range:[0, maxCR+10]},
-      yaxis:{title:'Disposition Time (días)', gridcolor:'#2d4a7a', zeroline:false, range:[0, maxDT+100]},
-      legend:{orientation:'h', y:1.06, font:{size:10}},
-      annotations:[
-        {x:maxCR*0.85, y:180, text:'✓ Zona CEPEJ', showarrow:false,
-         font:{size:11,color:'#22c55e'}, bgcolor:'rgba(34,197,94,0.12)',
-         borderpad:5, bordercolor:'#22c55e', borderwidth:1},
-        {x:40, y:maxDT*0.8, text:'⚠ Alto backlog', showarrow:false,
-         font:{size:10,color:'#e63946'}, bgcolor:'rgba(230,57,70,0.08)', borderpad:4}
-      ]
-    }, cfg);
-  } else {
-    document.getElementById('graf-scatter').innerHTML =
-      '<p style="color:#4a5568;padding:20px;text-align:center">'+
-      'Sin datos suficientes — se requieren juzgados con CR > 0 y DT > 0</p>';
-  }
-
-  _tablaData = d.tabla || [];
-  filtrarTabla();
-}
-
-function _sortRows(rows, orden) {
-  return rows.sort((a,b)=>{
-    if(orden==='alfabetico')        return (a.juzgado||'').localeCompare(b.juzgado||'', 'es');
-    if(orden==='clearance_rate_asc') return (a.clearance_rate||0)-(b.clearance_rate||0);
-    const k = orden==='ira_score'?'ira_score':orden==='pct_mora'?'pct_mora':orden==='pendientes_cierre'?'pendientes_cierre':'disposition_time';
-    return (b[k]||0)-(a[k]||0);
-  });
-}
-
-function _filtrarRows() {
-  const q = (document.getElementById('fil-buscar').value||'').toLowerCase();
-  const orden = document.getElementById('fil-orden').value;
-  let rows = q
-    ? _tablaData.filter(r=>(r.juzgado||'').toLowerCase().includes(q)||(r.magistrado||'').toLowerCase().includes(q)||(r.fuero||'').toLowerCase().includes(q))
-    : [..._tablaData];
-  return _sortRows(rows, orden);
-}
-
-function renderPaginacion(total, totalPages) {
-  const el = document.getElementById('nac-paginacion');
-  const btnStyle = 'background:#1a3a6e;border:1px solid #2d4a7a;color:#e2e8f0;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.82rem;';
-  const btnDisabled = 'background:#111d33;border:1px solid #1e3058;color:#475569;padding:5px 14px;border-radius:6px;cursor:default;font-size:.82rem;';
-  if(totalPages <= 1) {
-    el.innerHTML = `<span style="color:#64748b;font-size:.82rem">${total.toLocaleString('es-AR')} juzgados</span>`;
-    return;
-  }
-  const pages = [];
-  // siempre mostrar primera, última, y ventana de 2 alrededor de la actual
-  const visible = new Set([1, totalPages]);
-  for(let p = Math.max(1, _currentPage-2); p <= Math.min(totalPages, _currentPage+2); p++) visible.add(p);
-  let prev = 0;
-  for(const p of [...visible].sort((a,b)=>a-b)) {
-    if(prev && p - prev > 1) pages.push('<span style="color:#475569">…</span>');
-    const active = p === _currentPage ? 'background:#2d4a7a;border-color:#4a6fa5;' : '';
-    pages.push(`<button onclick="cambiarPagina(${p})" style="${btnStyle}${active}">${p}</button>`);
-    prev = p;
-  }
-  el.innerHTML = `
-    <button onclick="cambiarPagina(${_currentPage-1})" ${_currentPage===1?'disabled style="'+btnDisabled+'"':'style="'+btnStyle+'"'}>← Ant.</button>
-    ${pages.join('')}
-    <button onclick="cambiarPagina(${_currentPage+1})" ${_currentPage===totalPages?'disabled style="'+btnDisabled+'"':'style="'+btnStyle+'"'}>Sig. →</button>
-    <span style="color:#64748b;font-size:.82rem">&nbsp;${total.toLocaleString('es-AR')} juzgados · pág. ${_currentPage}/${totalPages}</span>
-  `;
-}
-
-function cambiarPagina(page) {
-  _currentPage = page;
-  filtrarTabla(false);
-  document.getElementById('nac-tabla').scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-function exportarCSV() {
-  const rows = _filtrarRows();
-  const cols = ['juzgado','fuero','magistrado','antiguedad_anos','ira_semaforo','ira_score',
-                'pendientes_cierre','dictadas_def','disposition_time','clearance_rate',
-                'pct_mora','mora_2anios','costo_por_causa','vs_cepej_cr','vs_cepej_dt',
-                'vacante','en_licencia','jurisdiccion','anio'];
-  const headers = ['Juzgado','Fuero','Magistrado','Antigüedad (años)','IRA Semáforo','IRA Score',
-                   'Pendientes cierre','Sent./año','Disp.Time (días)','Clearance Rate (%)',
-                   '% Mora','Causas mora +2años','Costo/causa (ARS)','vs CEPEJ CR','vs CEPEJ DT',
-                   'Vacante','En Licencia','Jurisdicción','Año'];
-  const esc = v => {
-    if(v==null) return '';
-    const s = String(v);
-    return s.includes(',') || s.includes('"') || s.includes('\n') ? '"'+s.replace(/"/g,'""')+'"' : s;
-  };
-  const lines = [headers.map(esc).join(',')];
-  for(const r of rows) lines.push(cols.map(c=>esc(r[c]??'')).join(','));
-  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `juzgados_pjn_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function filtrarTabla(resetPage=true) {
-  if(resetPage) _currentPage = 1;
-  const rows = _filtrarRows();
-  const totalRows = rows.length;
-  const totalPages = Math.max(1, Math.ceil(totalRows / _rowsPerPage));
-  if(_currentPage > totalPages) _currentPage = totalPages;
-  const pageRows = rows.slice((_currentPage-1)*_rowsPerPage, _currentPage*_rowsPerPage);
-
-  const tbody = document.getElementById('nac-tbody');
-  if(!pageRows.length) {
-    tbody.innerHTML = '<tr><td colspan="14" style="padding:20px;color:#94a3b8;text-align:center">Sin resultados</td></tr>';
-    renderPaginacion(0, 0);
-    return;
-  }
-
-  renderPaginacion(totalRows, totalPages);
-
-  const color_cr  = v => !v||v===0?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
-  const color_dt  = v => !v||v===0?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
-  const color_mora= v => v==null?'#64748b':v<5?'#22c55e':v<15?'#f59e0b':'#e63946';
-  const fmt_dt    = v => (!v||v===0)?'—':fmt(v)+' d';
-  const fmt_cr    = v => (!v||v===0)?'—':v+'%';
-  const fmt_cepej = v => (!v||v==='—'||v===0)?'<span style="color:#64748b">—</span>'
-                        :v==='OK'?'<span style="color:#22c55e">✓ OK</span>'
-                        :'<span style="color:#e63946">✗ '+v+'</span>';
-
-  tbody.innerHTML = pageRows.map(r=>`
-    <tr class="nac-tr-click" style="border-bottom:1px solid #1e3058"
-        onclick='abrirDetalle(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
-      <td style="padding:6px 10px;font-size:1.1rem;text-align:center">${r.ira_semaforo||'⬜'} <span style="font-size:.72rem;color:#64748b">${r.ira_score||0}</span></td>
-      <td style="padding:6px 10px;color:#e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
-          title="${r.juzgado||''}">${r.juzgado||'—'}</td>
-      <td style="padding:6px 10px;color:#64748b;font-size:.75rem">${r.fuero||'—'}</td>
-      <td style="padding:6px 10px;color:#93c5fd;font-size:.78rem">${r.magistrado||'<span style="color:#475569">Sin designación</span>'}${r.antiguedad_anos?'<br><span style="color:#64748b;font-size:.72rem">'+r.antiguedad_anos+' años</span>':''}</td>
-      <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.pendientes_cierre)}</td>
-      <td style="padding:6px 10px;text-align:right;color:#e2e8f0">${fmt(r.dictadas_def)}</td>
-      <td style="padding:6px 10px;text-align:right;color:${color_dt(r.disposition_time)}">${fmt_dt(r.disposition_time)}</td>
-      <td style="padding:6px 10px;text-align:right;color:${color_cr(r.clearance_rate)};font-weight:600">${fmt_cr(r.clearance_rate)}</td>
-      <td style="padding:6px 10px;text-align:right;color:${color_mora(r.pct_mora)}">${r.pct_mora!=null?r.pct_mora+'%':'—'}</td>
-      <td style="padding:6px 10px;text-align:right;color:#94a3b8">${r.costo_por_causa?'$'+fmt(r.costo_por_causa):'—'}</td>
-      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${r.vs_wjp_civil!=null&&r.vs_wjp_civil!==0?r.vs_wjp_civil:'<span style="color:#64748b">—</span>'}</td>
-      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${fmt_cepej(r.vs_cepej_cr)}</td>
-      <td style="padding:6px 10px;text-align:right;font-size:.75rem">${fmt_cepej(r.vs_cepej_dt)}</td>
-      <td style="padding:6px 10px;text-align:center">${r.vacante?'<span style="color:#e63946">Vacante</span>':r.en_licencia?'<span style="color:#f59e0b">Licencia</span>':'<span style="color:#22c55e">Activo</span>'}</td>
-    </tr>`).join('');
-}
-
-// ── Panel detalle ────────────────────────────────────────────────────────────
-function cerrarPanel() {
-  document.getElementById('panel-overlay').classList.remove('visible');
-  document.getElementById('panel-detalle').classList.remove('abierto');
-}
-
-document.addEventListener('keydown', e => { if(e.key==='Escape') cerrarPanel(); });
-
-function abrirDetalle(r) {
-  const cc  = v => !v||v===0?'#64748b':v>=100?'#22c55e':v>=80?'#f59e0b':'#e63946';
-  const cdt = v => !v||v===0?'#64748b':v<=180?'#22c55e':v<=230?'#f59e0b':'#e63946';
-  const cm  = v => v==null?'#64748b':v<5?'#22c55e':v<15?'#f59e0b':'#e63946';
-  const ci  = s => s==='🟢'?'#22c55e':s==='🟡'?'#f59e0b':'#e63946';
-  const fmtN= v => v!=null&&v!==''&&v!==0 ? Number(v).toLocaleString('es-AR') : null;
-  const fmtCepej = v => !v||v==='—'?null
-    : v==='OK'?'<span style="color:#22c55e">✓ OK</span>'
-    : '<span style="color:#e63946">✗ '+v+'</span>';
-
-  const row = (label, val, color) => {
-    if(val===null||val===undefined||val===''||val==='—') return '';
-    return `<div class="pd-row">
-      <span class="pd-label">${label}</span>
-      <span class="pd-val" style="color:${color||'#e2e8f0'}">${val}</span>
-    </div>`;
-  };
-
-  const iraColor = ci(r.ira_semaforo||'');
-  const iraLabel = r.ira_semaforo==='🟢'?'Bajo riesgo':r.ira_semaforo==='🟡'?'Riesgo medio':'Alto riesgo';
-
-  document.getElementById('panel-content').innerHTML = `
-    <!-- Cabecera -->
-    <div style="margin-bottom:18px">
-      <div style="font-size:1.05rem;color:#e2e8f0;font-weight:600;line-height:1.35;margin-bottom:10px">
-        ${r.juzgado||'—'}
-      </div>
-      <div style="display:flex;gap:12px;align-items:center;background:#1a2744;
-                  border-radius:8px;padding:10px 14px">
-        <span style="font-size:2.2rem;line-height:1">${r.ira_semaforo||'⬜'}</span>
-        <div>
-          <div style="color:${iraColor};font-size:1.25rem;font-weight:700">IRA ${r.ira_score||0}</div>
-          <div style="color:#64748b;font-size:.75rem">${iraLabel}</div>
-        </div>
-        ${r.fuero?`<div style="margin-left:auto;background:#0d1b2e;border:1px solid #2d4a7a;
-                       border-radius:5px;padding:3px 10px;font-size:.75rem;color:#94a3b8">
-                       ${r.fuero}</div>`:''}
-      </div>
-    </div>
-
-    <!-- Magistrado -->
-    <div class="pd-sec">👤 Magistrado</div>
-    ${row('Nombre', r.magistrado||'<span style="color:#475569">Sin designación</span>')}
-    ${row('Antigüedad', r.antiguedad_anos!=null?r.antiguedad_anos+' años':null)}
-    ${row('Fecha de jura', r.fecha_jura||null, '#94a3b8')}
-    ${row('Estado', r.vacante
-        ? '<span style="color:#e63946">⚠ Vacante</span>'
-        : r.en_licencia
-          ? '<span style="color:#f59e0b">Licencia</span>'
-          : '<span style="color:#22c55e">Activo</span>')}
-    ${r.concurso_activo ? row('Concurso activo N°', r.concurso_numero||'Sí', '#f59e0b') : ''}
-
-    <!-- Causas -->
-    <div class="pd-sec">📋 Causas</div>
-    ${row('Jurisdicción', r.jurisdiccion||null, '#94a3b8')}
-    ${row('Año de datos', r.anio||null, '#94a3b8')}
-    ${row('Pendientes al cierre', fmtN(r.pendientes_cierre))}
-    ${row('Pendientes al inicio', fmtN(r.pendientes_inicio))}
-    ${row('Dictadas definitivas / año', fmtN(r.dictadas_def))}
-    ${row('Ingresos', fmtN(r.ingresos))}
-    ${row('Causas oralidad civil', fmtN(r.total_causas_oral))}
-    ${row('Mora +2 años', r.mora_2anios!=null?fmtN(r.mora_2anios)+' causas':null, cm(r.pct_mora||0))}
-
-    <!-- Eficiencia -->
-    <div class="pd-sec">⚡ Eficiencia judicial</div>
-    ${row('Clearance Rate',
-          r.clearance_rate!=null&&r.clearance_rate>0 ? r.clearance_rate+'%' : null,
-          cc(r.clearance_rate))}
-    ${row('Disposition Time',
-          r.disposition_time&&r.disposition_time>0 ? r.disposition_time+' días' : null,
-          cdt(r.disposition_time))}
-    ${row('% Mora',
-          r.pct_mora!=null ? r.pct_mora+'%' : null,
-          cm(r.pct_mora||0))}
-    ${row('Costo / causa (est.)',
-          r.costo_por_causa ? '$ '+fmtN(r.costo_por_causa) : null, '#94a3b8')}
-
-    <!-- Benchmarks -->
-    <div class="pd-sec">🌐 Benchmarks internacionales</div>
-    ${row('vs WJP Civil Factor 7',
-          r.vs_wjp_civil!=null&&r.vs_wjp_civil!==0 ? r.vs_wjp_civil : null, '#64748b')}
-    ${row('vs CEPEJ Clearance Rate', fmtCepej(r.vs_cepej_cr))}
-    ${row('vs CEPEJ Disposition Time', fmtCepej(r.vs_cepej_dt))}
-
-    ${r.objeto_principal ? `
-    <div class="pd-sec">📁 Litigio principal</div>
-    ${row('Objeto más frecuente', r.objeto_principal, '#94a3b8')}` : ''}
-  `;
-
-  document.getElementById('panel-overlay').classList.add('visible');
-  document.getElementById('panel-detalle').classList.add('abierto');
-  document.getElementById('panel-detalle').scrollTop = 0;
-}
-
-cargarNacional();
+<!-- Fuentes -->
+<div class="seccion" id="fuentes">📚 Fuentes y Acceso a Datos</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:24px">
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid var(--gold)">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:8px">⚖️ WJP Rule of Law Index</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">142 países · CSV/JSON disponible · 8 factores<br><a href="https://worldjusticeproject.org" target="_blank" style="color:var(--gold2)">worldjusticeproject.org</a></div>
+  </div>
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid #3b82f6">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:#3b82f6;margin-bottom:8px">🏦 World Bank — WGI</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">API REST · 30 fuentes · intervalos de confianza<br><a href="https://databank.worldbank.org" target="_blank" style="color:#93c5fd">databank.worldbank.org</a></div>
+  </div>
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid var(--red)">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--red);margin-bottom:8px">🔍 IPC — Transparencia Internacional</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">180 países · API JSON · márgenes de error por país<br><a href="https://www.transparency.org/en/cpi" target="_blank" style="color:#fca5a5">transparency.org/en/cpi</a></div>
+  </div>
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid #8b5cf6">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:#8b5cf6;margin-bottom:8px">🔬 V-Dem Institute</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">470+ indicadores desde 1789 · CSV/RData · series temporales<br><a href="https://v-dem.net" target="_blank" style="color:#c4b5fd">v-dem.net</a></div>
+  </div>
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid #f97316">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:#f97316;margin-bottom:8px">🌍 CEJAS — Américas</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">18 países LAC · independencia personal y estructural<br><a href="https://cejamericas.org" target="_blank" style="color:#fdba74">cejamericas.org</a></div>
+  </div>
+  <div style="background:var(--card);border-radius:10px;padding:18px;border-top:3px solid var(--green)">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:8px">🏛️ CEPEJ / RECPJ / datos.jus.gob.ar</div>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.7">Oralidad civil · traslados · selección · género — datos reales PJN<br><a href="https://datos.jus.gob.ar" target="_blank" style="color:#86efac">datos.jus.gob.ar</a></div>
+  </div>
+</div>
+<div style="background:#0f1e3a;border:1px solid var(--gold);border-radius:8px;padding:14px 18px;font-size:.82rem;color:#94a3b8;line-height:1.7;margin-bottom:24px">
+  <strong style="color:var(--gold)">🔬 Nota (Ph.D. Monteverde):</strong>
+  Los datos de oralidad civil (~60K causas) permiten calcular Clearance Rate y Disposition Time reales por juzgado.
+  V-Dem ofrece microdatos desde 1789 ideales para <strong style="color:var(--text)">análisis de ruptura institucional</strong>.
+  CEJAS es la fuente LAC más específica para <strong style="color:var(--text)">precursores de captura institucional</strong>.
+  El dato de <code style="color:#93c5fd">concurso_en_tramite</code> en datos_jus/magistrados permite calcular el % real de vacantes con concurso activo.
+</div>
 """
 
     parts = [
-        _head("Juzgados Nacionales — Monitor Judicial"),
-        nav_html("nacional"),
+        _head("Indicadores Internacionales — Monitor Judicial"),
+        nav_html("indicadores"),
         "<div class='contenido'>",
         DISCLAIMER,
         html_body,
         "</div>",
         FOOTER,
-        PLOTLY_JS,
-        "<script>", PLOTLY_BASE, script, "</script></body></html>",
+        "<script>",
+        PLOTLY_BASE,
+        "\n",
+        data_script,
+        chart_script,
+        new_api_js,
+        "</script></body></html>",
     ]
     return HTMLResponse("".join(parts))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# REDIRECT /estrategico → /estrategico/consejo
+# ══════════════════════════════════════════════════════════════════════════════
+@router.get("/", response_class=HTMLResponse)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CANDIDATOS — CVs de candidatos a magistrados (datos_jus)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@router.get("/api/candidatos", response_class=JSONResponse)
+def api_candidatos():
+    try:
+        return JSONResponse(_cargar_cvs_stats())
+    except Exception as e:
+        return JSONResponse({"error": str(e), "total": 0}, status_code=500)
+
+
+@router.get("/candidatos", response_class=HTMLResponse)
+def pagina_candidatos():
+    html_body = """
+<div class=\"scope\">
+  📋 <strong>Candidatos a Magistrados</strong> &mdash;
+  Base pública de CVs presentados en concursos del Consejo de la Magistratura.
+  Fuente: <a href=\"https://datos.jus.gob.ar\" target=\"_blank\" style=\"color:var(--gold)\">datos.jus.gob.ar</a>
+</div>
+<div class=\"kpi-grid\">
+  <div class=\"kpi gold\"><label>Total candidatos</label><div class=\"val\" id=\"cv-total\">&#8212;</div><div class=\"sub\">CVs presentados</div></div>
+  <div class=\"kpi\"><label>Universidades representadas</label><div class=\"val\" id=\"cv-univs\">&#8212;</div><div class=\"sub\">Instituciones de egreso</div></div>
+  <div class=\"kpi verde\"><label>Provincias de origen</label><div class=\"val\" id=\"cv-provs\">&#8212;</div><div class=\"sub\">Distribución geográfica</div></div>
+</div>
+<div class=\"seccion\">📊 Distribución por Universidad</div>
+<div class=\"chart-full\"><div id=\"graf-cv-univs\" style=\"height:360px\"></div></div>
+<div class=\"charts\">
+  <div class=\"chart-box\"><h2>🗺️ Provincias de nacimiento</h2><div id=\"graf-cv-provs\" style=\"height:360px\"></div></div>
+  <div class=\"chart-box\"><h2>⚖️ Ámbito del concurso</h2><div id=\"graf-cv-ambitos\" style=\"height:360px\"></div></div>
+</div>
+<div class=\"seccion\">🔍 Candidatos (primeros 200)</div>
+<div class=\"controles\"><label>Buscar: <input id=\"cv-buscar\" type=\"text\" placeholder=\"nombre, universidad, provincia&hellip;\" style=\"width:280px\"></label></div>
+<div style=\"overflow-x:auto\">
+  <table style=\"width:100%;border-collapse:collapse;font-size:.82rem\">
+    <thead><tr style=\"background:var(--card2);color:var(--muted);text-align:left\">
+      <th style=\"padding:8px 12px\">Nombre</th>
+      <th style=\"padding:8px 12px\">Concurso</th>
+      <th style=\"padding:8px 12px\">Universidad</th>
+      <th style=\"padding:8px 12px\">Provincia</th>
+      <th style=\"padding:8px 12px\">Ámbito</th>
+      <th style=\"padding:8px 12px\">CV</th>
+    </tr></thead>
+    <tbody id=\"cv-tbody\"></tbody>
+  </table>
+</div>
+"""
+
+    script = r"""
+const cfg={responsive:true,displayModeBar:false};
+fetch('/estrategico/api/candidatos').then(r=>r.json()).then(d=>{
+  document.getElementById('cv-total').textContent=d.total.toLocaleString('es-AR');
+  document.getElementById('cv-univs').textContent=d.universidades.length;
+  document.getElementById('cv-provs').textContent=d.provincias.length;
+  const uL=d.universidades.map(u=>u.nombre),uV=d.universidades.map(u=>u.cantidad);
+  Plotly.newPlot('graf-cv-univs',[{type:'bar',x:uV,y:uL,orientation:'h',text:uV,textposition:'outside',
+    marker:{color:'#3b82f6',opacity:.85},hovertemplate:'<b>%{y}</b><br>%{x} candidatos<extra></extra>'}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:220,r:60,t:20,b:40},xaxis:{gridcolor:'#2d4a7a'},yaxis:{gridcolor:'#2d4a7a',automargin:true}},cfg);
+  const pL=d.provincias.map(p=>p.provincia),pV=d.provincias.map(p=>p.cantidad);
+  Plotly.newPlot('graf-cv-provs',[{type:'bar',x:pL,y:pV,
+    marker:{color:'#c9a227',opacity:.85},hovertemplate:'<b>%{x}</b><br>%{y}<extra></extra>'}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:40,r:20,t:20,b:80},xaxis:{gridcolor:'#2d4a7a',tickangle:-40},yaxis:{gridcolor:'#2d4a7a'}},cfg);
+  const aL=d.ambitos.map(a=>a.ambito),aV=d.ambitos.map(a=>a.cantidad);
+  Plotly.newPlot('graf-cv-ambitos',[{type:'pie',labels:aL,values:aV,hole:.35,
+    textinfo:'label+percent',hovertemplate:'<b>%{label}</b><br>%{value}<extra></extra>',
+    marker:{colors:['#3b82f6','#c9a227','#22c55e','#e63946','#8b5cf6','#f97316']}}],
+    {plot_bgcolor:'#1a2744',paper_bgcolor:'#1a2744',font:{color:'#e2e8f0',family:'Segoe UI',size:11},
+     margin:{l:10,r:10,t:20,b:10},showlegend:false},cfg);
+  window._cvData=d.tabla;
+  renderTabla(d.tabla);
+}).catch(e=>console.error('Error candidatos:',e));
+function renderTabla(rows){
+  document.getElementById('cv-tbody').innerHTML=rows.map(r=>`
+    <tr style="border-bottom:1px solid #2d4a7a">
+      <td style="padding:7px 12px;color:#e2e8f0">${r.nombre||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8">${r.concurso||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#93c5fd">${r.universidad||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8">${r.provincia||'&#8212;'}</td>
+      <td style="padding:7px 12px;color:#94a3b8;font-size:.76rem">${r.ambito||'&#8212;'}</td>
+      <td style="padding:7px 12px">${r.link_cv?`<a href="${r.link_cv}" target="_blank" style="color:var(--gold)">Ver CV &rarr;</a>`:'&#8212;'}</td>
+    </tr>`).join('');
+}
+document.getElementById('cv-buscar').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  if(!window._cvData)return;
+  renderTabla(window._cvData.filter(r=>
+    (r.nombre||'').toLowerCase().includes(q)||(r.universidad||'').toLowerCase().includes(q)||
+    (r.provincia||'').toLowerCase().includes(q)||(r.ambito||'').toLowerCase().includes(q)));
+});
+"""
+
+    parts = [
+        _head("Candidatos a Magistrados \u2014 Monitor Judicial"),
+        nav_html("candidatos"),
+        "<div class='contenido'>",
+        DISCLAIMER,
+        html_body,
+        "</div>",
+        FOOTER,
+        '<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>',
+        "<script>", script, "</script></body></html>",
+    ]
+    return HTMLResponse("".join(parts))
+
+def redirect_estrategico():
+    return HTMLResponse('<meta http-equiv="refresh" content="0; url=/estrategico/consejo">')
