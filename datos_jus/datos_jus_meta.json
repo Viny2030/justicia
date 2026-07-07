@@ -1,10 +1,10 @@
 {
-  "inicio": "2026-07-07T19:40:15.922972+00:00",
-  "datasets_ok": 2,
-  "datasets_fallidos": 4,
-  "recursos_ok": 2,
-  "recursos_fallidos": 1,
-  "filas_total": 4441,
-  "fin": "2026-07-07T19:47:35.167677+00:00",
-  "datasets_en_indice": 2
+  "inicio": "2026-07-07T20:06:54.215281+00:00",
+  "datasets_ok": 1,
+  "datasets_fallidos": 9,
+  "recursos_ok": 7,
+  "recursos_fallidos": 10,
+  "filas_total": 58016,
+  "fin": "2026-07-07T20:30:16.407388+00:00",
+  "datasets_en_indice": 1
 }
