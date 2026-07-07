@@ -40,8 +40,14 @@ DATASETS_PRIORITARIOS = [
     "designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional",
     "renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional",
     "seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion",
-    "vacantes-concursos-abiertos",
-    "estructura-organica-del-ministerio-de-justicia",
+    # NOTA 2026-07-07: estos 2 IDs devuelven 404 (Not Found) en package_show,
+    # no 503/timeout -- o sea no es que el portal este caido, es que el
+    # dataset ya no existe con este slug (lo renombraron o lo dieron de baja
+    # en datos.jus.gob.ar). Reintentar no lo arregla. Dejarlos comentados
+    # hasta confirmar el slug correcto a mano en el portal; si no aparece
+    # ningun reemplazo, borrar estas 2 lineas definitivamente.
+    # "vacantes-concursos-abiertos",
+    # "estructura-organica-del-ministerio-de-justicia",
 ]
 
 # Formatos aceptados (en orden de preferencia)
@@ -77,7 +83,14 @@ def descargar_recurso(url: str, nombre: str) -> pd.DataFrame | None:
     """Descarga un recurso CSV/Excel/JSON y lo convierte a DataFrame."""
     log.info(f"  ↓ descargando {nombre}")
     try:
-        r = session.get(url, timeout=60, stream=True)
+        # Antes: timeout=60 fijo, sin relacion con la constante TIMEOUT del
+        # modulo. Eso hacia que scraper_datos_jus_resiliente.py (que sube
+        # TIMEOUT a 90s) no protegiera la parte mas pesada del proceso: la
+        # descarga real del archivo. Un dataset podia seguir muriendo con
+        # "timeout=60" aunque el wrapper resiliente ya hubiera subido el
+        # timeout global a 90s. Ahora usa la misma constante TIMEOUT, asi
+        # que el override del wrapper aplica tambien aca.
+        r = session.get(url, timeout=TIMEOUT, stream=True)
         r.raise_for_status()
 
         ext = Path(url.split("?")[0]).suffix.lower()
