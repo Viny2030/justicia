@@ -396,15 +396,35 @@ def api_designaciones():
     try:
         des = _cargar("designaciones.json")
         cf = _col(des,"fuero","ambito","organo","tipo_cargo")
-        cd = _col(des,"fecha","anio","año","date","periodo")
         fueros = {}
         if cf:
             top = Counter(str(r.get(cf,"")) for r in des).most_common(8)
             fueros = {"labels":[x[0] for x in top],"values":[x[1] for x in top]}
+
+        # NOTA: _cargar() prioriza data/designaciones.json (historico 1976-1998,
+        # 2.000 registros) sobre designaciones.json de la raiz (2001-2023,
+        # 619 registros). Para "total" y "por_fuero" eso esta bien (es el
+        # dataset mas completo), pero para la serie POR ANIO deja el grafico
+        # vacio: ningun registro de data/designaciones.json cae en la ventana
+        # 2000-2026 que filtramos abajo. Por eso la serie temporal se arma
+        # explicitamente con designaciones.json de la raiz, que si tiene
+        # fechas recientes (fecha_jura). No cambia "total" ni "por_fuero".
+        des_para_anio = des
+        des_raiz_path = os.path.join(ROOT, "designaciones.json")
+        if os.path.exists(des_raiz_path):
+            try:
+                with open(des_raiz_path, "r", encoding="utf-8") as f:
+                    raiz = _json.load(f)
+                if isinstance(raiz, list) and raiz:
+                    des_para_anio = raiz
+            except Exception:
+                pass
+
+        cd = _col(des_para_anio,"fecha","anio","año","date","periodo")
         por_anio = {}
         if cd:
             c: Counter = Counter()
-            for r in des:
+            for r in des_para_anio:
                 a = str(r.get(cd,""))[:4]
                 if a.isdigit() and 2000 <= int(a) <= 2026:
                     c[a] += 1
