@@ -48,17 +48,27 @@ def decodificar(raw):
 # ── Detección de tipo de CSV ──────────────────────────────────────────────────
 
 def detectar_tipo(lines):
-    for line in lines[:9]:
-        cells = [c.strip() for c in line.split(';')]
-        val = cells[0]
-        if 'Movimiento de Sentencias' in val or val == 'Sentencias':
-            return 'sentencias'
-        if 'Recursos interpuestos' in val:
-            return 'recursos'
-        if 'Resumen del per' in val:
-            return 'resumen'
-        if 'Trámite de Expedientes' in val or 'Tramite de Expedientes' in val:
-            return 'tramite_camara'
+    # FIX (2026-07-08): el título real viene partido en dos filas para el tipo
+    # "resumen", ej. fila 4 "Trámite de Expedientes" + fila 5 "Resumen del
+    # período". El chequeo anterior recorría línea por línea y devolvía apenas
+    # encontraba CUALQUIER keyword en esa línea, así que "Trámite de
+    # Expedientes" (fila 4) siempre ganaba antes de llegar a "Resumen del
+    # período" (fila 5) y todo archivo "resumen" se clasificaba mal como
+    # "tramite_camara" (0 registros, porque find_header_row busca "Secretaría"
+    # como cells[0] exacto y en resumen ese header es "Tribunal"). Ahora se
+    # busca en todo el bloque de metadata junto, con prioridad
+    # sentencias > recursos > resumen > tramite_camara (el orden importa:
+    # "resumen" antes que "tramite_camara" porque ambos títulos coexisten).
+    valores = [ (l.split(';')[0] if l else '').strip() for l in lines[:9] ]
+    texto = ' | '.join(valores)
+    if any('Movimiento de Sentencias' in v for v in valores) or any(v == 'Sentencias' for v in valores):
+        return 'sentencias'
+    if 'Recursos interpuestos' in texto:
+        return 'recursos'
+    if 'Resumen del per' in texto:
+        return 'resumen'
+    if 'Trámite de Expedientes' in texto or 'Tramite de Expedientes' in texto:
+        return 'tramite_camara'
     return 'tramite_camara'
 
 # ── Extracción de metadata ────────────────────────────────────────────────────

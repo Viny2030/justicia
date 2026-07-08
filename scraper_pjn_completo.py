@@ -230,54 +230,32 @@ def guardar(df, stem):
 
 
 # ── FUENTE 1: estadisticas.pjn.gov.ar ────────────────────────────────────────
+# NOTA (2026-07-08): la implementación vieja (requests+BeautifulSoup sobre
+# <a href>, PORTALES) no encontraba nada real — ver pjn_id_crawler.py para el
+# detalle completo de por qué (rutas 404, endpoints JSON que ignoran sus
+# parámetros). El crawl+descarga real ahora se delega enteramente a
+# pjn_id_crawler.py, que además guarda cada archivo en el formato correcto
+# para su tipo (CSV crudo cp1250 para scraper_estadisticas.py, .xls/.pdf
+# crudos para pjn_extraer_libro_xls.py / pjn_extraer_pdf_tablas.py).
+#
+# Por eso crawl_pjn() ya NO devuelve una lista de URLs para que main() las
+# vuelva a descargar con descargar()/limpiar()/guardar() de este archivo: ese
+# pipeline genérico (pandas.read_csv con auto-detección de separador, columnas
+# en minúscula) asume CSVs "planos" con header en la fila 1 — como los de
+# datos.gob.ar (Fuente 2, sin cambios) — y rompe el formato PJN real (cp1250,
+# metadata en filas 0-8, header recién en fila ~7). La descarga ya queda hecha
+# acá mismo; devolvemos lista vacía para que el resto de main() no la reprocese.
 
 def crawl_pjn(desde_año, max_archivos=None):
-    """Rastrea el portal PJN buscando CSV/Excel (sin PDFs)."""
-    encontrados = []
-    visitadas = set()
-    cola = list(PORTALES)
-    año_actual = datetime.now().year
-
-    while cola and len(visitadas) < 40:
-        url = cola.pop(0)
-        if url in visitadas:
-            continue
-        visitadas.add(url)
-
-        log.info(f"  rastreando: {url[-70:]}")
-        soup = get_html(url)
-        if not soup:
-            time.sleep(DELAY)
-            continue
-        time.sleep(DELAY)
-
-        for a in soup.find_all("a", href=True):
-            href = a["href"].strip()
-            if not href or href.startswith("mailto:") or href.startswith("#"):
-                continue
-            full = urljoin(url, href)
-            ext = Path(urlparse(full).path).suffix.lower()
-
-            if ext in FORMATOS and full not in [e["url"] for e in encontrados]:
-                # filtrar por año
-                texto = (full + " " + a.get_text()).lower()
-                m = re.search(r"(20[12]\d)", texto)
-                año = int(m.group(1)) if m else desde_año
-                if desde_año <= año <= año_actual:
-                    encontrados.append({"url": full, "ext": ext, "texto": a.get_text(strip=True)})
-                    log.info(f"    + encontrado: {ext} {full[-60:]}")
-
-            elif ext not in {".pdf", ".doc", ".docx"} and \
-                    (full.startswith("https://estadisticas.pjn.gov.ar") or
-                     full.startswith("https://old.pjn.gov.ar")) and \
-                    full not in visitadas:
-                cola.append(full)
-
-        if max_archivos and len(encontrados) >= max_archivos:
-            break
-
-    log.info(f"  PJN portal: {len(encontrados)} archivos CSV/Excel encontrados")
-    return encontrados
+    """Delega la descarga real del portal PJN a pjn_id_crawler.py. Devuelve []
+    a propósito (ver nota arriba) — los archivos ya quedan en disco."""
+    from pjn_id_crawler import crawl_y_descargar, MAX_ID_DEFAULT
+    max_id = max_archivos if (max_archivos and max_archivos > 50) else None
+    resultado = crawl_y_descargar(max_id=max_id or MAX_ID_DEFAULT, resume=True)
+    log.info(f"  PJN portal (vía pjn_id_crawler): csv={len(resultado['csv'])} "
+             f"xls={len(resultado['xls'])} pdf={len(resultado['pdf'])} "
+             f"otros={len(resultado['otros'])} — ya descargados, no se reprocesan acá")
+    return []
 
 
 # ── FUENTE 2: datos.gob.ar (PJN datasets) ────────────────────────────────────

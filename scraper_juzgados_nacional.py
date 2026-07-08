@@ -26,41 +26,17 @@ from datetime import datetime, date, timedelta
 from collections import defaultdict, Counter
 from urllib.parse import urljoin, urlparse
 
-import requests
 import pandas as pd
-from bs4 import BeautifulSoup
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 ROOT       = Path(__file__).parent
 OUT_JSON   = ROOT / "juzgados_nacional.json"
 OUT_CSV    = ROOT / "juzgados_nacional.csv"
-CKPT_FILE  = ROOT / "juzgados_checkpoint.json"
 CSV_DIR    = ROOT / "pjn_estadisticas"
 DATOS_JUS  = ROOT / "datos_jus"
 DELAY      = 1.2
 TIMEOUT    = 45
 HOY        = date.today()
-
-# Semillas del crawler — todas las rutas conocidas del portal PJN
-SEEDS = [
-    "https://estadisticas.pjn.gov.ar/",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/index.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/",
-    "https://estadisticas.pjn.gov.ar/estadisticas/",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/civil.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/comercial.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/laboral.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/penal.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/seguridad_social.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/familia.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/federal.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/federal_civil.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/federal_penal.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/federal_laboral.php",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/menores.php",
-]
-
-FORMATOS = {".csv", ".xlsx", ".xls", ".zip"}
 
 logging.basicConfig(
     level=logging.INFO,
@@ -68,12 +44,6 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger(__name__)
-
-session = requests.Session()
-session.headers.update({
-    "User-Agent": "MonitorJudicialAR/3.0 (github.com/Viny2030/justicia; academic)",
-    "Accept": "text/html,application/xhtml+xml,application/xml,*/*",
-})
 
 # ── HELPERS ───────────────────────────────────────────────────────────────────
 
@@ -97,14 +67,6 @@ def decode_bytes(raw):
         except:
             pass
     return raw.decode("latin-1", errors="replace")
-
-def checkpoint_load():
-    if CKPT_FILE.exists():
-        return json.loads(CKPT_FILE.read_text(encoding="utf-8"))
-    return {"procesados": {}}
-
-def checkpoint_save(cp):
-    CKPT_FILE.write_text(json.dumps(cp, ensure_ascii=False, indent=2), encoding="utf-8")
 
 # FIX #2: helper para corregir mojibake (latin-1 interpretado como utf-8) en magistrados.json
 def _fix_enc(s):
@@ -134,100 +96,45 @@ def _inferir_fuero(organismo: str, jurisdiccion: str, objeto: str) -> str:
     if "federal" in org:                              return "Federal"
     return ""
 
-# ── PASO 1: CRAWL estadisticas.pjn.gov.ar ────────────────────────────────────
+# ── PASO 1+2: CRAWL + DESCARGA real de estadisticas.pjn.gov.ar ───────────────
+# NOTA (2026-07-08): la implementación vieja (requests+BeautifulSoup sobre
+# <a href>) no encontraba nada — las rutas SEEDS (civil.php, comercial.php...)
+# dan 404 desde que el sitio se reescribió con ruteo CodeIgniter, y el buscador
+# en cascada Año/Jurisdicción del HTML actual llama a endpoints JSON que
+# ignoran los parámetros que reciben (bug del backend, no de JS: un navegador
+# real recibiría la misma respuesta rota). El crawl real ahora vive en
+# pjn_id_crawler.py, que enumera el catálogo por ID directo
+# (index.php/getUrlDescarga?id=N) — ver ese archivo para el detalle completo
+# de la investigación. Acá sólo se importa y se invoca.
 
-def crawl_pjn(max_pages=300):
-    """Rastrea el portal PJN sin límite de páginas, recoge todos los CSV/XLS/ZIP."""
-    encontrados = []
-    visitadas   = set()
-    cola        = list(dict.fromkeys(SEEDS))
+def crawl_y_descargar_pjn(max_id=None, resume=True):
+    """Wrapper fino sobre pjn_id_crawler.crawl_y_descargar(). Además dispara
+    los extractores best-effort de .xls 'libro' y PDF sobre lo nuevo que haya
+    bajado (no tocan lo que ya estaba extraído si --resume)."""
+    from pjn_id_crawler import crawl_y_descargar, MAX_ID_DEFAULT
+    resultado = crawl_y_descargar(max_id=max_id or MAX_ID_DEFAULT, resume=resume)
 
-    while cola and len(visitadas) < max_pages:
-        url = cola.pop(0)
-        if url in visitadas:
-            continue
-        visitadas.add(url)
-        log.info(f"  [{len(visitadas)}/{max_pages}] crawl: {url[-80:]}")
-
+    if resultado["xls"]:
         try:
-            r = session.get(url, timeout=TIMEOUT)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.text, "html.parser")
+            from pjn_extraer_libro_xls import procesar_archivo as _proc_xls, OUT_DIR as _XLS_OUT
+            _XLS_OUT.mkdir(exist_ok=True)
+            log.info(f"  Extrayendo hojas de {len(resultado['xls'])} .xls 'libro'...")
+            for p in resultado["xls"]:
+                _proc_xls(Path(p), solo_nuevos=True)
         except Exception as e:
-            log.warning(f"    HTTP error: {e}")
-            time.sleep(DELAY)
-            continue
-        time.sleep(DELAY)
+            log.warning(f"  extractor xls libro no disponible/falló: {e}")
 
-        for a in soup.find_all("a", href=True):
-            href = a["href"].strip()
-            if not href or href.startswith(("mailto:", "#", "javascript:")):
-                continue
-            full = urljoin(url, href)
-            ext  = Path(urlparse(full).path).suffix.lower()
-
-            if ext in FORMATOS and full not in {e["url"] for e in encontrados}:
-                texto = a.get_text(strip=True)
-                combinado = (full + " " + texto).lower()
-                m = re.search(r"20(2[2-9]|[3-9]\d)", combinado)
-                if m or not re.search(r"20\d\d", combinado):
-                    encontrados.append({"url": full, "ext": ext, "texto": texto})
-                    log.info(f"    + {ext.upper()} {full[-70:]}")
-
-            elif ext not in {".pdf", ".doc", ".docx", ".exe"} and \
-                    any(full.startswith(s.rsplit("/",1)[0]) for s in SEEDS) and \
-                    full not in visitadas:
-                cola.append(full)
-
-    log.info(f"  Crawl completo: {len(encontrados)} archivos, {len(visitadas)} páginas visitadas")
-    return encontrados
-
-# ── PASO 2: DESCARGA y PARSE CSVs del PJN ────────────────────────────────────
-
-def descargar_url(url, ext):
-    r = session.get(url, timeout=60, stream=True)
-    r.raise_for_status()
-    raw = r.content
-
-    if ext == ".zip":
+    if resultado["pdf"]:
         try:
-            with zipfile.ZipFile(BytesIO(raw)) as z:
-                frames = []
-                for name in z.namelist():
-                    ne = Path(name).suffix.lower()
-                    if ne in (".csv", ".xlsx", ".xls"):
-                        inner = z.read(name)
-                        df = _parse_raw(inner, ne)
-                        if df is not None and not df.empty:
-                            df["_archivo_zip"] = name
-                            frames.append(df)
-                return pd.concat(frames, ignore_index=True) if frames else None
+            from pjn_extraer_pdf_tablas import procesar_archivo as _proc_pdf, OUT_DIR as _PDF_OUT
+            _PDF_OUT.mkdir(exist_ok=True)
+            log.info(f"  Extrayendo tablas de {len(resultado['pdf'])} PDFs...")
+            for p in resultado["pdf"]:
+                _proc_pdf(Path(p), solo_nuevos=True)
         except Exception as e:
-            log.warning(f"  ZIP error: {e}")
-            return None
+            log.warning(f"  extractor pdf no disponible/falló: {e}")
 
-    return _parse_raw(raw, ext)
-
-def _parse_raw(raw, ext):
-    if ext in (".xlsx", ".xls"):
-        try:
-            xl = pd.ExcelFile(BytesIO(raw))
-            frames = [xl.parse(s, dtype=str) for s in xl.sheet_names if not xl.parse(s).empty]
-            return pd.concat(frames, ignore_index=True) if frames else None
-        except Exception as e:
-            log.warning(f"  Excel error: {e}")
-            return None
-
-    texto = decode_bytes(raw)
-    for sep in (";", ",", "\t"):
-        try:
-            df = pd.read_csv(StringIO(texto), sep=sep, dtype=str,
-                             on_bad_lines="skip", low_memory=False)
-            if not df.empty and len(df.columns) > 1:
-                return df
-        except:
-            pass
-    return None
+    return resultado
 
 # ── PASO 3: PARSE del formato PJN legacy (cp1250) ────────────────────────────
 
@@ -548,46 +455,26 @@ def calcular_ira(r):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--resume",    action="store_true", help="retomar checkpoint")
-    ap.add_argument("--max-pages", type=int, default=300)
+    ap.add_argument("--resume",    action="store_true", help="retomar checkpoint (pjn_id_checkpoint.json)")
+    ap.add_argument("--max-pages", "--max-id", dest="max_id", type=int, default=None,
+                    help="ID máximo a sondear contra getUrlDescarga (ver pjn_id_crawler.py). "
+                         "Default: MAX_ID_DEFAULT del módulo (~9500). El nombre --max-pages se "
+                         "mantiene por compatibilidad con el workflow existente, pero ya no cuenta "
+                         "páginas HTML — cuenta IDs de archivo.")
     ap.add_argument("--skip-crawl", action="store_true",
                     help="usar solo CSVs ya descargados en pjn_estadisticas/")
     args = ap.parse_args()
 
     CSV_DIR.mkdir(exist_ok=True)
-    cp = checkpoint_load() if args.resume else {"procesados": {}}
 
-    # ── 1. Crawl + descarga PJN ──
+    # ── 1+2. Crawl + descarga real PJN (pjn_id_crawler.py) ──
     todos_pjn = []
 
     if not args.skip_crawl:
-        log.info("\n=== PASO 1: Crawl estadisticas.pjn.gov.ar ===")
-        links = crawl_pjn(max_pages=args.max_pages)
-        log.info(f"\n=== PASO 2: Descarga de {len(links)} archivos ===")
-
-        ya = set(cp["procesados"].keys())
-        for item in links:
-            url = item["url"]
-            if url in ya:
-                log.info(f"  skip (ya procesado): {url[-60:]}")
-                continue
-            log.info(f"  descargando: {url[-70:]}")
-            try:
-                df = descargar_url(url, item["ext"])
-                if df is not None and not df.empty:
-                    stem = re.sub(r"[^\w]","_", urlparse(url).path.split("/")[-1])[:60]
-                    out  = CSV_DIR / f"{stem}.csv"
-                    df.to_csv(out, index=False, encoding="utf-8-sig")
-                    log.info(f"    OK: {len(df):,} filas → {out.name}")
-                    cp["procesados"][url] = {"ok": True, "file": str(out)}
-                else:
-                    cp["procesados"][url] = {"ok": False}
-                checkpoint_save(cp)
-            except Exception as e:
-                log.warning(f"    FALLO: {e}")
-                cp["procesados"][url] = {"ok": False, "error": str(e)}
-                checkpoint_save(cp)
-            time.sleep(DELAY)
+        log.info("\n=== PASO 1+2: Crawl + descarga estadisticas.pjn.gov.ar ===")
+        resultado = crawl_y_descargar_pjn(max_id=args.max_id, resume=args.resume)
+        log.info(f"  CSV reales: {len(resultado['csv'])} | xls libro: {len(resultado['xls'])} "
+                 f"| pdf: {len(resultado['pdf'])} | otros: {len(resultado['otros'])}")
     else:
         log.info("\n  --skip-crawl: usando CSVs ya descargados")
 
