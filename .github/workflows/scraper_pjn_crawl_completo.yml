@@ -11,16 +11,29 @@ name: 🏛️ Crawl Completo PJN (causas/oralidad) — Semanal
 # pct_mora, pendientes) que alimentan /operativo/nacional quedan congelados
 # en la última vez que alguien corrió el script completo a mano.
 #
-# Este workflow nuevo corre `scraper_juzgados_nacional.py` SIN --skip-crawl,
-# o sea con el crawl real (`crawl_pjn` + descarga de CSVs), para que esos
-# indicadores se actualicen de verdad. No modifica scraper_diario.yml ni
-# ningún otro archivo existente — es 100% aditivo.
+# Este workflow nuevo corre `scraper_juzgados_nacional.py` SIN --skip-crawl.
 #
-# Frecuencia semanal (no diaria) porque el crawl completo recorre hasta
-# 300 páginas de estadisticas.pjn.gov.ar con demora entre requests (variable
-# DELAY del script) — correrlo todos los días sería agresivo contra el sitio
-# público y no aporta nada (las estadísticas oficiales no se actualizan a
-# diario). Ajustá el cron si preferís otra cadencia.
+# 2026-07-08 — REESCRITO: el crawl real (`crawl_pjn` + `descargar_url`, con
+# requests+BeautifulSoup sobre <a href>) nunca encontraba nada porque (a) las
+# rutas SEEDS (civil.php, comercial.php...) dan 404 desde que el sitio se
+# reescribió con ruteo CodeIgniter, y (b) el buscador en cascada
+# Año/Jurisdicción del HTML actual llama a endpoints JSON que ignoran los
+# parámetros que reciben y devuelven siempre el mismo resultado fijo — un bug
+# del backend PHP, no de renderizado JS (así que Playwright/Selenium tampoco
+# lo hubiera arreglado: un navegador real manda el mismo GET y recibe la misma
+# respuesta rota). El crawl real ahora vive en pjn_id_crawler.py: enumera
+# index.php/getUrlDescarga?id=N directo (bypassea el filtro roto) y baja cada
+# archivo real, clasificado por formato — CSV crudo (cp1250, formato legado
+# que ya parseaba scraper_estadisticas.py), .xls "libro" viejos y PDFs de
+# resumen (estos dos últimos se vuelcan best-effort con pjn_extraer_libro_xls.py
+# y pjn_extraer_pdf_tablas.py — no se mapean a los campos del IRA todavía).
+# Ver el docstring de pjn_id_crawler.py para el detalle completo.
+#
+# Frecuencia semanal (no diaria) porque el crawl completo sondea ~9500 IDs
+# contra el sitio — no es agresivo (JSON liviano + descargas paralelas, unos
+# pocos minutos en total) pero tampoco aporta nada correrlo a diario: las
+# estadísticas oficiales no se actualizan tan seguido. Ajustá el cron si
+# preferís otra cadencia.
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
@@ -29,11 +42,11 @@ on:
   workflow_dispatch:
     inputs:
       max_pages:
-        description: "Máximo de páginas a crawlear (default 300)"
+        description: "ID máximo a sondear contra getUrlDescarga (vacío = default del script, ~9500). El nombre quedó de la versión vieja por compatibilidad, pero ahora cuenta IDs de archivo, no páginas HTML."
         required: false
-        default: "300"
+        default: ""
       resume:
-        description: "Retomar desde el último checkpoint (pjn_checkpoint.json)"
+        description: "Retomar desde el checkpoint (pjn_id_checkpoint.json) — no persiste entre corridas del workflow porque el runner es efímero y esos archivos crudos están en .gitignore, así que cada corrida semanal hace un crawl completo de cero igual."
         required: false
         default: "true"
 
@@ -60,47 +73,19 @@ jobs:
       # NOTA: se instalan las dependencias explícitas del scraper (igual que
       # hace scraper_diario.yml) en vez de `pip install -r requirements.txt`,
       # porque ese archivo está guardado en un encoding que pip no parsea bien.
+      # 2026-07-08: se agregan xlrd (lee los .xls "libro" viejos) y pdfplumber
+      # (extrae tablas de los PDF de resumen) — las usan pjn_extraer_libro_xls.py
+      # y pjn_extraer_pdf_tablas.py. Se sacan beautifulsoup4/lxml: ya no se
+      # crawlea HTML, todo el descubrimiento de archivos es vía JSON (requests solo).
       - name: 📦 Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 pandas openpyxl lxml
+          pip install requests pandas openpyxl xlrd pdfplumber
 
       - name: 🏛️ Crawl completo estadisticas.pjn.gov.ar
         run: |
-          ARGS="--max-pages ${{ github.event.inputs.max_pages || '300' }}"
-          if [ "${{ github.event.inputs.resume || 'true' }}" = "true" ]; then
-            ARGS="$ARGS --resume"
+          ARGS=""
+          if [ -n "${{ github.event.inputs.max_pages }}" ]; then
+            ARGS="--max-pages ${{ github.event.inputs.max_pages }}"
           fi
-          echo "Ejecutando: python scraper_juzgados_nacional.py $ARGS"
-          python scraper_juzgados_nacional.py $ARGS
-        env:
-          PYTHONIOENCODING: utf-8
-
-      - name: ✅ Verificar juzgados_nacional.json
-        run: |
-          python -c "
-          import json, sys
-          with open('juzgados_nacional.json', encoding='utf-8') as f:
-              data = json.load(f)
-          total = len(data)
-          con_oral = sum(1 for r in data if r.get('total_causas_oral', 0) > 0)
-          con_pjn  = sum(1 for r in data if r.get('pendientes_cierre', 0) > 0 or r.get('dictadas_def', 0) > 0)
-          sin_datos = sum(1 for r in data if r.get('sin_datos_estadisticos'))
-          print(f'OK: {total} juzgados | {con_oral} con oralidad | {con_pjn} con PJN CSV | {sin_datos} sin datos')
-          if total < 200:
-              print('ERROR: menos de 200 juzgados — algo salió mal, no se commitea')
-              sys.exit(1)
-          "
-
-      - name: 📤 Commit y push de datos actualizados
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f juzgados_nacional.json juzgados_nacional.csv
-          if [ -f pjn_checkpoint.json ]; then git add -f pjn_checkpoint.json; fi
-          if git diff --staged --quiet; then
-            echo "Sin cambios en los datos del crawl completo."
-          else
-            git commit -m "data: crawl completo PJN $(date -u '+%Y-%m-%d')"
-            git push
-          fi
+          if [ "${
