@@ -35,20 +35,6 @@ TIMEOUT    = 30
 MAX_ROWS   = 500_000                    # seguridad: descartar recursos gigantes
 
 # Datasets de interés principal (se descargan siempre)
-DATASETS_PRIORITARIOS = [
-    "magistrados-justicia-federal-y-de-la-justicia-nacional",
-    "designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional",
-    "renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional",
-    "seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion",
-    # NOTA 2026-07-07: estos 2 IDs devuelven 404 (Not Found) en package_show,
-    # no 503/timeout -- o sea no es que el portal este caido, es que el
-    # dataset ya no existe con este slug (lo renombraron o lo dieron de baja
-    # en datos.jus.gob.ar). Reintentar no lo arregla. Dejarlos comentados
-    # hasta confirmar el slug correcto a mano en el portal; si no aparece
-    # ningun reemplazo, borrar estas 2 lineas definitivamente.
-    # "vacantes-concursos-abiertos",
-    # "estructura-organica-del-ministerio-de-justicia",
-]
 
 # Formatos aceptados (en orden de preferencia)
 FORMATOS_OK = ["CSV", "csv", "XLSX", "xlsx", "XLS", "xls", "JSON", "json"]
