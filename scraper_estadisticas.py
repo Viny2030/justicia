@@ -38,10 +38,27 @@ def safe_num(val):
         return 0
 
 def decodificar(raw):
-    for enc in ['cp1250', 'latin-1', 'utf-8-sig', 'utf-8']:
+    # FIX (2026-07-08 #3): los CSV de estadisticas.pjn.gov.ar están en cp1252
+    # (Windows Europa Occidental), NO cp1250 (Europa Central) como decía el
+    # nombre del archivo/comentario original. El bug real: cp1250, cp1252 y
+    # latin-1 son codificaciones de 1 byte — CUALQUIER byte 0x00-0xFF es válido
+    # en las tres, así que .decode() nunca tira UnicodeDecodeError sea cual sea
+    # el byte. Como cp1250 estaba primero en la lista, "tenía éxito" siempre
+    # y el resto de la lista (incluyendo la codificación correcta) nunca se
+    # llegaba a probar. La diferencia entre cp1250 y cp1252 es chica pero
+    # crítica acá: el byte 0xF1 es 'ñ' en cp1252/latin-1 pero 'ń' (con tilde
+    # polaca) en cp1250 — así que CADA "Año" del archivo se decodificaba como
+    # "Ańo", la regex de extraer_meta (que busca "Año \d{4}") nunca matcheaba,
+    # y el campo 'anio' quedaba vacío en prácticamente todos los registros.
+    # Orden nuevo: primero utf-8 (la única que sí puede fallar y detectar bien
+    # un archivo realmente UTF-8), después cp1252 (la real del sitio),
+    # latin-1 como red de seguridad (nunca falla, coincide con cp1252 en el
+    # rango acentuado), cp1250 al final por si algún archivo viejo puntual
+    # resultara ser Europa Central de verdad.
+    for enc in ['utf-8-sig', 'utf-8', 'cp1252', 'latin-1', 'cp1250']:
         try:
             return raw.decode(enc)
-        except:
+        except (UnicodeDecodeError, LookupError):
             continue
     return raw.decode('latin-1', errors='replace')
 
@@ -59,15 +76,23 @@ def detectar_tipo(lines):
     # busca en todo el bloque de metadata junto, con prioridad
     # sentencias > recursos > resumen > tramite_camara (el orden importa:
     # "resumen" antes que "tramite_camara" porque ambos títulos coexisten).
+    # FIX (2026-07-08 #2): a partir de 2023 el título viene en minúscula
+    # ("Movimiento de sentencias" en vez de "Movimiento de Sentencias"), y la
+    # comparación de abajo era case-sensitive -> se perdían ~211 CSVs reales
+    # de "sentencias" (caían al default tramite_camara, que no encuentra su
+    # header "Secretaría" en un archivo de sentencias y devuelve 0 registros).
+    # Se compara todo en minúsculas para no depender de cómo lo capitalice el
+    # sitio en cada tanda de exportación.
     valores = [ (l.split(';')[0] if l else '').strip() for l in lines[:9] ]
-    texto = ' | '.join(valores)
-    if any('Movimiento de Sentencias' in v for v in valores) or any(v == 'Sentencias' for v in valores):
+    valores_lc = [v.lower() for v in valores]
+    texto_lc = ' | '.join(valores_lc)
+    if any('movimiento de sentencias' in v for v in valores_lc) or any(v == 'sentencias' for v in valores_lc):
         return 'sentencias'
-    if 'Recursos interpuestos' in texto:
+    if 'recursos interpuestos' in texto_lc:
         return 'recursos'
-    if 'Resumen del per' in texto:
+    if 'resumen del per' in texto_lc:
         return 'resumen'
-    if 'Trámite de Expedientes' in texto or 'Tramite de Expedientes' in texto:
+    if 'trámite de expedientes' in texto_lc or 'tramite de expedientes' in texto_lc:
         return 'tramite_camara'
     return 'tramite_camara'
 

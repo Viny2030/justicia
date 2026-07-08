@@ -8,3 +8,12 @@ pjn_estadisticas/
 pjn_estadisticas_completo.csv
 pjn_estadisticas_completo.json
 pjn_meta.json
+
+pjn_libros_xls/
+pjn_pdfs/
+pjn_otros/
+pjn_libros_xls_extraido/
+pjn_pdfs_extraido/
+pjn_id_checkpoint.json
+pjn_libros_xls_manifest.json
+pjn_pdfs_manifest.json
