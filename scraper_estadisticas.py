@@ -86,6 +86,17 @@ def detectar_tipo(lines):
     valores = [ (l.split(';')[0] if l else '').strip() for l in lines[:9] ]
     valores_lc = [v.lower() for v in valores]
     texto_lc = ' | '.join(valores_lc)
+    # FIX (2026-07-08 #4): los reportes de la Cámara Nacional Electoral
+    # (Recursos de Apelación/Queja/Extraordinario/Recusación/Casación,
+    # Auditores) vienen con TODO el archivo corrido una columna (ver el
+    # preprocesamiento al principio de parse_csv que saca esa columna vacía)
+    # y con un cuadro por "Distrito" o por "Recursos" en vez de Tribunal/
+    # Secretaría — un formato totalmente distinto a los 4 tipos PJN
+    # estándar. Se detecta por esos encabezados y se parsea genérico
+    # (parse_electoral), sin forzarlo al esquema de pendientes/dictadas que
+    # no le corresponde semánticamente.
+    if any(v in ('distrito', 'recursos') for v in valores_lc):
+        return 'electoral'
     if any('movimiento de sentencias' in v for v in valores_lc) or any(v == 'sentencias' for v in valores_lc):
         return 'sentencias'
     if 'recursos interpuestos' in texto_lc:
@@ -230,6 +241,47 @@ def parse_recursos(lines, meta):
         })
     return registros
 
+def parse_electoral(lines, meta):
+    """
+    Cuadros de la Cámara Nacional Electoral (Recursos de Apelación/Queja/
+    Extraordinario/Recusación/Casación, Auditores). Formato distinto al resto
+    del PJN: header 'Distrito' (desglose geográfico, ej. Recursos de
+    Apelación/Auditores) o 'Recursos' (una sola fila agregada, sin desglose,
+    ej. Casación) — cada subtipo trae columnas distintas después de esa
+    primera. En vez de mapear cada subtipo a mano, se toman los nombres de
+    columna tal cual vienen en el header y se usan como claves — no se
+    fuerza a pendientes_inicio/dictadas_def/etc porque esos conceptos no
+    aplican a este tribunal (no tiene "jueces"/"secretarías" en ese sentido).
+    """
+    hr = find_header_row(lines, ['Distrito', 'Recursos'])
+    if hr is None: return []
+    header_cells = [c.strip() for c in lines[hr].split(';')]
+    columnas = [re.sub(r'\s+', ' ', c).strip() for c in header_cells[1:] if c.strip()]
+    claves = [re.sub(r'\W+', '_', c.lower()).strip('_') or f'valor_{i}' for i, c in enumerate(columnas)]
+
+    registros = []
+    for i in range(hr + 1, len(lines)):
+        cells = [c.strip() for c in lines[i].split(';')]
+        if 'Datos actualizados' in (cells[0] if cells else ''):
+            break
+        if not any(c for c in cells):
+            continue
+        etiqueta = cells[0]
+        valores = cells[1:]
+        if not etiqueta and not any(v for v in valores):
+            continue  # fila totalmente vacía (ojo: '-' significa "cero", no "vacío" -- eso SÍ es una fila de datos real, ej. Casación sin desglose por distrito)
+        organismo_sufijo = etiqueta or meta.get('tipo_informe') or 'Total'
+        r = {
+            **meta, 'tipo_csv': 'electoral',
+            'organismo': f"Cámara Nacional Electoral | {organismo_sufijo}",
+            'distrito': etiqueta,
+            'es_total': 'total' in etiqueta.lower() if etiqueta else False,
+        }
+        for clave, val in zip(claves, valores):
+            r[clave] = safe_num(val)
+        registros.append(r)
+    return registros
+
 # ── Parser principal ──────────────────────────────────────────────────────────
 
 def parse_csv(path):
@@ -237,6 +289,17 @@ def parse_csv(path):
         raw = f.read()
     text = decodificar(raw)
     lines = text.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+
+    # FIX (2026-07-08 #4): los CSV de la Cámara Nacional Electoral vienen con
+    # una columna vacía extra al principio de CADA línea (';Año 2023...' en
+    # vez de 'Año 2023...'), corriendo todos los índices de columna en 1. Se
+    # detecta mirando si la primera línea empieza con ';' (los archivos PJN
+    # normales arrancan directo con 'Ańo'/'Año', nunca con ';') y si es así
+    # se saca esa columna fantasma de todas las líneas antes de parsear nada
+    # — así detectar_tipo/extraer_meta/los parsers no necesitan enterarse.
+    if lines and lines[0].startswith(';'):
+        lines = [l[1:] if l.startswith(';') else l for l in lines]
+
     meta = extraer_meta(lines)
     tipo = detectar_tipo(lines)
     meta['tipo'] = tipo
@@ -246,6 +309,7 @@ def parse_csv(path):
     elif tipo == 'resumen':      return parse_resumen(lines, meta)
     elif tipo == 'sentencias':   return parse_sentencias(lines, meta)
     elif tipo == 'recursos':     return parse_recursos(lines, meta)
+    elif tipo == 'electoral':    return parse_electoral(lines, meta)
     return []
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -325,3 +389,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
