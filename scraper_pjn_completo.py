@@ -24,14 +24,11 @@ from io import StringIO, BytesIO
 from pathlib import Path
 from datetime import datetime, timezone
 from urllib.parse import urljoin, urlparse
-from bs4 import BeautifulSoup
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
-PORTALES = [
-    "https://estadisticas.pjn.gov.ar/",
-    "https://estadisticas.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/index.php",
-    "https://old.pjn.gov.ar/07_estadisticas/estadisticas/07_estadisticas/index.php",
-]
+# NOTA (2026-07-08): PORTALES/FORMATOS/get_html() de la versión vieja se
+# borraron de acá — crawl_pjn() ya no crawlea HTML, delega todo a
+# pjn_id_crawler.py (ver esa función más abajo).
 
 # datos.gob.ar tiene datasets del PJN con CSVs directos
 DATOS_GOB_AR_PJN = [
@@ -45,8 +42,6 @@ CHECKPOINT_FILE = Path("pjn_checkpoint.json")
 FAILURES_FILE = Path("pjn_failures.json")
 DELAY = 1.5
 TIMEOUT = 45
-FORMATOS = {".csv", ".xlsx", ".xls", ".zip"}
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-7s %(message)s",
@@ -61,16 +56,6 @@ session.headers.update({
 
 
 # ── HELPERS ───────────────────────────────────────────────────────────────────
-
-def get_html(url):
-    try:
-        r = session.get(url, timeout=TIMEOUT)
-        r.raise_for_status()
-        return BeautifulSoup(r.text, "html.parser")
-    except Exception as e:
-        log.warning(f"  HTML error {url}: {e}")
-        return None
-
 
 def parsear_csv(content_bytes):
     ultimo_error = None
