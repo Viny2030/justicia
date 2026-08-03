@@ -86,6 +86,17 @@ BASE_CSS = """
   .badge.gold{background:#1a1500;color:var(--gold)}
   .badge.red{background:#3a0f0f;color:#fca5a5}
 
+  .btn-ia{background:#1a1500;border:1px solid #3a2f00;color:var(--gold);
+          padding:7px 16px;border-radius:6px;font-size:.8rem;font-weight:600;
+          cursor:pointer;margin-top:10px}
+  .btn-ia:hover{background:#2a2000}
+  .btn-ia:disabled{opacity:.6;cursor:default}
+  .ia-box{background:#0f1e3a;border:1px solid var(--border);border-radius:8px;
+          padding:12px 16px;margin-top:10px;font-size:.85rem;color:#cbd5e1;
+          line-height:1.75}
+  .ia-label{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;
+            color:var(--gold);margin-bottom:8px;display:block}
+
   .inst-badges{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
   .controles{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
   .controles label{font-size:.81rem;color:var(--muted)}
@@ -121,6 +132,45 @@ FOOTER = """<footer>
   Datos: datos.jus.gob.ar · PJN · CSJN · Consejo de la Magistratura · Ph.D. Monteverde<br>
   Fuente pública oficial del Estado argentino
 </footer>"""
+
+# ── Agentic AI: helper JS compartido por todas las pantallas ────────────────
+# Uso en cualquier página:
+#   1. Antes de pintar el botón: `window.IA_DATOS = <dict de la fila/perfil>;`
+#   2. HTML: botonIA('juzgado', 'ia-box-x', 'btn-ia-x')  (o escribir el <button>
+#      a mano llamando a explicarConIA('tipo','boxId','btnId'))
+# `tipo` debe coincidir con una entrada de _PLANTILLAS en agentic_ai.py
+# ("juzgado", "camara", "consejo", "corte") o cae a la plantilla genérica.
+IA_JS = """
+window.IA_DATOS = {};
+async function explicarConIA(tipo, boxId, btnId) {
+  const box = document.getElementById(boxId);
+  const btn = btnId ? document.getElementById(btnId) : null;
+  if (btn) { btn.disabled = true; btn.textContent = '🤖 Pensando…'; }
+  box.style.display = 'block';
+  box.innerHTML = '<span style="color:#94a3b8;font-style:italic">Consultando IA…</span>';
+  try {
+    const resp = await fetch('/api/ia/explicar', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({tipo: tipo, datos: window.IA_DATOS || {}})
+    });
+    const data = await resp.json();
+    if (data.disponible) {
+      box.innerHTML = '<span class="ia-label">🤖 Explicación (Claude)</span>' + data.explicacion.replace(/\\n/g, '<br>');
+      if (btn) btn.style.display = 'none';
+    } else {
+      box.innerHTML = '<span class="ia-label">IA no disponible</span>' + (data.motivo || 'Sin detalle.');
+      if (btn) { btn.disabled = false; btn.textContent = '🤖 Explicar con IA'; }
+    }
+  } catch (e) {
+    box.innerHTML = 'No se pudo consultar la IA.';
+    if (btn) { btn.disabled = false; btn.textContent = '🤖 Explicar con IA'; }
+  }
+}
+function botonIA(tipo, boxId, btnId) {
+  return `<button class="btn-ia" id="${btnId}" onclick="explicarConIA('${tipo}','${boxId}','${btnId}')">🤖 Explicar con IA</button><div class="ia-box" id="${boxId}" style="display:none"></div>`;
+}
+"""
 
 
 def nav_html(activo: str = "") -> str:

@@ -55,7 +55,7 @@ HEADERS = {
 def descargar_csv() -> pd.DataFrame:
     """Descarga el CSV oficial de magistrados y lo retorna como DataFrame.
     Prueba múltiples URLs en orden; soporta CSV directo y ZIP."""
-    from io import StringIO, BytesIO
+    from io import BytesIO
     import zipfile
 
     for url in CSV_URLS:
@@ -76,7 +76,14 @@ def descargar_csv() -> pd.DataFrame:
                 with z.open(csv_name) as f:
                     df = pd.read_csv(f, encoding="utf-8", low_memory=False)
             else:
-                df = pd.read_csv(StringIO(r.text), encoding="utf-8", low_memory=False)
+                # OJO: usar r.content (bytes crudos), NO r.text. `requests` adivina
+                # el encoding de r.text a partir del header Content-Type, y cuando
+                # el servidor no declara charset cae a ISO-8859-1 por default aunque
+                # el archivo sea UTF-8 real. Eso es lo que generaba nombres/lugares
+                # con acentos rotos (mojibake: "CÃ³rdoba", "SOLÃ", etc.) en todos los
+                # JSON generados. Decodificar los bytes crudos como UTF-8 explícito
+                # evita el problema en la fuente.
+                df = pd.read_csv(BytesIO(r.content), encoding="utf-8", low_memory=False)
 
             log.info(f"CSV cargado: {len(df)} filas, {len(df.columns)} columnas — fuente: {url}")
             return df

@@ -12,7 +12,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(ROOT)
 
 from src.utils import calcular_kpi_eficiencia
-from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, nav_html
+from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, IA_JS, nav_html
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def _cargar(nombre: str) -> list:
@@ -1225,6 +1225,8 @@ function abrirDetalle(r) {
   const iraColor = ci(r.ira_semaforo||'');
   const iraLabel = r.ira_semaforo==='🟢'?'Bajo riesgo':r.ira_semaforo==='🟡'?'Riesgo medio':'Alto riesgo';
 
+  window.IA_DATOS = r;
+
   document.getElementById('panel-content').innerHTML = `
     <!-- Cabecera -->
     <div style="margin-bottom:18px">
@@ -1291,6 +1293,9 @@ function abrirDetalle(r) {
     ${r.objeto_principal ? `
     <div class="pd-sec">📁 Litigio principal</div>
     ${row('Objeto más frecuente', r.objeto_principal, '#94a3b8')}` : ''}
+
+    <div class="pd-sec">🤖 Análisis con IA</div>
+    ${botonIA('juzgado', 'ia-box-juz', 'btn-ia-juz')}
   `;
 
   document.getElementById('panel-overlay').classList.add('visible');
@@ -1310,6 +1315,6 @@ cargarNacional();
         "</div>",
         FOOTER,
         PLOTLY_JS,
-        "<script>", PLOTLY_BASE, script, "</script></body></html>",
+        "<script>", PLOTLY_BASE, IA_JS, script, "</script></body></html>",
     ]
     return HTMLResponse("".join(parts))

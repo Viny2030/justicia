@@ -46,10 +46,17 @@ class ScraperPJN:
             return self._generar_datos_contingencia()
 
     def _generar_datos_contingencia(self):
-        print("[i] Usando datos de respaldo (fuentes públicas alternativas)...")
+        # ATENCIÓN: estos NO son datos reales scrapeados — son ejemplos fijos
+        # que se insertaban en la base como si fueran actuaciones reales cada
+        # vez que fallaba el scraping (sitio caído, selector CSS desactualizado,
+        # etc.), sin ninguna marca que los distinga. Los dejamos marcados con
+        # "es_sintetico": True para que downstream (DB, dashboards) pueda
+        # filtrarlos o mostrarlos con una advertencia en vez de tratarlos como
+        # una actuación judicial real.
+        print("[!] Scraping falló — devolviendo datos SINTÉTICOS de contingencia (marcados es_sintetico=True)")
         return [
-            {"fecha": "2026-04-10", "instancia": "Corte Suprema", "descripcion": "Fallo contra el Estado Nacional por coparticipación federal.", "url_documento": "http://cij.gov.ar/p1"},
-            {"fecha": "2026-04-10", "instancia": "Comodoro Py", "descripcion": "Elevación a juicio oral en causa Vialidad contra ex funcionarios.", "url_documento": "http://cij.gov.ar/p2"}
+            {"fecha": "2026-04-10", "instancia": "Corte Suprema", "descripcion": "Fallo contra el Estado Nacional por coparticipación federal.", "url_documento": "http://cij.gov.ar/p1", "es_sintetico": True},
+            {"fecha": "2026-04-10", "instancia": "Comodoro Py", "descripcion": "Elevación a juicio oral en causa Vialidad contra ex funcionarios.", "url_documento": "http://cij.gov.ar/p2", "es_sintetico": True},
         ]
 
 if __name__ == "__main__":

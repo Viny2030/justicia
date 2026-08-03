@@ -4,6 +4,7 @@ from api.database import init_db
 init_db()  # crea tablas automáticamente al arrancar
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, FileResponse
+from pydantic import BaseModel
 import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -613,3 +614,28 @@ def apoyar_legacy():
 @app.get("/juzgados", response_class=HTMLResponse)
 def legacy():
     return HTMLResponse('<meta http-equiv="refresh" content="0; url=/operativo">')
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# API — AGENTIC AI (explicaciones narrativas vía Claude)
+# ─────────────────────────────────────────────────────────────────────────────
+# Endpoint genérico único: cualquier pantalla (Corte, Consejo, Cámaras,
+# Nacional PJN, Juzgados) manda su `tipo` + el dict que ya usa para pintarse,
+# y agentic_ai.py arma el prompt correspondiente. Sumar IA a una pantalla
+# nueva no requiere un endpoint nuevo, solo un botón que llame a este.
+
+class ExplicarIARequest(BaseModel):
+    tipo: str = "generico"
+    datos: dict = {}
+
+
+@app.get("/api/ia/status")
+def ia_status():
+    from agentic_ai import ia_disponible
+    return {"disponible": ia_disponible()}
+
+
+@app.post("/api/ia/explicar")
+def ia_explicar(req: ExplicarIARequest):
+    from agentic_ai import explicar
+    return explicar(req.tipo, req.datos)

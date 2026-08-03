@@ -23,7 +23,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(ROOT)
 
 from src.utils import calcular_tasa_vacancia, calcular_costo_por_sentencia
-from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, nav_html
+from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, IA_JS, nav_html
 
 # ══════════════════════════════════════════════════════════════════════════════
 # DATOS ESTÁTICOS — WJP (World Justice Project Rule of Law Index 2023)
@@ -947,6 +947,7 @@ def pagina_consejo():
 </div>
 <div class="seccion">📊 Indicadores del Consejo</div>
 <div class="kpi-grid" id="kpi-consejo"><div class="loading">Cargando…</div></div>
+<div id="ia-consejo-wrap" style="margin-bottom:20px"></div>
 <div class="charts">
   <div class="chart-box">
     <h2>📍 Vacancia por Jurisdicción</h2>
@@ -963,7 +964,7 @@ def pagina_consejo():
 </div>
 </div>""",
             FOOTER,
-            "<script>", PLOTLY_BASE,
+            "<script>", PLOTLY_BASE, IA_JS,
             r"""
 const C2={bg:'#0a1628',card:'#1a2744',gold:'#c9a227',blue:'#3b82f6',red:'#e63946',green:'#22c55e',text:'#e2e8f0',muted:'#94a3b8',grid:'#2d4a7a'};
 const Lx=(x={})=>Object.assign({plot_bgcolor:C2.card,paper_bgcolor:C2.card,font:{color:C2.text,family:'Segoe UI',size:12},margin:{l:10,r:10,t:30,b:40},xaxis:{gridcolor:C2.grid,linecolor:C2.grid},yaxis:{gridcolor:C2.grid,linecolor:C2.grid}},x);
@@ -987,6 +988,9 @@ async function cargar(){
     <div class="kpi"><label>Costo macro x sentencia</label>
       <div class="val" style="font-size:1.1rem">$ ${fmt(Math.round(k.costo_por_sentencia))}</div>
       <div class="sub">ARS · Presupuesto PJN 2024</div></div>`;
+
+  window.IA_DATOS = k;
+  document.getElementById('ia-consejo-wrap').innerHTML = botonIA('consejo', 'ia-box-consejo', 'btn-ia-consejo');
 
   if(v.labels&&v.labels.length)
     Plotly.newPlot('graf-vacancia',[{type:'bar',orientation:'h',
