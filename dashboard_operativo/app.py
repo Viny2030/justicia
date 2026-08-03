@@ -364,6 +364,7 @@ def pagina_camaras():
 
 <div class="seccion">📊 Indicadores Operativos</div>
 <div class="kpi-grid" id="kpi-cam"><div class="loading">Cargando…</div></div>
+<div id="ia-cam-wrap" style="margin-bottom:20px"></div>
 
 <div class="charts">
   <div class="chart-box">
@@ -379,6 +380,7 @@ def pagina_camaras():
 {FOOTER}
 <script>
 {PLOTLY_BASE}
+{IA_JS}
 async function cargar(){{
   const fuente='juzgados_nacional.json';
   const[kpis,tiempos,estados,ranking]=await Promise.all([
@@ -430,6 +432,9 @@ async function cargar(){{
       <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
       <div class="sub">ARS · presupuesto PJN / N órganos</div></div>
   `;
+
+  window.IA_DATOS = kpis;
+  document.getElementById('ia-cam-wrap').innerHTML = botonIA('camara', 'ia-box-cam', 'btn-ia-cam');
 
   if(estados.labels&&estados.labels.length)
     Plotly.newPlot('graf-estados-cam',[{{
@@ -508,6 +513,7 @@ def pagina_juzgados():
 
 <div class="seccion">📊 Indicadores Operativos</div>
 <div class="kpi-grid" id="kpi-grid"><div class="loading">Cargando…</div></div>
+<div id="ia-juz-wrap" style="margin-bottom:20px"></div>
 
 <div class="charts">
   <div class="chart-box">
@@ -523,6 +529,7 @@ def pagina_juzgados():
 {FOOTER}
 <script>
 {PLOTLY_BASE}
+{IA_JS}
 let rankData=[];
 
 function params(){{
@@ -591,6 +598,9 @@ async function recargar(){{
       <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
       <div class="sub">ARS · presupuesto PJN / N juzgados${{kpis.costo_mediana_causa ? ' · mediana/causa: $'+fmt(kpis.costo_mediana_causa) : ''}}</div></div>
   `;
+
+  window.IA_DATOS = kpis;
+  document.getElementById('ia-juz-wrap').innerHTML = botonIA('juzgado', 'ia-box-juz-resumen', 'btn-ia-juz-resumen');
 
   // Gráfico de fueros (donut si hay fuero, barras si no)
   if(estados.labels&&estados.labels.length){{

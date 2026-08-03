@@ -113,6 +113,17 @@ def _prompt_corte(d: dict) -> str:
 Explicá qué indica este dato sobre el funcionamiento de la CSJN y qué contexto adicional ayudaría a interpretarlo."""
 
 
+def _prompt_candidatos(d: dict) -> str:
+    return f"""Base de candidatos a magistrados (CVs presentados en concursos del Consejo de la Magistratura):
+
+- Total de candidatos: {d.get('total', '—')}
+- Top universidades de egreso: {d.get('universidades', [])}
+- Top provincias de origen: {d.get('provincias', [])}
+- Distribución por ámbito de concurso: {d.get('ambitos', [])}
+
+Explicá qué indica esta composición sobre la diversidad geográfica e institucional de los candidatos a magistrados, y qué pregunta de transparencia ayudaría a profundizarlo."""
+
+
 def _prompt_generico(d: dict) -> str:
     return f"""Datos del indicador:
 
@@ -122,10 +133,11 @@ Explicá en términos simples qué indica este dato dentro del contexto de trans
 
 
 _PLANTILLAS = {
-    "juzgado":  _prompt_juzgado,
-    "camara":   _prompt_juzgado,
-    "consejo":  _prompt_consejo,
-    "corte":    _prompt_corte,
+    "juzgado":     _prompt_juzgado,
+    "camara":      _prompt_juzgado,
+    "consejo":     _prompt_consejo,
+    "corte":       _prompt_corte,
+    "candidatos":  _prompt_candidatos,
 }
 
 

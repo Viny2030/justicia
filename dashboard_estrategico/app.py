@@ -855,13 +855,14 @@ def pagina_corte():
 <div class="kpi-grid" id="kpi-corte"><div class="loading">Cargando…</div></div>
 <div class="seccion">💰 Costo Institucional</div>
 <div class="kpi-grid" id="kpi-costo"><div class="loading">Cargando…</div></div>
+<div id="ia-corte-wrap" style="margin-bottom:20px"></div>
 <div class="seccion">📂 Expedientes Pendientes por Antigüedad</div>
 <div class="chart-full"><div id="graf-antiguedad" style="height:280px"></div></div>
 <div class="seccion">📅 Evolución de Designaciones</div>
 <div class="chart-full"><div id="graf-anio" style="height:220px"></div></div>
 </div>""",
         FOOTER,
-        "<script>", PLOTLY_BASE,
+        "<script>", PLOTLY_BASE, IA_JS,
         r"""
 async function cargar(){
   const [c, d] = await Promise.all([
@@ -896,6 +897,9 @@ async function cargar(){
     <div class="kpi"><label>Costo PJN x Sentencia</label>
       <div class="val" style="font-size:1.15rem" id="costo-pjn">—</div>
       <div class="sub">ARS · Presupuesto PJN 2024</div></div>`;
+
+  window.IA_DATOS = c;
+  document.getElementById('ia-corte-wrap').innerHTML = botonIA('corte', 'ia-box-corte', 'btn-ia-corte');
 
   fetch('/estrategico/api/kpis').then(r=>r.json()).then(k=>{
     document.getElementById('costo-pjn').textContent='$ '+fmt(Math.round(k.costo_por_sentencia));
@@ -1766,6 +1770,7 @@ def pagina_candidatos():
   <div class=\"kpi\"><label>Universidades representadas</label><div class=\"val\" id=\"cv-univs\">&#8212;</div><div class=\"sub\">Instituciones de egreso</div></div>
   <div class=\"kpi verde\"><label>Provincias de origen</label><div class=\"val\" id=\"cv-provs\">&#8212;</div><div class=\"sub\">Distribución geográfica</div></div>
 </div>
+<div id=\"ia-cand-wrap\" style=\"margin-bottom:20px\"></div>
 <div class=\"seccion\">📊 Distribución por Universidad</div>
 <div class=\"chart-full\"><div id=\"graf-cv-univs\" style=\"height:360px\"></div></div>
 <div class=\"charts\">
@@ -1795,6 +1800,8 @@ fetch('/estrategico/api/candidatos').then(r=>r.json()).then(d=>{
   document.getElementById('cv-total').textContent=d.total.toLocaleString('es-AR');
   document.getElementById('cv-univs').textContent=d.universidades.length;
   document.getElementById('cv-provs').textContent=d.provincias.length;
+  window.IA_DATOS={total:d.total,universidades:d.universidades.slice(0,5),provincias:d.provincias.slice(0,5),ambitos:d.ambitos};
+  document.getElementById('ia-cand-wrap').innerHTML=botonIA('candidatos','ia-box-cand','btn-ia-cand');
   const uL=d.universidades.map(u=>u.nombre),uV=d.universidades.map(u=>u.cantidad);
   Plotly.newPlot('graf-cv-univs',[{type:'bar',x:uV,y:uL,orientation:'h',text:uV,textposition:'outside',
     marker:{color:'#3b82f6',opacity:.85},hovertemplate:'<b>%{y}</b><br>%{x} candidatos<extra></extra>'}],
@@ -1843,7 +1850,7 @@ document.getElementById('cv-buscar').addEventListener('input',function(){
         "</div>",
         FOOTER,
         '<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>',
-        "<script>", script, "</script></body></html>",
+        "<script>", IA_JS, script, "</script></body></html>",
     ]
     return HTMLResponse("".join(parts))
 
