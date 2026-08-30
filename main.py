@@ -40,6 +40,11 @@ def inicio():
 .card .icon{{font-size:2.2rem;margin-bottom:12px}}
 .card h2{{font-size:1rem;margin-bottom:6px}}
 .card p{{color:var(--muted);font-size:.8rem;line-height:1.5}}
+.card-stats{{display:flex;justify-content:center;gap:16px;margin:10px 0 12px;flex-wrap:wrap}}
+.card-stats .stat{{text-align:center;min-width:44px}}
+.card-stats .stat-val{{font-size:1.2rem;font-weight:800;color:var(--gold2);line-height:1}}
+.card-stats .stat-lbl{{font-size:.6rem;color:var(--muted);text-transform:uppercase;
+                       letter-spacing:.5px;margin-top:3px}}
 .disclaimer{{margin:0 24px 24px}}
 </style></head><body>
 {nav_html("inicio")}
@@ -69,22 +74,40 @@ def inicio():
 <div class="grid">
   <a class="card" href="/estrategico/corte">
     <div class="icon">⚖️</div><h2>Corte Suprema</h2>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-val" id="kpi-corte-ministros">—</div><div class="stat-lbl">Ministros</div></div>
+    </div>
     <p>CSJN · Fallos de alto impacto · Tiempos de resolución</p>
   </a>
   <a class="card gold-t" href="/estrategico/consejo">
     <div class="icon">🏛️</div><h2>Consejo</h2>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-val" id="kpi-consejo-vacantes">—</div><div class="stat-lbl">Vacantes</div></div>
+      <div class="stat"><div class="stat-val" id="kpi-consejo-tasa">—</div><div class="stat-lbl">% Vacancia</div></div>
+    </div>
     <p>Magistratura · Vacancia · Designaciones · Concursos</p>
   </a>
   <a class="card red-t" href="/operativo/camaras">
     <div class="icon">🏢</div><h2>Cámaras</h2>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-val" id="kpi-camaras-total">—</div><div class="stat-lbl">Relevadas</div></div>
+    </div>
     <p>Instancia de apelación · Carga y latencia federal</p>
   </a>
   <a class="card blue-t" href="/operativo/nacional">
     <div class="icon">🗺️</div><h2>Nacional PJN</h2>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-val" id="kpi-nacional-total">—</div><div class="stat-lbl">Juzgados</div></div>
+      <div class="stat"><div class="stat-val" id="kpi-nacional-alto" style="color:#fca5a5">—</div><div class="stat-lbl">Alto riesgo</div></div>
+    </div>
     <p>Todos los juzgados · IRA · CEPEJ · WJP · Costo</p>
   </a>
   <a class="card" href="/operativo">
     <div class="icon">📋</div><h2>Juzgados</h2>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-val" id="kpi-juzgados-tasa">—</div><div class="stat-lbl">% Resolución</div></div>
+      <div class="stat"><div class="stat-val" id="kpi-juzgados-mora" style="color:#fca5a5">—</div><div class="stat-lbl">Mora crítica</div></div>
+    </div>
     <p>1ª Instancia · Mora · Ranking · Cuellos de botella</p>
   </a>
   <a class="card" href="/manual" style="border-color:#7c3aed">
@@ -93,6 +116,33 @@ def inicio():
   </a>
 </div>
 {FOOTER}
+<script>
+(function() {{
+  function setTxt(id, val) {{ var el = document.getElementById(id); if (el) el.textContent = val; }}
+  function fmtPct(n) {{ return (n === null || n === undefined || isNaN(n)) ? 'S/D' : n + '%'; }}
+  function fmtInt(n) {{ return (n === null || n === undefined || isNaN(n)) ? 'S/D' : Number(n).toLocaleString('es-AR'); }}
+
+  fetch('/estrategico/api/kpis').then(function(r){{ return r.json(); }}).then(function(d) {{
+    setTxt('kpi-corte-ministros', fmtInt(d.ministros_csjn));
+    setTxt('kpi-consejo-vacantes', fmtInt(d.total_vacantes));
+    setTxt('kpi-consejo-tasa', fmtPct(d.tasa_vacancia_pct));
+  }}).catch(function(){{}});
+
+  fetch('/operativo/api/kpis?fuente=estadisticas_causas.json&instancia=camaras').then(function(r){{ return r.json(); }}).then(function(d) {{
+    setTxt('kpi-camaras-total', fmtInt(d.n_camaras));
+  }}).catch(function(){{}});
+
+  fetch('/operativo/api/nacional').then(function(r){{ return r.json(); }}).then(function(d) {{
+    setTxt('kpi-nacional-total', fmtInt(d.total));
+    setTxt('kpi-nacional-alto', fmtInt(d.kpis && d.kpis.semaforo ? d.kpis.semaforo['🔴'] : null));
+  }}).catch(function(){{}});
+
+  fetch('/operativo/api/kpis').then(function(r){{ return r.json(); }}).then(function(d) {{
+    setTxt('kpi-juzgados-tasa', fmtPct(d.tasa_resolucion));
+    setTxt('kpi-juzgados-mora', fmtInt(d.causas_criticas));
+  }}).catch(function(){{}});
+}})();
+</script>
 </body></html>""")
 
 
