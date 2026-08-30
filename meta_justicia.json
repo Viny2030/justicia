@@ -1,6 +1,6 @@
 {
-  "ultima_actualizacion": "2026-08-03T09:54:31.960208",
-  "fecha_datos": "2026-08-03",
+  "ultima_actualizacion": "2026-08-30T06:25:11.343339",
+  "fecha_datos": "2026-08-30",
   "fuente": "datos.jus.gob.ar - Ministerio de Justicia de la Nación",
   "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
   "totales": {
@@ -24,16 +24,16 @@
     "Ciudad de Buenos Aires": 676,
     "Provincia de Buenos Aires": 94,
     "Santa Fe": 41,
-    "CÃ³rdoba": 22,
+    "Córdoba": 22,
     "Mendoza": 17,
     "Salta": 16,
-    "Entre RÃ­os": 16,
-    "TucumÃ¡n": 11,
+    "Entre Ríos": 16,
+    "Tucumán": 11,
     "Misiones": 11,
     "Corrientes": 10
   },
   "columnas_csv": [
-    "ï»¿orden",
+    "orden",
     "tipo_justicia",
     "camara",
     "organo_tipo",
