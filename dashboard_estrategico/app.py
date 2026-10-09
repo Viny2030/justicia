@@ -554,10 +554,12 @@ def api_cepej():
         )
 
         # ── 4. Renuncias recientes — datos_jus renuncias ────────────────────
-        dj_ren = _cargar_datos_jus("renuncias-de-magistrados")
-        # fallback: data/renuncias.json si datos_jus vacío
+        # 2026-10-09: renuncias.json ahora lo regenera a diario
+        # scraper_magistrados.py con el dataset oficial, así que tiene
+        # prioridad; datos_jus/ (volcado mensual) queda como respaldo.
+        dj_ren = _cargar_safe("renuncias.json")
         if not dj_ren:
-            dj_ren = _cargar_safe("renuncias.json")
+            dj_ren = _cargar_datos_jus("renuncias-de-magistrados")
         ren_recientes = sum(
             1 for r in dj_ren
             if str(r.get("fecha_renuncia",""))[:4] in ("2023","2024","2025","2026")

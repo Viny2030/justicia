@@ -128,7 +128,7 @@ def inicio():
     setTxt('kpi-consejo-tasa', fmtPct(d.tasa_vacancia_pct));
   }}).catch(function(){{}});
 
-  fetch('/operativo/api/kpis?fuente=estadisticas_causas.json&instancia=camaras').then(function(r){{ return r.json(); }}).then(function(d) {{
+  fetch('/operativo/api/camaras').then(function(r){{ return r.json(); }}).then(function(d) {{
     setTxt('kpi-camaras-total', fmtInt(d.n_camaras));
   }}).catch(function(){{}});
 
@@ -679,6 +679,64 @@ class ExplicarIARequest(BaseModel):
     datos: dict = {}
 
 
+# ── Límites de uso del asistente de IA ───────────────────────────────────────
+# 2026-10-09: /api/ia/explicar era público y sin límite: cualquiera podía
+# llamarlo en bucle y cada llamada se cobra en la ANTHROPIC_API_KEY del
+# proyecto. Ahora:
+#   · máximo IA_LIMITE_POR_IP_HORA consultas por IP por hora (default 10)
+#   · máximo IA_LIMITE_DIARIO consultas en total por día (default 200)
+#   · `tipo` debe ser una pantalla conocida y `datos` no puede superar 8 KB
+# Los contadores viven en memoria: se reinician si Railway reinicia la app,
+# lo cual es aceptable para este uso. Ajustables con variables de entorno.
+import json as _json, threading, time
+from collections import defaultdict, deque
+from fastapi import Request
+from fastapi.responses import JSONResponse
+
+IA_LIMITE_POR_IP_HORA = int(os.getenv("IA_LIMITE_POR_IP_HORA", "10"))
+IA_LIMITE_DIARIO      = int(os.getenv("IA_LIMITE_DIARIO", "200"))
+IA_MAX_BYTES_DATOS    = 8_000
+IA_TIPOS_VALIDOS      = {"juzgado", "camara", "consejo", "corte", "candidatos", "generico"}
+
+_ia_lock = threading.Lock()
+_ia_por_ip = defaultdict(deque)   # ip -> timestamps de la última hora
+_ia_global = deque()              # timestamps de las últimas 24 h
+
+
+def _ip_cliente(request: Request) -> str:
+    # Railway pone la IP real del visitante en X-Forwarded-For
+    xff = request.headers.get("x-forwarded-for", "")
+    return xff.split(",")[0].strip() if xff else (request.client.host if request.client else "?")
+
+
+def _ia_rechazo(motivo: str, status: int) -> JSONResponse:
+    # Mismo formato que agentic_ai._no_disponible → el frontend lo muestra tal cual
+    return JSONResponse({"disponible": False, "motivo": motivo}, status_code=status)
+
+
+def _ia_registrar(ip: str):
+    """Devuelve None si la consulta entra en los límites (y la cuenta),
+    o un mensaje de error si no."""
+    ahora = time.time()
+    with _ia_lock:
+        while _ia_global and ahora - _ia_global[0] > 86_400:
+            _ia_global.popleft()
+        cola = _ia_por_ip[ip]
+        while cola and ahora - cola[0] > 3_600:
+            cola.popleft()
+        if not cola:
+            _ia_por_ip.pop(ip, None)
+            cola = _ia_por_ip[ip]
+        if len(_ia_global) >= IA_LIMITE_DIARIO:
+            return "Se alcanzó el límite diario de consultas al asistente de IA. Probá de nuevo mañana."
+        if len(cola) >= IA_LIMITE_POR_IP_HORA:
+            return (f"Alcanzaste el límite de {IA_LIMITE_POR_IP_HORA} consultas por hora "
+                    "al asistente de IA. Probá de nuevo más tarde.")
+        cola.append(ahora)
+        _ia_global.append(ahora)
+    return None
+
+
 @app.get("/api/ia/status")
 def ia_status():
     from agentic_ai import ia_disponible
@@ -686,6 +744,13 @@ def ia_status():
 
 
 @app.post("/api/ia/explicar")
-def ia_explicar(req: ExplicarIARequest):
+def ia_explicar(req: ExplicarIARequest, request: Request):
     from agentic_ai import explicar
+    if req.tipo not in IA_TIPOS_VALIDOS:
+        return _ia_rechazo("Tipo de consulta no válido.", 400)
+    if len(_json.dumps(req.datos, ensure_ascii=False)) > IA_MAX_BYTES_DATOS:
+        return _ia_rechazo("Los datos enviados son demasiado grandes.", 413)
+    error = _ia_registrar(_ip_cliente(request))
+    if error:
+        return _ia_rechazo(error, 429)
     return explicar(req.tipo, req.datos)

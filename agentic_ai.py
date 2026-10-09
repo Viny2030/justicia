@@ -105,6 +105,21 @@ def _prompt_consejo(d: dict) -> str:
 Explicá qué implica este nivel de vacancia/subrogancia para el funcionamiento del fuero y qué pregunta de auditoría ciudadana ayudaría a seguirlo."""
 
 
+def _prompt_camaras(d: dict) -> str:
+    # 2026-10-09: la pantalla de Cámaras ahora manda la estructura de cargos
+    # (padrón de magistrados), no un perfil de juzgado.
+    return f"""Cámaras de Apelación de la Justicia Federal y Nacional (padrón oficial de magistrados):
+
+- Cámaras relevadas: {d.get('n_camaras', '—')} · cargos de juez de cámara: {d.get('cargos', '—')}
+- Vacancia: {d.get('pct_vacancia', '—')}% ({d.get('vacantes', '—')} cargos vacantes)
+- Subrogancia: {d.get('pct_subrogancia', '—')}% ({d.get('subrogantes', '—')} cargos cubiertos por subrogantes)
+- Vacantes sin subrogante designado: {d.get('sin_subrogante', '—')}
+- Concursos en trámite: {d.get('concursos', '—')}
+- Cámaras con mayor vacancia: {d.get('top_vacancia', [])}
+
+Explicá qué implica este nivel de vacancia y subrogancia en la instancia de apelación y qué pregunta de auditoría ciudadana ayudaría a seguirlo."""
+
+
 def _prompt_corte(d: dict) -> str:
     return f"""Indicador de la Corte Suprema de Justicia de la Nación:
 
@@ -134,7 +149,7 @@ Explicá en términos simples qué indica este dato dentro del contexto de trans
 
 _PLANTILLAS = {
     "juzgado":     _prompt_juzgado,
-    "camara":      _prompt_juzgado,
+    "camara":      _prompt_camaras,
     "consejo":     _prompt_consejo,
     "corte":       _prompt_corte,
     "candidatos":  _prompt_candidatos,

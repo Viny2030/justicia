@@ -15,7 +15,16 @@ from src.utils import calcular_kpi_eficiencia
 from shared import BASE_CSS, DISCLAIMER, FOOTER, PLOTLY_JS, PLOTLY_BASE, IA_JS, nav_html
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+# 2026-10-09: `fuente` llega por query string. Antes se hacía
+# os.path.join(ROOT, nombre) sin validar, así que cualquiera podía pedir
+# ?fuente=../../algo y leer archivos del servidor. Ahora sólo se aceptan
+# los archivos de datos que ofrece la propia interfaz.
+FUENTES_PERMITIDAS = {"juzgados_nacional.json", "estadisticas_causas.json", "pjn_checkpoint.json"}
+
+
 def _cargar(nombre: str) -> list:
+    if nombre not in FUENTES_PERMITIDAS:
+        raise ValueError(f"fuente no permitida: {nombre!r}")
     path = os.path.join(ROOT, nombre)
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -86,7 +95,11 @@ def _cargar_operativo(nombre: str) -> list:
     grupos = defaultdict(list)
     for r in data:
         org = r.get("organismo", "").strip()
-        if not org or "total" in org.lower() or org.startswith("(*"):
+        # Las notas al pie de los CSV del PJN ("Referencia: (*) Creada por...",
+        # "(**) Corresponde a arqueo...") se parseaban como organismos y, como
+        # mencionan "Cámara", se contaban como cámaras.
+        if (not org or "total" in org.lower() or org.startswith("(*")
+                or org.lower().startswith("referencia")):
             continue
         grupos[org].append(r)
 
@@ -225,14 +238,99 @@ def api_kpis(instancia: str = Query("todas"), fuente: str = Query("juzgados_naci
             # juzgados con DT >= 365 dias (no causas individuales)
             "causas_criticas": criticos,
             "pct_criticas": round(criticos / max(total, 1) * 100, 1),
-            # costo_por_causa legacy (presupuesto / N juzgados - NO es por causa)
-            "costo_por_causa": round(kpi_costo_juzgado, 0),
+            # 2026-10-09: antes "costo_por_causa" valía presupuesto / N juzgados
+            # (no es por causa) y así se lo pasaba también al asistente de IA.
+            # Ahora: costo_por_juzgado = ese cálculo, y costo_por_causa = la
+            # mediana real por causa (None si no hay datos de costo).
+            "costo_por_juzgado": round(kpi_costo_juzgado, 0) if total else None,
+            "costo_por_causa": round(mediana_costo, 0) if mediana_costo else None,
             # costos reales calculados desde datos oralidad
             "costo_mediana_causa": round(mediana_costo, 0) if mediana_costo else None,
             "costo_promedio_causa": round(promedio_costo, 0) if promedio_costo else None,
             "n_juzgados_con_costo_real": len(costos_reales),
             "tasa_resolucion": tasa_res,
             "resueltos": resueltos,
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/camaras")
+def api_camaras():
+    """Estructura y cobertura de las Cámaras de Apelación.
+
+    2026-10-09: la pantalla de Cámaras leía estadísticas de causas que no
+    tienen ninguna cámara (juzgados_nacional.json) o que sólo cubren
+    Comodoro Rivadavia (estadisticas_causas.json), así que mostraba 0 o
+    valores sin sentido. Esto usa magistrados.json — padrón oficial de
+    datos.jus.gob.ar que el workflow diario mantiene actualizado — y
+    calcula por cámara: cargos, titulares, subrogantes, vacantes y
+    concursos en trámite.
+    """
+    try:
+        path = os.path.join(ROOT, "magistrados.json")
+        with open(path, encoding="utf-8") as f:
+            cargos = json.load(f)
+        cam = [r for r in cargos if str(r.get("organo_tipo", "")).lower() in ("cámara", "camara")]
+
+        por_camara = defaultdict(lambda: {"cargos": 0, "titulares": 0, "subrogantes": 0,
+                                          "vacantes": 0, "sin_subrogante": 0,
+                                          "concursos": 0, "salas": set(), "provincia": ""})
+        for r in cam:
+            c = por_camara[r.get("camara") or "Sin dato"]
+            c["cargos"] += 1
+            c["salas"].add(r.get("organo_nombre") or "")
+            c["provincia"] = c["provincia"] or (r.get("provincia") or "")
+            cob = str(r.get("cargo_cobertura") or "")
+            if r.get("vacante"):
+                c["vacantes"] += 1
+            if cob == "Titular" and not r.get("vacante"):
+                c["titulares"] += 1
+            elif cob == "Subrogante":
+                c["subrogantes"] += 1
+            elif cob == "Sin subrogante designado":
+                c["sin_subrogante"] += 1
+            if r.get("concurso_en_tramite"):
+                c["concursos"] += 1
+
+        tabla = []
+        for nombre, c in por_camara.items():
+            tabla.append({
+                "camara": nombre,
+                "provincia": c["provincia"],
+                "salas": len(c["salas"]),
+                "cargos": c["cargos"],
+                "titulares": c["titulares"],
+                "subrogantes": c["subrogantes"],
+                "vacantes": c["vacantes"],
+                "sin_subrogante": c["sin_subrogante"],
+                "concursos": c["concursos"],
+                "pct_vacancia": round(c["vacantes"] / c["cargos"] * 100, 1) if c["cargos"] else 0,
+            })
+        tabla.sort(key=lambda x: (-x["pct_vacancia"], -x["vacantes"]))
+
+        tot = lambda k: sum(t[k] for t in tabla)
+        n_cargos = tot("cargos")
+        fecha = None
+        try:
+            with open(os.path.join(ROOT, "meta_justicia.json"), encoding="utf-8") as f:
+                fecha = json.load(f).get("fecha_datos")
+        except Exception:
+            pass
+
+        return {
+            "n_camaras": len(tabla),
+            "cargos": n_cargos,
+            "titulares": tot("titulares"),
+            "subrogantes": tot("subrogantes"),
+            "vacantes": tot("vacantes"),
+            "sin_subrogante": tot("sin_subrogante"),
+            "concursos": tot("concursos"),
+            "pct_vacancia": round(tot("vacantes") / n_cargos * 100, 1) if n_cargos else 0,
+            "pct_subrogancia": round(tot("subrogantes") / n_cargos * 100, 1) if n_cargos else 0,
+            "fuente": "magistrados.json — datos.jus.gob.ar (Ministerio de Justicia)",
+            "fecha_datos": fecha,
+            "tabla": tabla,
         }
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
@@ -349,112 +447,107 @@ def api_estados(fuente: str = Query("juzgados_nacional.json")):
 # ═══════════════════════════════════════════════════════════════════════════════
 @router.get("/camaras", response_class=HTMLResponse)
 def pagina_camaras():
+    # 2026-10-09: reescrita. Antes pedía /api/kpis?instancia=camaras sobre
+    # juzgados_nacional.json, que no contiene ninguna cámara, y mostraba
+    # 0 órganos y un "costo" de $45.000 M. Ahora usa /api/camaras
+    # (padrón oficial de magistrados): estructura, vacancia y subrogancia.
     html = _head("Cámaras Federales — Monitor Judicial")
     html += nav_html("camaras")
     html += f"""<div class="contenido">
 {DISCLAIMER}
 <div class="scope">
-  🏢 <strong>Cámaras Federales de Apelación</strong> —
+  🏢 <strong>Cámaras de Apelación — Justicia Federal y Nacional</strong> —
   Instancia revisora de las sentencias de primera instancia.
-  Datos filtrados automáticamente por nombre de órgano (contiene "cámara" / "camara" / "cam.").
+  Estructura de cargos, vacancia y subrogancia según el padrón oficial de magistrados
+  (<span id="cam-fuente">datos.jus.gob.ar</span>).
 </div>
 
-<div class="seccion">⏱ Tiempos de Resolución — Cámaras</div>
-<div class="kpi-tiempos" id="kpi-tiempos-cam"><div class="loading">Calculando…</div></div>
-
-<div class="seccion">📊 Indicadores Operativos</div>
+<div class="seccion">📊 Cobertura de cargos — Cámaras</div>
 <div class="kpi-grid" id="kpi-cam"><div class="loading">Cargando…</div></div>
 <div id="ia-cam-wrap" style="margin-bottom:20px"></div>
 
 <div class="charts">
   <div class="chart-box">
-    <h2>📊 Estado de Causas — Cámaras</h2>
-    <div id="graf-estados-cam" style="height:340px"></div>
+    <h2>🏆 Vacancia por Cámara (%)</h2>
+    <div id="graf-vacancia-cam" style="height:520px"></div>
   </div>
   <div class="chart-box">
-    <h2>🏆 Ranking Cámaras por Carga</h2>
-    <div id="graf-ranking-cam" style="height:340px"></div>
+    <h2>📋 Cobertura de cargos</h2>
+    <div id="graf-cobertura-cam" style="height:520px"></div>
   </div>
 </div>
+
+<div class="seccion">📑 Detalle por Cámara</div>
+<div style="overflow-x:auto"><table id="tabla-cam" style="width:100%;border-collapse:collapse;font-size:.82rem">
+  <thead><tr style="color:#94a3b8;text-align:left">
+    <th style="padding:8px 10px">Cámara</th><th style="padding:8px 10px">Provincia</th>
+    <th style="padding:8px 10px;text-align:right">Salas</th><th style="padding:8px 10px;text-align:right">Cargos</th>
+    <th style="padding:8px 10px;text-align:right">Titulares</th><th style="padding:8px 10px;text-align:right">Subrogantes</th>
+    <th style="padding:8px 10px;text-align:right">Vacantes</th><th style="padding:8px 10px;text-align:right">% Vacancia</th>
+    <th style="padding:8px 10px;text-align:right">Concursos</th>
+  </tr></thead><tbody><tr><td colspan="9" class="loading">Cargando…</td></tr></tbody>
+</table></div>
+
+<p style="color:#64748b;font-size:.78rem;margin-top:18px">
+  Nota: las fuentes públicas disponibles hoy no publican estadísticas de causas (ingresos,
+  sentencias, tiempos) desagregadas por cámara de forma consistente, por eso esta pantalla
+  no muestra tiempos de resolución de segunda instancia.
+</p>
 </div>
 {FOOTER}
 <script>
 {PLOTLY_BASE}
 {IA_JS}
 async function cargar(){{
-  const fuente='juzgados_nacional.json';
-  const[kpis,tiempos,estados,ranking]=await Promise.all([
-    fetch('/operativo/api/kpis?fuente='+fuente+'&instancia=camaras').then(r=>r.json()),
-    fetch('/operativo/api/tiempos?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/estados?fuente='+fuente).then(r=>r.json()),
-    fetch('/operativo/api/juzgados?fuente='+fuente+'&instancia=camaras&top=20').then(r=>r.json()),
-  ]);
-
-  const sinLat=!tiempos.tiene_latencia;
-  const nd=sinLat?'<span class="sub">Sin col. latencia</span>':null;
-  const pc=tiempos.tiempo_prom_camaras;
-  const moraC=tiempos.pct_mora_2anios>10?'alerta':'ok';
-
-  document.getElementById('kpi-tiempos-cam').innerHTML=`
-    <div class="kpi-t">
-      <label>🏛️ Tiempo prom. Cámaras</label>
-      <div class="val">${{nd||pc+'<span class="uni">días</span>'}}</div>
-      <div class="sub">${{pc&&pc>90?'🔴 Supera objetivo de 90 días':pc?'🟢 Dentro del objetivo':''}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>✅ Tasa de Resolución</label>
-      <div class="val">${{fmt(kpis.tasa_resolucion)}}<span class="uni">%</span></div>
-      <div class="sub">${{fmt(kpis.resueltos)}} causas resueltas</div>
-    </div>
-    <div class="kpi-t">
-      <label>⏳ Mora Judicial (+2 años)</label>
-      <div class="val ${{moraC}}">${{nd||fmt(tiempos.mora_2anios)}}</div>
-      <div class="sub ${{moraC}}">${{nd||tiempos.pct_mora_2anios+'% del total'}}</div>
-    </div>
-    <div class="kpi-t">
-      <label>📈 Percentiles P50/P75/P90</label>
-      <div class="val" style="font-size:1.1rem">${{nd||fmt(tiempos.p50_dias)+'d'}}</div>
-      <div class="sub">${{nd||'P75: '+fmt(tiempos.p75_dias)+'d · P90: '+fmt(tiempos.p90_dias)+'d'}}</div>
-    </div>
-  `;
+  const d = await fetch('/operativo/api/camaras').then(r=>r.json());
+  if(d.error) throw new Error(d.error);
+  if(d.fecha_datos) document.getElementById('cam-fuente').textContent='datos.jus.gob.ar · consultado '+d.fecha_datos;
 
   document.getElementById('kpi-cam').innerHTML=`
-    <div class="kpi"><label>Total Juzgados/Cámaras</label>
-      <div class="val">${{fmt(kpis.total)}}</div></div>
-    <div class="kpi ${{kpis.latencia_promedio>90?'rojo':'verde'}}">
-      <label>Latencia Promedio</label>
-      <div class="val">${{fmt(kpis.latencia_promedio)}}</div>
-      <div class="sub">días · obj. &lt;90</div></div>
-    <div class="kpi rojo"><label>Órganos con DT &gt;1 año</label>
-      <div class="val">${{fmt(kpis.causas_criticas)}}</div>
-      <div class="sub">${{kpis.pct_criticas}}% de órganos relevados</div></div>
-    <div class="kpi gold"><label>Costo estimado x juzgado</label>
-      <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS · presupuesto PJN / N órganos</div></div>
+    <div class="kpi"><label>Cámaras relevadas</label>
+      <div class="val">${{fmt(d.n_camaras)}}</div>
+      <div class="sub">${{fmt(d.cargos)}} cargos de juez de cámara</div></div>
+    <div class="kpi ${{d.pct_vacancia>20?'rojo':'verde'}}"><label>Vacancia</label>
+      <div class="val">${{d.pct_vacancia}}<span class="uni">%</span></div>
+      <div class="sub">${{fmt(d.vacantes)}} cargos vacantes</div></div>
+    <div class="kpi ${{d.pct_subrogancia>15?'rojo':'verde'}}"><label>Subrogancia</label>
+      <div class="val">${{d.pct_subrogancia}}<span class="uni">%</span></div>
+      <div class="sub">${{fmt(d.subrogantes)}} cargos cubiertos por subrogantes</div></div>
+    <div class="kpi gold"><label>Concursos en trámite</label>
+      <div class="val">${{fmt(d.concursos)}}</div>
+      <div class="sub">${{fmt(d.sin_subrogante)}} vacantes sin subrogante designado</div></div>
   `;
 
-  window.IA_DATOS = kpis;
+  const resumen = Object.assign({{}}, d); delete resumen.tabla;
+  resumen.top_vacancia = d.tabla.slice(0,5).map(t=>t.camara+': '+t.pct_vacancia+'%');
+  window.IA_DATOS = resumen;
   document.getElementById('ia-cam-wrap').innerHTML = botonIA('camara', 'ia-box-cam', 'btn-ia-cam');
 
-  if(estados.labels&&estados.labels.length)
-    Plotly.newPlot('graf-estados-cam',[{{
-      type:'bar',x:estados.labels,y:estados.values,
-      marker:{{color:C.gold,opacity:.85}}
-    }}],L({{xaxis:{{tickangle:-35,gridcolor:C.grid}}}}),{{responsive:true,displayModeBar:false}});
-  else document.getElementById('graf-estados-cam').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin columna de estado detectada</p>';
+  const t = d.tabla.slice().sort((a,b)=>b.pct_vacancia-a.pct_vacancia);
+  const corto = s => s.replace('Cámara Nacional de Apelaciones','CNA').replace('Cámara Federal de Apelaciones','CFA').replace('Cámara Federal','CF');
+  Plotly.newPlot('graf-vacancia-cam',[{{
+    type:'bar',orientation:'h',x:t.map(r=>r.pct_vacancia),y:t.map(r=>corto(r.camara)),
+    marker:{{color:t.map(r=>r.pct_vacancia>40?C.red||'#ef4444':r.pct_vacancia>20?C.gold:'#22c55e'),opacity:.85}},
+    hovertemplate:'<b>%{{y}}</b><br>Vacancia: %{{x}}%<extra></extra>',
+  }}],L({{yaxis:{{autorange:'reversed',automargin:true,gridcolor:C.grid,tickfont:{{size:10}}}},
+         margin:{{l:10,r:10,t:10,b:30}}}}),{{responsive:true,displayModeBar:false}});
 
-  const data=ranking.juzgados||[];
-  if(data.length)
-    Plotly.newPlot('graf-ranking-cam',[{{
-      type:'bar',orientation:'h',
-      x:data.map(d=>d.cantidad),y:data.map(d=>d.juzgado),
-      marker:{{color:C.gold,opacity:.85}},
-      hovertemplate:'<b>%{{y}}</b><br>Causas: %{{x}}<extra></extra>',
-    }}],L({{yaxis:{{autorange:'reversed',gridcolor:C.grid,tickfont:{{size:10}}}},
-           margin:{{l:10,r:10,t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
-  else document.getElementById('graf-ranking-cam').innerHTML=
-    '<p style="color:#4a5568;padding:20px">Sin columna de órgano detectada</p>';
+  Plotly.newPlot('graf-cobertura-cam',[{{
+    type:'pie',hole:.55,
+    labels:['Titulares','Subrogantes','Vacantes sin subrogante','No corresponde'],
+    values:[d.titulares,d.subrogantes,d.sin_subrogante,Math.max(d.cargos-d.titulares-d.subrogantes-d.sin_subrogante,0)],
+    marker:{{colors:['#22c55e',C.gold,'#ef4444','#64748b']}},
+  }}],L({{margin:{{l:10,r:10,t:10,b:10}}}}),{{responsive:true,displayModeBar:false}});
+
+  document.querySelector('#tabla-cam tbody').innerHTML = d.tabla.map(r=>`
+    <tr style="border-top:1px solid #1e3058">
+      <td style="padding:6px 10px">${{r.camara}}</td><td style="padding:6px 10px;color:#94a3b8">${{r.provincia}}</td>
+      <td style="padding:6px 10px;text-align:right">${{r.salas}}</td><td style="padding:6px 10px;text-align:right">${{r.cargos}}</td>
+      <td style="padding:6px 10px;text-align:right">${{r.titulares}}</td><td style="padding:6px 10px;text-align:right">${{r.subrogantes}}</td>
+      <td style="padding:6px 10px;text-align:right">${{r.vacantes}}</td>
+      <td style="padding:6px 10px;text-align:right;color:${{r.pct_vacancia>40?'#fca5a5':r.pct_vacancia>20?'#fcd34d':'#86efac'}}">${{r.pct_vacancia}}%</td>
+      <td style="padding:6px 10px;text-align:right">${{r.concursos}}</td>
+    </tr>`).join('');
 }}
 cargar().catch(e=>{{
   document.getElementById('kpi-cam').innerHTML=
@@ -594,9 +687,9 @@ async function recargar(){{
     <div class="kpi rojo"><label>Juzgados con mora (&gt;1 año DT)</label>
       <div class="val">${{fmt(kpis.causas_criticas)}}</div>
       <div class="sub">${{kpis.pct_criticas}}% de juzgados relevados</div></div>
-    <div class="kpi gold"><label>Costo estimado x juzgado</label>
-      <div class="val" style="font-size:1.2rem">${{fmt(kpis.costo_por_causa)}}</div>
-      <div class="sub">ARS · presupuesto PJN / N juzgados${{kpis.costo_mediana_causa ? ' · mediana/causa: $'+fmt(kpis.costo_mediana_causa) : ''}}</div></div>
+    <div class="kpi gold"><label>Costo mediano por causa</label>
+      <div class="val" style="font-size:1.2rem">${{kpis.costo_por_causa ? '$'+fmt(kpis.costo_por_causa) : '—'}}</div>
+      <div class="sub">ARS · mediana de ${{fmt(kpis.n_juzgados_con_costo_real)}} juzgados con datos${{kpis.costo_por_juzgado ? ' · por juzgado: $'+fmt(kpis.costo_por_juzgado) : ''}}</div></div>
   `;
 
   window.IA_DATOS = kpis;

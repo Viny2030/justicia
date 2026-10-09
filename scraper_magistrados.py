@@ -11,6 +11,7 @@ import json
 import pandas as pd
 from datetime import datetime, date
 import os
+from pathlib import Path
 import sys
 import logging
 import codecs
@@ -257,17 +258,50 @@ def generar_vacantes(df: pd.DataFrame) -> list:
     return registros
 
 
+RENUNCIAS_DATASET_ID = "renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional"
+
+
 def generar_renuncias(df: pd.DataFrame) -> list:
-    """JSON de renuncias.
-    El CSV 2024 no tiene columna de renuncias — ese dato viene de un dataset separado.
-    Ver: datos.jus.gob.ar/dataset/renuncias-de-magistrados
-    Retorna lista vacía para que el workflow no falle; se puede extender con el dataset de renuncias.
+    """JSON de renuncias de magistrados (dataset separado del padrón).
+
+    2026-10-09: antes devolvía siempre [] (TODO pendiente), así que
+    renuncias.json quedaba vacío y meta_justicia.json decía 0 renuncias.
+    Ahora baja el CSV más reciente del dataset oficial de renuncias vía
+    package_show; si el portal no responde, usa la copia local de
+    datos_jus/. Si tampoco hay copia, devuelve [] como antes.
+    `df` no se usa: se mantiene el parámetro por compatibilidad.
     """
-    # TODO: agregar descarga de dataset de renuncias separado
-    # URL: https://datos.jus.gob.ar/dataset/renuncias-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional
-    log.info("Renuncias: el CSV de magistrados 2024 no incluye esta columna — retornando []")
-    log.info("  Para datos de renuncias ver: datos.jus.gob.ar/dataset/renuncias-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional")
-    return []
+    from io import BytesIO
+    filas = None
+    try:
+        r = requests.get(PACKAGE_SHOW, params={"id": RENUNCIAS_DATASET_ID}, headers=HEADERS, timeout=60)
+        r.raise_for_status()
+        csvs = [x for x in r.json()["result"]["resources"]
+                if (x.get("format") or "").upper() == "CSV" and x.get("url", "").endswith(".csv")]
+        csvs.sort(key=lambda x: x.get("last_modified") or x.get("created") or "", reverse=True)
+        if csvs:
+            url = csvs[0]["url"]
+            rr = requests.get(url, headers=HEADERS, timeout=60)
+            rr.raise_for_status()
+            filas = pd.read_csv(BytesIO(rr.content), encoding="utf-8-sig", dtype=str, low_memory=False)
+            log.info(f"Renuncias: {len(filas)} registros — fuente: {url}")
+    except Exception as e:
+        log.warning(f"Renuncias: no se pudo descargar del portal ({e})")
+
+    if filas is None:
+        local = sorted(Path(OUTPUT_DIR, "datos_jus").glob("datos_jus_renuncias-de-magistrados*.csv"))
+        if local:
+            filas = pd.read_csv(local[-1], encoding="utf-8-sig", dtype=str, low_memory=False)
+            log.info(f"Renuncias: {len(filas)} registros — copia local {local[-1].name}")
+        else:
+            log.warning("Renuncias: sin fuente disponible — retornando []")
+            return []
+
+    filas.columns = [c.lstrip("\ufeff").strip() for c in filas.columns]
+    filas = filas.fillna("")
+    if "fecha_renuncia" in filas.columns:
+        filas = filas.sort_values("fecha_renuncia", ascending=False)
+    return filas.to_dict(orient="records")
 
 
 def generar_designaciones(df: pd.DataFrame) -> list:
@@ -324,6 +358,9 @@ def generar_meta(df: pd.DataFrame, magistrados: list, vacantes: list, renuncias:
             "magistrados_activos": len([m for m in magistrados if not m.get("vacante")]),
             "vacantes": len(vacantes),
             "renuncias": len(renuncias),
+            # renuncias.json es histórico (desde 1978); esto es lo reciente
+            "renuncias_desde_2023": sum(1 for r in renuncias
+                                        if str(r.get("fecha_renuncia", ""))[:4] >= "2023"),
             "indice_vacancia_pct": round(len(vacantes) / total * 100, 1) if total > 0 else 0,
         },
         "cobertura_breakdown": cobertura_breakdown,
