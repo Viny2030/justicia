@@ -1,0 +1,68 @@
+name: 🔔 Vigía Corte Suprema — Semanal
+
+# ─────────────────────────────────────────────────────────────────────────────
+# POR QUÉ EXISTE ESTE WORKFLOW
+# ─────────────────────────────────────────────────────────────────────────────
+# Las cifras de la Corte (datos_csjn.json) se cargan A MANO: la CSJN publica
+# sus estadísticas una vez por año, en PDF y tableros interactivos, y leerlas
+# automáticamente es frágil (un cambio de formato publicaría números
+# equivocados sin que nadie lo note). Este workflow NO toca datos: una vez por
+# semana revisa si salió el Anuario nuevo, si cambió la composición del
+# Tribunal o si se publicó el cierre presupuestario anual, y si hay algo
+# abre un issue (GitHub avisa por mail) para actualizar datos_csjn.json.
+#
+# Si los sitios de la Corte bloquean la consulta, el job NO falla: lo informa
+# como "no se pudo verificar" en el resumen y reintenta la semana siguiente.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"   # Lunes 12:00 UTC = 09:00 ART
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 🐍 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Dependencias
+        run: pip install requests
+
+      - name: 🔎 Revisar fuentes de la CSJN
+        run: python scripts/vigia_csjn.py
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: 🔔 Abrir issue si hay novedades
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ! -s vigia_csjn_alertas.md ]; then
+            echo "Sin novedades de la CSJN."
+            exit 0
+          fi
+          TITULO="Vigía CSJN: hay datos nuevos de la Corte para cargar"
+          gh label create vigia-csjn --color C9A227 --description "Avisos del vigía de la Corte Suprema" --force
+          # Si ya hay un issue abierto del vigía, se comenta ahí en vez de abrir otro
+          ABIERTO=$(gh issue list --label vigia-csjn --state open --json number --jq '.[0].number')
+          if [ -n "$ABIERTO" ]; then
+            gh issue comment "$ABIERTO" --body-file vigia_csjn_alertas.md
+            echo "Comentado en el issue #$ABIERTO"
+          else
+            gh issue create --title "$TITULO" --label vigia-csjn --body-file vigia_csjn_alertas.md
+          fi

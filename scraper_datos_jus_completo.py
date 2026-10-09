@@ -35,6 +35,20 @@ TIMEOUT    = 30
 MAX_ROWS   = 500_000                    # seguridad: descartar recursos gigantes
 
 # Datasets de interés principal (se descargan siempre)
+# 2026-10-09: esta lista se había borrado (quedó sólo el comentario) y el modo
+# default de main() fallaba con NameError antes de descargar nada, así que el
+# workflow mensual terminaba siempre con 0 datasets y no commiteaba. Son los 8
+# datasets que hoy usa el dashboard (IDs verificados con package_show).
+DATASETS_PRIORITARIOS = [
+    "magistrados-justicia-federal-y-de-la-justicia-nacional",
+    "designaciones-de-magistrados-de-la-justicia-federal-y-la-justicia-nacional",
+    "renuncias-de-magistrados-de-la-justicia-federal-y-de-la-justicia-nacional",
+    "traslados-de-jueces-de-la-justicia-federal-y-de-la-justicia-nacional",
+    "seleccion-de-magistrados-del-poder-judicial-y-el-ministerio-publico-de-la-nacion",
+    "curriculums-vitae-de-magistrados-para-cubrir-vacantes-en-el-poder-judicial-y-el-ministerio-publico",
+    "estadistica-de-designaciones-de-magistrados-de-la-justicia-federal-y-nacional-por-genero",
+    "oralidad-en-los-procesos-civiles",
+]
 
 # Formatos aceptados (en orden de preferencia)
 FORMATOS_OK = ["CSV", "csv", "XLSX", "xlsx", "XLS", "xls", "JSON", "json"]
