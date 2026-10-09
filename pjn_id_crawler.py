@@ -64,6 +64,31 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
+# ── Límite de tiempo ─────────────────────────────────────────────────────────
+# 2026-10-09: en GitHub Actions el sitio del PJN a veces responde muy lento y el
+# crawl completo (~9500 ids, timeout 20s + 2 reintentos) superaba el límite del
+# job, que lo cortaba y se perdía todo. Con PJN_CRAWL_MAX_MIN (minutos) el
+# crawl se detiene solo al llegar al límite y sigue con lo que ya bajó.
+# El sondeo usa hasta el 60% del tiempo; el resto queda para las descargas.
+# Sin la variable (o en 0) no hay límite: mismo comportamiento que antes.
+_MAX_MIN = float(os.environ.get("PJN_CRAWL_MAX_MIN", "0") or 0)
+_DEADLINE_SONDEO = None
+_DEADLINE_DESCARGA = None
+
+
+def _iniciar_reloj():
+    global _DEADLINE_SONDEO, _DEADLINE_DESCARGA
+    if _MAX_MIN > 0:
+        t0 = time.time()
+        _DEADLINE_SONDEO = t0 + _MAX_MIN * 60 * 0.6
+        _DEADLINE_DESCARGA = t0 + _MAX_MIN * 60
+        log.info(f"Límite de tiempo del crawl: {_MAX_MIN:.0f} min (sondeo hasta {_MAX_MIN*0.6:.0f} min)")
+
+
+def _vencido(deadline):
+    return deadline is not None and time.time() > deadline
+
+
 def _session(pool_size=WORKERS):
     s = requests.Session()
     s.headers.update({"User-Agent": USER_AGENT, "Accept": "application/json,*/*"})
@@ -93,6 +118,8 @@ def checkpoint_save(cp):
 
 def _consultar_id(sess, id_):
     """Devuelve dict de metadata del archivo con ese id, o None si no existe (404/500/gap)."""
+    if _vencido(_DEADLINE_SONDEO):
+        return None
     try:
         r = sess.get(f"{BASE}/getUrlDescarga", params={"id": id_}, timeout=TIMEOUT)
     except requests.RequestException:
@@ -205,6 +232,8 @@ def descargar_catalogo(entradas, resume=True, delay=DELAY, workers=8):
     sess = _session(pool_size=workers)
 
     def _tarea(d):
+        if _vencido(_DEADLINE_DESCARGA):
+            return str(d["id"]), {"ok": False, "error": "límite de tiempo (PJN_CRAWL_MAX_MIN)"}, None
         time.sleep(delay)  # jitter suave por thread, no serializa todo
         return _descargar_uno(sess, d)
 
@@ -236,6 +265,7 @@ def descargar_catalogo(entradas, resume=True, delay=DELAY, workers=8):
 
 def crawl_y_descargar(start_id=1, max_id=MAX_ID_DEFAULT, resume=True, delay=DELAY, workers=WORKERS,
                        download_workers=8):
+    _iniciar_reloj()
     entradas = enumerar_catalogo(start_id=start_id, max_id=max_id, workers=workers)
     return descargar_catalogo(entradas, resume=resume, delay=delay, workers=download_workers)
 

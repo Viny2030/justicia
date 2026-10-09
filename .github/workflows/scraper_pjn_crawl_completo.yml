@@ -56,7 +56,7 @@ permissions:
 jobs:
   crawl-completo:
     runs-on: ubuntu-latest
-    timeout-minutes: 40   # el crawl completo tarda más que el modo --skip-crawl
+    timeout-minutes: 60   # 2026-10-09: subido de 40; el crawl se autolimita a 45 min (PJN_CRAWL_MAX_MIN)
 
     steps:
       - name: 📥 Checkout repositorio
@@ -95,6 +95,10 @@ jobs:
           python scraper_juzgados_nacional.py $ARGS
         env:
           PYTHONIOENCODING: utf-8
+          # El crawl corta solo a los 45 min y sigue con lo descargado, así
+          # quedan ~15 min para procesar, verificar y commitear antes del
+          # límite de 60 min del job.
+          PJN_CRAWL_MAX_MIN: "45"
 
       - name: ✅ Verificar juzgados_nacional.json
         run: |
