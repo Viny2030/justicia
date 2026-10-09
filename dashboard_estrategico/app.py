@@ -238,6 +238,20 @@ def _cargar(nombre):
             return list(data.values())[0] if data else []
     raise FileNotFoundError(nombre)
 
+def _datos_csjn() -> dict:
+    """Cifras oficiales de la CSJN (composición, anuarios, presupuesto).
+    2026-10-09: antes la pantalla de la Corte mostraba números fijos en el
+    código (25.000 expedientes, 4.800 sentencias, 5 ministros) porque
+    ninguna fuente automática trae datos de la Corte. datos_csjn.json
+    guarda las cifras oficiales con su fuente y se actualiza a mano con
+    cada Anuario Estadístico de la CSJN."""
+    try:
+        with open(os.path.join(ROOT, "datos_csjn.json"), encoding="utf-8") as f:
+            return _json.load(f)
+    except Exception:
+        return {}
+
+
 def _cargar_safe(nombre):
     try: return _cargar(nombre)
     except: return []
@@ -371,7 +385,7 @@ def api_kpis():
             "tasa_vacancia_pct": calcular_tasa_vacancia(cu, tm),
             "total_designaciones": len(des),
             "costo_por_sentencia": calcular_costo_por_sentencia(PRESUPUESTO_PJN_ARS, SENTENCIAS_PJN_ANIO),
-            "ministros_csjn": 5,
+            "ministros_csjn": len(_datos_csjn().get("composicion", {}).get("ministros", [])) or None,
         }
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
@@ -438,51 +452,55 @@ def api_designaciones():
 @router.get("/api/corte")
 def api_corte():
     try:
-        causas_raw = _cargar_safe("estadisticas_causas.json") or _cargar_safe("pjn_checkpoint.json")
-        col_org  = _col(causas_raw,"juzgado","organo","tribunal","camara","instancia")
-        col_lat  = _col(causas_raw,"latencia","dias","tiempo_proceso","duracion","antiguedad")
-        col_est  = _col(causas_raw,"estado","situac","resolucion","resultado")
-        col_fech = _col(causas_raw,"fecha_inicio","inicio","ingreso","fecha_radicacion","fecha")
+        d = _datos_csjn()
+        if not d:
+            return JSONResponse({"error": "datos_csjn.json no encontrado"}, status_code=500)
+        comp = d.get("composicion", {})
+        anuarios = sorted(d.get("anuarios", []), key=lambda a: a["anio"])
+        ult = anuarios[-1] if anuarios else {}
+        ant = anuarios[-2] if len(anuarios) > 1 else {}
+        pres = d.get("presupuesto", {})
+        pob = d.get("poblacion", {}).get("valor") or POBLACION_ARGENTINA
+        presupuesto = pres.get("credito_vigente_operativo")
 
-        csjn = ([r for r in causas_raw if _es_csjn(str(r.get(col_org,"")))]
-                if col_org else [])
-        tiene_datos_reales = len(csjn) > 0
-        buckets: Counter = Counter()
-        sentencias = pendientes = 0
-
-        if tiene_datos_reales:
-            palabras_ok = ("resuelto","sentencia","archivado","cerrado","concluido","finalizado","acuerdo")
-            for r in csjn:
-                est_val = str(r.get(col_est,"")).lower() if col_est else ""
-                if any(p in est_val for p in palabras_ok):
-                    sentencias += 1
-                else:
-                    pendientes += 1
-                    dias = 0
-                    if col_lat:
-                        try: dias = float(r.get(col_lat, 0) or 0)
-                        except: pass
-                    elif col_fech:
-                        try:
-                            fecha = datetime.strptime(str(r.get(col_fech,""))[:10], "%Y-%m-%d")
-                            dias = (datetime.now() - fecha).days
-                        except: pass
-                    buckets[_antiguedad_bucket(dias) if dias > 0 else "Sin fecha"] += 1
-            total_csjn = len(csjn)
-        else:
-            total_csjn = 25_000; sentencias = 4_800; pendientes = total_csjn - sentencias
-            buckets = Counter({"< 1 año":3200,"1–2 años":4500,"2–4 años":6800,"4–8 años":5900,"> 8 años":4600})
-
-        ant_labels = [b for b in BUCKET_ORDER if b in buckets] + [b for b in buckets if b not in BUCKET_ORDER]
+        var = lambda k: (round((ult[k] - ant[k]) / ant[k] * 100, 1)
+                         if ant.get(k) and ult.get(k) is not None else None)
+        ministros = comp.get("ministros", [])
         return {
-            "tiene_datos_reales": tiene_datos_reales,
-            "total_expedientes": total_csjn, "pendientes": pendientes, "sentencias": sentencias,
-            "eficiencia_pct": round(sentencias / max(total_csjn,1) * 100, 1),
-            "costo_x_sentencia": round(PRESUPUESTO_CSJN_ARS / max(sentencias,1), 0),
-            "costo_x_habitante": round(PRESUPUESTO_CSJN_ARS / POBLACION_ARGENTINA, 2),
-            "presupuesto_csjn": PRESUPUESTO_CSJN_ARS, "poblacion": POBLACION_ARGENTINA,
-            "antiguedad": {"labels": ant_labels, "values": [buckets[b] for b in ant_labels]},
-            "ministros": 5,
+            "tiene_datos_reales": True,
+            "ministros": len(ministros),
+            "ministros_detalle": ministros,
+            "cargos_por_ley": comp.get("cargos_por_ley", 5),
+            "vacantes_corte": comp.get("cargos_por_ley", 5) - len(ministros),
+            "anio": ult.get("anio"),
+            "ingresados": ult.get("ingresados"),
+            "resueltos": ult.get("resueltos"),
+            "fallos": ult.get("fallos"),
+            "acuerdos": ult.get("acuerdos"),
+            "duracion_promedio_dias": ult.get("duracion_promedio_dias"),
+            "saldo_anual": (ult["ingresados"] - ult["resueltos"]) if ult else None,
+            # tasa de resolución anual: resueltos / ingresados del mismo año
+            "tasa_resolucion_pct": round(ult["resueltos"] / ult["ingresados"] * 100, 1) if ult.get("ingresados") else None,
+            "var_ingresados_pct": var("ingresados"),
+            "var_resueltos_pct": var("resueltos"),
+            "serie": {
+                "anios": [a["anio"] for a in anuarios],
+                "ingresados": [a.get("ingresados") for a in anuarios],
+                "resueltos": [a.get("resueltos") for a in anuarios],
+            },
+            "ingresados_por_secretaria": ult.get("ingresados_por_secretaria", {}),
+            "resueltos_por_secretaria": ult.get("resueltos_por_secretaria", {}),
+            "presupuesto_anio": pres.get("anio"),
+            "presupuesto_csjn": presupuesto,
+            "costo_x_caso_resuelto": round(presupuesto / ult["resueltos"], 0) if presupuesto and ult.get("resueltos") else None,
+            "costo_x_habitante": round(presupuesto / pob, 2) if presupuesto else None,
+            "poblacion": pob,
+            "fuentes": {
+                "composicion": comp.get("fuente"),
+                "anuario": ult.get("fuente"),
+                "presupuesto": pres.get("fuente"),
+            },
+            "actualizado": d.get("actualizado"),
         }
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
@@ -849,19 +867,24 @@ def pagina_corte():
         DISCLAIMER,
         """<div class="scope">
   ⚖️ <strong>Corte Suprema de Justicia de la Nación (CSJN)</strong> —
-  Máxima instancia judicial. Indicadores de carga, eficiencia y costo institucional.
-  Las cifras marcadas con <em>(*)</em> son estimaciones basadas en el Presupuesto
-  Nacional 2024 y la Memoria Anual de la CSJN.
+  Máxima instancia judicial. Cifras oficiales del <em>Anuario Estadístico</em> de la CSJN,
+  su composición actual y la ejecución presupuestaria publicada en datos.csjn.gob.ar.
+  <span id="corte-actualizado"></span>
 </div>
-<div class="seccion">⚖️ Composición y Eficiencia</div>
+<div class="seccion">⚖️ Composición</div>
+<div class="kpi-grid" id="kpi-comp"><div class="loading">Cargando…</div></div>
+<div class="seccion">📂 Carga y Resolución de Casos</div>
 <div class="kpi-grid" id="kpi-corte"><div class="loading">Cargando…</div></div>
 <div class="seccion">💰 Costo Institucional</div>
 <div class="kpi-grid" id="kpi-costo"><div class="loading">Cargando…</div></div>
 <div id="ia-corte-wrap" style="margin-bottom:20px"></div>
-<div class="seccion">📂 Expedientes Pendientes por Antigüedad</div>
-<div class="chart-full"><div id="graf-antiguedad" style="height:280px"></div></div>
+<div class="charts">
+  <div class="chart-box"><h2>📊 Casos ingresados vs. resueltos</h2><div id="graf-serie" style="height:300px"></div></div>
+  <div class="chart-box"><h2>🗂️ Ingresos por secretaría</h2><div id="graf-secretaria" style="height:300px"></div></div>
+</div>
 <div class="seccion">📅 Evolución de Designaciones</div>
 <div class="chart-full"><div id="graf-anio" style="height:220px"></div></div>
+<p id="corte-fuentes" style="color:#64748b;font-size:.78rem;margin-top:14px"></p>
 </div>""",
         FOOTER,
         "<script>", PLOTLY_BASE, IA_JS,
@@ -871,61 +894,74 @@ async function cargar(){
     fetch('/estrategico/api/corte').then(r=>r.json()),
     fetch('/estrategico/api/designaciones').then(r=>r.json()),
   ]);
-  const tag = c.tiene_datos_reales?'':' <span style="color:var(--muted);font-size:.75rem">(*)</span>';
-  const ef_color = c.eficiencia_pct>=50?'var(--green)':c.eficiencia_pct>=25?'var(--gold)':'var(--red)';
+  if(c.error) throw new Error(c.error);
   const fmt = n => n==null?'S/D':Number(n).toLocaleString('es-AR');
+  const varTxt = v => v==null?'':(v>0?'▲ ':'▼ ')+Math.abs(v).toLocaleString('es-AR')+'% vs. '+(c.anio-1);
+  if(c.actualizado) document.getElementById('corte-actualizado').textContent='Última revisión: '+c.actualizado+'.';
 
-  document.getElementById('kpi-corte').innerHTML=`
+  document.getElementById('kpi-comp').innerHTML=`
     <div class="kpi gold"><label>Ministros en ejercicio</label>
-      <div class="val">${c.ministros}</div><div class="sub">Composición actual CSJN</div></div>
-    <div class="kpi"><label>Total Expedientes${tag}</label>
-      <div class="val">${fmt(c.total_expedientes)}</div><div class="sub">${fmt(c.pendientes)} pendientes</div></div>
-    <div class="kpi verde"><label>Sentencias / Acuerdos${tag}</label>
-      <div class="val">${fmt(c.sentencias)}</div><div class="sub">causas resueltas</div></div>
-    <div class="kpi" style="border-color:${ef_color}"><label>Índice de Eficiencia${tag}</label>
-      <div class="val" style="color:${ef_color}">${c.eficiencia_pct}%</div>
-      <div class="sub">resueltos / total expedientes</div></div>`;
+      <div class="val">${c.ministros} <span class="uni">de ${c.cargos_por_ley}</span></div>
+      <div class="sub">${c.vacantes_corte} cargos vacantes</div></div>
+    ${c.ministros_detalle.map(m=>`
+    <div class="kpi"><label>${m.cargo}</label>
+      <div class="val" style="font-size:1.05rem">${m.nombre}</div></div>`).join('')}`;
+
+  const tr = c.tasa_resolucion_pct, trc = tr>=100?'var(--green)':tr>=60?'var(--gold)':'var(--red)';
+  document.getElementById('kpi-corte').innerHTML=`
+    <div class="kpi"><label>Casos ingresados ${c.anio}</label>
+      <div class="val">${fmt(c.ingresados)}</div><div class="sub">${varTxt(c.var_ingresados_pct)}</div></div>
+    <div class="kpi verde"><label>Casos resueltos ${c.anio}</label>
+      <div class="val">${fmt(c.resueltos)}</div><div class="sub">${varTxt(c.var_resueltos_pct)} · ${fmt(c.fallos)} fallos en ${c.acuerdos} acuerdos</div></div>
+    <div class="kpi" style="border-color:${trc}"><label>Tasa de resolución</label>
+      <div class="val" style="color:${trc}">${tr}%</div>
+      <div class="sub">resueltos / ingresados · saldo ${fmt(c.saldo_anual)} casos</div></div>
+    <div class="kpi rojo"><label>Duración promedio</label>
+      <div class="val">${fmt(c.duracion_promedio_dias)} <span class="uni">días</span></div>
+      <div class="sub">por caso resuelto en ${c.anio}</div></div>`;
 
   document.getElementById('kpi-costo').innerHTML=`
-    <div class="kpi rojo"><label>Presupuesto CSJN 2024</label>
+    <div class="kpi rojo"><label>Presupuesto CSJN ${c.presupuesto_anio}</label>
       <div class="val" style="font-size:1.15rem">$ ${fmt(c.presupuesto_csjn)}</div>
-      <div class="sub">ARS · Presupuesto Nacional</div></div>
-    <div class="kpi rojo"><label>Costo por Sentencia${tag}</label>
-      <div class="val" style="font-size:1.15rem">$ ${fmt(c.costo_x_sentencia)}</div>
-      <div class="sub">ARS · presupuesto ÷ acuerdos</div></div>
-    <div class="kpi gold"><label>Costo por Habitante${tag}</label>
+      <div class="sub">ARS · crédito vigente sin activos financieros</div></div>
+    <div class="kpi rojo"><label>Costo por caso resuelto</label>
+      <div class="val" style="font-size:1.15rem">$ ${fmt(c.costo_x_caso_resuelto)}</div>
+      <div class="sub">ARS · presupuesto ÷ casos resueltos ${c.anio}</div></div>
+    <div class="kpi gold"><label>Costo por habitante</label>
       <div class="val" style="font-size:1.3rem">$ ${Number(c.costo_x_habitante).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
-      <div class="sub">ARS/habitante</div></div>
-    <div class="kpi"><label>Costo PJN x Sentencia</label>
-      <div class="val" style="font-size:1.15rem" id="costo-pjn">—</div>
-      <div class="sub">ARS · Presupuesto PJN 2024</div></div>`;
+      <div class="sub">ARS/habitante · Censo 2022</div></div>`;
 
-  window.IA_DATOS = c;
+  const ia = Object.assign({}, c); delete ia.fuentes; delete ia.serie;
+  window.IA_DATOS = ia;
   document.getElementById('ia-corte-wrap').innerHTML = botonIA('corte', 'ia-box-corte', 'btn-ia-corte');
-
-  fetch('/estrategico/api/kpis').then(r=>r.json()).then(k=>{
-    document.getElementById('costo-pjn').textContent='$ '+fmt(Math.round(k.costo_por_sentencia));
-  });
 
   const C2={bg:'#0a1628',card:'#1a2744',gold:'#c9a227',blue:'#3b82f6',red:'#e63946',green:'#22c55e',text:'#e2e8f0',muted:'#94a3b8',grid:'#2d4a7a'};
   const Lx=(x={})=>Object.assign({plot_bgcolor:C2.card,paper_bgcolor:C2.card,font:{color:C2.text,family:'Segoe UI',size:12},margin:{l:10,r:10,t:30,b:40},xaxis:{gridcolor:C2.grid,linecolor:C2.grid},yaxis:{gridcolor:C2.grid,linecolor:C2.grid}},x);
 
-  if(c.antiguedad&&c.antiguedad.labels&&c.antiguedad.labels.length){
-    const vals=c.antiguedad.values, maxV=Math.max(...vals);
-    Plotly.newPlot('graf-antiguedad',[{type:'bar',x:c.antiguedad.labels,y:vals,
-      marker:{color:vals.map(v=>v===maxV?'#e63946':'#c9a227'),opacity:.88},
-      hovertemplate:'<b>%{x}</b><br>Expedientes: %{y:,}<extra></extra>'}],
-      Lx({yaxis:{gridcolor:C2.grid,title:{text:'Expedientes',font:{size:11}}},margin:{l:60,r:10,t:10,b:40}}),
-      {responsive:true,displayModeBar:false});
-  } else {
-    document.getElementById('graf-antiguedad').innerHTML='<p style="color:#4a5568;padding:20px">Sin datos de antigüedad</p>';
-  }
+  const anios = c.serie.anios.map(String);
+  Plotly.newPlot('graf-serie',[
+    {type:'bar',name:'Ingresados',x:anios,y:c.serie.ingresados,marker:{color:C2.gold}},
+    {type:'bar',name:'Resueltos',x:anios,y:c.serie.resueltos,marker:{color:C2.green}},
+  ], Lx({barmode:'group',margin:{l:60,r:10,t:10,b:40},legend:{orientation:'h',y:1.12},
+         xaxis:{type:'category',gridcolor:C2.grid},yaxis:{gridcolor:C2.grid,tickformat:',d'}}),
+  {responsive:true,displayModeBar:false});
+
+  const sec = c.ingresados_por_secretaria||{};
+  Plotly.newPlot('graf-secretaria',[{type:'pie',hole:.55,labels:Object.keys(sec),values:Object.values(sec),
+    marker:{colors:[C2.gold,C2.blue,C2.red,'#64748b']}}],
+    Lx({margin:{l:10,r:10,t:10,b:10}}),{responsive:true,displayModeBar:false});
+
   if(d.por_anio&&d.por_anio.labels&&d.por_anio.labels.length)
     Plotly.newPlot('graf-anio',[{type:'scatter',mode:'lines',fill:'tozeroy',
       x:d.por_anio.labels,y:d.por_anio.values,line:{color:C2.gold,width:2},
-      fillcolor:'rgba(201,162,39,0.12)'}],Lx(),{responsive:true,displayModeBar:false});
+      fillcolor:'rgba(201,162,39,0.12)'}],Lx({margin:{l:45,r:10,t:10,b:40}}),{responsive:true,displayModeBar:false});
   else
     document.getElementById('graf-anio').innerHTML='<p style="color:#4a5568;padding:16px">Sin datos de fecha</p>';
+
+  const f = c.fuentes||{};
+  document.getElementById('corte-fuentes').innerHTML = 'Fuentes: '+
+    [['Composición',f.composicion],['Anuario Estadístico '+c.anio,f.anuario],['Ejecución presupuestaria '+c.presupuesto_anio,f.presupuesto]]
+    .filter(x=>x[1]).map(x=>`<a href="${x[1]}" target="_blank" rel="noopener" style="color:#94a3b8">${x[0]}</a>`).join(' · ');
 }
 cargar().catch(e=>{
   document.getElementById('kpi-corte').innerHTML='<div style="color:var(--red)">Error: '+e.message+'</div>';

@@ -1,0 +1,60 @@
+{
+  "_nota": "Cifras oficiales de la CSJN. No hay API ni dataset abierto con estas estadísticas: se actualizan a mano cuando la Corte publica el Anuario Estadístico (una vez por año) o cambia la composición del Tribunal. Lo leen api_corte y api_kpis en dashboard_estrategico/app.py.",
+  "actualizado": "2026-10-09",
+  "composicion": {
+    "cargos_por_ley": 5,
+    "ministros": [
+      {"nombre": "Horacio Rosatti", "cargo": "Presidente"},
+      {"nombre": "Carlos Fernando Rosenkrantz", "cargo": "Vicepresidente"},
+      {"nombre": "Ricardo Lorenzetti", "cargo": "Ministro"}
+    ],
+    "fuente": "https://www.csjn.gov.ar/institucional/jueces"
+  },
+  "anuarios": [
+    {
+      "anio": 2024,
+      "ingresados": 45678,
+      "resueltos": 19056,
+      "fallos": 12521,
+      "acuerdos": 47,
+      "duracion_promedio_dias": 599,
+      "fuente": "https://www.csjn.gov.ar/archivos/estadisticas/informe_anuario_CSJN_2024.pdf"
+    },
+    {
+      "anio": 2025,
+      "ingresados": 58424,
+      "resueltos": 26524,
+      "fallos": 15652,
+      "acuerdos": 46,
+      "duracion_promedio_dias": 609,
+      "ingresados_por_secretaria": {
+        "Previsional": 41806,
+        "Laboral": 7571,
+        "Penal": 2780,
+        "Otras": 6267
+      },
+      "resueltos_por_secretaria": {
+        "Previsional": 14338,
+        "Penal": 3141,
+        "Laboral": 3011,
+        "Penal Especial": 1507,
+        "Contencioso Administrativo": 1241,
+        "Civil y Comercial": 1183,
+        "Otras": 2103
+      },
+      "fuente": "https://www.csjn.gov.ar/archivos/estadisticas/informe_anuario_CSJN_2025.pdf"
+    }
+  ],
+  "presupuesto": {
+    "anio": 2025,
+    "credito_vigente_total": 550330437274,
+    "activos_financieros_inciso_6": 273066882648,
+    "credito_vigente_operativo": 277263554626,
+    "detalle": "SAF 335 Corte Suprema de Justicia de la Nación, ejecución presupuestaria a diciembre 2025. Operativo = total menos Inciso 6 (activos financieros, Prog. 97 sin ejecución).",
+    "fuente": "https://datos.csjn.gob.ar/dataset/ejecucion-presupuestaria-diciembre-2025"
+  },
+  "poblacion": {
+    "valor": 46044703,
+    "fuente": "INDEC — Censo Nacional 2022"
+  }
+}
