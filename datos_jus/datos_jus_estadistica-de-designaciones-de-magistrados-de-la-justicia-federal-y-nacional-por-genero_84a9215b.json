@@ -1,33 +1,1032 @@
 [
   {
-    "designacion_anio": "2000",
+    "designacion_anio": "1976",
     "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1976",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
-    "designacion_anio": "2000",
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1983",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Electoral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "29",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "26",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "14",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "18",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "15",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "61",
+    "cantidad_mujeres": "20"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "25",
+    "cantidad_mujeres": "16"
+  },
+  {
+    "designacion_anio": "1984",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "38",
+    "cantidad_mujeres": "9"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "15",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "12",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1985",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1986",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
-    "designacion_anio": "2000",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
-    "designacion_anio": "2001",
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1987",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1988",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1989",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
@@ -36,20 +1035,2135 @@
     "cantidad_mujeres": "1"
   },
   {
-    "designacion_anio": "2001",
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "8"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "1989",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "13",
+    "cantidad_mujeres": "6"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "7"
+  },
+  {
+    "designacion_anio": "1990",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "12",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
     "cantidad_varones": "0",
     "cantidad_mujeres": "2"
   },
   {
-    "designacion_anio": "2001",
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "10",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "6"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "15",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1991",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "15",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "18",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "7"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "12",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "30",
+    "cantidad_mujeres": "9"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "21",
+    "cantidad_mujeres": "6"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1992",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "11",
+    "cantidad_mujeres": "12"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "16",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "28",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "10",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "59",
+    "cantidad_mujeres": "14"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "10"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "10"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "28",
+    "cantidad_mujeres": "11"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "9"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "37",
+    "cantidad_mujeres": "18"
+  },
+  {
+    "designacion_anio": "1993",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "74",
+    "cantidad_mujeres": "21"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "10",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "36",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "9"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "6"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1994",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "11",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "8"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1995",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1996",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1997",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1998",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1999",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1999",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "1999",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2000",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2000",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2000",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2001",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
     "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
@@ -60,24 +3174,6 @@
     "instancia_tipo": "Cámara",
     "materia": "Federal",
     "cantidad_varones": "3",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2001",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2001",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
@@ -102,19 +3198,28 @@
     "designacion_anio": "2001",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "5",
-    "cantidad_mujeres": "1"
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2001",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
-    "materia": "Penal",
+    "materia": "Seguridad social",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2001",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2001",
@@ -136,10 +3241,37 @@
   },
   {
     "designacion_anio": "2001",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Seguridad social",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2001",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2001",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2001",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -183,24 +3315,6 @@
     "designacion_anio": "2002",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Defensor",
     "instancia_tipo": "Cámara",
     "materia": "Penal económico",
     "cantidad_varones": "1",
@@ -208,7 +3322,7 @@
   },
   {
     "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Nacional",
+    "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
@@ -217,7 +3331,7 @@
   },
   {
     "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Nacional",
+    "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
@@ -244,30 +3358,21 @@
   },
   {
     "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2002",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
     "cantidad_varones": "2",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2002",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2002",
@@ -286,15 +3391,6 @@
     "materia": "Contencioso administrativo",
     "cantidad_varones": "2",
     "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2002",
@@ -327,6 +3423,15 @@
     "designacion_anio": "2002",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2002",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "4",
@@ -334,12 +3439,39 @@
   },
   {
     "designacion_anio": "2002",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
-    "materia": "Penal económico",
-    "cantidad_varones": "2",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2002",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2002",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2002",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2002",
@@ -354,19 +3486,19 @@
     "designacion_anio": "2002",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
     "cantidad_varones": "2",
-    "cantidad_mujeres": "2"
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2002",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Laboral",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
     "cantidad_varones": "2",
-    "cantidad_mujeres": "1"
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2002",
@@ -397,37 +3529,10 @@
   },
   {
     "designacion_anio": "2003",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2003",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2003",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2003",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -453,6 +3558,15 @@
     "designacion_anio": "2003",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2003",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "2",
@@ -460,10 +3574,28 @@
   },
   {
     "designacion_anio": "2003",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2003",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2003",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
-    "materia": "Penal económico",
+    "materia": "Múltiple",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -505,24 +3637,6 @@
   },
   {
     "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -541,38 +3655,11 @@
   },
   {
     "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Múltiple",
     "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -580,9 +3667,18 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
-    "materia": "Civil y/o comercial",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
     "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2004",
@@ -597,45 +3693,18 @@
     "designacion_anio": "2004",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
-    "cantidad_varones": "3",
+    "cantidad_varones": "2",
     "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2004",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
-    "cantidad_varones": "5",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "5",
+    "cantidad_varones": "6",
     "cantidad_mujeres": "0"
   },
   {
@@ -649,10 +3718,82 @@
   },
   {
     "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2004",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2004",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
     "cantidad_varones": "3",
     "cantidad_mujeres": "1"
   },
@@ -678,15 +3819,6 @@
     "designacion_anio": "2004",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2004",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "3",
@@ -712,15 +3844,6 @@
   },
   {
     "designacion_anio": "2005",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2005",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -743,8 +3866,17 @@
     "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
-    "cantidad_varones": "3",
+    "cantidad_varones": "2",
     "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2005",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2005",
@@ -753,6 +3885,15 @@
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2005",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -768,19 +3909,19 @@
     "designacion_anio": "2005",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "11",
-    "cantidad_mujeres": "11"
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2005",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Laboral",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "0"
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "11",
+    "cantidad_mujeres": "11"
   },
   {
     "designacion_anio": "2005",
@@ -847,21 +3988,12 @@
   },
   {
     "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
-    "materia": "Penal",
+    "materia": "Federal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2006",
@@ -870,15 +4002,6 @@
     "instancia_tipo": "Juzgado",
     "materia": "Civil y/o comercial",
     "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
@@ -910,48 +4033,12 @@
   },
   {
     "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "5",
-    "cantidad_mujeres": "4"
-  },
-  {
-    "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Sin datos",
-    "materia": "Sin datos",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2006",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Contencioso administrativo",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2006",
@@ -960,6 +4047,24 @@
     "instancia_tipo": "Cámara",
     "materia": "Federal",
     "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -1000,12 +4105,48 @@
   },
   {
     "designacion_anio": "2006",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Cámara",
-    "materia": "Seguridad social",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
     "cantidad_varones": "0",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "2006",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2006",
@@ -1020,19 +4161,19 @@
     "designacion_anio": "2006",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
     "cantidad_varones": "4",
-    "cantidad_mujeres": "1"
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2006",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Laboral",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
     "cantidad_varones": "4",
-    "cantidad_mujeres": "0"
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2006",
@@ -1072,33 +4213,6 @@
   },
   {
     "designacion_anio": "2007",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2007",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2007",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2007",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -1117,27 +4231,9 @@
   },
   {
     "designacion_anio": "2007",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Sin datos",
-    "materia": "Sin datos",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2007",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
-    "materia": "Contencioso administrativo",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2007",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
     "materia": "Contencioso administrativo",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
@@ -1150,6 +4246,15 @@
     "materia": "Federal",
     "cantidad_varones": "3",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2007",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2007",
@@ -1172,9 +4277,36 @@
   {
     "designacion_anio": "2007",
     "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2007",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2007",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2007",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
     "cantidad_varones": "0",
     "cantidad_mujeres": "2"
   },
@@ -1186,6 +4318,15 @@
     "materia": "Laboral",
     "cantidad_varones": "0",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2007",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2008",
@@ -1216,11 +4357,110 @@
   },
   {
     "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Múltiple",
     "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "7",
     "cantidad_mujeres": "1"
   },
   {
@@ -1231,6 +4471,15 @@
     "materia": "Penal",
     "cantidad_varones": "2",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2008",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2008",
@@ -1252,46 +4501,19 @@
   },
   {
     "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
+    "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "7",
+    "materia": "Laboral",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2008",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
-    "materia": "Laboral",
+    "materia": "Múltiple",
     "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
@@ -1308,9 +4530,9 @@
     "designacion_anio": "2008",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "1"
   },
   {
@@ -1325,82 +4547,10 @@
   {
     "designacion_anio": "2008",
     "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
     "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
     "cantidad_varones": "4",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "6",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "7",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal económico",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Seguridad social",
-    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -1425,15 +4575,6 @@
     "designacion_anio": "2008",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2008",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
     "cantidad_varones": "5",
@@ -1461,6 +4602,15 @@
     "designacion_anio": "2009",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
     "cantidad_varones": "1",
@@ -1474,51 +4624,6 @@
     "materia": "Penal",
     "cantidad_varones": "2",
     "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal económico",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2009",
@@ -1551,8 +4656,8 @@
     "designacion_anio": "2009",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
     "cantidad_varones": "2",
     "cantidad_mujeres": "0"
   },
@@ -1561,7 +4666,16 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
-    "materia": "Federal",
+    "materia": "Seguridad social",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
     "cantidad_varones": "2",
     "cantidad_mujeres": "0"
   },
@@ -1578,15 +4692,6 @@
     "designacion_anio": "2009",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "6",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2009",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Penal económico",
     "cantidad_varones": "1",
@@ -1596,10 +4701,46 @@
     "designacion_anio": "2009",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Cámara",
-    "materia": "Seguridad social",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2009",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2009",
@@ -1630,15 +4771,6 @@
   },
   {
     "designacion_anio": "2010",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2010",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -1676,6 +4808,15 @@
   {
     "designacion_anio": "2010",
     "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2010",
+    "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
@@ -1696,6 +4837,15 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2011",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
@@ -1713,28 +4863,10 @@
     "designacion_anio": "2011",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2011",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2011",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2011",
@@ -1758,9 +4890,27 @@
     "designacion_anio": "2011",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2011",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2011",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
-    "cantidad_varones": "10",
+    "cantidad_varones": "9",
     "cantidad_mujeres": "2"
   },
   {
@@ -1776,28 +4926,10 @@
     "designacion_anio": "2011",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2011",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
-    "cantidad_varones": "0",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2011",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "8",
-    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2011",
@@ -1807,6 +4939,15 @@
     "materia": "Penal económico",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2011",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2011",
@@ -1830,15 +4971,6 @@
     "designacion_anio": "2011",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "9",
-    "cantidad_mujeres": "6"
-  },
-  {
-    "designacion_anio": "2011",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Laboral",
     "cantidad_varones": "5",
@@ -1852,6 +4984,15 @@
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2011",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "6"
   },
   {
     "designacion_anio": "2011",
@@ -1891,15 +5032,6 @@
   },
   {
     "designacion_anio": "2012",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2012",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
@@ -1927,15 +5059,6 @@
   },
   {
     "designacion_anio": "2012",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2012",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
@@ -1977,6 +5100,33 @@
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2012",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2012",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2012",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
@@ -1998,15 +5148,6 @@
     "cantidad_mujeres": "7"
   },
   {
-    "designacion_anio": "2012",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
     "designacion_anio": "2013",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
@@ -2035,42 +5176,6 @@
   },
   {
     "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "3"
-  },
-  {
-    "designacion_anio": "2013",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -2082,28 +5187,10 @@
     "designacion_anio": "2013",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Federal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "8",
-    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2013",
@@ -2113,6 +5200,60 @@
     "materia": "Seguridad social",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2013",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2013",
@@ -2140,15 +5281,6 @@
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2013",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2013",
@@ -2172,15 +5304,6 @@
     "designacion_anio": "2014",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "3"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Defensor",
     "instancia_tipo": "Cámara",
     "materia": "Múltiple",
     "cantidad_varones": "1",
@@ -2190,37 +5313,19 @@
     "designacion_anio": "2014",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "6",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "0",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Nacional",
+    "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "1"
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2014",
@@ -2260,12 +5365,93 @@
   },
   {
     "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2014",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
     "cantidad_varones": "1",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2014",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2014",
@@ -2289,64 +5475,10 @@
     "designacion_anio": "2014",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
     "cantidad_varones": "3",
     "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal económico",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2014",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Seguridad social",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2014",
@@ -2413,39 +5545,21 @@
   },
   {
     "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "6",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2015",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2015",
@@ -2487,17 +5601,89 @@
     "designacion_anio": "2015",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
+    "instancia_tipo": "Tribunal",
     "materia": "Penal económico",
     "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "4",
     "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2015",
     "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
-    "materia": "Penal económico",
+    "materia": "Penal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2015",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -2518,60 +5704,6 @@
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Sin datos",
-    "materia": "Sin datos",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2015",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "7",
-    "cantidad_mujeres": "4"
   },
   {
     "designacion_anio": "2015",
@@ -2604,8 +5736,8 @@
     "designacion_anio": "2016",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -2613,8 +5745,8 @@
     "designacion_anio": "2016",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -2633,33 +5765,6 @@
     "cargo_tipo": "Defensor",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -2674,39 +5779,12 @@
   },
   {
     "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2016",
     "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
+    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
+    "materia": "Federal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2016",
@@ -2715,6 +5793,24 @@
     "instancia_tipo": "Cámara",
     "materia": "Federal",
     "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -2746,12 +5842,48 @@
   },
   {
     "designacion_anio": "2016",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
     "instancia_tipo": "Cámara",
-    "materia": "Penal económico",
-    "cantidad_varones": "0",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2016",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2016",
@@ -2766,28 +5898,19 @@
     "designacion_anio": "2017",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "10",
-    "cantidad_mujeres": "5"
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2017",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "10",
+    "cantidad_mujeres": "5"
   },
   {
     "designacion_anio": "2017",
@@ -2803,6 +5926,60 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "7",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2017",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
     "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
@@ -2824,51 +6001,6 @@
     "materia": "Penal",
     "cantidad_varones": "4",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "5",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2017",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "7",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2017",
@@ -2926,30 +6058,21 @@
   },
   {
     "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "2",
+    "materia": "Múltiple",
+    "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
     "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "1"
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2018",
@@ -2964,53 +6087,8 @@
     "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Múltiple",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Sin datos",
-    "materia": "Sin datos",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -3045,15 +6123,6 @@
     "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Penal",
     "cantidad_varones": "5",
@@ -3064,25 +6133,16 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
+    "materia": "Federal",
+    "cantidad_varones": "3",
     "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
+    "instancia_tipo": "Juzgado",
     "materia": "Penal",
-    "cantidad_varones": "5",
-    "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal económico",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -3097,6 +6157,69 @@
   },
   {
     "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Sin datos",
+    "materia": "Sin datos",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Múltiple",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
@@ -3108,28 +6231,10 @@
     "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "10",
-    "cantidad_mujeres": "18"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Laboral",
     "cantidad_varones": "2",
     "cantidad_mujeres": "2"
-  },
-  {
-    "designacion_anio": "2018",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Laboral",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2018",
@@ -3145,18 +6250,27 @@
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "6",
-    "cantidad_mujeres": "6"
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "10",
+    "cantidad_mujeres": "18"
   },
   {
     "designacion_anio": "2018",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal económico",
+    "instancia_tipo": "Juzgado",
+    "materia": "Laboral",
     "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "2018",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "6",
+    "cantidad_mujeres": "6"
   },
   {
     "designacion_anio": "2019",
@@ -3166,24 +6280,6 @@
     "materia": "Penal",
     "cantidad_varones": "2",
     "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2019",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2019",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2019",
@@ -3216,6 +6312,15 @@
     "designacion_anio": "2019",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2019",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "6",
@@ -3223,11 +6328,20 @@
   },
   {
     "designacion_anio": "2019",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Seguridad social",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
     "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2019",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
@@ -3236,6 +6350,15 @@
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
     "materia": "Civil y/o comercial",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2019",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
     "cantidad_varones": "2",
     "cantidad_mujeres": "1"
   },
@@ -3246,15 +6369,6 @@
     "instancia_tipo": "Juzgado",
     "materia": "Civil y/o comercial",
     "cantidad_varones": "3",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2019",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Laboral",
-    "cantidad_varones": "2",
     "cantidad_mujeres": "1"
   },
   {
@@ -3288,19 +6402,19 @@
     "designacion_anio": "2020",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "2"
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2020",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2020",
@@ -3313,33 +6427,6 @@
   },
   {
     "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Sin datos",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2020",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Cámara",
@@ -3355,15 +6442,6 @@
     "materia": "Federal",
     "cantidad_varones": "0",
     "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Contencioso administrativo",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2020",
@@ -3387,10 +6465,37 @@
     "designacion_anio": "2020",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2020",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2020",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
     "cantidad_varones": "8",
-    "cantidad_mujeres": "4"
+    "cantidad_mujeres": "3"
+  },
+  {
+    "designacion_anio": "2020",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Previsional, Tributaria",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2020",
@@ -3403,21 +6508,21 @@
   },
   {
     "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal económico",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
     "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2020",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Seguridad social",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "2"
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2020",
@@ -3453,7 +6558,7 @@
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "1",
-    "cantidad_mujeres": "2"
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2021",
@@ -3502,24 +6607,6 @@
   },
   {
     "designacion_anio": "2021",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Penal",
-    "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2021",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Sin datos",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2021",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
@@ -3535,6 +6622,33 @@
     "materia": "Civil y/o comercial",
     "cantidad_varones": "1",
     "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2021",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2021",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2021",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
   },
   {
     "designacion_anio": "2021",
@@ -3558,26 +6672,8 @@
     "designacion_anio": "2021",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Federal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2021",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
     "instancia_tipo": "Juzgado",
     "materia": "Federal",
-    "cantidad_varones": "2",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2021",
-    "justicia_federal_o_nacional": "Federal",
-    "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
     "cantidad_varones": "2",
     "cantidad_mujeres": "0"
   },
@@ -3594,8 +6690,26 @@
     "designacion_anio": "2021",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
+    "instancia_tipo": "Tribunal",
     "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2021",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2021",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
   },
@@ -3612,19 +6726,19 @@
     "designacion_anio": "2021",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Civil y/o comercial",
-    "cantidad_varones": "9",
-    "cantidad_mujeres": "5"
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
   },
   {
     "designacion_anio": "2021",
     "justicia_federal_o_nacional": "Nacional",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Laboral",
-    "cantidad_varones": "3",
-    "cantidad_mujeres": "2"
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "9",
+    "cantidad_mujeres": "5"
   },
   {
     "designacion_anio": "2021",
@@ -3642,7 +6756,7 @@
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "6",
-    "cantidad_mujeres": "2"
+    "cantidad_mujeres": "3"
   },
   {
     "designacion_anio": "2022",
@@ -3655,38 +6769,11 @@
   },
   {
     "designacion_anio": "2022",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2022",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
-  },
-  {
-    "designacion_anio": "2022",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Fiscal",
     "instancia_tipo": "Juzgado",
     "materia": "Penal",
     "cantidad_varones": "1",
-    "cantidad_mujeres": "0"
-  },
-  {
-    "designacion_anio": "2022",
-    "justicia_federal_o_nacional": "Nacional",
-    "cargo_tipo": "Fiscal",
-    "instancia_tipo": "Tribunal",
-    "materia": "Penal",
-    "cantidad_varones": "2",
     "cantidad_mujeres": "0"
   },
   {
@@ -3711,6 +6798,33 @@
     "designacion_anio": "2022",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2022",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2022",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2022",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
     "instancia_tipo": "Tribunal",
     "materia": "Penal",
     "cantidad_varones": "2",
@@ -3765,19 +6879,19 @@
     "designacion_anio": "2023",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "4",
-    "cantidad_mujeres": "5"
+    "instancia_tipo": "Cámara",
+    "materia": "Múltiple",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2023",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Defensor",
-    "instancia_tipo": "Cámara",
-    "materia": "Múltiple",
-    "cantidad_varones": "0",
-    "cantidad_mujeres": "1"
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "5"
   },
   {
     "designacion_anio": "2023",
@@ -3819,18 +6933,18 @@
     "designacion_anio": "2023",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Juzgado",
-    "materia": "Federal",
-    "cantidad_varones": "3",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
     "cantidad_mujeres": "1"
   },
   {
     "designacion_anio": "2023",
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
-    "instancia_tipo": "Cámara",
-    "materia": "Penal",
-    "cantidad_varones": "0",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "3",
     "cantidad_mujeres": "1"
   },
   {
@@ -3847,6 +6961,15 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2024",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
     "materia": "Penal económico",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
@@ -3856,8 +6979,278 @@
     "justicia_federal_o_nacional": "Federal",
     "cargo_tipo": "Juez",
     "instancia_tipo": "Cámara",
-    "materia": "Contencioso administrativo",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal económico",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
     "cantidad_varones": "1",
     "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Federal",
+    "cantidad_varones": "8",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Seguridad social",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Contencioso administrativo",
+    "cantidad_varones": "0",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "5",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Seguridad social",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "16",
+    "cantidad_mujeres": "5"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Federal",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal económico",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Juzgado",
+    "materia": "Federal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Defensor",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "3",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Fiscal",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "1",
+    "cantidad_mujeres": "0"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "6"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Laboral",
+    "cantidad_varones": "4",
+    "cantidad_mujeres": "2"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Cámara",
+    "materia": "Penal",
+    "cantidad_varones": "2",
+    "cantidad_mujeres": "1"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Civil y/o comercial",
+    "cantidad_varones": "15",
+    "cantidad_mujeres": "8"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Juzgado",
+    "materia": "Penal",
+    "cantidad_varones": "17",
+    "cantidad_mujeres": "4"
+  },
+  {
+    "designacion_anio": "2026",
+    "justicia_federal_o_nacional": "Nacional",
+    "cargo_tipo": "Juez",
+    "instancia_tipo": "Tribunal",
+    "materia": "Penal",
+    "cantidad_varones": "11",
+    "cantidad_mujeres": "6"
   }
 ]
