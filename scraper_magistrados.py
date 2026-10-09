@@ -42,6 +42,31 @@ CSV_URLS = [
 ]
 CSV_URL = CSV_URLS[0]  # compat
 
+# Dataset en el portal CKAN — se consulta en cada corrida para encontrar el CSV
+# más reciente. Antes la URL estaba fija (20240412) y el workflow diario bajaba
+# siempre el mismo archivo de abril 2024 aunque el Ministerio publicara uno nuevo.
+DATASET_ID = "magistrados-justicia-federal-y-de-la-justicia-nacional"
+PACKAGE_SHOW = "https://datos.jus.gob.ar/api/3/action/package_show"
+
+
+def urls_vigentes() -> list:
+    """CSVs del dataset ordenados del más nuevo al más viejo, seguidos de las
+    URLs fijas de CSV_URLS como respaldo si el portal no responde."""
+    urls = []
+    try:
+        r = requests.get(PACKAGE_SHOW, params={"id": DATASET_ID}, headers=HEADERS, timeout=60)
+        r.raise_for_status()
+        recursos = r.json()["result"]["resources"]
+        csvs = [x for x in recursos
+                if (x.get("format") or "").upper() == "CSV" and x.get("url", "").endswith(".csv")]
+        csvs.sort(key=lambda x: x.get("last_modified") or x.get("created") or "", reverse=True)
+        urls = [x["url"] for x in csvs]
+        if urls:
+            log.info(f"CSV más reciente en el portal: {urls[0]}")
+    except Exception as e:
+        log.warning(f"No se pudo consultar package_show ({e}) — uso URLs fijas")
+    return urls + [u for u in CSV_URLS if u not in urls]
+
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 HEADERS = {
@@ -58,7 +83,7 @@ def descargar_csv() -> pd.DataFrame:
     from io import BytesIO
     import zipfile
 
-    for url in CSV_URLS:
+    for url in urls_vigentes():
         log.info(f"Intentando: {url}")
         try:
             r = requests.get(url, headers=HEADERS, timeout=60)

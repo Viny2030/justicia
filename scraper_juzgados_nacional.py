@@ -244,6 +244,21 @@ def procesar_oralidad():
         return {}
 
     log.info(f"  Oralidad: {len(filas):,} causas individuales")
+
+    # Fecha de corte del dataset = la fecha más reciente que aparece en él.
+    # Las causas sin fecha de finalización se miden hasta esa fecha, no hasta
+    # HOY: el dataset de oralidad es histórico, y medir contra HOY hacía que
+    # disposition_time y la mora crecieran solos un día por día en cada corrida.
+    fechas = []
+    for r in filas:
+        for campo in ("proceso_finalización_fecha", "causa_fecha_ingreso", "causa_fecha_recepcion"):
+            v = str(r.get(campo) or "")[:10]
+            try:
+                fechas.append(date.fromisoformat(v))
+            except ValueError:
+                pass
+    fecha_corte = min(max(fechas), HOY) if fechas else HOY
+    log.info(f"  Oralidad: fecha de corte del dataset = {fecha_corte}")
     agg = defaultdict(lambda: {
         "causas": 0, "dias_total": 0, "dias_cnt": 0,
         "resueltas": 0, "mora": 0, "objetos": Counter()
@@ -271,7 +286,7 @@ def procesar_oralidad():
                 dias = (ff - fi).days
                 agg[key]["resueltas"] += 1
             else:
-                ff = HOY
+                ff = fecha_corte
                 dias = (ff - fi).days
                 if dias > 730:
                     agg[key]["mora"] += 1
