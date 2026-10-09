@@ -1,5 +1,5 @@
 {
-  "ultima_actualizacion": "2026-10-09T06:30:18.673470",
+  "ultima_actualizacion": "2026-10-09T16:39:08.549391",
   "fecha_datos": "2026-10-09",
   "fuente": "datos.jus.gob.ar - Ministerio de Justicia de la Nación",
   "url_fuente": "https://datos.jus.gob.ar/dataset/magistrados-justicia-federal-y-de-la-justicia-nacional",
@@ -7,7 +7,8 @@
     "filas_csv": 1002,
     "magistrados_activos": 619,
     "vacantes": 383,
-    "renuncias": 0,
+    "renuncias": 1664,
+    "renuncias_desde_2023": 168,
     "indice_vacancia_pct": 38.2
   },
   "cobertura_breakdown": {
