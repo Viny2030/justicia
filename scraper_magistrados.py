@@ -43,11 +43,18 @@ CSV_URLS = [
 ]
 CSV_URL = CSV_URLS[0]  # compat
 
-# Dataset en el portal CKAN — se consulta en cada corrida para encontrar el CSV
-# más reciente. Antes la URL estaba fija (20240412) y el workflow diario bajaba
-# siempre el mismo archivo de abril 2024 aunque el Ministerio publicara uno nuevo.
 DATASET_ID = "magistrados-justicia-federal-y-de-la-justicia-nacional"
 PACKAGE_SHOW = "https://datos.jus.gob.ar/api/3/action/package_show"
+
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Timeout: 10s para conectar (evita esperar minutos si el servidor bloquea o está caído), 60s para leer datos
+HTTP_TIMEOUT = (10, 60)
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 MonitorJusticiaAR/1.0",
+    "Accept": "application/json, text/csv, */*",
+}
 
 
 def urls_vigentes() -> list:
@@ -55,7 +62,7 @@ def urls_vigentes() -> list:
     URLs fijas de CSV_URLS como respaldo si el portal no responde."""
     urls = []
     try:
-        r = requests.get(PACKAGE_SHOW, params={"id": DATASET_ID}, headers=HEADERS, timeout=60)
+        r = requests.get(PACKAGE_SHOW, params={"id": DATASET_ID}, headers=HEADERS, timeout=HTTP_TIMEOUT)
         r.raise_for_status()
         recursos = r.json()["result"]["resources"]
         csvs = [x for x in recursos
@@ -68,30 +75,23 @@ def urls_vigentes() -> list:
         log.warning(f"No se pudo consultar package_show ({e}) — uso URLs fijas")
     return urls + [u for u in CSV_URLS if u not in urls]
 
-OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-HEADERS = {
-    "User-Agent": "MonitorJusticiaAR/1.0 (github.com/Viny2030/justicia; transparencia pública)",
-    "Accept": "application/json, text/csv",
-}
-
 
 # ── Descarga ──────────────────────────────────────────────────────────────────
 
 def descargar_csv() -> pd.DataFrame:
     """Descarga el CSV oficial de magistrados y lo retorna como DataFrame.
-    Prueba múltiples URLs en orden; soporta CSV directo y ZIP."""
+    Prueba múltiples URLs en orden; soporta CSV directo y ZIP.
+    Si fallan todas las conexiones, busca una copia local de respaldo."""
     from io import BytesIO
     import zipfile
 
     for url in urls_vigentes():
         log.info(f"Intentando: {url}")
         try:
-            r = requests.get(url, headers=HEADERS, timeout=60)
+            r = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
             r.raise_for_status()
 
             if url.endswith(".zip"):
-                # Descomprimir ZIP en memoria
                 z = zipfile.ZipFile(BytesIO(r.content))
                 csv_names = [n for n in z.namelist() if n.endswith(".csv")]
                 if not csv_names:
@@ -102,13 +102,6 @@ def descargar_csv() -> pd.DataFrame:
                 with z.open(csv_name) as f:
                     df = pd.read_csv(f, encoding="utf-8", low_memory=False)
             else:
-                # OJO: usar r.content (bytes crudos), NO r.text. `requests` adivina
-                # el encoding de r.text a partir del header Content-Type, y cuando
-                # el servidor no declara charset cae a ISO-8859-1 por default aunque
-                # el archivo sea UTF-8 real. Eso es lo que generaba nombres/lugares
-                # con acentos rotos (mojibake: "CÃ³rdoba", "SOLÃ", etc.) en todos los
-                # JSON generados. Decodificar los bytes crudos como UTF-8 explícito
-                # evita el problema en la fuente.
                 df = pd.read_csv(BytesIO(r.content), encoding="utf-8", low_memory=False)
 
             log.info(f"CSV cargado: {len(df)} filas, {len(df.columns)} columnas — fuente: {url}")
@@ -118,7 +111,17 @@ def descargar_csv() -> pd.DataFrame:
             log.warning(f"Falló {url}: {e}")
             continue
 
-    raise RuntimeError("No se pudo descargar el CSV de magistrados desde ninguna URL disponible")
+    # Fallback local si el portal no responde
+    log.warning("Todas las conexiones remotas fallaron. Buscando copia local de respaldo...")
+    archivos_locales = sorted(Path(OUTPUT_DIR, "datos_jus").glob("*magistrados*.csv")) + \
+                       sorted(Path(OUTPUT_DIR).glob("*magistrados*.csv"))
+    
+    if archivos_locales:
+        archivo_respaldo = archivos_locales[-1]
+        log.info(f"Cargando copia local de respaldo: {archivo_respaldo.name}")
+        return pd.read_csv(archivo_respaldo, encoding="utf-8", low_memory=False)
+
+    raise RuntimeError("No se pudo descargar el CSV de magistrados y no se encontró copia local de respaldo")
 
 
 # ── Normalización ─────────────────────────────────────────────────────────────
@@ -178,7 +181,6 @@ def normalizar(df: pd.DataFrame) -> pd.DataFrame:
             if "," in s:
                 parts = s.split(",", 1)
                 return parts[0].strip(), parts[1].strip()
-            # Sin coma: asumir todo mayúsculas = apellido hasta primer minúscula
             parts = s.split(" ", 1)
             return parts[0].strip(), parts[1].strip() if len(parts) > 1 else ""
         df[["apellido", "nombre"]] = df["nombre_completo"].apply(
@@ -262,26 +264,18 @@ RENUNCIAS_DATASET_ID = "renuncias-de-magistrados-de-la-justicia-federal-y-de-la-
 
 
 def generar_renuncias(df: pd.DataFrame) -> list:
-    """JSON de renuncias de magistrados (dataset separado del padrón).
-
-    2026-10-09: antes devolvía siempre [] (TODO pendiente), así que
-    renuncias.json quedaba vacío y meta_justicia.json decía 0 renuncias.
-    Ahora baja el CSV más reciente del dataset oficial de renuncias vía
-    package_show; si el portal no responde, usa la copia local de
-    datos_jus/. Si tampoco hay copia, devuelve [] como antes.
-    `df` no se usa: se mantiene el parámetro por compatibilidad.
-    """
+    """JSON de renuncias de magistrados (dataset separado del padrón)."""
     from io import BytesIO
     filas = None
     try:
-        r = requests.get(PACKAGE_SHOW, params={"id": RENUNCIAS_DATASET_ID}, headers=HEADERS, timeout=60)
+        r = requests.get(PACKAGE_SHOW, params={"id": RENUNCIAS_DATASET_ID}, headers=HEADERS, timeout=HTTP_TIMEOUT)
         r.raise_for_status()
         csvs = [x for x in r.json()["result"]["resources"]
                 if (x.get("format") or "").upper() == "CSV" and x.get("url", "").endswith(".csv")]
         csvs.sort(key=lambda x: x.get("last_modified") or x.get("created") or "", reverse=True)
         if csvs:
             url = csvs[0]["url"]
-            rr = requests.get(url, headers=HEADERS, timeout=60)
+            rr = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
             rr.raise_for_status()
             filas = pd.read_csv(BytesIO(rr.content), encoding="utf-8-sig", dtype=str, low_memory=False)
             log.info(f"Renuncias: {len(filas)} registros — fuente: {url}")
@@ -306,7 +300,6 @@ def generar_renuncias(df: pd.DataFrame) -> list:
 
 def generar_designaciones(df: pd.DataFrame) -> list:
     """JSON de designaciones con norma (para cruce de apellidos con JGM)."""
-    # Usar magistrados con norma_numero cargado
     designados = df[df.get("norma_numero", pd.Series([""]* len(df))).astype(str).str.strip().str.len() > 0]
     registros = []
     for _, row in designados.iterrows():
@@ -358,7 +351,6 @@ def generar_meta(df: pd.DataFrame, magistrados: list, vacantes: list, renuncias:
             "magistrados_activos": len([m for m in magistrados if not m.get("vacante")]),
             "vacantes": len(vacantes),
             "renuncias": len(renuncias),
-            # renuncias.json es histórico (desde 1978); esto es lo reciente
             "renuncias_desde_2023": sum(1 for r in renuncias
                                         if str(r.get("fecha_renuncia", ""))[:4] >= "2023"),
             "indice_vacancia_pct": round(len(vacantes) / total * 100, 1) if total > 0 else 0,
@@ -393,17 +385,4 @@ def main():
     meta = generar_meta(df, magistrados, vacantes, renuncias)
 
     # 4. Guardar
-    guardar_json(magistrados, "magistrados.json")
-    guardar_json(vacantes, "vacantes.json")
-    guardar_json(renuncias, "renuncias.json")
-    guardar_json(designaciones, "designaciones.json")
-    guardar_json(meta, "meta_justicia.json")
-
-    log.info("═" * 60)
-    log.info(f"✅ Completado: {len(magistrados)} magistrados | {len(vacantes)} vacantes | {len(renuncias)} renuncias")
-    log.info(f"   Índice de vacancia: {meta['totales']['indice_vacancia_pct']}%")
-    log.info("═" * 60)
-
-
-if __name__ == "__main__":
-    main()
+    guardar_json(magistrados, "magistrados
