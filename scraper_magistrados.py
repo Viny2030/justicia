@@ -48,7 +48,7 @@ PACKAGE_SHOW = "https://datos.jus.gob.ar/api/3/action/package_show"
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Timeout: 10s para conectar (evita esperar minutos si el servidor bloquea o está caído), 60s para leer datos
+# Timeout: 10s para conectar, 60s para leer datos
 HTTP_TIMEOUT = (10, 60)
 
 HEADERS = {
@@ -385,4 +385,17 @@ def main():
     meta = generar_meta(df, magistrados, vacantes, renuncias)
 
     # 4. Guardar
-    guardar_json(magistrados, "magistrados
+    guardar_json(magistrados, "magistrados.json")
+    guardar_json(vacantes, "vacantes.json")
+    guardar_json(renuncias, "renuncias.json")
+    guardar_json(designaciones, "designaciones.json")
+    guardar_json(meta, "meta_justicia.json")
+
+    log.info("═" * 60)
+    log.info(f"✅ Completado: {len(magistrados)} magistrados | {len(vacantes)} vacantes | {len(renuncias)} renuncias")
+    log.info(f"   Índice de vacancia: {meta['totales']['indice_vacancia_pct']}%")
+    log.info("═" * 60)
+
+
+if __name__ == "__main__":
+    main()
