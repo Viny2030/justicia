@@ -433,6 +433,7 @@ def manual():
       <a href="#costo">↳ Costo por Causa</a>
       <div class="sep"></div>
       <a href="#fuentes">Fuentes de datos</a>
+      <a href="#relaciones">Relación con otros sitios</a>
       <a href="#limitaciones">Limitaciones</a>
     </div>
 
@@ -639,6 +640,19 @@ def manual():
         </div>
       </div>
 
+<div id="relaciones" class="seccion bloque">
+  <h2>🕸️ Relación con los otros sitios del ecosistema</h2>
+  <p>Este sitio es parte del <strong>Ecosistema de Transparencia</strong>: once monitores que se consultan entre sí. Abajo, con qué sitios intercambia datos (<em>usa →</em> = toma datos de ese sitio; <em>← lo usa</em> = ese sitio toma datos de este) y de qué fuentes oficiales se alimenta. El grafo es interactivo: hacé clic en cualquier sitio para ver su ficha.</p>
+  <iframe src="https://mapa.ecosistematransparencia.com.ar/grafo?embed=1&amp;nodo=justicia" title="Relación con los otros sitios del ecosistema" loading="lazy"
+          style="width:100%;height:560px;border:1px solid #cbd5e1;border-radius:10px;background:#fff"></iframe>
+  <p style="font-size:.85em"><a href="https://mapa.ecosistematransparencia.com.ar/grafo" target="_blank" rel="noopener">Abrir el grafo completo ↗</a></p>
+  <h3>Conexiones</h3>
+  <ul><li><strong>← lo usa Monitor IRI</strong>: Toma magistrados y vacantes para el riesgo financiero, operativo y de datos.</li><li><strong>← lo usa Mapa</strong>: Enlace y estado en vivo del sitio.</li></ul>
+  <h3>Fuentes oficiales</h3>
+  <ul><li>datos.jus.gob.ar</li><li>CSJN</li><li>Estadísticas PJN</li></ul>
+  <p style="font-size:.85em">Detalle de todas las conexiones y de cómo se verifican las cifras entre sitios: <a href="https://mapa.ecosistematransparencia.com.ar/manual#conexiones" target="_blank" rel="noopener">mapa.ecosistematransparencia.com.ar/manual#conexiones</a></p>
+</div>
+
       <!-- Limitaciones -->
       <div class="seccion" id="limitaciones">
         <div class="sec-titulo">Limitaciones y Advertencias</div>
@@ -693,6 +707,7 @@ def manual_en():
       <a href="#costo">↳ Cost per Case</a>
       <div class="sep"></div>
       <a href="#fuentes">Data sources</a>
+      <a href="#relaciones">Other sites</a>
       <a href="#limitaciones">Limitations</a>
     </div>
 
@@ -898,6 +913,19 @@ def manual_en():
           <p>All data is publicly accessible. The scrapers run against the official APIs and do not modify or alter the sources.</p>
         </div>
       </div>
+
+<div id="relaciones" class="seccion bloque">
+  <h2>🕸️ How this site connects to the rest of the ecosystem</h2>
+  <p>This site is part of the <strong>Transparency Ecosystem</strong>: eleven monitors that query each other. Below, which sites it exchanges data with (<em>uses →</em> = takes data from that site; <em>← used by</em> = that site takes data from this one) and which official sources feed it. The graph is interactive: click any site to see its profile.</p>
+  <iframe src="https://mapa.ecosistematransparencia.com.ar/grafo?embed=1&amp;nodo=justicia&amp;lang=en" title="How this site connects to the rest of the ecosystem" loading="lazy"
+          style="width:100%;height:560px;border:1px solid #cbd5e1;border-radius:10px;background:#fff"></iframe>
+  <p style="font-size:.85em"><a href="https://mapa.ecosistematransparencia.com.ar/grafo?lang=en" target="_blank" rel="noopener">Open the full graph ↗</a></p>
+  <h3>Connections</h3>
+  <ul><li><strong>← used by Monitor IRI</strong>: Pulls judges and vacancies for financial, operational and data risk.</li><li><strong>← used by Mapa</strong>: Link and live status of the site.</li></ul>
+  <h3>Official sources</h3>
+  <ul><li>datos.jus.gob.ar</li><li>Supreme Court (CSJN)</li><li>PJN statistics</li></ul>
+  <p style="font-size:.85em">Every connection in detail, and how figures are cross-checked between sites: <a href="https://mapa.ecosistematransparencia.com.ar/en/manual#conexiones" target="_blank" rel="noopener">mapa.ecosistematransparencia.com.ar/en/manual#conexiones</a></p>
+</div>
 
       <!-- Limitations -->
       <div class="seccion" id="limitaciones">
