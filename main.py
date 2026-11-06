@@ -336,79 +336,83 @@ def acerca():
 
 
 # ── Manual de Usuario ─────────────────────────────────────────────────────────
+_MANUAL_CSS = """
+.wrap{max-width:900px;margin:0 auto;padding:32px 24px}
+.hero-manual{text-align:center;padding:28px 0 20px}
+.hero-manual h1{font-size:1.7rem;font-weight:800}
+.hero-manual h1 span{color:var(--gold)}
+.hero-manual p{color:var(--muted);font-size:.88rem;margin-top:6px}
+
+/* Índice lateral */
+.layout{display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:start}
+@media(max-width:750px){.layout{grid-template-columns:1fr}}
+.sidebar{position:sticky;top:62px;background:var(--card);border-radius:10px;
+          padding:16px;font-size:.81rem}
+.sidebar h3{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;
+             color:var(--gold);margin-bottom:10px}
+.sidebar a{display:block;color:var(--muted);text-decoration:none;
+            padding:5px 8px;border-radius:5px;margin-bottom:2px}
+.sidebar a:hover{background:var(--card2);color:var(--text)}
+.sidebar .sep{border-top:1px solid var(--border);margin:8px 0}
+
+/* Secciones */
+.seccion{margin-bottom:36px;scroll-margin-top:70px}
+.sec-titulo{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;
+             color:var(--gold);margin-bottom:14px;padding-left:2px;
+             border-left:3px solid var(--gold);padding-left:10px}
+.bloque{background:var(--card);border-radius:10px;padding:20px 24px;margin-bottom:14px}
+.bloque h3{font-size:.95rem;font-weight:700;margin-bottom:10px;color:var(--text)}
+.bloque h4{font-size:.82rem;font-weight:700;color:var(--gold2);margin:14px 0 6px}
+.bloque p,.bloque li{font-size:.86rem;color:var(--muted);line-height:1.8}
+.bloque ul{padding-left:18px}
+.bloque strong{color:var(--text)}
+.bloque code{background:#0a1628;color:#86efac;padding:2px 7px;border-radius:4px;font-size:.83rem}
+
+/* Indicador card */
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px}
+.ind{background:var(--card);border-radius:10px;padding:18px 20px;border-top:3px solid var(--blue)}
+.ind.gold{border-color:var(--gold)}
+.ind.red{border-color:var(--red)}
+.ind.green{border-color:var(--green)}
+.ind.purple{border-color:#7c3aed}
+.ind h4{font-size:.85rem;font-weight:700;margin-bottom:6px}
+.ind .formula{font-family:monospace;font-size:.78rem;background:#0a1628;
+               color:#86efac;padding:5px 10px;border-radius:4px;margin:8px 0}
+.ind p{font-size:.8rem;color:var(--muted);line-height:1.65}
+.ind .bench{font-size:.75rem;margin-top:8px;padding:4px 10px;border-radius:4px;
+             background:#0f1e3a;color:#93c5fd}
+
+/* Semáforo */
+.semaforo-tabla{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:10px}
+.semaforo-tabla th{text-align:left;padding:8px 12px;background:#0a1628;color:var(--muted);
+                    font-size:.72rem;text-transform:uppercase;letter-spacing:1px}
+.semaforo-tabla td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--muted)}
+.semaforo-tabla tr:last-child td{border-bottom:none}
+.s-rojo{color:#fca5a5;font-weight:700} .s-amarillo{color:#fde68a;font-weight:700}
+.s-verde{color:#86efac;font-weight:700}
+
+/* Pasos */
+.paso{display:flex;gap:16px;margin-bottom:14px;align-items:flex-start}
+.paso .num{background:var(--gold);color:#000;font-weight:800;font-size:.85rem;
+            width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+            justify-content:center;flex-shrink:0;margin-top:2px}
+.paso .txt h4{font-size:.88rem;font-weight:700;margin-bottom:4px}
+.paso .txt p{font-size:.83rem;color:var(--muted);line-height:1.65}
+"""
+
+
 @app.get("/manual", response_class=HTMLResponse)
 def manual():
     return HTMLResponse(f"""<!DOCTYPE html>
 <html lang="es"><head><meta charset="UTF-8">
 <title>Manual de Usuario — Monitor Judicial</title>
-<style>{BASE_CSS}
-.wrap{{max-width:900px;margin:0 auto;padding:32px 24px}}
-.hero-manual{{text-align:center;padding:28px 0 20px}}
-.hero-manual h1{{font-size:1.7rem;font-weight:800}}
-.hero-manual h1 span{{color:var(--gold)}}
-.hero-manual p{{color:var(--muted);font-size:.88rem;margin-top:6px}}
-
-/* Índice lateral */
-.layout{{display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:start}}
-@media(max-width:750px){{.layout{{grid-template-columns:1fr}}}}
-.sidebar{{position:sticky;top:62px;background:var(--card);border-radius:10px;
-          padding:16px;font-size:.81rem}}
-.sidebar h3{{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;
-             color:var(--gold);margin-bottom:10px}}
-.sidebar a{{display:block;color:var(--muted);text-decoration:none;
-            padding:5px 8px;border-radius:5px;margin-bottom:2px}}
-.sidebar a:hover{{background:var(--card2);color:var(--text)}}
-.sidebar .sep{{border-top:1px solid var(--border);margin:8px 0}}
-
-/* Secciones */
-.seccion{{margin-bottom:36px;scroll-margin-top:70px}}
-.sec-titulo{{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;
-             color:var(--gold);margin-bottom:14px;padding-left:2px;
-             border-left:3px solid var(--gold);padding-left:10px}}
-.bloque{{background:var(--card);border-radius:10px;padding:20px 24px;margin-bottom:14px}}
-.bloque h3{{font-size:.95rem;font-weight:700;margin-bottom:10px;color:var(--text)}}
-.bloque h4{{font-size:.82rem;font-weight:700;color:var(--gold2);margin:14px 0 6px}}
-.bloque p,.bloque li{{font-size:.86rem;color:var(--muted);line-height:1.8}}
-.bloque ul{{padding-left:18px}}
-.bloque strong{{color:var(--text)}}
-.bloque code{{background:#0a1628;color:#86efac;padding:2px 7px;border-radius:4px;font-size:.83rem}}
-
-/* Indicador card */
-.ind-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px}}
-.ind{{background:var(--card);border-radius:10px;padding:18px 20px;border-top:3px solid var(--blue)}}
-.ind.gold{{border-color:var(--gold)}}
-.ind.red{{border-color:var(--red)}}
-.ind.green{{border-color:var(--green)}}
-.ind.purple{{border-color:#7c3aed}}
-.ind h4{{font-size:.85rem;font-weight:700;margin-bottom:6px}}
-.ind .formula{{font-family:monospace;font-size:.78rem;background:#0a1628;
-               color:#86efac;padding:5px 10px;border-radius:4px;margin:8px 0}}
-.ind p{{font-size:.8rem;color:var(--muted);line-height:1.65}}
-.ind .bench{{font-size:.75rem;margin-top:8px;padding:4px 10px;border-radius:4px;
-             background:#0f1e3a;color:#93c5fd}}
-
-/* Semáforo */
-.semaforo-tabla{{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:10px}}
-.semaforo-tabla th{{text-align:left;padding:8px 12px;background:#0a1628;color:var(--muted);
-                    font-size:.72rem;text-transform:uppercase;letter-spacing:1px}}
-.semaforo-tabla td{{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--muted)}}
-.semaforo-tabla tr:last-child td{{border-bottom:none}}
-.s-rojo{{color:#fca5a5;font-weight:700}} .s-amarillo{{color:#fde68a;font-weight:700}}
-.s-verde{{color:#86efac;font-weight:700}}
-
-/* Pasos */
-.paso{{display:flex;gap:16px;margin-bottom:14px;align-items:flex-start}}
-.paso .num{{background:var(--gold);color:#000;font-weight:800;font-size:.85rem;
-            width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
-            justify-content:center;flex-shrink:0;margin-top:2px}}
-.paso .txt h4{{font-size:.88rem;font-weight:700;margin-bottom:4px}}
-.paso .txt p{{font-size:.83rem;color:var(--muted);line-height:1.65}}
-</style></head><body>
+<style>{BASE_CSS}{_MANUAL_CSS}</style></head><body>
 {nav_html("manual")}
 <div class="wrap">
   <div class="hero-manual">
     <h1>📖 Manual de <span>Usuario</span></h1>
     <p>Guía de uso e interpretación de indicadores — Sistema de Monitoreo Judicial PJN</p>
+    <p><a href="/manual/en" style="color:var(--gold)">🌐 Read in English</a></p>
   </div>
 
   <div class="layout">
@@ -650,6 +654,266 @@ def manual():
       </div>
 
     </div><!-- /contenido -->
+  </div><!-- /layout -->
+</div>
+{FOOTER}
+</body></html>""")
+
+
+# ── User manual (English) ─────────────────────────────────────────────────────
+@app.get("/manual/en", response_class=HTMLResponse)
+def manual_en():
+    return HTMLResponse(f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>User Manual — Judicial Monitor</title>
+<style>{BASE_CSS}{_MANUAL_CSS}</style></head><body>
+{nav_html("manual")}
+<div class="wrap">
+  <div class="hero-manual">
+    <h1>📖 User <span>Manual</span></h1>
+    <p>Guide to using the dashboard and reading its indicators — PJN Judicial Monitoring System</p>
+    <p><a href="/manual" style="color:var(--gold)">🌐 Leer en español</a></p>
+  </div>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h3>Contents</h3>
+      <a href="#que-es">What is the system?</a>
+      <a href="#navegacion">How to navigate</a>
+      <div class="sep"></div>
+      <a href="#indicadores">Indicators</a>
+      <a href="#ira">↳ IRA</a>
+      <a href="#clearance">↳ Clearance Rate</a>
+      <a href="#disposition">↳ Disposition Time</a>
+      <a href="#mora">↳ % Backlog</a>
+      <a href="#wjp">↳ WJP</a>
+      <a href="#cepej">↳ CEPEJ</a>
+      <a href="#vacancia">↳ Vacancy</a>
+      <a href="#costo">↳ Cost per Case</a>
+      <div class="sep"></div>
+      <a href="#fuentes">Data sources</a>
+      <a href="#limitaciones">Limitations</a>
+    </div>
+
+    <!-- CONTENT -->
+    <div>
+
+      <!-- What is it? -->
+      <div class="seccion" id="que-es">
+        <div class="sec-titulo">What is the Judicial Monitoring System?</div>
+        <div class="bloque">
+          <p>
+            It is an academic audit platform for the <strong>Judiciary of the Argentine Nation (PJN)</strong>
+            that builds algorithmic indicators from official public data.
+            Its goal is to provide objective, comparable metrics that promote
+            transparency and informed debate about how the judiciary works.
+          </p>
+          <br>
+          <p>
+            The indicators apply recognized international methodologies
+            (WJP, CEPEJ, V-Dem, UN SDG 16) adapted to the Argentine context.
+            <strong>They imply no value judgment or finding of responsibility</strong>
+            about any judicial person or body.
+          </p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="seccion" id="navegacion">
+        <div class="sec-titulo">How to Navigate the Dashboard</div>
+        <div class="paso">
+          <div class="num">1</div>
+          <div class="txt">
+            <h4>⚖️ Supreme Court (Corte Suprema)</h4>
+            <p>Strategic indicators for the CSJN: high-impact rulings, resolution times, composition. Data from WJP, V-Dem and international judicial independence rankings.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="num">2</div>
+          <div class="txt">
+            <h4>🏛️ Council of the Magistracy (Consejo de la Magistratura)</h4>
+            <p>Vacant positions, recent appointments, ongoing selection contests, substitution index. Cross-checked against the impact on operational latency.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="num">3</div>
+          <div class="txt">
+            <h4>🌐 International Indicators</h4>
+            <p>WJP Rule of Law Index, Transparency International CPI, World Bank WGI, V-Dem. Regional comparisons with Latin America &amp; the Caribbean (LAC) and the OECD.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="num">4</div>
+          <div class="txt">
+            <h4>🏢 Courts of Appeals (Cámaras de Apelación)</h4>
+            <p>Federal and national second instance. Latency, clearance rate, appeals filed.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="num">5</div>
+          <div class="txt">
+            <h4>🗺️ National PJN</h4>
+            <p>Full view of the 301 courts surveyed. Table filterable by jurisdiction, IRA traffic light, search by name or judge. Exportable to CSV.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="num">6</div>
+          <div class="txt">
+            <h4>📋 Trial Courts (Juzgados, 1st instance)</h4>
+            <p>Detailed operational dashboard: backlog ranking, pending cases, latency by percentile (P50/P75/P90), side panel with per-court detail.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicators -->
+      <div class="seccion" id="indicadores">
+        <div class="sec-titulo">Indicators — Full Reference</div>
+
+        <!-- IRA -->
+        <div class="bloque" id="ira">
+          <h3>🔴 IRA — Algorithmic Risk Index</h3>
+          <p>Composite score (0–100) combining five dimensions of operational risk for each court. The higher the IRA, the more urgent an intervention.</p>
+          <div class="formula">IRA = backlog(30) + clearance(25) + latency(20) + accumulation(15) + vacancy(10)</div>
+          <h4>Components</h4>
+          <ul>
+            <li><strong>% Backlog (max. 30 pts):</strong> Cases unresolved for more than 2 years. Weighted × 1.2.</li>
+            <li><strong>Clearance Rate (max. 25 pts):</strong> Penalizes CR &lt; 100% (not everything that comes in is resolved).</li>
+            <li><strong>Latency/Disposition Time (max. 20 pts):</strong> Excess over the CEPEJ benchmark of 230 days.</li>
+            <li><strong>Accumulation of pending cases (max. 15 pts):</strong> A closing/opening ratio &gt; 1 indicates overflow.</li>
+            <li><strong>Vacancy without a selection contest (10 pts):</strong> Vacant court with no active process to fill it.</li>
+          </ul>
+          <table class="semaforo-tabla" style="margin-top:14px">
+            <tr><th>Traffic light</th><th>IRA range</th><th>Meaning</th></tr>
+            <tr><td class="s-rojo">🔴 High risk</td><td>≥ 60</td><td>Priority intervention recommended</td></tr>
+            <tr><td class="s-amarillo">🟡 Medium risk</td><td>30–59</td><td>Enhanced monitoring</td></tr>
+            <tr><td class="s-verde">🟢 Normal</td><td>&lt; 30</td><td>Operating within parameters</td></tr>
+          </table>
+        </div>
+
+        <!-- Clearance Rate -->
+        <div class="bloque" id="clearance">
+          <h3>📊 Clearance Rate</h3>
+          <p>Measures a court's ability to resolve cases relative to the cases it receives. A core indicator of the <strong>CEPEJ</strong> (Council of Europe) and the <strong>WJP</strong>.</p>
+          <div class="formula">CR = Cases resolved / Cases filed × 100</div>
+          <ul>
+            <li><strong>CR = 100%:</strong> Exactly what comes in is resolved — perfect balance.</li>
+            <li><strong>CR &gt; 100%:</strong> The stock of pending cases goes down (ideal situation).</li>
+            <li><strong>CR &lt; 100%:</strong> Backlog builds up — every point below is an increase in judicial debt.</li>
+          </ul>
+          <div class="bench">📌 CEPEJ benchmark: ≥ 100% · Argentina average: 16.5% · WJP Factor 7 (Civil Justice): 0.42/1.00</div>
+        </div>
+
+        <!-- Disposition Time -->
+        <div class="bloque" id="disposition">
+          <h3>⏱️ Disposition Time</h3>
+          <p>Average time in days a court takes to resolve a case from filing. Computed on civil cases with filing and resolution dates in the orality (<em>oralidad</em>) program data.</p>
+          <div class="formula">DT = Average of (resolution_date − filing_date) in days</div>
+          <ul>
+            <li>Includes both resolved and active cases (active ones estimated up to today).</li>
+            <li>Percentiles <code>P50</code> (median), <code>P75</code> and <code>P90</code> are reported to show the distribution.</li>
+          </ul>
+          <div class="bench">📌 CEPEJ benchmark: ≤ 230 days · Argentina average: 2,314 days (~6.3 years) · 100% of courts with data are above the benchmark</div>
+        </div>
+
+        <!-- % Backlog -->
+        <div class="bloque" id="mora">
+          <h3>⚠️ % Backlog (&gt; 2 years)</h3>
+          <p>Percentage of cases that have gone more than 730 days without resolution since filing. An indicator of the system's "critical queue".</p>
+          <div class="formula">% Backlog = Active cases &gt; 730 days / Total cases × 100</div>
+          <div class="bench">📌 Alert: &gt; 15% · Source: datos_jus/oralidad — individual civil cases (75,894 cases surveyed)</div>
+        </div>
+
+        <!-- WJP -->
+        <div class="bloque" id="wjp">
+          <h3>🌐 WJP Rule of Law Index</h3>
+          <p>Annual index of the <strong>World Justice Project</strong> measuring the rule of law in 142 countries. Scale 0–1 (higher = better). Argentina 2023: <strong>0.47</strong>.</p>
+          <h4>The 4 factors most relevant to the PJN</h4>
+          <ul>
+            <li><strong>Factor 1 — Constraints on Government Powers:</strong> ARG 0.56 · LAC 0.52 · OECD 0.72</li>
+            <li><strong>Factor 2 — Absence of Corruption:</strong> ARG 0.39 · LAC 0.43 · OECD 0.71</li>
+            <li><strong>Factor 7 — Civil Justice:</strong> ARG 0.42 · LAC 0.44 · OECD 0.68</li>
+            <li><strong>Factor 8 — Criminal Justice:</strong> ARG 0.38 · LAC 0.40 · OECD 0.62</li>
+          </ul>
+          <h4>vs_wjp_civil in the dashboard</h4>
+          <p>For each court it shows the Clearance Rate normalized to a 0–1 scale. <code>gap_wjp_civil</code> is the distance to the WJP benchmark of 0.42: negative values mean the court is below the international standard.</p>
+          <div class="bench">📌 Source: worldjusticeproject.org · 2023 data</div>
+        </div>
+
+        <!-- CEPEJ -->
+        <div class="bloque" id="cepej">
+          <h3>🏛️ CEPEJ — European Benchmarks</h3>
+          <p>The <strong>European Commission for the Efficiency of Justice</strong> sets reference standards that are used in judicial evaluations in Latin America (RECPJ/CEJAS).</p>
+          <ul>
+            <li><strong>vs_cepej_cr:</strong> <code>OK</code> if CR ≥ 100%, <code>BAJO</code> (low) if CR &lt; 100%.</li>
+            <li><strong>vs_cepej_dt:</strong> <code>OK</code> if DT ≤ 230 days, <code>ALTO</code> (high) if it exceeds the benchmark, <code>—</code> no data.</li>
+          </ul>
+          <div class="bench">📌 Clearance Rate benchmark: 100% · Disposition Time benchmark: 230 days (civil proceedings)</div>
+        </div>
+
+        <!-- Vacancy -->
+        <div class="bloque" id="vacancia">
+          <h3>⬜ Vacancy Rate</h3>
+          <p>Percentage of judicial positions without an appointed holder out of all positions established by law.</p>
+          <div class="formula">Vacancy Rate = (Total positions − Active) / Total positions × 100</div>
+          <ul>
+            <li>Source: magistrados.json (datos.jus.gob.ar)</li>
+            <li>A vacant position with no active selection contest adds 10 pts to the court's IRA.</li>
+            <li>A position covered by a substitute (temporarily filled) adds no IRA points but is recorded.</li>
+          </ul>
+          <div class="bench">📌 Current PJN rate: 32.9% (540/1,643 vacant positions) · Source: CSJN 2024</div>
+        </div>
+
+        <!-- Cost -->
+        <div class="bloque" id="costo">
+          <h3>💰 Cost per Case</h3>
+          <p>Estimate of the fiscal cost per case handled in each court. It divides the estimated annual budget per court by its total case volume.</p>
+          <div class="formula">Cost/Case = Estimated annual budget / (Pending + Resolved)</div>
+          <ul>
+            <li><strong>Base budget:</strong> ARS 500,000,000/year per court (PJN 2024: ~ARS 1.1 trillion / ~1,400 courts).</li>
+            <li>Courts with a high caseload have a lower cost per case.</li>
+            <li>Courts with few cases show a high cost per case — possible scale inefficiency.</li>
+          </ul>
+          <div class="bench">📌 Current range: ARS 78,000 – 500,000,000/case · Median: ARS 7.7M/case</div>
+        </div>
+
+      </div><!-- /indicators -->
+
+      <!-- Sources -->
+      <div class="seccion" id="fuentes">
+        <div class="sec-titulo">Data Sources</div>
+        <div class="bloque">
+          <ul>
+            <li><strong>datos.jus.gob.ar</strong> — Judges, civil orality program (75,894 cases), vacancies</li>
+            <li><strong>estadisticas.pjn.gov.ar</strong> — CSVs of rulings, proceedings and appeals by jurisdiction</li>
+            <li><strong>csjn.gov.ar</strong> — Supreme Court rulings, composition, decisions (acordadas)</li>
+            <li><strong>mpf.gov.ar / mpd.gov.ar</strong> — Prosecutors and public defenders</li>
+            <li><strong>worldjusticeproject.org</strong> — WJP Rule of Law Index 2023</li>
+            <li><strong>transparency.org</strong> — CPI 2023</li>
+            <li><strong>databank.worldbank.org</strong> — World Bank WGI 2022</li>
+            <li><strong>v-dem.net</strong> — V-Dem Institute JCI 2023</li>
+            <li><strong>coe.int/cepej</strong> — CEPEJ benchmarks 2022</li>
+          </ul>
+          <br>
+          <p>All data is publicly accessible. The scrapers run against the official APIs and do not modify or alter the sources.</p>
+        </div>
+      </div>
+
+      <!-- Limitations -->
+      <div class="seccion" id="limitaciones">
+        <div class="sec-titulo">Limitations and Warnings</div>
+        <div class="bloque">
+          <ul>
+            <li>The orality data covers <strong>individual civil cases</strong> from courts that joined the orality program — it does not represent the whole system.</li>
+            <li>The average <strong>clearance rate</strong> of 16.5% is low partly because many courts carry unresolved historical cases that weigh on the denominator.</li>
+            <li><strong>Cost per case</strong> is an estimate based on an average budget; it does not reflect differences in size, jurisdiction or staffing.</li>
+            <li>The <strong>international indicators</strong> (WJP, CEPEJ) were designed for whole judicial systems — applying them to individual courts is a methodological adaptation by the author.</li>
+            <li>The system has no access to <strong>individual case files</strong> or to each court's internal management data.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /content -->
   </div><!-- /layout -->
 </div>
 {FOOTER}
