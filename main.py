@@ -48,6 +48,7 @@ def inicio():
 .disclaimer{{margin:0 24px 24px}}
 </style></head><body>
 {nav_html("inicio")}
+<div id="frescura-ficha" data-api="/api/frescura" style="padding:0 24px"></div><script src="/frescura.js" defer></script>
 <div class="hero">
   <h1>Sistema de Monitoreo <span>Judicial</span></h1>
   <p>Ph.D. Vicente H. Monteverde · Auditoría del Poder Judicial de la Nación Argentina</p>
@@ -1027,6 +1028,44 @@ def _ia_registrar(ip: str):
         cola.append(ahora)
         _ia_global.append(ahora)
     return None
+
+
+@app.get("/frescura.js", include_in_schema=False)
+def frescura_js():
+    return FileResponse(os.path.join(ROOT, "frescura.js"), media_type="application/javascript")
+
+
+@app.get("/api/frescura")
+def frescura():
+    """Ficha de frescura (formato común del ecosistema, ver frescura.py): de
+    dónde sale cada dato, qué período cubre, cuándo se cargó y si está atrasado."""
+    import json
+    from frescura import evaluar
+
+    def leer(*partes):
+        try:
+            with open(os.path.join(ROOT, *partes), encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+
+    meta = leer("meta_justicia.json")
+    abiertos = leer("datos_jus", "datos_jus_meta.json")
+    csjn = leer("datos_csjn.json")
+    return evaluar("justicia", [
+        {"id": "magistrados", "dato": "Magistrados, vacantes y renuncias", "fuente": "datos.jus.gob.ar",
+         "fuente_url": meta.get("url_fuente"), "periodo": f"al {meta['fecha_datos']}" if meta.get("fecha_datos") else "sin dato",
+         "periodo_fin": meta.get("fecha_datos"), "ultima_carga": meta.get("ultima_actualizacion"),
+         "frecuencia": "diaria", "max_dias_carga": 3, "max_dias_periodo": 3},
+        {"id": "datos_abiertos", "dato": "Otros datasets de Justicia", "fuente": "datos.jus.gob.ar",
+         "periodo": f"{abiertos.get('datasets_ok', 0)} datasets", "ultima_carga": abiertos.get("fin"),
+         "frecuencia": "mensual", "max_dias_carga": 40,
+         "nota": f"{abiertos['datasets_fallidos']} datasets fallaron en la última descarga." if abiertos.get("datasets_fallidos") else None},
+        {"id": "csjn", "dato": "Corte Suprema: composición, anuarios y presupuesto", "fuente": "CSJN (carga manual)",
+         "periodo": f"revisado el {csjn['actualizado']}" if csjn.get("actualizado") else "sin dato",
+         "periodo_fin": csjn.get("actualizado"), "ultima_carga": None, "frecuencia": "manual, con aviso semanal de cambios",
+         "max_dias_periodo": 180},
+    ])
 
 
 @app.get("/api/ia/status")
