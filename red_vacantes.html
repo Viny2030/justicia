@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de vacantes · Monitor Judicial</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/standalone/umd/vis-network.min.js"></script>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--text:#e6edf3;--text2:#9da7b3;--text3:#6e7681;--borde:#30363d;--oro:#d4a84b;--azul:#58a6ff;--verde:#3fb950;--ambar:#e3a008;--rojo:#f85149}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.55}
+header{background:var(--bg2);border-bottom:1px solid var(--borde);padding:.7rem 16px;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+header h1{font-size:1.05rem;font-weight:600;flex:1;min-width:220px}
+header a,header button{color:var(--text2);background:transparent;border:1px solid var(--borde);border-radius:14px;padding:.25rem .7rem;font-size:.8rem;text-decoration:none;cursor:pointer;font-family:inherit}
+header button.activo{background:var(--bg3);color:var(--text)}
+.intro,.kpis,.leyenda,.cuerpo,.nota{max-width:1200px;margin-left:auto;margin-right:auto;padding:0 16px}
+.intro{margin-top:1rem;font-size:.86rem;color:var(--text2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin-top:.8rem}
+.kpi{background:var(--bg2);border:1px solid var(--borde);border-radius:10px;padding:.6rem .8rem}
+.kpi b{display:block;font-size:1.35rem;font-weight:600}
+.kpi span{font-size:.75rem;color:var(--text2)}
+.leyenda{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.7rem;font-size:.76rem;color:var(--text2)}
+.leyenda i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.35rem;vertical-align:-1px}
+.leyenda i.cuad{border-radius:2px}
+.cuerpo{display:grid;grid-template-columns:1fr 300px;gap:1rem;margin-top:.8rem}
+#red{height:640px;background:var(--bg2);border:1px solid var(--borde);border-radius:12px}
+.panel{background:var(--bg2);border:1px solid var(--borde);border-radius:12px;padding:1rem;font-size:.83rem;margin-bottom:1rem;color:var(--text2)}
+.panel h2{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:.5rem;font-weight:600}
+.panel h3{font-size:1rem;color:var(--text);font-weight:600;margin-bottom:.3rem}
+.panel b{color:var(--text);font-weight:600}
+.panel ul{list-style:none}
+.panel li{padding:.3rem 0;border-bottom:1px solid var(--bg3);cursor:pointer}
+.panel li:last-child{border-bottom:none}
+.panel li:hover{color:var(--text)}
+.nota{margin-top:.8rem;margin-bottom:1.5rem;font-size:.75rem;color:var(--text3)}
+.error{padding:1.5rem;color:var(--rojo)}
+@media (max-width:820px){.cuerpo{grid-template-columns:1fr}#red{height:520px}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="t-titulo"></h1>
+  <a id="t-volver" href="/"></a>
+  <a id="t-manual" href="/manual#grafos"></a>
+  <button type="button" data-lang="es">ES</button><button type="button" data-lang="en">EN</button>
+</header>
+<p class="intro" id="t-intro"></p>
+<div class="kpis" id="kpis"></div>
+<div class="leyenda" id="leyenda"></div>
+<div class="cuerpo">
+  <div id="red"></div>
+  <div>
+    <div class="panel"><h2 id="t-detalle"></h2><div id="detalle"></div></div>
+    <div class="panel"><h2 id="t-top"></h2><ul id="top"></ul></div>
+  </div>
+</div>
+<p class="nota" id="t-nota"></p>
+
+<script>
+let LANG = (() => {
+  const q = new URLSearchParams(location.search).get('lang');
+  if (q === 'en' || q === 'es') return q;
+  try { return localStorage.getItem('justicia_lang') === 'en' ? 'en' : 'es'; } catch (e) { return 'es'; }
+})();
+const TX = {
+  es: {
+    titulo: 'Red de vacantes · Monitor Judicial', volver: '← Volver al inicio', manual: '📖 Manual',
+    intro: 'Cada círculo es una cámara de la justicia federal o nacional, con sus juzgados y tribunales; cuanto más rojo, mayor es su proporción de cargos vacantes. Cada cuadrado es el ámbito en el que figura el concurso de esas vacantes. Una línea une una cámara con un ámbito cuando tiene vacantes allí, y es más gruesa cuantas más tiene.',
+    cargos: 'Cargos', vacantes: 'Vacantes', vacancia: 'Vacancia', camaras: 'Cámaras', ambitos: 'Ámbitos del concurso',
+    lbaja: 'Vacancia menor al 25 %', lmedia: 'De 25 % a 50 %', lalta: 'Mayor al 50 %', lambito: 'Ámbito del concurso',
+    detalle: 'Detalle', top: 'Cámaras con mayor vacancia',
+    ayuda: 'Hacé clic en una cámara para ver sus cargos y en qué ámbito están sus concursos, o en un ámbito para ver sus cámaras.',
+    justicia: 'Justicia', provincias: 'Provincias', ocupados: 'Cargos con magistrado designado',
+    subrogados: 'Vacantes con subrogante', sinsub: 'Vacantes sin subrogante designado', nocorresp: 'Vacantes en las que no corresponde subrogante',
+    ambcam: 'Vacantes por ámbito', sinvac: 'Sin vacantes', camvac: 'Vacantes por cámara', vac: 'vacantes', nav: 'de',
+    nota: 'Fuente: datos.jus.gob.ar, Ministerio de Justicia de la Nación. El ámbito es el que publica la fuente para cada vacante; no indica cuánto tiempo lleva el concurso ni si está demorado. La red no incluye nombres de personas.',
+    error: 'No se pudo armar la red: ',
+  },
+  en: {
+    titulo: 'Vacancies network · Judicial Monitor', volver: '← Back to home', manual: '📖 Manual',
+    intro: 'Each circle is a federal or national court of appeals with its lower courts and tribunals; the redder it is, the larger its share of vacant posts. Each square is the body listed for the selection process of those vacancies. A line joins a court of appeals to a body when it has vacancies there, and it is thicker the more it has.',
+    cargos: 'Posts', vacantes: 'Vacancies', vacancia: 'Vacancy rate', camaras: 'Courts of appeals', ambitos: 'Selection bodies',
+    lbaja: 'Vacancy below 25%', lmedia: '25% to 50%', lalta: 'Above 50%', lambito: 'Selection body',
+    detalle: 'Detail', top: 'Highest vacancy rates',
+    ayuda: 'Click a court of appeals to see its posts and which body handles its selection processes, or a body to see its courts.',
+    justicia: 'Justice system', provincias: 'Provinces', ocupados: 'Posts with an appointed judge',
+    subrogados: 'Vacancies with an acting judge', sinsub: 'Vacancies without an acting judge', nocorresp: 'Vacancies where no acting judge applies',
+    ambcam: 'Vacancies by body', sinvac: 'No vacancies', camvac: 'Vacancies by court', vac: 'vacancies', nav: 'of',
+    nota: 'Source: datos.jus.gob.ar, Argentine Ministry of Justice. The body is the one the source publishes for each vacancy; it does not show how long the process has taken or whether it is delayed. The network does not include names of individuals. Court and body names are shown in Spanish, as published.',
+    error: 'The network could not be built: ',
+  },
+};
+const t = k => TX[LANG][k];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const pct = v => Number(v).toLocaleString(LANG === 'en' ? 'en-US' : 'es-AR', {maximumFractionDigits: 1}) + (LANG === 'en' ? '%' : ' %');
+const colorVac = v => v > 50 ? '#f85149' : v >= 25 ? '#e3a008' : '#3fb950';
+let DATOS = null, RED = null, POR_ID = {};
+
+function textos() {
+  document.documentElement.lang = LANG;
+  for (const k of ['titulo', 'volver', 'manual', 'intro', 'detalle', 'top', 'nota']) document.getElementById('t-' + k).textContent = t(k);
+  document.title = t('titulo');
+  document.getElementById('t-manual').href = LANG === 'en' ? '/manual/en#grafos' : '/manual#grafos';
+  document.querySelectorAll('header button').forEach(b => b.classList.toggle('activo', b.dataset.lang === LANG));
+}
+document.querySelectorAll('header button').forEach(b => b.addEventListener('click', () => {
+  LANG = b.dataset.lang;
+  try { localStorage.setItem('justicia_lang', LANG); } catch (e) {}
+  const u = new URL(location.href); u.searchParams.set('lang', LANG); history.replaceState(null, '', u);
+  textos(); if (DATOS) pintar();
+}));
+
+async function cargar() {
+  try {
+    const r = await fetch('/api/red-vacantes');
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || ('HTTP ' + r.status));
+    DATOS = d; pintar();
+  } catch (e) {
+    document.getElementById('red').innerHTML = `<div class="error">${esc(t('error') + e.message)}</div>`;
+  }
+}
+
+function pintar() {
+  const r = DATOS.resumen;
+  document.getElementById('kpis').innerHTML = [[r.cargos, t('cargos')], [r.vacantes, t('vacantes')], [pct(r.vacancia_pct), t('vacancia')],
+    [r.camaras, t('camaras')], [r.ambitos, t('ambitos')]].map(([n, l]) => `<div class="kpi"><b>${n}</b><span>${l}</span></div>`).join('');
+  document.getElementById('leyenda').innerHTML =
+    `<span><i style="background:#3fb950"></i>${t('lbaja')}</span><span><i style="background:#e3a008"></i>${t('lmedia')}</span>` +
+    `<span><i style="background:#f85149"></i>${t('lalta')}</span><span><i class="cuad" style="background:#d4a84b"></i>${t('lambito')}</span>`;
+  POR_ID = {};
+  DATOS.nodos.forEach(n => { POR_ID[n.id] = n; });
+  const nodos = DATOS.nodos.map(n => n.tipo === 'camara'
+    ? {id: n.id, label: n.label, shape: 'dot', size: 8 + Math.sqrt(n.cargos) * 1.4,
+       color: {background: colorVac(n.vacancia_pct), border: '#30363d'}, font: {size: 12, color: '#e6edf3'},
+       title: `${n.label}: ${n.vacantes} ${t('nav')} ${n.cargos}`}
+    : {id: n.id, label: n.label, shape: 'square', size: 10 + Math.sqrt(n.vacantes),
+       color: {background: '#d4a84b', border: '#b8892f'}, font: {size: 14, color: '#d4a84b', strokeWidth: 3, strokeColor: '#161b22'},
+       title: `${n.label}: ${n.vacantes} ${t('vac')}`});
+  const aristas = DATOS.aristas.map(a => ({from: a.from, to: a.to, width: 1 + Math.sqrt(a.vacantes) / 2, color: {color: '#58a6ff', opacity: .45}, title: `${a.vacantes} ${t('vac')}`}));
+  if (RED) RED.destroy();
+  RED = new vis.Network(document.getElementById('red'), {nodes: new vis.DataSet(nodos), edges: new vis.DataSet(aristas)}, {
+    physics: {solver: 'forceAtlas2Based', forceAtlas2Based: {gravitationalConstant: -70, springLength: 120}, stabilization: {iterations: 400}},
+    interaction: {hover: true}, edges: {smooth: false}});
+  RED.once('stabilizationIterationsDone', () => { RED.setOptions({physics: false}); RED.fit(); });
+  RED.on('click', e => { if (e.nodes.length) detalle(e.nodes[0]); });
+
+  const top = DATOS.nodos.filter(n => n.tipo === 'camara').sort((x, y) => y.vacancia_pct - x.vacancia_pct || y.vacantes - x.vacantes).slice(0, 10);
+  const ul = document.getElementById('top');
+  ul.innerHTML = top.map(n => `<li data-id="${esc(n.id)}">${esc(n.label)} · <b>${pct(n.vacancia_pct)}</b></li>`).join('');
+  enlazar(ul);
+  document.getElementById('detalle').textContent = t('ayuda');
+}
+
+function enlazar(el) {
+  el.querySelectorAll('li[data-id]').forEach(li => li.addEventListener('click', () => {
+    RED.selectNodes([li.dataset.id]); RED.focus(li.dataset.id, {scale: 1.2, animation: true}); detalle(li.dataset.id);
+  }));
+}
+
+function detalle(id) {
+  const n = POR_ID[id]; if (!n) return;
+  const el = document.getElementById('detalle');
+  if (n.tipo === 'camara') {
+    const filas = DATOS.aristas.filter(a => a.from === id).sort((x, y) => y.vacantes - x.vacantes)
+      .map(a => `<li data-id="${esc(a.to)}">${esc(POR_ID[a.to].label)}: <b>${a.vacantes}</b></li>`).join('');
+    el.innerHTML = `<h3>${esc(n.label)}</h3>
+      ${t('justicia')}: <b>${esc(n.tipo_justicia)}</b><br>${t('provincias')}: <b>${esc(n.provincias.join(', '))}</b><br>
+      ${t('cargos')}: <b>${n.cargos}</b> · ${t('vacancia')}: <b>${pct(n.vacancia_pct)}</b><br>
+      ${t('ocupados')}: <b>${n.cargos - n.vacantes}</b><br>${t('subrogados')}: <b>${n.subrogadas}</b><br>
+      ${t('sinsub')}: <b>${n.sin_subrogante}</b><br>${t('nocorresp')}: <b>${n.no_corresponde}</b>
+      <h2 style="margin-top:.8rem">${t('ambcam')}</h2>${filas ? `<ul>${filas}</ul>` : esc(t('sinvac'))}`;
+  } else {
+    const filas = DATOS.aristas.filter(a => a.to === id).sort((x, y) => y.vacantes - x.vacantes)
+      .map(a => `<li data-id="${esc(a.from)}">${esc(POR_ID[a.from].label)}: <b>${a.vacantes}</b></li>`).join('');
+    el.innerHTML = `<h3 style="color:#d4a84b">${esc(n.label)}</h3>${t('vacantes')}: <b>${n.vacantes}</b>
+      <h2 style="margin-top:.8rem">${t('camvac')}</h2><ul>${filas}</ul>`;
+  }
+  enlazar(el);
+}
+
+textos(); cargar();
+</script>
+</body>
+</html>

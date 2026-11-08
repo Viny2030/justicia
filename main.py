@@ -357,7 +357,7 @@ _MANUAL_CSS = """
 .sidebar .sep{border-top:1px solid var(--border);margin:8px 0}
 
 /* Secciones */
-.seccion{margin-bottom:36px;scroll-margin-top:70px}
+.seccion{margin-bottom:36px;scroll-margin-top:70px;text-transform:none;letter-spacing:normal}
 .sec-titulo{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;
              color:var(--gold);margin-bottom:14px;padding-left:2px;
              border-left:3px solid var(--gold);padding-left:10px}
@@ -434,6 +434,8 @@ def manual():
       <a href="#costo">↳ Costo por Causa</a>
       <div class="sep"></div>
       <a href="#fuentes">Fuentes de datos</a>
+      <a href="#grafos">Red de vacantes</a>
+      <a href="#funcionamiento">Cómo funciona</a>
       <a href="#relaciones">Relación con otros sitios</a>
       <a href="#limitaciones">Limitaciones</a>
     </div>
@@ -641,6 +643,20 @@ def manual():
         </div>
       </div>
 
+<div id="grafos" class="seccion bloque">
+  <h2>🕸️ Grafo de información: red de vacantes</h2>
+  <p>Es el grafo de los datos del sitio (página <a href="/red">Red de vacantes</a>). Cada <strong>círculo</strong> es una de las 30 cámaras, con sus juzgados y tribunales: su tamaño depende de la cantidad de cargos y su color de la vacancia (verde, menor al 25 %; ámbar, de 25 % a 50 %; rojo, mayor al 50 %). Cada <strong>cuadrado</strong> es el ámbito en el que figura el concurso de esas vacantes. Una <strong>línea</strong> une una cámara con un ámbito cuando tiene vacantes allí, y es más gruesa cuantas más tiene.</p>
+  <p>Al hacer clic en una cámara se ven sus cargos, cuántas vacantes tienen subrogante y en qué ámbito están sus concursos; al hacer clic en un ámbito, sus cámaras. El ámbito es el que publica datos.jus.gob.ar: no indica cuánto tiempo lleva el concurso ni si está demorado. La red no incluye nombres de personas.</p>
+</div>
+
+<div id="funcionamiento" class="seccion bloque">
+  <h2>⚙️ Grafo de funcionamiento: cómo trabaja este sitio</h2>
+  <p>Muestra de qué fuentes toma los datos, qué procesos automáticos los transforman, dónde se guardan y qué publica. Cada nodo lleva su nombre; hacé clic en uno para ver de dónde recibe datos y a qué alimenta.</p>
+  <iframe class="grafo-func" src="https://mapa.ecosistematransparencia.com.ar/funcionamiento?sitio=justicia&amp;embed=1" title="Cómo funciona este sitio" loading="lazy" style="width:100%;height:640px;border:1px solid #cbd5e1;border-radius:10px;background:#fff"></iframe>
+  <p style="font-size:.85em"><a href="https://mapa.ecosistematransparencia.com.ar/funcionamiento?sitio=justicia" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></p>
+  <script>window.addEventListener("message", e => {{ if (e.origin !== "https://mapa.ecosistematransparencia.com.ar" || !e.data || !e.data.grafoAltura) return; document.querySelectorAll("iframe.grafo-func").forEach(f => {{ if (f.contentWindow === e.source) f.style.height = (e.data.grafoAltura + 4) + "px"; }}); }});</script>
+</div>
+
 <div id="relaciones" class="seccion bloque">
   <h2>🕸️ Relación con los otros sitios del ecosistema</h2>
   <p>Este sitio es parte del <strong>Ecosistema de Transparencia</strong>: once monitores que se consultan entre sí. Abajo, con qué sitios intercambia datos (<em>usa →</em> = toma datos de ese sitio; <em>← lo usa</em> = ese sitio toma datos de este) y de qué fuentes oficiales se alimenta. El grafo es interactivo: hacé clic en cualquier sitio para ver su ficha.</p>
@@ -708,6 +724,8 @@ def manual_en():
       <a href="#costo">↳ Cost per Case</a>
       <div class="sep"></div>
       <a href="#fuentes">Data sources</a>
+      <a href="#grafos">Vacancies network</a>
+      <a href="#funcionamiento">How it works</a>
       <a href="#relaciones">Other sites</a>
       <a href="#limitaciones">Limitations</a>
     </div>
@@ -915,6 +933,20 @@ def manual_en():
         </div>
       </div>
 
+<div id="grafos" class="seccion bloque">
+  <h2>🕸️ Information graph: vacancies network</h2>
+  <p>This is the graph of the data on this site (the <a href="/red?lang=en">Vacancies network</a> page). Each <strong>circle</strong> is one of the 30 courts of appeals with its lower courts and tribunals: its size depends on the number of posts and its colour on the vacancy rate (green, below 25%; amber, 25% to 50%; red, above 50%). Each <strong>square</strong> is the body listed for the selection process of those vacancies. A <strong>line</strong> joins a court of appeals to a body when it has vacancies there, and it is thicker the more it has.</p>
+  <p>Clicking a court of appeals shows its posts, how many vacancies have an acting judge and which body handles its selection processes; clicking a body shows its courts. The body is the one published by datos.jus.gob.ar: it does not show how long the process has taken or whether it is delayed. The network does not include names of individuals.</p>
+</div>
+
+<div id="funcionamiento" class="seccion bloque">
+  <h2>⚙️ Workflow graph: how this site works</h2>
+  <p>It shows where the site gets its data, which automated processes transform it, where it is stored and what it publishes. Every node carries its name; click one to see where it gets data from and what it feeds.</p>
+  <iframe class="grafo-func" src="https://mapa.ecosistematransparencia.com.ar/funcionamiento?sitio=justicia&amp;embed=1&amp;lang=en" title="How this site works" loading="lazy" style="width:100%;height:640px;border:1px solid #cbd5e1;border-radius:10px;background:#fff"></iframe>
+  <p style="font-size:.85em"><a href="https://mapa.ecosistematransparencia.com.ar/funcionamiento?sitio=justicia&amp;lang=en" target="_blank" rel="noopener">Open full screen ↗</a></p>
+  <script>window.addEventListener("message", e => {{ if (e.origin !== "https://mapa.ecosistematransparencia.com.ar" || !e.data || !e.data.grafoAltura) return; document.querySelectorAll("iframe.grafo-func").forEach(f => {{ if (f.contentWindow === e.source) f.style.height = (e.data.grafoAltura + 4) + "px"; }}); }});</script>
+</div>
+
 <div id="relaciones" class="seccion bloque">
   <h2>🕸️ How this site connects to the rest of the ecosystem</h2>
   <p>This site is part of the <strong>Transparency Ecosystem</strong>: eleven monitors that query each other. Below, which sites it exchanges data with (<em>uses →</em> = takes data from that site; <em>← used by</em> = that site takes data from this one) and which official sources feed it. The graph is interactive: click any site to see its profile.</p>
@@ -1028,6 +1060,60 @@ def _ia_registrar(ip: str):
         cola.append(ahora)
         _ia_global.append(ahora)
     return None
+
+
+@app.get("/api/red-vacantes")
+def red_vacantes():
+    """Grafo de información: cámaras ↔ ámbito del concurso de sus vacantes.
+    Solo cifras: el nombre que figura en una vacante es el del último titular,
+    no el de quien ocupa el cargo, y por eso no se usa."""
+    import json
+    from collections import Counter, defaultdict
+
+    def leer(nombre):
+        with open(os.path.join(ROOT, nombre), encoding="utf-8") as f:
+            return json.load(f)
+
+    cargos, vacantes = leer("magistrados.json"), leer("vacantes.json")
+    camaras, por_arista, por_ambito = {}, Counter(), Counter()
+    for c in cargos:
+        n = c.get("camara") or "Sin cámara"
+        d = camaras.setdefault(n, {"cargos": 0, "vacantes": 0, "subrogadas": 0, "sin_subrogante": 0, "no_corresponde": 0,
+                                   "tipo": c.get("tipo_justicia"), "provincias": set()})
+        d["cargos"] += 1
+        if c.get("provincia"):
+            d["provincias"].add(c["provincia"])
+        if c.get("vacante"):
+            d["vacantes"] += 1
+            cobertura = c.get("cargo_cobertura")
+            if cobertura == "Subrogante":
+                d["subrogadas"] += 1
+            elif cobertura == "Sin subrogante designado":
+                d["sin_subrogante"] += 1
+            elif cobertura == "No corresponde":
+                d["no_corresponde"] += 1
+    for v in vacantes:
+        camara, ambito = v.get("camara") or "Sin cámara", v.get("concurso_ambito") or "Sin dato"
+        por_arista[(camara, ambito)] += 1
+        por_ambito[ambito] += 1
+    ids = {n: f"c{i}" for i, n in enumerate(sorted(camaras))}
+    nodos = [{"id": ids[n], "tipo": "camara", "label": n, "tipo_justicia": d["tipo"], "cargos": d["cargos"], "vacantes": d["vacantes"],
+              "vacancia_pct": round(d["vacantes"] * 100 / d["cargos"], 1), "subrogadas": d["subrogadas"],
+              "sin_subrogante": d["sin_subrogante"], "no_corresponde": d["no_corresponde"], "provincias": sorted(d["provincias"])}
+             for n, d in sorted(camaras.items())]
+    nodos += [{"id": f"a:{a}", "tipo": "ambito", "label": a, "vacantes": n} for a, n in por_ambito.most_common()]
+    aristas = [{"from": ids[c], "to": f"a:{a}", "vacantes": n} for (c, a), n in sorted(por_arista.items()) if c in ids]
+    total = sum(d["cargos"] for d in camaras.values())
+    vac = sum(d["vacantes"] for d in camaras.values())
+    return {"nodos": nodos, "aristas": aristas,
+            "resumen": {"cargos": total, "vacantes": vac, "vacancia_pct": round(vac * 100 / total, 1) if total else 0,
+                        "camaras": len(camaras), "ambitos": len(por_ambito), "fuente": "datos.jus.gob.ar"}}
+
+
+@app.get("/red", response_class=HTMLResponse)
+def pagina_red():
+    with open(os.path.join(ROOT, "red_vacantes.html"), encoding="utf-8") as f:
+        return HTMLResponse(f.read())
 
 
 @app.get("/frescura.js", include_in_schema=False)
