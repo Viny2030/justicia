@@ -2,7 +2,11 @@
 import os
 import sys
 
-from fastapi.testclient import TestClient
+import pytest
+
+pytest.importorskip("fastapi", reason="el CI no instala las dependencias de la app")
+
+from fastapi.testclient import TestClient  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
